@@ -1,0 +1,260 @@
+
+<div class="screen-space mobApp">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+        <div class="indicator">( * ) Indicator Mandatory</div>
+    </div>
+	<div class="pageHeading">
+		<div class="d-flex justify-content-between">
+			<div><h3 class="pageName pt-2">Artificial Limb Center - {{centerName}}</h3></div> 
+            <!-- <div><span class="indicator mt-2">( * ) Indicator Mandatory</span></div> -->
+        </div>
+	</div>
+    <form [formGroup]="artLimbForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space pb-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfExpertPosted" class="form-label">1) How many experts are posted in the centre ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfExpertPosted" class="form-control" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfExpertPosted',3)" (blur)="maxLimitChk('noOfExpertPosted','noOfExpertPresent','No of experts are posted','No of experts are present')"/>
+                    </div>
+                    </div>
+                </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfExpertPresent" class="form-label">2) How many experts are present during inspection ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfExpertPresent" class="form-control" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfExpertPresent',3)" (blur)="maxLimitChk('noOfExpertPosted','noOfExpertPresent','No of experts are posted','No of experts are present')" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfEvaluatedStd" class="form-label">3) How many students are evaluated in present financial year ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfEvaluatedStd" class="form-control" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfEvaluatedStd',3)" (blur)="maxLimitChk('noOfEvaluatedStd','noOfMadeStd','students are evaluated in present financial year','artificial limb  made in the present financial year')"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfMadeStd" class="form-label">4) How many artificial limb of students are made in the present financial year ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number"  formControlName="noOfMadeStd"  class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event,'noOfMadeStd',3)"(blur)="maxLimitChk('noOfEvaluatedStd','noOfMadeStd','students are evaluated in present financial year','artificial limb made in the present financial year')"/>
+                    </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfDevicesRepaired" class="form-label">5) How many old artificial limb of students are repaired in the present financial year ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number"  formControlName="noOfDevicesRepaired"  class="form-control" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfDevicesRepaired',3)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="noOfDevicesReadyToDistribute" class="form-label">6) How many artificial limbs and ingredients for distribution are ready ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number"  formControlName="noOfDevicesReadyToDistribute"  class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event,'noOfDevicesReadyToDistribute',3)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">7) Availability of raw materials for preparation of Artificial Limb ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+                <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="rawMatAvailability" value="1" id="rawMatAvailabilityAd" type="radio" >
+                            <label for="rawMatAvailabilityAd">Adequate</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input formControlName="rawMatAvailability" value="2" id="rawMatAvailabilityNtAd" type="radio">
+                            <label  for="rawMatAvailabilityNtAd">Not adequate</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">8) Sufficient Furniture for staff and parents ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+                <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="sufficientFurniture" value="1" id="sufficientFurnitureYes" type="radio" >
+                            <label for="sufficientFurnitureYes">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input formControlName="sufficientFurniture" value="2" id="sufficientFurnitureNo" type="radio">
+                            <label  for="sufficientFurnitureNo">No</label>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">9) Sufficient Equipments / Machines ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+                <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="sufficientEquipments" value="1" id="sufficientEquipmentsYes" type="radio" >
+                            <label for="sufficientEquipmentsYes">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input formControlName="sufficientEquipments" value="2" id="sufficientEquipmentsNo" type="radio">
+                            <label  for="sufficientEquipmentsNo">No</label>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">10) Electricity ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+                <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="electricity" value="1" id="electricityYes" type="radio" >
+                            <label for="electricityYes">Yes</label>
+                        </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                        <input formControlName="electricity" value="2" id="electricityNo" type="radio">
+                        <label  for="electricityNo">No</label>
+                    </div>
+
+                    </div>
+                    
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">11) Light / Fan ?<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+                <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="lightFan" value="1" id="lightFanYes" type="radio" >
+                            <label for="lightFanYes">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input formControlName="lightFan" value="2" id="lightFanNo" type="radio">
+                            <label  for="lightFanNo">No</label>
+                        </div>
+                    </div>                    
+                </div>
+            </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">12) Cleanliness status<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div  class="rdio rdio-primary form-check-inline">
+                                <input formControlName="cleanlinessStatus" value="1" id="cleanlinessStatusPoor" type="radio" >
+                                <label for="cleanlinessStatusPoor">Poor</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="cleanlinessStatus" value="2" id="cleanlinessStatusSatisfactory" type="radio">
+                                <label  for="cleanlinessStatusSatisfactory">Satisfactory</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="cleanlinessStatus" value="3" id="cleanlinessStatusGood" type="radio">
+                                <label  for="cleanlinessStatusGood">Good</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="cleanlinessStatus" value="4" id="cleanlinessStatusExcellent" type="radio">
+                                <label  for="cleanlinessStatusExcellent">Excellent</label>
+                            </div>        
+                        </div>
+                    </div>
+                </div>
+            </div>
+        
+        </div>
+        <div>
+            <button class="btn btn-success me-2">Submit</button>
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+    </form>
+    </div>
+  
+  
+  
+  
+  
+  

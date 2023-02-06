@@ -1,0 +1,212 @@
+
+<div class="screen-space mobApp">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+        <div class="indicator">( * ) Indicator Mandatory</div>
+    </div>
+	<div class="pageHeading">
+		<div class="d-flex justify-content-between">
+			<div><h3 class="pageName">Home based Education</h3></div> 
+            
+        </div>
+	</div>
+    <form [formGroup]="homeBasedEducationTeacherForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="CWSNname" class="form-label">1) Name of CWSN  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="cwsnName" (keypress)="customValidators.alphaNumericValidator(
+						$event,
+						'comma',
+						'space',
+						'dot',
+						'hyphen'
+					  )" maxlength="120"/>
+                 </div>
+                
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="NoOfVisitsCurrentyear" class="form-label">2) Type of Disability  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                        <select aria-label="Default select example" class="form-select" formControlName="disabilityType" autocomplete="off">
+							<option value="" *ngIf="disabilityTypeChanged==false">--Select--</option>
+							<option value="" *ngIf="disabilityTypeChanged==true">Loading...</option>
+							<option *ngFor="let disabilityType of allDisabilityType" [value]="disabilityType.anxtValue">
+								{{ disabilityType.anxtName }}
+							</option>
+						</select>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="fatherNo" class="form-label">3) Name of Father / Parent  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="parentName" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" maxlength="120"/>
+                </div>
+                
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="mobileNoParent" class="form-label">4) Mobile no of CWSN / Father/parent  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="number" class="form-control" formControlName="parentMobile"   maxlength="10"
+                    (keyup)="keyUpInputNumber($event, 'parentMobile', 10)"/>
+                 </div>
+                
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="NoOfVisitsCurrentyear" class="form-label">5) No. of visits in current financial year  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="number" class="form-control" formControlName="teacherVisited" maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'teacherVisited', 3)"/>
+                </div>
+               
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="AvailabilityRawMmaterials" class="form-label">6) Enrollment Status <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div  class="rdio rdio-primary form-check-inline">
+                        <input value="1" id="enroll1" type="radio" formControlName="enrollmentStatus" (change)="onEnrollmentStatusChange($any($event.target).value)">
+                        <label for="enroll1">Enrolled</label>
+                    </div>
+                   <div class="rdio rdio-primary form-check-inline">
+                       <input value="2" id="enroll2" type="radio" formControlName="enrollmentStatus" (change)="onEnrollmentStatusChange($any($event.target).value)">
+                       <label  for="enroll2">Out of school</label>
+                   </div>
+                  
+                </div>
+                   
+               </div>
+           </div>
+        </div>
+        <div class="row"  *ngIf="showSchoolName == true">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="OldDevicesRepaired" class="form-label">7) If enrolled, name of school  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="schoolName" (keypress)="customValidators.alphaNumericValidator(
+						$event,
+						'comma',
+						'space',
+						'dot',
+						'hyphen'
+					  )" maxlength="250"/>
+                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="AvailabilityRawMmaterials" class="form-label">8) Whether IEP/ITP has been prepared ?  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div  class="rdio rdio-primary form-check-inline">
+                        <input  value="1" id="ITP1" type="radio" formControlName="iepItpPrepared" (click)="iepItpPreparedHandle($any($event.target).value)">
+                        <label for="ITP1">Yes</label>
+                    </div>
+                   <div class="rdio rdio-primary form-check-inline">
+                       <input  value="2" id="ITP2" type="radio" formControlName="iepItpPrepared" (click)="iepItpPreparedHandle($any($event.target).value)">
+                       <label  for="ITP2">No</label>
+                   </div>
+                   
+                </div>
+                   
+               </div>
+           </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="AvailabilityRawMmaterials" class="form-label">9) Whether IEP/ITP has been updated ?  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div  class="rdio rdio-primary form-check-inline">
+                        <input value="1" id="IEP1" type="radio" formControlName="iepItpUpdated">
+                        <label for="IEP1">Yes</label>
+                    </div>
+                   <div class="rdio rdio-primary form-check-inline">
+                       <input value="2" id="IEP2" type="radio" formControlName="iepItpUpdated">
+                       <label  for="IEP2">No</label>
+                   </div>
+                   
+                </div>
+                   
+               </div>
+           </div>
+        </div>
+       
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success me-2">Submit</button>
+        <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button></div>
+    </form>
+    </div>
+  
+  
+  
+  
+  
+  
+

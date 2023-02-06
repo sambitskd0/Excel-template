@@ -1,0 +1,39 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">Update School Information</h3>
+         <span class="indicator">( * ) Indicates Mandatory / ( * )
+            संकेतक अनिवार्य</span>
+      </div>
+      <div class="tabArea">
+         <a class="neuro addLink active"> <i class="bi bi-plus-lg me-2"></i>
+            Add / जोड़ें</a>
+      </div>
+   </div>
+   <div class="regi__info top-space">
+      <a routerLink="./../../basicInfo/{{encId}}" class="neuro addLink step1
+          ">Step 1 / स्टेप 1</a>
+      <a class="neuro viewLink step2 active">Step 2 / स्टेप 2</a>
+      <a routerLink="./../../physicalInfo/{{encId}}" class="neuro viewLink
+          step3">Step 3 / स्टेप 3</a>
+      <a routerLink="./../../physicalequipmentinfo/{{encId}}" class="neuro
+          viewLink step4">Step 4 / स्टेप 4</a>
+      <a routerLink="./../../CADIniInfo/{{encId}}" class="neuro viewLink
+          step3">Step 5 / स्टेप 5</a>
+   </div>
+   <div class="step-container" *ngIf="dataLength==true">
+         <!-- Update -->
+         <ng-container *ngIf="enableEdit==true">
+            <app-update-other-info    *ngIf="enableEdit==true"></app-update-other-info>
+         </ng-container>
+        
+         <!-- Update -->
+         <!-- View -->
+         <ng-container *ngIf="enableEdit==false">
+            <app-view-other-info  *ngIf="enableEdit==false"></app-view-other-info>
+         </ng-container>
+        
+        <!-- View -->
+   </div>
+
+</div>

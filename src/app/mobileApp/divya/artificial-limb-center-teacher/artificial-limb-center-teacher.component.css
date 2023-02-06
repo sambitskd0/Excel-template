@@ -1,0 +1,35 @@
+.btn-theme {
+    color: #9676c7;
+    background-color: transparent;
+    border-color: #9676c7;
+    font-weight: 600;
+}
+
+.btn-theme:hover {
+    color: #fff;
+    background-color: #765aa1;
+    border-color: #765aa1;
+}
+
+.btn-theme:focus {
+    -webkit-box-shadow: 0 0 0 0.25rem rgb(118 90 161 / 28%);
+    -o-box-shadow: 0 0 0 0.25rem rgb(118 90 161 / 28%);
+    -moz-box-shadow: 0 0 0 0.25rem rgb(118 90 161 / 28%);
+    -ms-box-shadow: 0 0 0 0.25rem rgb(118 90 161 / 28%);
+    box-shadow: 0 0 0 0.25rem rgb(118 90 161 / 28%);
+}
+
+.form-control:focus {
+    color: #212529;
+    border-color: #8a69bd;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(150 118 199 / 46%);
+}
+
+.form-box-shadow:focus {
+    color: #212529;
+    border-color: #8a69bd !important;
+    outline: 0;
+    box-shadow: 0 0 0 0.25rem rgb(150 118 199 / 46%) !important;
+}
+

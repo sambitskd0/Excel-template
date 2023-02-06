@@ -1,0 +1,72 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+          <h3 class="pageName">Manage Subject/विषय प्रबंधित करें
+        </h3> 
+          <div class="tab__section">
+              <a routerLink="./../viewSubject"  class="tablink active" routerLinkActive="active" *ngIf="this.tabs.includes('Subject Master')">Subject Master/विषय का मास्टर
+            </a>
+              <a routerLink="./../subjectTagging/viewSubjectTagging"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Tagging')">Tagging/ टैगिंग 
+            </a>
+          </div>
+          </div>
+          <div class="tabArea">
+              <a routerLink="./../addSubject"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+              </a>
+              <a routerLink="./../viewSubject" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें
+              </a> 
+              <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+       </div>
+       <form [formGroup]="addSubjectForm" (ngSubmit)="onSubmit()" > 
+    <div class="top-space">
+        <div class="row">
+        <div class="col-lg-2 form-group">
+            <div class="">
+                <label for="exampleInputEmail1" class="form-label">Subject Name<br>विषय का नाम
+                </label>
+              </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class="">
+                <span class="colon">:</span>
+                <input type="text" class="form-control"  formControlName="subject" id="exampleInputEmail1" aria-describedby="emailHelp" minlength="3" maxlength="30" autocomplete="off" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+    </div>
+    <div class="row formpatch">
+        <div class="col-lg-2 form-group">
+            <div class="">
+                <label for="exampleInputEmail1" class="form-label">Description :<br>विवरण 
+                </label>
+              </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class="">
+                <span class="colon">:</span>
+                 <textarea cols="4" rows="4" class="form-control" formControlName="description"  maxlength="300"aria-describedby="emailHelp"></textarea>
+                 <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+              </div>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-success me-2">Submit/जमा करें
+        </button>
+        <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+        </button>
+   
+    </div>
+</div>
+ </form> 
+
+
+
+
+
+
+
+
+
+

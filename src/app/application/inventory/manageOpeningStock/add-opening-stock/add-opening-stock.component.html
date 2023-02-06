@@ -1,0 +1,129 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName">Opening Stock/ओपनिंग स्टॉक
+            </h3>
+         </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+      </span>
+      <div class="tabArea">
+         <a routerLink="./../addOpeningStock" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+         </a>
+         <a routerLink="./../viewOpeningStock" class="neuro addLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View/देखें 
+         </a>
+      </div>
+   </div>
+   <form [formGroup]="openingStock" (ngSubmit)="validateSubmitStock();">
+      <!-- dupOpeningStock(); -->
+      <div class="top-space formpatch">
+         <div class="table-responsive">
+            <table class="table  table-bordered">
+               <thead class="bg-lightpurple">
+                  <tr>
+                     <th scope="col" width="2%">SI#/क्र.सं
+                     </th>
+                     <th scope="col">Asset Type / संपत्ति का प्रकार <span class="text-danger">*</span>
+                     </th>
+                     <th scope="col">Asset Name / संपत्ति का नाम <span class="text-danger">*</span>
+                     </th>
+                     <th scope="col">Asset Item Name / संपत्ति वस्तु का नाम <span class="text-danger">*</span>
+                     </th>
+                     <th scope="col">Quantity / मात्रा <span class="text-danger">*</span>
+                     </th>
+                     <th scope="col">Is Code Available / क्या कोड उपलब्ध है ? <span class="text-danger">*</span>
+                     </th>
+                     <!-- <th scope="col" *ngIf="codeChange" width="15%">Enter Asset Item Code / एसेट आइटम कोड दर्ज करें
+                     </th> -->
+                     <th scope="col">Unit / इकाई <span class="text-danger">*</span>
+                     </th>
+                     <th scope="col">End Of Life (In Years) / जीवन का अंत (वर्षों में) </th>
+                     <th scope="col">Action / क्रिया 
+                     </th>
+                  </tr>
+               </thead>
+               <tbody formArrayName="openingStockArray">
+                  <tr *ngFor="let item of openingStockInfo().controls; index as i" [formGroupName]="i">
+                     <td>{{ i + 1 }}</td>
+                     <td>
+                        <select class="form-select" aria-label="Default select example" width="100%"
+                           formControlName="assetType" (change)="filterAssetName($any($event.target).value, i)"
+                           autocomplete="off">
+                           <option value="" *ngIf="assetTypeChanged==false">-- Select --</option>
+                           <option value="" *ngIf="assetTypeChanged==true">Loading...</option>
+                           <option *ngFor="let item of asType" value="{{item.anxtValue}}">
+                              {{item.anxtName}}
+                           </option>
+                        </select>
+                     </td>
+                     <td>
+                        <select class="form-select" aria-label="Default select example" width="100%"
+                           formControlName="assetName" autocomplete="off" (change)="filterAssetItem($any($event.target).value, i);">
+                           <option value="" *ngIf="assetNameChanged==false">-- Select --</option>
+                           <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                           <option *ngFor="let assetItem of assetFilterData[i]" [value]="assetItem.assetCatId">
+                              {{ assetItem.assetName }}
+                           </option>
+                        </select>
+                     </td>
+                     <td>
+                        <select class="form-select" aria-label="Default select example" width="100%"
+                           formControlName="assetItemName" autocomplete="off" >
+                           <option value="" *ngIf="assetItemNameChanged==false">-- Select --</option>
+                           <option value="" *ngIf="assetItemNameChanged==true">Loading...</option>
+                           <option *ngFor="let assetItemN of assetItemData[i]" [value]="assetItemN.assetItemId +'-'+ assetItemN.assetItemCode">
+                              {{ assetItemN.assetItemName +' - '+ assetItemN.assetItemCode }}
+                           </option>
+                        </select>
+                     </td>
+                     <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                           formControlName="quantity" (keypress)="customValidators.keyPressNumbers($event)"
+                           [maxLength]="4" autocomplete="off" (blur)="greaterThanZero($any($event.target).value)" >
+                        </td>
+                        <td>
+
+                           <select class="form-select" aria-label="Default select example" 
+                              formControlName="codeAvailable" autocomplete="off" (change)="codeChangeWiseEvnt($any($event.target).value,i)"> 
+                              <option value="">-- Select --</option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+                           </select>    
+                          
+                        </td>
+                        
+                     <td>
+                        <select class="form-select" aria-label="Default select example" width="100%"
+                           formControlName="unit" autocomplete="off">
+                           <option value="" *ngIf="unitChanged==false">-- Select --</option>
+                           <option value="" *ngIf="unitChanged==true">Loading...</option>
+                           <option *ngFor="let units of incUnit" value="{{units.anxtValue}}">
+                              {{units.anxtName}}
+                           </option>
+                        </select>
+                     </td>
+                     <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                           autocomplete="off" formControlName="eol"
+                           (keypress)="customValidators.keyPressNumbers($event)"
+                           (blur)="checkEndofLife($any($event.target).value);" [maxLength]="2" *ngIf="this.eolShow[i]"></td>
+                     <td width="120">
+                        <button type="button" class="btn btn-success btn-sm me-2" (click)="addRow(i)"><i
+                              class="bi bi-plus-lg"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)"><i
+                              class="bi bi-dash-lg"></i></button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <div>
+         <button class="btn btn-success me-2">Submit/जमा करें
+         </button>
+         <button type="button" class="btn btn-danger" (click)="resetForm()">Reset/पुनर्स्थापित 
+         </button>
+      </div>
+   </form>
+</div>

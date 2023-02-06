@@ -1,0 +1,1115 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Student Attendance Report (Panchayat Wise)</h3>
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="./" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View</a>
+            <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का
+                                        स्तर</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                                        (change)="getDesignationGroup($any($event.target).value);">
+                                        <option value="0" *ngIf="userLevelId === 0">--Select--</option>
+                                        <option value="5" *ngIf="stateUser == false">State</option>
+                                        <option value="4" *ngIf="distUser == false">District</option>
+                                        <option value="3" *ngIf="blkUser == false">Block</option>
+                                        <option value="2" *ngIf="cluUser == false">Cluster</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Designation <br />पद </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="designationGroupId" [(ngModel)]="designationGroupId"
+                                        class="form-select" (change)="getSubDesignation($any($event.target).value);">
+                                        <option value="" *ngIf="desGrpSelect == false">--Select--</option>
+                                        <option value="" *ngIf="desGrpLoading == true">Loading...</option>
+                                        <option *ngFor="let item of DesignationGroupData"
+                                            [value]="item.designationGroupId">
+                                            {{ item.designationGroupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDesignationId" name="scDesignationId">
+                                        <option value="" *ngIf="scDesignationChanged == false">--Select--</option>
+                                        <option value="" *ngIf="scDesignationLoading == true">Loading...</option>
+                                        <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                            {{ item.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">District </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off" (change)="
+                      getBlock($any($event.target).value);
+                    " #district>
+                                        <option value="" *ngIf="
+                        scDisrtictSelect == false && sessionDistrictId === ''
+                      ">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictSelect == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let districtItem of districtData"
+                                            [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} -
+                                            {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Block </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId"
+                                        aria-label="Default
+                                                select example" (change)="
+                      getNagarPanchayat(
+                        district.value,
+                        $any($event.target).value,
+                        2
+                      );
+                    " #block>
+                                        <option value="" *ngIf="scBlockChanged == false && sessionBlockId === ''">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scBlockChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of blockData" [value]="item.blockId">
+                                            {{ item.blockCode }} - {{ item.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">Panchayat</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scPanchayatId" [(ngModel)]="scPanchayatId"
+                                        name="scPanchayatId" (change)="getSchool($any($event.target).value)">
+                                        <option value="" *ngIf="scPanchayatChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scPanchayatChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of panchayatData" [value]="item.nagarId">
+                                            {{ item.panchayatCode }} - {{ item.panchayatName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolId" name="schoolId" autocomplete="off"
+                                        [disabled]="sessionSchoolId != '' ? 'true' : 'false'">
+                                        <option value="" *ngIf="scSchoolChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scSchoolChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Class Group
+                                    </label>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scClassGroup" [(ngModel)]="scClassGroup"
+                                        name="scClassGroup">
+                                        <option value="">
+                                            --Select--
+                                        </option>
+                                        <option value="1">class 1 to 5 </option>
+                                        <option value="2">class 6 to 8 </option>
+                                        <option value="3">class 9 to 10 </option>
+                                        <option value="4">class 11 to 12 </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School Type</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolType" name="schoolType" autocomplete="off">
+                                        <option value="">--All--</option>
+                                        <option value="1">Elementry</option>
+                                        <option value="2">Secondary</option>
+                                        <option value="3">Composite</option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Start Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="startDate" name="startDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">End Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="endDate" name="endDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+                                <div class="col-md-1 form-group3">
+                                    <button class="btn btn-default btn-purple">
+                                        Search <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+            Search Panel
+        </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="p-2">
+                    <button type="button" class="btn btn-success " (click)="exportSchoolList(scDistrictId,scBlockId,
+          scPanchayatId,
+          schoolId,
+          startDate,
+          endDate,scDesignationId)">
+                        <i class="bi bi-file-earmark-excel"></i> Export School Report
+                    </button>
+                </div>
+                <div class="page__util">
+                    <div class="util">
+                        <a (click)="
+                goBack(
+                  getDistrictBackId,
+                  getBlockBackId,
+                  getPanchayatBackId,
+                  getSchoolBackId,
+                  pageLevel,
+                  getStartDate,
+                  getEndDate
+                )
+              " title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+                        <a title="Excel" (click)="excel(pageLevel)" class="excel"><i
+                                class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive" *ngIf="pageLevel == 0" id="viewTable">
+                <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th scope="col" rowspan="4">#</th>
+                            <th scope="col" rowspan="4">District Name</th>
+                            <th scope="col" rowspan="4">Number of schools</th>
+                            <th scope="col" rowspan="4">
+                                Number of visited schools (unique)
+                            </th>
+                            <th scope="col" rowspan="4">Number of visits</th>
+                            <th scope="col" colspan="5" class="text-center">Boys</th>
+                            <th scope="col" colspan="5" class="text-center">Girls</th>
+                            <th scope="col" colspan="5" class="text-center">Transgender</th>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                        </tr>
+                        <tr>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let element of resultListData; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                <a class="text-primary" href="javascript:void(0)" (click)="
+                    getData(
+                      element?.districtId,
+                      '',
+                      '',
+                      '',
+                      1,
+                      getStartDate,
+                      getEndDate
+                    )
+                  ">{{ element?.districtCode ? element?.districtCode : "--" }} -
+                                    {{
+                                    (element?.districtName | titlecase)
+                                    ? element?.districtName
+                                    : "--"
+                                    }}</a>
+                            </td>
+
+                            <td>{{ element?.noOfSchool ? element?.noOfSchool : "--" }}</td>
+
+                            <td>{{ element?.noOfVisetedSchool }}</td>
+                            <td>{{ element?.noOfVisit }}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledBoys ? element?.totalEnrolledBoys : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterBoys
+                                ? element?.attendanceOnRegisterBoys
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterBoysPercentage ?
+                                element?.attendanceOnRegisterBoysPercentage +"%" : "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentBoys ? element?.actualPresentBoys : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentBoysPercentage ? element?.actualPresentBoysPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledGirls
+                                ? element?.totalEnrolledGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterGirls
+                                ? element?.attendanceOnRegisterGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{ element?.attendanceOnRegisterGirlsPercentage ?
+                                element?.attendanceOnRegisterGirlsPercentage+"%" : "0%" }}</td>
+                            <td>
+                                {{
+                                element?.actualPresentGirls
+                                ? element?.actualPresentGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentGirlsPercentage ? element?.actualPresentGirlsPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledTransGender
+                                ? element?.totalEnrolledTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterTransGender
+                                ? element?.attendanceOnRegisterTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterTransGenderPercentage ?
+                                element?.attendanceOnRegisterTransGenderPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentTransGender
+                                ? element?.actualPresentTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentTransGenderPercentage ?
+                                element?.actualPresentTransGenderPercentage+"%" : "0%" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="2" class="text-center"><strong>Total</strong></td>
+                            <td>
+                                <strong>{{ resultListDatas }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisetedSchool }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisit }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ totalEnrolledBoys }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterBoys }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterBoysPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentBoys }}</strong>
+                            </td>
+                            <td>{{ actualPresentBoysPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledGirls }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterGirls }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentGirls }}</strong>
+                            </td>
+                            <td>{{ actualPresentGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledTransgender }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterTransgender }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterTransgenderPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentTransgender }}</strong>
+                            </td>
+                            <td>{{ actualPresentTransgenderPer }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive" *ngIf="pageLevel == 1" id="viewTable">
+                <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th scope="col" rowspan="4">#</th>
+                            <th scope="col" rowspan="4">District Name</th>
+                            <th scope="col" rowspan="4">Block Name</th>
+                            <th scope="col" rowspan="4">Number of schools</th>
+                            <th scope="col" rowspan="4">
+                                Number of visited schools (unique)
+                            </th>
+                            <th scope="col" rowspan="4">Number of visits</th>
+                            <th scope="col" colspan="5" class="text-center">Boys</th>
+                            <th scope="col" colspan="5" class="text-center">Girls</th>
+                            <th scope="col" colspan="5" class="text-center">Transgender</th>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                        </tr>
+                        <tr>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let element of resultListData; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                {{ element?.districtCode ? element?.districtCode : "--" }} -
+                                {{
+                                (element?.districtName | titlecase)
+                                ? element?.districtName
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                <a class="text-primary" href="javascript:void(0)" (click)="
+                    getData(
+                      element?.districtId,
+                      element?.blockId,
+                      '',
+                      '',
+                      2,
+                      getStartDate,
+                      getEndDate
+                    )
+                  ">{{ element?.blockCode ? element?.blockCode : "--" }} -
+                                    {{
+                                    (element?.blockName | titlecase) ? element?.blockName : "--"
+                                    }}</a>
+                            </td>
+                            <td>{{ element?.noOfSchool ? element?.noOfSchool : "--" }}</td>
+
+                            <td>{{ element?.noOfVisetedSchool }}</td>
+                            <td>{{ element?.noOfVisit }}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledBoys ? element?.totalEnrolledBoys : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterBoys
+                                ? element?.attendanceOnRegisterBoys
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterBoysPercentage ?
+                                element?.attendanceOnRegisterBoysPercentage +"%" : "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentBoys ? element?.actualPresentBoys : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentBoysPercentage ? element?.actualPresentBoysPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledGirls
+                                ? element?.totalEnrolledGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterGirls
+                                ? element?.attendanceOnRegisterGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{ element?.attendanceOnRegisterGirlsPercentage ?
+                                element?.attendanceOnRegisterGirlsPercentage+"%" : "0%" }}</td>
+                            <td>
+                                {{
+                                element?.actualPresentGirls
+                                ? element?.actualPresentGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentGirlsPercentage ? element?.actualPresentGirlsPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledTransGender
+                                ? element?.totalEnrolledTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterTransGender
+                                ? element?.attendanceOnRegisterTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterTransGenderPercentage ?
+                                element?.attendanceOnRegisterTransGenderPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentTransGender
+                                ? element?.actualPresentTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentTransGenderPercentage ?
+                                element?.actualPresentTransGenderPercentage+"%" : "0%" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="3" class="text-center"><strong>Total</strong></td>
+                            <td>
+                                <strong>{{ resultListDatas }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisetedSchool }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisit }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ totalEnrolledBoys }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterBoys }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterBoysPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentBoys }}</strong>
+                            </td>
+                            <td>{{ actualPresentBoysPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledGirls }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterGirls }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentGirls }}</strong>
+                            </td>
+                            <td>{{ actualPresentGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledTransgender }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterTransgender }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterTransgenderPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentTransgender }}</strong>
+                            </td>
+                            <td>{{ actualPresentTransgenderPer }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="table-responsive" *ngIf="pageLevel == 2" id="viewTable">
+                <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th scope="col" rowspan="4">#</th>
+                            <th scope="col" rowspan="4">District Name</th>
+                            <th scope="col" rowspan="4">Block Name</th>
+                            <th scope="col" rowspan="4">Panchayat Name</th>
+                            <th scope="col" rowspan="4">Number of schools</th>
+                            <th scope="col" rowspan="4">
+                                Number of visited schools (unique)
+                            </th>
+                            <th scope="col" rowspan="4">Number of visits</th>
+                            <th scope="col" colspan="5" class="text-center">Boys</th>
+                            <th scope="col" colspan="5" class="text-center">Girls</th>
+                            <th scope="col" colspan="5" class="text-center">Transgender</th>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                        </tr>
+                        <tr>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let element of resultListData; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                {{ element?.districtCode ? element?.districtCode : "--" }} -
+                                {{
+                                (element?.districtName | titlecase)
+                                ? element?.districtName
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{ element?.blockCode ? element?.blockCode : "--" }} -
+                                {{
+                                (element?.blockName | titlecase) ? element?.blockName : "--"
+                                }}
+                            </td>
+                            <td>
+                                <a class="text-primary" href="javascript:void(0)" (click)="
+                    getData(
+                      element?.districtId,
+                      element?.blockId,
+                      element?.nagarId,
+                      '',
+                      3,
+                      getStartDate,
+                      getEndDate
+                    )
+                  ">{{ element?.panchayatCode ? element?.panchayatCode : "--" }}
+                                    -
+                                    {{
+                                    (element?.panchayatName | titlecase)
+                                    ? element?.panchayatName
+                                    : "--"
+                                    }}</a>
+                            </td>
+                            <td>{{ element?.noOfSchool ? element?.noOfSchool : "--" }}</td>
+
+                            <td>{{ element?.noOfVisetedSchool }}</td>
+                            <td>{{ element?.noOfVisit }}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledBoys ? element?.totalEnrolledBoys : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterBoys
+                                ? element?.attendanceOnRegisterBoys
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterBoysPercentage ?
+                                element?.attendanceOnRegisterBoysPercentage +"%" : "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentBoys ? element?.actualPresentBoys : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentBoysPercentage ? element?.actualPresentBoysPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledGirls
+                                ? element?.totalEnrolledGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterGirls
+                                ? element?.attendanceOnRegisterGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{ element?.attendanceOnRegisterGirlsPercentage ?
+                                element?.attendanceOnRegisterGirlsPercentage+"%" : "0%" }}</td>
+                            <td>
+                                {{
+                                element?.actualPresentGirls
+                                ? element?.actualPresentGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentGirlsPercentage ? element?.actualPresentGirlsPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledTransGender
+                                ? element?.totalEnrolledTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterTransGender
+                                ? element?.attendanceOnRegisterTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterTransGenderPercentage ?
+                                element?.attendanceOnRegisterTransGenderPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentTransGender
+                                ? element?.actualPresentTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentTransGenderPercentage ?
+                                element?.actualPresentTransGenderPercentage+"%" : "0%" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="4" class="text-center"><strong>Total</strong></td>
+                            <td>
+                                <strong>{{ resultListDatas }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisetedSchool }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ numOfVisit }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ totalEnrolledBoys }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterBoys }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterBoysPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentBoys }}</strong>
+                            </td>
+                            <td>{{ actualPresentBoysPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledGirls }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterGirls }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentGirls }}</strong>
+                            </td>
+                            <td>{{ actualPresentGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledTransgender }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterTransgender }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterTransgenderPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentTransgender }}</strong>
+                            </td>
+                            <td>{{ actualPresentTransgenderPer }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="table-responsive" *ngIf="pageLevel == 3 || pageLevel == 4" id="viewTable">
+                <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th scope="col" rowspan="4">#</th>
+                            <th scope="col" rowspan="4">District Name</th>
+                            <th scope="col" rowspan="4">Block Name</th>
+                            <th scope="col" rowspan="4">Panchayat Name</th>
+                            <th scope="col" rowspan="4">School Name</th>
+                            <th scope="col" rowspan="4">Number of visits</th>
+                            <th scope="col" colspan="5" class="text-center">Boys</th>
+                            <th scope="col" colspan="5" class="text-center">Girls</th>
+                            <th scope="col" colspan="5" class="text-center">Transgender</th>
+                        </tr>
+
+                        <tr>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                            <th rowspan="4">Enrolled</th>
+                            <th colspan="4" class="text-center">Present</th>
+                        </tr>
+                        <tr>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                            <th colspan="2" class="text-center">On Register</th>
+                            <th colspan="2" class="text-center">Actual</th>
+                        </tr>
+                        <tr>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                            <th>Number</th>
+                            <th>Percentage</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let element of resultListData; index as i">
+                            <td>{{ i + 1 }}</td>
+                            <td>
+                                {{ element?.districtCode ? element?.districtCode : "--" }} -
+                                {{
+                                (element?.districtName | titlecase)
+                                ? element?.districtName
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{ element?.blockCode ? element?.blockCode : "--" }} -
+                                {{
+                                (element?.blockName | titlecase) ? element?.blockName : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{ element?.panchayatCode ? element?.panchayatCode : "--" }} -
+                                {{
+                                (element?.panchayatName | titlecase)
+                                ? element?.panchayatName
+                                : "--"
+                                }}
+                            </td>
+                            <td *ngIf="pageLevel == 3">
+                                <a class="text-primary" href="javascript:void(0)" (click)="
+                    getData(
+                      element?.districtId,
+                      element?.blockId,
+                      element?.nagarId,
+                      element?.schoolId,
+                      4,
+                      getStartDate,
+                      getEndDate
+                    )
+                  ">{{
+                                    element?.schoolUdiseCode ? element?.schoolUdiseCode : "--"
+                                    }}
+                                    -
+                                    {{
+                                    (element?.schoolName | titlecase)
+                                    ? element?.schoolName
+                                    : "--"
+                                    }}</a>
+                            </td>
+                            <td *ngIf="pageLevel == 4">
+                                {{ element?.schoolUdiseCode ? element?.schoolUdiseCode : "--" }}
+                                -
+                                {{
+                                (element?.schoolName | titlecase) ? element?.schoolName : "--"
+                                }}
+                            </td>
+                            <td>{{ element?.noOfVisit }}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledBoys ? element?.totalEnrolledBoys : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterBoys
+                                ? element?.attendanceOnRegisterBoys
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterBoysPercentage ?
+                                element?.attendanceOnRegisterBoysPercentage +"%" : "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentBoys ? element?.actualPresentBoys : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentBoysPercentage ? element?.actualPresentBoysPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledGirls
+                                ? element?.totalEnrolledGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterGirls
+                                ? element?.attendanceOnRegisterGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{ element?.attendanceOnRegisterGirlsPercentage ?
+                                element?.attendanceOnRegisterGirlsPercentage+"%" : "0%" }}</td>
+                            <td>
+                                {{
+                                element?.actualPresentGirls
+                                ? element?.actualPresentGirls
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentGirlsPercentage ? element?.actualPresentGirlsPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.totalEnrolledTransGender
+                                ? element?.totalEnrolledTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>
+                                {{
+                                element?.attendanceOnRegisterTransGender
+                                ? element?.attendanceOnRegisterTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.attendanceOnRegisterTransGenderPercentage ?
+                                element?.attendanceOnRegisterTransGenderPercentage+"%" :
+                                "0%"}}</td>
+                            <td>
+                                {{
+                                element?.actualPresentTransGender
+                                ? element?.actualPresentTransGender
+                                : "--"
+                                }}
+                            </td>
+                            <td>{{element?.actualPresentTransGenderPercentage ?
+                                element?.actualPresentTransGenderPercentage+"%" : "0%" }}</td>
+                        </tr>
+
+                        <tr>
+                            <td colspan="5" class="text-center"><strong>Total</strong></td>
+                            <td>
+                                <strong>{{ numOfVisit }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ totalEnrolledBoys }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterBoys }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterBoysPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentBoys }}</strong>
+                            </td>
+                            <td>{{ actualPresentBoysPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledGirls }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterGirls }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentGirls }}</strong>
+                            </td>
+                            <td>{{ actualPresentGirlsPer }}%</td>
+                            <td>
+                                <strong>{{ totalEnrolledTransgender }}</strong>
+                            </td>
+                            <td>
+                                <strong>{{ attendanceOnRegisterTransgender }}</strong>
+                            </td>
+                            <td>{{ attendanceOnRegisterTransgenderPer }}%</td>
+                            <td>
+                                <strong>{{ actualPresentTransgender }}</strong>
+                            </td>
+                            <td>{{ actualPresentTransgenderPer }}%</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound == true"
+        #showEmptyAlert>
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{ "Please Search to find the student Attendance Monitoring Report " }}
+    </div>
+</div>

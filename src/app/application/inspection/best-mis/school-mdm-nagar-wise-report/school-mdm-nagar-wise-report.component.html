@@ -1,0 +1,472 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">
+                School MDM Done/Not Done Percentage Report (Nagarnigam
+                Wise)
+            </h3>
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="./" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें</a>
+            <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का
+                                        स्तर</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                                        (change)="getDesignationGroup($any($event.target).value);">
+                                        <option value="0" *ngIf="userLevelId === 0">--Select--</option>
+                                        <option value="5" *ngIf="stateUser == false">State</option>
+                                        <option value="4" *ngIf="distUser == false">District</option>
+                                        <option value="3" *ngIf="blkUser == false">Block</option>
+                                        <option value="2" *ngIf="cluUser == false">Cluster</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Designation <br />पद </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="designationGroupId" [(ngModel)]="designationGroupId"
+                                        class="form-select" (change)="getSubDesignation($any($event.target).value);">
+                                        <option value="" *ngIf="desGrpSelect == false">--Select--</option>
+                                        <option value="" *ngIf="desGrpLoading == true">Loading...</option>
+                                        <option *ngFor="let item of DesignationGroupData"
+                                            [value]="item.designationGroupId">
+                                            {{ item.designationGroupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDesignationId" name="scDesignationId">
+                                        <option value="" *ngIf="scDesignationChanged == false">--Select--</option>
+                                        <option value="" *ngIf="scDesignationLoading == true">Loading...</option>
+                                        <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                            {{ item.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">District <br />
+                                        जिला
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off"
+                                        (change)="getNagarPanchayat($any($event.target).value, '', 1);" #district>
+                                        <option value="" *ngIf="scDisrtictSelect == true && sessionDistrictId === ''">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let districtItem of districtData"
+                                            [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} -
+                                            {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Nagarnigam</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scNagarPanchayatId" [(ngModel)]="scNagarPanchayatId"
+                                        (change)="getSchool($any($event.target).value)" name="scNagarPanchayatId">
+                                        <option value="" *ngIf="scNagarPanchayatChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scNagarPanchayatChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of nagarPanchayatData" [value]="item.nagarId">
+                                            {{ item.panchayatCode }} - {{ item.panchayatName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School <br />विद्यालय</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolId" name="schoolId" autocomplete="off"
+                                        [disabled]="sessionSchoolId != '' ? 'true' : 'false'">
+                                        <option value="" *ngIf="scSchoolChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scSchoolChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School Type</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolType" name="schoolType" autocomplete="off">
+                                        <option value="">--All--</option>
+                                        <option value="1">Elementry</option>
+                                        <option value="2">Secondary</option>
+                                        <option value="3">Composite</option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Start Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="startDate" name="startDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">End Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="endDate" name="endDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+                                <div class="col-md-1 form-group3">
+                                    <button class="btn btn-default btn-purple">
+                                        Search / खोजें <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+            Search Panel / खोज पट्टिका
+        </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-0" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="p-2">
+                    <button type="button" class="btn btn-success " (click)="exportSchoolList(scDistrictId,scBlockId,
+                    scNagarPanchayatId,
+                    schoolId,
+                    startDate,
+                    endDate,scDesignationId)">
+                        <i class="bi bi-file-earmark-excel"></i> Export School Report
+                    </button>
+                </div>
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Back" (click)="
+                  goBack(
+                    getDistrictBackId,
+                    getBlockBackId,
+                    getNagarPanchayatBackId,
+                    getSchoolBackId,
+                    pageLevel,
+                    getStartDate,
+                    getEndDate
+                  )
+                " class="back"><i class="bi bi-skip-backward"></i></a>
+                        <a title="Excel" (click)="excel(pageLevel)" class="excel"><i
+                                class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div *ngIf="pageLevel === 0">
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col">Sl.No / क्रमांक#</th>
+                                    <th scope="col">District Name / जिले का नाम</th>
+                                    <th scope="col">Number of schools</th>
+                                    <th scope="col">Number of visited schools (unique)</th>
+                                    <th scope="col">Number of visits</th>
+                                    <th scope="col">Mdm done</th>
+                                    <th scope="col">Mdm not done</th>
+                                    <th scope="col">%Mdm done</th>
+                                    <th scope="col">%Mdm not done</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultListData; index as i">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="text-primary" (click)="
+                          getDrillDownData(
+                            element?.districtId,
+                            '',
+                            '',
+                            getStartDate,
+                            getEndDate,
+                            1
+                          )
+                        ">{{
+                                            element?.districtCode ? element?.districtCode : "--"
+                                            }}
+                                            -
+                                            {{
+                                            (element?.districtName | titlecase)
+                                            ? element?.districtName
+                                            : "--"
+                                            }}</a>
+                                    </td>
+
+                                    <td>{{ element?.noOfSchool }}</td>
+                                    <td>{{ element?.noOfVisetedSchool }}</td>
+                                    <td>{{ element?.noOfVisit }}</td>
+                                    <td>{{ element?.mdmDone }}</td>
+                                    <td>{{ element?.mdmNotDone }} </td>
+                                    <td>{{ element?.mdmDonePercentage ? (element?.mdmDonePercentage | number: "1.2-2") +
+                                        "%" : "0 %" }}</td>
+                                    <td>{{ element?.mdmNotDonePercentage ? (element?.mdmNotDonePercentage | number:
+                                        "1.2-2") + "%" : "0 %" }} </td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="2" class="text-center">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ totalSchool }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ numOfVisetedSchool }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ numOfVisit }}</strong>
+                                    </td>
+
+                                    <td><strong>{{totMdmDone}}</strong></td>
+                                    <td><strong>{{totMdmNotDone}}</strong></td>
+                                    <td><strong>{{(mdmAvgDone) | number: "1.2-2" }} %</strong></td>
+                                    <td><strong>{{ (mdmAvgNotDone) | number: "1.2-2" }} %</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div *ngIf="pageLevel === 1">
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col">Sl.No / क्रमांक#</th>
+                                    <th scope="col">District Name / जिले का नाम</th>
+                                    <th scope="col">Nagarnigam Name</th>
+                                    <th scope="col">Number of schools</th>
+                                    <th scope="col">Number of visited schools (unique)</th>
+                                    <th scope="col">Number of visits</th>
+                                    <th scope="col">Mdm done</th>
+                                    <th scope="col">Mdm not done</th>
+                                    <th scope="col">%Mdm done</th>
+                                    <th scope="col">%Mdm not done</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultListData; index as i">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        {{ element?.districtCode ? element?.districtCode : "--" }}
+                                        -
+                                        {{
+                                        (element?.districtName | titlecase)
+                                        ? element?.districtName
+                                        : "--"
+                                        }}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" class="text-primary" (click)="
+                          getDrillDownData(
+                            element?.districtId,
+                            element?.nagarId,
+                            '',
+                            getStartDate,
+                            getEndDate,
+                            2
+                          )
+                        ">{{
+                                            element?.panchayatCode ? element?.panchayatCode : "--"
+                                            }}
+                                            -
+                                            {{
+                                            element?.panchayatName ? element?.panchayatName : "--"
+                                            }}</a>
+                                    </td>
+                                    <td>{{ element?.noOfSchool }}</td>
+                                    <td>{{ element?.noOfVisetedSchool }}</td>
+                                    <td>{{ element?.noOfVisit }}</td>
+                                    <td>{{ element?.mdmDone }}</td>
+                                    <td>{{ element?.mdmNotDone }} </td>
+                                    <td>{{totMdmDone === "0" ? ((totMdmDone / totopensch) * 100 | number:
+                                            "1.2-2") : "0 %" }}</td>
+                                    <td>{{totMdmNotDone === "0" ? ((totMdmNotDone / totopensch) * 100 | number:
+                                            "1.2-2") : "0 %"}}</td>
+                                </tr>
+
+                                <tr>
+                                    <td colspan="3" class="text-center">
+                                        <strong>Total</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ totalSchool }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ numOfVisetedSchool }}</strong>
+                                    </td>
+                                    <td>
+                                        <strong>{{ numOfVisit }}</strong>
+                                    </td>
+
+                                    <td><strong>{{totMdmDone}}</strong></td>
+                                    <td><strong>{{totMdmNotDone}}</strong></td>
+                                    <td><strong>{{(mdmAvgDone) | number: "1.2-2" }} %</strong></td>
+                                    <td><strong>{{ (mdmAvgNotDone) | number: "1.2-2" }} %</strong></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="pageLevel === 2 || pageLevel === 3">
+                    <div class="alert alert-info text-uppercase" role="alert">
+                        <div class="row">
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">District Name / जिले का नाम</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ districtName }}</label>
+                            </div>
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">Nagarnigam Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ nagarnigamName }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 form-group mb-0">
+                                <label for="" class="form-label">School Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ schoolName }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col">Sl.No / क्रमांक#</th>
+                                    <th scope="col">School Name</th>
+                                    <th scope="col">School Open Status</th>
+                                    <th scope="col">MDM Status</th>
+                                    <th scope="col">Monitoring Date</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultListData; index as i">
+                                    <td>{{ i + 1 }}</td>
+                                    <td>
+                                        {{
+                                        element?.schoolUdiseCode
+                                        ? element?.schoolUdiseCode
+                                        : "--"
+                                        }}-{{
+                                        (element?.schoolName | titlecase)
+                                        ? element?.schoolName
+                                        : "--"
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{ element?.schoolOpenStatus == 1 ? "Open" : "Close" }}
+                                    </td>
+                                    <td>
+                                        {{ element?.mdmStatus ? element?.mdmStatus : "--" }}
+                                    </td>
+                                    <td>{{ element?.inspectionDateTime }}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+            <ng-template #showEmptyAlert> </ng-template>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{
+        "Please Search to find School Visited and Open/Close Count/Percentage Report"
+        }}
+    </div>
+</div>

@@ -1,0 +1,146 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Add Professional/Vocational Qualification / व्यावसायिक / व्यावसायिक योग्यता जोड़ें</h3>
+      <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../../../addTeacher" class="neuro addLink" routerLinkActive="active" *ngIf="(loginUserType != 1) "><i
+          class="bi bi-plus-lg me-2"></i>New Teacher Registration / नया शिक्षक पंजीकरण</a>
+      <a routerLink="./../../" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View/Updation / देखें/अद्यतन करें</a>
+    </div>
+  </div>
+  <div class="formpatch top-space">
+    <app-header [registrationInfoRoute]="['../../registrationInfo/', teacherId]"
+      [educationalInfoRoute]="['../../educationalInfo/', teacherId]" [professionalInfoRoute]="['./']"
+      [otherInfoRoute]="['../../otherInfo/', teacherId]" [trainingAndLanguageInfoRoute]="[
+        '../../trainingAndLanguageInfo/',
+        teacherId
+      ]"></app-header>
+    <!-- <h5>Professional/Vocational Qualification</h5> -->
+    <div class="row mt-5">
+      <div class="col-lg-12">
+        <div >
+          <form [formGroup]="professionalInfoForm">
+            <div class="pb-1 d-flex justify-content-end">
+              <button class="btn btn-warning btn-sm" (click)="enableFields()" *ngIf="disableFields === true">
+                Edit / संपादन करें
+              </button>
+              <button class="btn btn-primary btn-sm" (click)="enableFields()" *ngIf="
+                  disableFields === false && existingProfessionalInfo?.length
+                ">
+                Cancel / रद्द करें
+              </button>
+            </div>
+<div class="table-responsive">
+            <table class="table table-bordered">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th>Sl#/<small> क्र॰सं॰</small></th>
+                  <th scope="col">Professional Qualification / <small>व्यावसायिक योग्यता</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Year of Passing / <small>उत्तीर्ण होने का वर्ष</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Institution/College / <small>संस्थान/महाविद्यालय</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Board/Council/University / <small>बोर्ड/परिषद/विश्वविद्यालय</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Marks Obtained / <small>प्राप्तांक</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Full Marks / <small>पूर्णांक</small><span class="text-danger ms-2">*</span></th>
+                  <th scope="col">Percentage / <small>प्रतिशत</small><span class="text-danger ms-2">*</span></th>
+                  <th *ngIf="disableFields === false && singleField === false">
+                    Action / <small>कार्रवाई करें</small>
+                  </th>
+                </tr>
+              </thead>
+              <tbody formArrayName="professionalArray">
+                <tr *ngFor="let item of professionalInfo().controls; index as i" [formGroupName]="i">
+                  <td>{{ i + 1 }}</td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example" style="width: 300px!important;"
+                      formControlName="professionalQualificationType" (change)="checkDuplicateType()" #professionalQualificationTypeRef >
+                      <option value="">-- Select --</option>
+                      <option value="{{ types?.anxtValue }}" *ngFor="let types of professionalQualificationTypes">
+                        {{ types?.anxtName }}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-select" aria-label="Default select example" formControlName="yearOfPassing">
+                      <option value="">-- Select --</option>
+                      <option value="{{ year }}" *ngFor="let year of allYears">
+                        {{ year }}
+                      </option>
+                    </select>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="institutionCollege"
+                       (keypress)="
+                        customValidators.alphaNumericValidator(
+                          $event,
+                          'comma',
+                          'space',
+                          'dot',
+                          'hyphen'
+                        )
+                      " maxlength="100" />
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" formControlName="boardCouncilUniversity"
+                       (keypress)="
+                        customValidators.alphaNumericValidator(
+                          $event,
+                          'comma',
+                          'space',
+                          'dot',
+                          'hyphen'
+                        )
+                      " maxlength="100" />
+                  </td>
+                  <td>
+                    <input #marksObtained type="text" class="form-control" formControlName="marksObtained"
+                    (keypress)="
+                    customValidators.keyPressNumbers($event)" 
+                      (blur)="calculatePercentage(marksObtained, fullMarks, i)" maxlength="4" />
+                  </td>
+                  <td>
+                    <input #fullMarks type="text" class="form-control" formControlName="fullMarks"
+                      (keypress)="customValidators.keyPressNumbers($event)"
+                      (blur)="calculatePercentage(marksObtained, fullMarks, i)" maxlength="4" />
+                  </td>
+                  <td>
+                    <input #percentage type="text" class="form-control" formControlName="percentage" (keypress)="
+                        customValidators.onlyNumbersWithDecimal($event)
+                      " maxlength="5" />
+                  </td>
+                  <td *ngIf="disableFields === false && singleField === false">
+                    <button class="btn btn-danger btn-sm" (click)="removeRow(i)">
+                      <i class="bi bi-dash-lg"></i>
+                    </button>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          </form>
+        </div>
+        <div class="pb-1 float-end">
+          <button class="btn btn-success me-2 btn-sm" (click)="addRow()" *ngIf="disableFields === false">
+            Add More / अधिक जोड़ें
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button class="btn btn-purple me-2 mb-2" (click)="pageChangeWarningHandler('../../educationalInfo/')">
+      Previous / पिछला
+    </button>
+    <button class="btn btn-success me-2 mb-2" (click)="saveAsDraft()">
+      {{ draftStatus === true ? "Update / अद्यतन करें" : "Save as Draft / प्रारूप के रूप में सहेजें" }}
+    </button>
+    <button type="reset" class="btn btn-danger me-2 mb-2" (click)="resetProfessionalForm()" *ngIf="draftStatus === false">
+      Reset / पुनर्स्थापित
+    </button>
+    <button (click)="pageChangeWarningHandler('../../otherInfo/')" class="btn btn-purple  me-2 mb-2">
+      Next / अगला
+    </button>
+  </div>
+</div>

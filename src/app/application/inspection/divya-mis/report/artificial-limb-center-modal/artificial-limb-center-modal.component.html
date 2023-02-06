@@ -1,0 +1,225 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Artificial Limb Center Visit Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+
+          <div class="top-space">
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfExpertPosted" class="form-label"
+                         >1)How many experts are posted in the centre
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">
+                      {{
+                      altCenterData?.noOfExpertPosted || "--"
+                      }}
+                      </label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfExpertPresent" class="form-label"
+                         >2)How many experts are present during inspection 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.noOfExpertPresent || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfEvaluatedStd" class="form-label"
+                         >3)How many students are evaluated in present financial year 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.noOfEvaluatedStd || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfMadeStd" class="form-label"
+                         >4)How many artificial limb of students are made in the present financial year 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.noOfMadeStd || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfDevicesRepaired" class="form-label"
+                         >5)How many old artificial limb of students are repaired in the present financial year 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.noOfDevicesRepaired || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="noOfDevicesReadyToDistribute" class="form-label"
+                         >6)How many artificial limbs and ingredients for distribution are ready 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.noOfDevicesReadyToDistribute || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="rawMatAvailability" class="form-label"
+                         >7)Availability of raw materials for preparation of Artificial Limb 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.rawMatAvailability || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="sufficientFurniture" class="form-label"
+                         >8)Sufficient Furniture for staff and parents 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.sufficientFurniture || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="sufficientEquipments" class="form-label"
+                         >9)Sufficient Equipments / Machines 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.sufficientEquipments || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="electricity" class="form-label"
+                         >10)Electricity 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.electricity || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="lightFan" class="form-label"
+                         >11)Light / Fan 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.lightFan || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="cleanlinessStatus" class="form-label"
+                         >12)Cleanliness status :
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      altCenterData?.cleanlinessStatus || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <!-- form end -->
+       </div>
+       <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+          </button>
+       </div>
+    </div>
+ </div>

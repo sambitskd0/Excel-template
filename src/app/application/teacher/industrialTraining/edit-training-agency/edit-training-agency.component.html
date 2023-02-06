@@ -1,0 +1,61 @@
+
+<form [formGroup]="trainingAgency" (ngSubmit)="onSubmit()">
+   <div>
+       <div class="pageHeading">
+          <div class="heading__tab">
+             <div>
+                <h3 class="pageName">Training Agency / प्रशिक्षण संस्था  </h3>
+             </div>
+             <div class="tab__section">
+                <!-- <a routerLink="./../industryTrainingCategory"  class="tablink" routerLinkActive="active">Category Master</a> -->
+                <a routerLink="../../viewTrainingAgency"  class="tablink d-inline-block active" routerLinkActive="active">Training Agency <br> प्रशिक्षण संस्था</a>
+                <a routerLink="../../viewTrainingCategory"  class="tablink d-inline-block" >Type of Training <br> प्रशिक्षण का तरीका</a>
+                <a routerLink="../../viewIndustrialTraining"  class="tablink d-inline-block" >Industrial Training <br> औद्योगिक प्रशिक्षण</a>
+             </div>
+          </div>
+          <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+          <div class="tabArea">
+           <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+           <a routerLink="../../viewTrainingAgency"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+        </div>
+       </div>
+       <div class="formpatch top-space">
+          <div class="row">
+             <div class="col-md-2 form-group"><label  class="form-label">Agency Name </label><br>संस्था का नाम</div>
+             <div class="col-md-4 form-group">
+                <span class="colon">:</span>
+                <input  type="text" class="form-control" formControlName="agencyName" aria-describedby="AgencyName" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" (keypress)="customValidators.checkSpecialChar($event)" [maxlength]="70">
+                <span class="mandatory">*</span>
+             </div>
+          </div>
+          <div class="row">
+             <div class="col-md-2 form-group"><label  class="form-label">Description </label><br>विवरण</div>
+             <div class="col-md-4 form-group">
+                <span class="colon">:</span>
+                <textarea class="form-control" cols="4" rows="3" formControlName="description" [maxlength]="500"></textarea>
+                <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+             </div>
+          </div>
+          <div class="row">
+             <div class="col-md-2 form-group"><label  class="form-label">Contact Person Name </label><br>अधिकृत व्यक्ति का नाम</div>
+             <div class="col-md-4 form-group">
+                <span class="colon">:</span>
+                <input type="text" class="form-control" formControlName="contactPerson" aria-describedby="PersonName" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" [maxlength]="70">
+                <span class="mandatory">*</span>
+             </div>
+          </div>
+          <div class="row">
+             <div class="col-md-2 form-group"><label  class="form-label">Contact Mobile Number(+91) </label><br>संपर्क मोबाइल संख्या</div>
+             <div class="col-md-4 form-group">
+                <span class="colon">:</span>
+                <input type="text" class="form-control" formControlName="contactNumber" aria-describedby="MobileNumber" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="10">
+                <span class="mandatory">*</span>
+             </div>
+          </div>
+       </div>
+    </div>
+    <div>
+       <button class="btn btn-success me-2">Update / अद्यतन करें</button>        
+       <a routerLink="../../viewTrainingAgency" class="btn btn-danger me-2">Cancel / रद्द करें</a>        
+    </div>
+   </form>

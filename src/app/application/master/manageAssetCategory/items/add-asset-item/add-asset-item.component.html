@@ -1,0 +1,143 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Add Asset Item/संपत्ति वस्तु जोड़ें
+            </h3>
+            
+            <div class="tab__section">
+                <a routerLink="../../viewAssetCategory"  class="tablink" *ngIf="this.tabs.includes('Asset')">Asset/संपत्ति 
+                </a>
+                <a routerLink="./../viewAssetItem"  class="tablink active" routerLinkActive="active" *ngIf="this.tabs.includes('Item')">Item/वस्तु
+                </a>
+            </div>
+            
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addAssetItem" class="neuro addLink active" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+            </a>
+            <a routerLink="./../viewAssetItem" class="neuro viewLink"><i class="bi bi-eye me-2"></i>View/देखें
+            </a>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="addAssetItem" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Asset Type<br>संपत्ति का प्रकार
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <div class=" d-flex">
+                        <select  class="form-select" aria-label="Default select example" formControlName="assetType" (change)="getAssetName($any($event.target).value)">
+                            <option selected value="">--Select Type--</option>
+                            <option *ngFor="let anextureType of anextureType;" value="{{anextureType.anxtValue}}">{{anextureType.anxtName}}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Asset Name<br>संपत्ति का नाम
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="assetCatId" >
+                        <option selected value="">--Select Name--</option>
+                        <option *ngFor="let assetNameData of assetNameData" value="{{assetNameData.assetCatId}}">{{assetNameData.assetName}}</option>
+                        
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Asset Item Name<br>संपत्ति वस्तु का नाम
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        formControlName="assetItemName" autocomplete="off" minlength="2" maxlength="50" (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Movable<br>चल
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons pt-2">
+                        <div class="rdio rdio-primary form-check-inline"> <input name="itemMovable" value="1" id="radio1"
+                                type="radio" formControlName="itemMovable">
+                            <label for="radio1">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input name="itemMovable" value="0" id="radio2" type="radio" formControlName="itemMovable">
+                            <label for="radio2">No</label>
+                        </div>
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Fixed<br>स्थिर
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons pt-2">
+                        <div class="rdio rdio-primary form-check-inline"> 
+                            <input name="itemFixed" value="1" id="radio3" type="radio" formControlName="itemFixed">
+                            <label for="radio3">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input name="itemFixed" value="0" id="radio4" type="radio" formControlName="itemFixed">
+                            <label for="radio4">No</label>
+                        </div>
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Unit<br>इकाई
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="itemUnit">
+                        <option selected value="">--Select Unit--</option>
+                        <option *ngFor="let annexUnitData of annexUnitData" value="{{annexUnitData.anxtValue}}">{{annexUnitData.anxtName}}</option>
+                        
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Description<br>विवरण
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea cols="4" rows="4" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" formControlName="assetDescription"></textarea>
+                    <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success me-2">Submit/जमा करें
+                </button>
+                <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+                </button>
+            </div>
+        </form>
+    </div>

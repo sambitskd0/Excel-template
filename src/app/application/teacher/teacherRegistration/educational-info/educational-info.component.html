@@ -1,0 +1,75 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Add Educational Qualification / शैक्षिक योग्यता जोड़ें</h3>
+      <span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+    <div class="tabArea">
+      <!-- <a routerLink="./../vieweducation" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View</a> -->
+      <a
+        routerLink="./../../../addTeacher"
+        class="neuro addLink"
+        routerLinkActive="active"  *ngIf="(loginUserType != 1) "
+        ><i class="bi bi-plus-lg me-2"></i>New Teacher Profile / नए शिक्षक का प्रोफाइल</a
+      >
+      <a routerLink="./../../" class="neuro viewLink" routerLinkActive="active"
+        ><i class="bi bi-eye me-2"></i>View / Updation / देखें / अद्यतन करें</a
+      >
+    </div>
+  </div>
+
+  <div class="formpatch top-space">
+    <app-header
+      [registrationInfoRoute]="['../../registrationInfo/', teacherId]"
+      [educationalInfoRoute]="['./']"
+      [professionalInfoRoute]="['../../professionalInfo/', teacherId]"
+      [otherInfoRoute]="['../../otherInfo/', teacherId]"
+      [trainingAndLanguageInfoRoute]="[
+        '../../trainingAndLanguageInfo/',
+        teacherId
+      ]"
+    ></app-header>
+    <!-- Educational Qualification (Pre-Service) -->
+    <app-pre-service
+      [educationalQualificationTypes]="educationalQualificationTypes[0]"
+      [existingPreServiceData]="existingPreServiceData"
+      (onFormFilled)="preServiceFormDataHandle($event)"
+      [resetEvent]="parentEventSubject.asObservable()"
+      [saveAsDraftEvent]="preServiceValidationStart.asObservable()"
+      (validationResult)="preServiceValidationRes($event)"
+      (editStatusEmitter)="getEditStatus($event)"
+    ></app-pre-service>
+  </div>
+  <div class="formpatch">
+    <!-- Educational Qualification (In-Service) -->
+    <app-in-service
+      [educationalQualificationTypes]="educationalQualificationTypes[0]"
+      [existingInServiceData]="existingInServiceData"
+      (onFormFilled)="inServiceFormDataHandlee($event)"
+      [resetEvent]="parentEventSubject.asObservable()"
+      (validationResult)="inServiceValidationRes($event)"
+      [saveAsDraftEvent]="inServiceValidationStart.asObservable()"
+      (editStatusEmitter)="getEditStatus($event)"
+    ></app-in-service>
+  </div>
+  <div>
+    <button
+      class="btn btn-purple me-2 mb-2"
+      (click)="pageChangeWarningHandler('../../registrationInfo/')"
+    >
+    Previous / पिछला
+    </button>
+    <button class="btn btn-success me-2 mb-2" (click)="saveAsDraft()">
+      {{ draftStatus === true ? "Update / अद्यतन करें" : "Save as Draft / प्रारूप के रूप में सहेजें" }}
+    </button>
+    <button type="reset" class="btn btn-danger me-2 mb-2" (click)="resetAll()" *ngIf="draftStatus === false">
+      Reset / पुनर्स्थापित
+    </button>
+    <button
+      (click)="pageChangeWarningHandler('../../professionalInfo/')"
+      class="btn btn-purple me-2 mb-2"
+    >
+    Next / अगला
+    </button>
+  </div>
+</div>

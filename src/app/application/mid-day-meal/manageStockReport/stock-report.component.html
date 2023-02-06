@@ -1,0 +1,342 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Current / Zero Stock Report / वर्तमान / शून्य स्टॉक रिपोर्ट
+      </h3>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../viewStockReport" class="neuro viewLink active" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View</a>
+    </div>
+  </div>
+
+  <!-- <ng-container *ngIf="permissionDiv == true"> -->
+
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <form [formGroup]="stockReportForm" (ngSubmit)="onSubmit()">
+          <div class="search-container">
+            <div class="search-sec" id="searchPanel" style="display: block;">
+              <div class="searchPanel">
+
+                <div class="row">
+                  <div class="col-lg-2 form-group">
+                    <div class="">
+                      <label for="district" class="form-label">District <br>जिला
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <div class="">
+                      <span class="colon">:</span>
+                      <!-- <label for="" class="form-label fw-bold"> {{this.districtCode}}-{{this.districtName}}</label> -->
+                      <select class="form-select" aria-label="Default select example" formControlName="districtId"
+                        autocomplete="off" (change)="getBlock($any($event.target).value)">
+                        <option value="" *ngIf="scDisrtictSelect == true">
+                          -- Select --
+                        </option>
+                        <option value="" *ngIf="scDisrtictLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                          {{ districtItem.districtCode }} -
+                          {{ districtItem.districtName }}
+                        </option>
+                      </select>
+                      <span class="mandatory">*</span>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+                  </div>
+                  <div class="col-lg-2 form-group">
+                    <div class="">
+                      <label for="block" class="form-label">Block <br>प्रखण्ड</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <div class="">
+                      <span class="colon">:</span>
+                      <!-- <label for="" class="form-label fw-bold">{{this.blockCode}}-{{this.blockName}}</label> -->
+                      <select class="form-select" aria-label="Default select example" formControlName="blockId"
+                        autocomplete="off" (change)="getCluster($any($event.target).value)">
+                        <option value="" *ngIf="scBlockSelect == true">
+                          -- Select --
+                        </option>
+                        <option value="" *ngIf="scBlockLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                          {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                        </option>
+                      </select>
+                      <span class="mandatory">*</span>
+                    </div>
+                  </div>
+                  <div class="col-lg-1">
+                    <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+                  </div>
+
+
+                  <div class="col-lg-2 form-group">
+                    <div class="">
+                      <label for="cluster" class="form-label">Cluster <br>संकुल
+                      </label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <div class="">
+                      <span class="colon">:</span>
+                      <!-- <label for="" class="form-label fw-bold">{{this.clusterCode}}-{{this.clusterName}}</label> -->
+                      <select class="form-select" aria-label="Default select example" formControlName="clusterId"
+                        autocomplete="off" (change)="getSchool($any($event.target).value)">
+                        <option value="" *ngIf="scClusterSelect == true">
+                          -- Select --
+                        </option>
+                        <option value="" *ngIf="scClusterLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                          {{ clusterItem.clusterCode }} -
+                          {{ clusterItem.clusterName }}
+                        </option>
+                      </select>
+                      <span class="mandatory">*</span>
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true" alt="dsd">
+                  </div>
+                  <div class="col-lg-2 form-group">
+                    <div class="">
+                      <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                    </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <div class="">
+                      <span class="colon">:</span>
+                      <!-- <label for="" class="form-label fw-bold"> {{this.loginId}}-{{this.userName}}</label> -->
+                      <select class="form-select" aria-label="Default select example" formControlName="schoolId"
+                        autocomplete="off">
+                        <option value="" *ngIf="scSchoolSelect == true">
+                          -- Select --
+                        </option>
+                        <option value="" *ngIf="scSchoolLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                          {{ schoolItem.schoolUdiseCode }} -
+                          {{ schoolItem.schoolName }}
+                        </option>
+                      </select>
+                      <!-- <span class="mandatory">*</span> -->
+                    </div>
+                  </div>
+                  <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true" alt="dsd">
+                  </div>
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">From Date <br>की तिथि से
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                      formControlName="searchfromDate" [maxDate]="minDate"
+                      [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right' }"
+                      autocomplete="off" readonly>
+                  </div>
+
+                  <div class="col-lg-1"></div>
+
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">To Date <br>तारीख तक
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                      formControlName="searchtoDate" [maxDate]="minDate"
+                      [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right' }"
+                      autocomplete="off" readonly>
+                  </div>
+
+                  <div class="col-lg-2 form-group">
+
+                    <label class="form-label">Management <br>प्रबंधन
+                      <a data-toggle="tooltip" data-placement="bottom"
+                        title="GO-Government, GA-Govt. Aided, PV-Private, CG-Central Govt./PSU, OT-Others"
+                        class="tool text-dark">
+                        <i class="bi bi-question-circle-fill"></i>
+                      </a>
+                    </label>
+
+                  </div>
+                  <div class="col-lg-3 form-group">
+
+                    <span class="colon">:</span>
+                    <select class="form-select" placeholder="Text" formControlName="management" id="management">
+                      <option value="" selected>--Select--</option>
+                      <option value="{{managements.anxtValue}}" *ngFor="let managements of managementList">
+                        {{managements.anxtValue}}-{{managements.anxtName}}</option>
+                    </select>
+                    <!-- <span class="mandatory">*</span> -->
+                    <span class="minimum-text text-primary">Code - Details of Management - Type</span>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">Stock Report <br>स्टॉक रिपोर्ट
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="stockReport">
+                      <option value="" selected>--Select--</option>
+                      <option value="1">Current Stock Report</option>
+                      <option value="2">Zero Stock Report</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">School Category <br>विद्यालय की श्रेणी
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="category" autocomplete="off">
+                      <option value="" *ngIf="scSchoolCatSelect == true">
+                        -- Select --
+                      </option>
+                      <option value="" *ngIf="scSchoolCatLoading == true">
+                        Loading...
+                      </option>
+                      <option value="{{schoolCategory.schlCatId}}" *ngFor="let schoolCategory of searchSchoolCatData">
+                        {{schoolCategory.schlCatName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-md-1"> <img src="assets/img/loading.gif" *ngIf="scSchoolCatLoading == true" alt="dsd"></div>
+                  <div class="col-lg-2">
+                    <button class="btn btn-default btn-purple"> Search <i class="bi bi-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+          </div>
+        </form>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+        data-original-title="Click me">Search Panel</button>
+    </div>
+
+    <div class="clearfix"></div>
+    <ng-container *ngIf="isSearch == true">
+      <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+          <div class="page__rightarea">
+            <div class="page__util">
+              <div class="util">
+                <!-- <span class="publish"><i class="bi bi-square-fill me-1"></i>Publish</span>
+                        <span class="unpublish"><i class="bi bi-square-fill me-1"></i>Unpublish</span> -->
+
+                <a title="Excel" (click)="downloadStockDetailList()" class="excel"><i
+                    class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                <!-- <a title="Delete" class="delete"><i class="bi bi-trash"></i></a> -->
+              </div>
+            </div>
+          </div>
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter">
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl.No /क्र.सं.
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="District">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  District Name / जिला का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">{{(element?.districtName) ? element?.districtName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Block Name Code / प्रखण्ड का नाम
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.blockName) ?
+                  element?.blockName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Cluster">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Cluster Name / संकुल का नाम
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.clusterName) ?
+                  element?.clusterName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="School">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  School Name / विद्यालय का नाम
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.schoolName) ?
+                  element?.schoolName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Management">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Management / प्रबंधन
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.management) ?
+                  element?.management :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="RiceStock">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Rice Stock(Kg) / चावल का स्टॉक (किलो)
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.presentStock) ?
+                  (element?.presentStock|number: '2.') :'--' }}</td>
+              </ng-container>
+              <!-- <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint ">
+              Action / क्रिया
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                <a title="Edit" [routerLink]="['./../edit/', element?.encId]" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square text-primary"></i></a>
+                <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteDist(element?.encId)"><i
+                    class="bi bi-trash"></i></a>
+              </td>
+            </ng-container> -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <table>
+              <tr *ngIf="!dataSource.data.length">
+                <td style="text-align: center" [attr.colspan]="resultListData.length"
+                  class="mt-2 alert text-center text-uppercase fw-bold border">
+                  No Records Found!
+                </td>
+              </tr>
+            </table>
+            <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows"
+              [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+              (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </div>
+    </ng-container>
+    
+  <!-- </ng-container> -->
+  <!-- <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+    {{ "You don't have the permission to access this page !!" }}
+  </div> -->
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isSearch == false">
+    {{ "Please Search For Stock Report Details" }}
+  </div>
+</div>

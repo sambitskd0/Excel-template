@@ -1,0 +1,338 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <h3 class="pageName">Health Check up / स्वास्थ्य जांच</h3>
+         <div class="tab__section">
+            <a routerLink="../../viewDocterDetails" class="tablink" *ngIf="this.tabs.includes('Doctor Details')">Doctor
+               Details / डॉक्टर का विवरण</a>
+            <a routerLink="../../viewHealthCheckUp" class="tablink active" routerLinkActive="active"
+               *ngIf="this.tabs.includes('Health Check Up')">Health Check up / स्वास्थ्य जांच</a>
+         </div>
+      </div>
+      <div class="tabArea">
+         <a class="neuro addLink active" *ngIf="adminPrivilege"><i class="bi bi-eye me-2"></i>Edit / जोड़ें</a>
+         <a routerLink="../../viewHealthCheckUp" class="neuro viewLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View / देखे</a>
+         <span class="indicator">( * ) Indicates Mandatory</span>
+      </div>
+   </div>
+   <ng-container *ngIf="permissionForAdd== true else emptyTab">
+      <div class="top-space">
+         <div class="search-container">
+            <div class="search-sec">
+               <div class="searchPanel">
+                  <div class="row">
+                     <div class="col-md-2 form-group">
+                        <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष
+                           </label></div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="exampleInputEmail1" class="form-label fw-bold"> {{(academicYear) ? academicYear :
+                              '--'}}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label">District <br>जिला</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label  fw-bold">
+                              {{(districtName) ? districtName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label">Block <br>प्रखण्ड</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">{{(blockName) ? blockName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label">Cluster <br>संकुल</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(clusterName) ? clusterName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label">Village/Ward <br>गांव/कक्ष</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(villageName) ? villageName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">{{(schoolUdiseCode) ? schoolUdiseCode : '--'}} -
+                              {{(schoolName) ? schoolName : '--'}}</label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label">Class</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(className) ? className : '--'}}
+                           </label>
+
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+
+                     <div class="col-md-2 form-group">
+                        <div class=""><label for="" class="form-label">Section </label></div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(sectionName) ? sectionName : '--'}}
+                           </label>
+
+                        </div>
+                     </div>
+
+                  </div>
+                  <div class="row">
+                     <div class="col-md-2 form-group">
+                        <div>
+                           <label for="" class="form-label">Stream <br>धाराएँ</label>
+                        </div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div>
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(streamName) ? streamName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-md-2 form-group">
+                        <div class=""> <label for="" class="form-label">Group <br>धाराएँ</label></div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(groupName) ? groupName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-md-2 form-group">
+                        <div>
+                           <label for="" class="form-label">Checkup Date <br>चेकअप दिनांक </label>
+                        </div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div>
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(checkupDate) ? checkupDate : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-md-2 form-group">
+                        <div>
+                           <label for="" class="form-label">Doctor's Name <br>डॉक्टर का नाम </label>
+                        </div>
+                     </div>
+                     <div class="col-md-3 form-group">
+                        <div>
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                              {{(doctorName) ? doctorName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+      <div class="clearfix"></div>
+      <div>
+         <div class="row mt-3">
+            <div class="col-lg-12">
+               <div class="page__rightarea">
+                  <div class="page__util">
+                  </div>
+               </div>
+               <div class="table-responsive">
+                  <form [formGroup]="healthCheckupEditForm" (ngSubmit)="onSubmit()">
+                     <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                           <tr>
+                              <th scope="col">Student Name / छात्र का नाम</th>
+                              <th scope="col">Student Code / छात्र का कोड</th>
+                              <th scope="col">Chest / छाती</th>
+                              <th scope="col">Dental / दांत</th>
+                              <th scope="col">Throat / गला</th>
+                              <th scope="col">Left Eye / बाईं आँख</th>
+                              <th scope="col">Right Eye / दाईं आंख</th>
+                              <th scope="col">Hemoglobin Level / हीमोग्लोबिन स्तर (Grams per Deciliter)</th>
+                              <th scope="col">Dose of De-Worming / डी-वर्मिंग की खुराक</th>
+                              <th scope="col">Hearing / सुनवाई (In Decibels)</th>
+                              <th scope="col">Chronic Disease / पुरानी बीमारी</th>
+                              <th scope="col">Weight / वजन (In Kg)</th>
+                              <th scope="col">Height / ऊँचाई (In Cm)</th>
+                              <th scope="col">BMI / बीएमआई</th>
+                              <th scope="col">Blood Pressure / ब्लड प्रेशर</th>
+                              <th scope="col">Doctor's Advice / डॉक्टर की सलाह
+                                 <span>(maximum 250 letters)</span>
+                              </th>
+                              <th scope="col">Emergency Contact No. / आपातकालीन संपर्क सं.</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr>
+                              <td>
+                                 <label>{{this.studentName}}</label>
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentName">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentId">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="classId">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="sectionId">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="streamId">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="groupId">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="checkupDate">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="doctorId">
+                              </td>
+                              <td>
+                                 <label>{{this.studentCode}}</label>
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentCode">
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="chest" (keypress)="
+                          customValidators.alphaNumericValidator(
+                            $event,'comma','space','dot','hyphen')" maxlength="10">
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="dental" (keypress)="
+                          customValidators.alphaNumericValidator(
+                            $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="throat" (keypress)="
+                          customValidators.alphaNumericValidator(
+                            $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="leftEye" (keypress)="
+                         customValidators.eyeCheckupParameterValidator(
+                           $event,'dot','hyphen','plus')" maxlength="5"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="rightEye" (keypress)="
+                         customValidators.eyeCheckupParameterValidator(
+                           $event,'dot','hyphen','plus')" maxlength="5"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="hemoglobinLevel" (keypress)="
+                                    customValidators.eyeCheckupParameterValidator(
+                                      $event,'dot','hyphen')" maxlength="9"></td>
+                              <td>
+                                 <select class="form-select" formControlName="doseOfDeworming">
+                                    <option value="">--Select--</option>
+                                    <option value="1">1-Complete (two doses)</option>
+                                    <option value="2">2-Partially (one dose)</option>
+                                    <option value="3">3-Not given</option>
+                                 </select>
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="hearing" (keypress)="
+                                    customValidators.eyeCheckupParameterValidator(
+                                      $event,'hyphen')" maxlength="7"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="chronicDisease" (keypress)="
+                          customValidators.alphaNumericValidator(
+                            $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="weight" (keypress)="customValidators.keyPressNumbers($event)"
+                                    maxlength="3"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="height" (keypress)="customValidators.keyPressNumbers($event)"
+                                    maxlength="3"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="bmi" (keypress)="
+                          customValidators.alphaNumericValidator(
+                            $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="bloodPressure" (keypress)="
+                          customValidators.eyeCheckupParameterValidator(
+                            $event,'slash')" maxlength="7"></td>
+                              <td><textarea id="exampleFormControlTextarea1" rows="3" class="form-control"
+                                    formControlName="doctorAdvice" [maxLength]="250" autocomplete="off"
+                                    (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="emergencyCntNo"
+                                    (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="10"
+                                    autocomplete="off"></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <div>
+                        <button class="btn btn-success me-3">Update / अपडेट करें</button>
+                        <button type="reset" class="btn btn-danger" (click)="formCancel()">Cancel / रद्द करे</button>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </div>
+   </ng-container>
+   <ng-template #emptyTab>
+      <div class="alert alert-info text-center text-uppercase fw-bold" role="alert">
+         {{ "You don't have permission to add kindly contact the administrator..." }}
+      </div>
+   </ng-template>
+</div>

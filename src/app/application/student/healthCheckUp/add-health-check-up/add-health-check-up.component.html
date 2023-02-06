@@ -1,0 +1,395 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <h3 class="pageName">Health Check up / स्वास्थ्य जांच</h3>
+         <div class="tab__section">
+          <a routerLink="./../viewDocterDetails"  class="tablink" *ngIf="this.tabs.includes('Doctor Details')" >Doctor Details / डॉक्टर का विवरण</a>
+          <a routerLink="./../viewHealthCheckUp"  class="tablink active"routerLinkActive="active" *ngIf="this.tabs.includes('Health Check Up')" >Health Check up / स्वास्थ्य जांच</a>
+         </div>
+      </div>
+      <div class="tabArea">
+         <a class="neuro addLink active" *ngIf="adminPrivilege"  ><i class="bi bi-eye me-2"></i>Add / जोड़ें</a>
+         <a routerLink="./../viewHealthCheckUp" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+         <span class="indicator">( * ) Indicates Mandatory</span> 
+      </div>
+   </div>
+
+   <div class="top-space" *ngIf="permissionForAdd== true">
+      <ng-container *ngIf="showFilter">
+         <div class="search-container">
+            <div class="search-sec">
+               <div class="searchPanel">
+                  <form [formGroup]="healthCheckupSearchForm" (ngSubmit)="searchStudent()">
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year<br>शैक्षणिक वर्ष  </label></div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="exampleInputEmail1" class="form-label fw-bold"> {{(academicYear) ?
+                                 academicYear : '--'}}</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">District <br>जिला</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label  fw-bold">
+                                 {{(districtName) ? districtName : '--'}}
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Block<br>प्रखण्ड</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(blockName) ? blockName : '--'}}
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="exampleInputEmail1" class="form-label">Cluster<br>संकुल</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">
+                                 {{(clusterName) ? clusterName : '--'}}
+                              </label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="exampleInputEmail1" class="form-label">Village/Ward<br>गांव/कक्ष</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">
+                                 {{(villageName) ? villageName : '--'}}
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="exampleInputEmail1" class="form-label">School<br>विद्यालय</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(schoolUdiseCode) ? schoolUdiseCode : '--'}} -
+                                 {{(schoolName) ? schoolName : '--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+
+
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Class<br>वर्ग</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" aria-label="Default select example" formControlName="classId"
+                                 (change)="classChange($any($event.target).value)">
+                                 <option selected value="">--Select Class--</option>
+                                 <!-- <option *ngFor="let item of classData" [value]="item.anxtValue">
+                             {{ item.anxtName }}
+                           </option>    -->
+                                 <option *ngFor="let item of classData" [value]="item.classId">
+                                    {{ item.class }}
+                                 </option>
+                              </select>
+                           </div>
+                           <span class="mandatory">*</span>
+                        </div>
+                        <div class="col-lg-1"></div>
+                           <div class="col-lg-2 form-group">
+                              <div class=""><label for="" class="form-label">Section<br>भाग </label></div>
+                           </div>
+                           <div class="col-lg-3 form-group">
+                              <div class="">
+                                 <span class="colon">:</span>
+                                 <select class="form-select" aria-label="Default select example"
+                                    formControlName="sectionId">
+                                    <option selected value="">--Select--</option>
+                                    <option *ngFor="let item of sectionData" [value]="item.anxtValue">
+                                       {{ item.anxtName }}
+                                    </option>
+                                 </select>
+                              </div>
+                           </div>
+                       
+                     </div>
+                     <div class="row">
+                        <ng-container *ngIf="classId == 11 || classId == 12">
+                           <div class="col-lg-2 form-group">
+                              <div>
+                                 <label for="" class="form-label">Stream <br>धाराएँ</label>
+                              </div>
+                           </div>
+                           <div class="col-lg-3 form-group">
+                              <div>
+                                 <span class="colon">:</span>
+                                 <select class="form-select" aria-label="Default select example"
+                                    formControlName="streamId" (change)="streamChange($any($event.target).value)">
+                                    <option selected value="">--Select--</option>
+                                    <option *ngFor="let item of streamData" [value]="item.anxtValue">
+                                       {{ item.anxtName }}
+                                    </option>
+                                 </select>
+                              </div>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </ng-container>
+                        <ng-container *ngIf="streamId == 3 && (classId == 11 || classId == 12)">
+                           <div class="col-lg-1"></div>
+                           <div class="col-lg-2 form-group">
+                              <div class=""> <label for="" class="form-label">Group<br>समूह</label></div>
+                           </div>
+                           <div class="col-lg-3 form-group">
+                              <div class="">
+                                 <span class="colon">:</span>
+                                 <select class="form-select" aria-label="Default select example"
+                                    formControlName="groupId">
+                                    <option selected value="">--Select--</option>
+                                    <option *ngFor="let item of groupData" [value]="item.anxtValue">
+                                       {{ item.anxtName }}
+                                    </option>
+                                 </select>
+                              </div>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </ng-container>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div>
+                              <label for="" class="form-label">Checkup Date <br>चेकअप दिनांक</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div>
+                              <span class="colon">:</span>
+                              <!-- <input type="date" class="form-control" formControlName="checkupDate"
+                                 (blur)="checkupDateValidation();"> -->
+                                 <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                                  [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="orgCheckupDate" readonly>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div>
+                              <label for="" class="form-label">Doctor Name <br>डॉक्टर का नाम</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div>
+                              <span class="colon">:</span>
+                              <select class="form-select" aria-label="Default select example"
+                                 formControlName="doctorId">
+                                 <option selected value="">--Select--</option>
+                                 <option *ngFor="let item of doctorData" [value]="item.doctorDetailsId">
+                                    {{ item.doctorName }}
+                                 </option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class=""><button class="btn btn-default btn-purple"> Search <i
+                                 class="bi bi-search"></i></button></div>
+                     </div>
+
+                  </form>
+               </div>
+            </div>
+         </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+         data-original-title="Click me">Search Panel</button>
+   </div>
+   <div class="clearfix"></div>
+   <div>
+      <ng-container *ngIf="isStudentData === true && emptyResult===false">
+         <form [formGroup]="healthCheckupForm" (ngSubmit)="validateSubmitHealthCheckup()">
+            <input type="hidden" class="form-control" formControlName="checkupDate">
+            <input type="hidden" class="form-control" formControlName="doctorId">
+
+            <div class="row mt-3">
+               <div class="col-lg-12">
+                  <div class="page__rightarea">
+                     <div class="page__util">
+
+                     </div>
+                  </div>
+                  <div class="table-responsive">
+                     <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                           <tr>
+                              <th scope="col">
+                                 
+                              </th>
+                              <th scope="col">#<br></th>
+                              <th scope="col">Student Name<br>/छात्र का नाम</th>
+                              <th scope="col">Student Code<br>/छात्र का कोड</th>
+                              <th scope="col">Chest<br>/ छाती</th>
+                              <th scope="col">Dental<br>/ दांत</th>
+                              <th scope="col">Throat<br>/ गला</th>
+                              <th scope="col">Left Eye<br>/ बाईं आँख</th>
+                              <th scope="col">Right Eye<br>/ दाईं आंख</th>
+                              <th scope="col">Hemoglobin Level<br> / हीमोग्लोबिन स्तर (Grams per Deciliter)</th>
+                              <th scope="col">Dose of De-Worming<br>/ डी-वर्मिंग की खुराक</th>
+                              <th scope="col">Hearing<br>/ सुनवाई (In Decibels)</th>
+                              <th scope="col">Chronic Disease<br>/ पुरानी बीमारी</th>
+                              <th scope="col">Weight<br>/ वजन (In Kg)</th>
+                              <th scope="col">Height<br>/ ऊँचाई (In Cm)</th>
+                              <th scope="col">BMI<br>/ बीएमआई</th>
+                              <th scope="col">Blood Pressure<br>/ ब्लड प्रेशर</th>
+                              <th scope="col">Doctor's Advice<br> / डॉक्टर की सलाह
+                                 <span>(maximum 250 letters)</span>
+                              </th>
+                              <th scope="col">Emergency Contact No.<br>/ आपातकालीन संपर्क सं.</th>
+                           </tr>
+                        </thead>
+                        <tbody formArrayName="studentHealthArray">
+                           <tr *ngFor="let item of studentHealthInfo().controls; index as i" [formGroupName]="i">
+                              <td>
+                                 <div class="checkbox check__box">
+                                    <div class="form-group me-0">
+                                       <label ngClass="{{healthId[i]?'disable':''}}">
+                                          <!-- <input type="checkbox" id="checkAll" class="check"> -->
+                                          <input formControlName="checkItem" type="checkbox" [id]="i" class="check"
+                                             [value]="item?.get('studentId')?.value" [checked]="this.isChecked"
+                                             (change)="onCheckboxChange(i,$event)" [disabled]="healthId[i]">
+                                          <span></span>
+                                       </label>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>{{i+1}}</td>
+                              <td>
+                                 <label>{{item?.get('studentName')?.value}}</label>
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentName">
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentId">
+                              </td>
+                              <td>
+                                 <label>{{item?.get('studentCode')?.value}}</label>
+                                 <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="studentCode">
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="chest" (keypress)="
+                         customValidators.alphaNumericValidator(
+                           $event,'comma','space','dot','hyphen')" maxlength="10">
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="dental" (keypress)="
+                         customValidators.alphaNumericValidator(
+                           $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="throat" (keypress)="
+                         customValidators.alphaNumericValidator(
+                           $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="leftEye" (keypress)="
+                         customValidators.eyeCheckupParameterValidator(
+                           $event,'dot','hyphen','plus')" maxlength="5"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="rightEye" (keypress)="
+                         customValidators.eyeCheckupParameterValidator(
+                           $event,'dot','hyphen','plus')" maxlength="5"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="hemoglobinLevel" ((keypress)="
+                                    customValidators.eyeCheckupParameterValidator(
+                                      $event,'dot','hyphen')" maxlength="9"></td>
+                              <td>
+                                 <select class="form-select" formControlName="doseOfDeworming">
+                                    <option value="">--Select--</option>
+                                    <option value="1">1-Complete (two doses)</option>
+                                    <option value="2">2-Partially (one dose)</option>
+                                    <option value="3">3-Not given</option>
+                                 </select>
+                              </td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="hearing" (keypress)="
+                                    customValidators.eyeCheckupParameterValidator(
+                                      $event,'hyphen')" maxlength="7"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="chronicDisease" (keypress)="
+                         customValidators.alphaNumericValidator(
+                           $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="weight" (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="height" (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="bmi" (keypress)="
+                         customValidators.alphaNumericValidator(
+                           $event,'comma','space','dot','hyphen')" maxlength="10"></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="bloodPressure" (keypress)="
+                                    customValidators.eyeCheckupParameterValidator(
+                                      $event,'slash')" maxlength="7"></td>
+                              <td><textarea id="exampleFormControlTextarea1" rows="3" class="form-control"
+                                    formControlName="doctorAdvice" [maxLength]="250" autocomplete="off"
+                                    (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea></td>
+                              <td><input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="emergencyCntNo"
+                                    (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="10"
+                                    autocomplete="off"></td>
+                           </tr>
+                        </tbody>
+                     </table>
+                     <div>
+                        <button class="btn btn-success mt-3">Submit</button>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </ng-container>
+      <ng-container *ngIf="isStudentData === false && emptyResult===true && permissionForAdd ===true">
+         <div class="alert alert-info text-center  fw-bold" role="alert">
+            {{ "No record found" }}
+         </div>
+      </ng-container>
+      <ng-container *ngIf="isStudentData === false  && emptyResult===false && permissionForAdd ===true">
+         <div class="alert alert-info text-center fw-bold" role="alert">
+            {{ "Please select drop-down lists to view the records." }}
+         </div>
+      </ng-container>
+   </div>
+   <ng-container *ngIf="permissionForAdd ===false">
+      <div class="alert alert-info text-center fw-bold" role="alert">
+         {{ "You don't have permission to add kindly contact the administrator..." }}
+      </div>
+   </ng-container>
+</div>

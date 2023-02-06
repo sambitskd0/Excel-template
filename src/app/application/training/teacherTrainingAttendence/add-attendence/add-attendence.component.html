@@ -1,0 +1,314 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">
+        Add Training Attendance / प्रशिक्षण की उपस्थिति जोड़ें
+      </h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addAttendence" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../viewAttendence" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+    </div>
+  </div>
+
+  <div class="top-space">
+    <div class="search-container">
+      <div class="searchPanel">
+        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+          novalidate>
+          <div class="row">
+            <div class="col-md-2 form-group3">
+              <div>
+                <label for="" class="form-label">Academic Year</label><br />शैक्षणिक वर्ष
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="academicYear"
+                name="academicYear" tabindex="1">
+                <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                  {{ this.years }}
+                </option>
+              </select>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <div>
+                <label class="form-label">Training level</label><br />प्रशिक्षण
+                का स्तर
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="trainingLevel" (change)="checkValid($any($event.target).value)"
+                  name="trainingLevel" id="trainingLevel" aria-label="Default select example" class="form-select">
+                  <!-- <option value="">--Select / चुनें--</option> -->
+                  <option [value]="this.anxtValue">
+                    {{this.anxtName}}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2">
+              <label class="form-label">Training Subject</label><br />प्रशिक्षण
+              का विषय
+            </div>
+            <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="trainingSubject" name="trainingSubject" id="trainingSubject"
+                (change)="getTraininingName($any($event.target).value)" aria-label="Default select example"
+                class="form-select" #Subject>
+                <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let subject of res" [value]="subject.subjectId">
+                  {{ subject.subject }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj?.subjectLoad == true" alt="dsd" />
+            </div>
+            <div class="col-lg-2 form-group">
+              <div>
+                <label class="form-label">Training Name</label><br />प्रशिक्षण
+                का नाम
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="trainingName" name="trainingName"
+                  (change)="getBatchName({trainingId:$any($event.target).value,academicYear:this.academicYear,trainingLevel:this.trainingLevel,subjectId:Subject.value})"
+                  aria-label="Default select example" class="form-select">
+                  <option value="" *ngIf="loadingObj?.traiingLoading == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj?.traiingLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let train of trainingNames" [value]="train.trainingId">
+                    {{ train.trainingName }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+            </div>
+
+          </div>
+          <div class="row" *ngIf="userLevel == 4">
+            <div class="col-lg-2 form-group">
+              <div><label class="form-label">District</label><br />जिला</div>
+            </div>
+
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                  aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                  <option value="" *ngIf="loadingObj.districtLoad == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj.districtLoad == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                    {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+            </div>
+
+          </div>
+
+          <div class="row" *ngIf="userLevel == 3">
+            <div class="col-lg-2 form-group">
+              <div><label class="form-label">District</label><br />जिला</div>
+            </div>
+
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                  aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                  <option value="" *ngIf="loadingObj.districtLoad == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj.districtLoad == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                    {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+            </div>
+            <div class="col-lg-2 form-group">
+              <label class="form-label">Block</label><br />प्रखण्ड
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId" aria-label="Default
+                            select example" #block>
+                <option value="" *ngIf="loadingObj.blockLoad == false">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.blockLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of blockData" [value]="item.blockId">
+                  {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.blockLoad == true" alt="dsd" />
+            </div>
+          </div>
+
+          <div class="row">
+
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Batch Name </label><br />बैच का
+              नाम
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" [(ngModel)]="batchName" name="batchName" aria-label="Default select example">
+                <option value="" *ngIf="loadingObj.batchNameselect == false" selected>
+                  --Select / चुनें--
+                </option>
+
+                <option *ngFor="let bat of batchListss" [value]="bat.id">
+                  {{ bat.batchName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.batchNameLoad == true" alt="dsd" />
+            </div>
+
+            <div class="col-lg-2">
+              <button class="btn btn-default btn-purple">
+                Search / खोजें <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+
+
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="mt-4">
+    <div class="clearfix"></div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+      <div class="col-lg-12">
+        <form [formGroup]="viewTableForm" (ngSubmit)="addAttendence()">
+          <div class="row">
+            <div class="col-md-2 form-group3">
+              <label for="" class="form-label">Training Date</label><br />प्रशिक्षण तिथि
+            </div>
+            <div class="col-md-3 form-group"
+              *ngIf="(this.startDate >= this.latest_date) || (this.startDate <= this.latest_date); else elseBlock">
+              <span class="colon">:</span>
+
+              <label class="mt-2"><b>{{this.latest_date | date: "dd-MMM-yyyy"}}</b></label>
+
+
+            </div>
+            <ng-template #elseBlock><span class="mandatory">No training scheduled for today.</span></ng-template>
+          </div>
+
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+            <table class="table table-bordered">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th scope="col">Sl.No</th>
+                  <th scope="col">Trainee Name / प्रशिक्षु का नाम</th>
+                  <th scope="col">Attendance Status / उपस्थिति की स्थिति</th>
+                </tr>
+              </thead>
+              <tbody formArrayName="attendanceArray">
+                <tr *ngFor="let element of resultListData; index as i" [formGroupName]="i">
+                  <td>{{ i + 1 }}</td>
+                  <td *ngIf="element?.traineeType === 1">{{
+                    element?.teacherName[0].teacherName
+                    ? element?.teacherName[0].teacherName
+                    : "--"
+                    }}
+                  </td>
+                  <td *ngIf="element?.traineeType === 2">{{
+                    element?.teacherName[0].vchfullName
+                    ? element?.teacherName[0].vchfullName
+                    : "--"
+                    }}
+                  </td>
+                  <td>
+                    <!-- <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                    formControlName="tId">
+                    <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                    formControlName="batchId"> -->
+                    <select formControlName="AttStatus" class="form-select" aria-label="Default select example">
+                      <option value="1">Present</option>
+                      <option value="2">Absent</option>
+                    </select>
+
+                    <!-- <select  *ngIf="element?.attendenceStatus != null"   formControlName="status" value="{{element?.attendenceStatus}}"
+                      class="form-select" aria-label="Default select example">
+                    <option value="1" *ngIf="element?.attendenceStatus == 1" selected>Present</option>
+                    <option value="2" *ngIf="element?.attendenceStatus == 2" selected hidden >Absent</option>
+                  </select> -->
+                  </td>
+
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+
+          <div class="col-lg-2">
+            <button class="btn btn-default btn-purple">
+              Submit / जमा करें
+            </button>
+          </div>
+        </form>
+
+        <ng-template #showEmptyAlert> </ng-template>
+      </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-5" role="alert" *ngIf="isInitAdmin">
+      {{ "Please Search to find Training Batch Lists" }}
+    </div>
+  </div>
+</div>

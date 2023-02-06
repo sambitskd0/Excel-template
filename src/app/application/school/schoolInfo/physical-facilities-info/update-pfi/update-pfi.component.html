@@ -1,0 +1,1601 @@
+<div class="tab-pane active step3-content" role="tabpanel" id="step3">
+  <h5 class="text-center mb-3 top-space">Physical Facilities and Equipments / भौतिक सुविधाएं और उपकरण </h5>
+  <form [formGroup]="physicalFacilitiesInfoForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="row">
+          <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+              <label class="form-label"> Status of the school building <br>विद्यालय भवन की स्थिति</label>
+          </div>
+          <input type="hidden" formControlName="encId">
+          <input type="hidden" formControlName="schoolId">
+          <input type="hidden" formControlName="academicYear" class="form-control">
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="schoolBuildingStatus">
+                  <option selected value="">---Select---</option>
+                  <option *ngFor="let item of schoolBuildingStatusData" [value]="item.anxtValue">
+                      {{ item.anxtName }}
+                  </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Type of the school building / विद्यालय भवन का प्रकार</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th rowspan="2" width="250px">Total Number of building blocks of the school /
+                              विद्यालय के सक्रिय भवन खंड की कुल संख्या</th>
+                          <th colspan="6"> Out of the total number of building blocks, number of / भवन खंड की
+                              कुल संख्या में से, की संख्या </th>
+                      </tr>
+                      <tr>
+                          <th>Pucca Building / पक्का भवन</th>
+                          <th>Partially pucca (building with pucca walls and floor without concrete roof) /
+                              आंशिक रूप से पक्का (पक्की दीवारों के साथ भवन और बिना कंक्रीट की छत के फर्श)
+                          </th>
+                          <th>Kuchcha building / कच्चा बिल्डिंग</th>
+                          <th>Tent / तंबू</th>
+                          <th>Dilapidated Building / जर्जर भवन</th>
+                          <th>Building Under Construction / निर्माणाधीन भवन</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                              <input type="text" class="form-control" formControlName="totalNoOfBuilding"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off" readonly>
+                              <!-- <label  formControlName="totalNoOfBuilding">{{totalNoOfBuilding}}</label> -->
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="puccaBuilding"
+                                  #puccaBuilding (keypress)="customValidators.keyPressNumbers($event)"
+                                  maxlength="3" autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="PartiallyPuccaBuilding"
+                                  #PartiallyPuccaBuilding
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="kuchchaBuilding"
+                                  #kuchchaBuilding (keypress)="customValidators.keyPressNumbers($event)"
+                                  maxlength="3" autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="tent" #tent
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="dilapidatedBuliding"
+                                  #dilapidatedBuliding (keypress)="customValidators.keyPressNumbers($event)"
+                                  maxlength="3" autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                          <td><input type="text" class="form-control" #buildingUnderConstruction
+                                  formControlName="buildingUnderConstruction"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"
+                                  (blur)="totalNoOfBuildings(puccaBuilding,PartiallyPuccaBuilding,kuchchaBuilding,tent,dilapidatedBuliding,buildingUnderConstruction)">
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Type of boundary wall <br>चारदीवारी का प्रकार</label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="typeOfBoundaryWall">
+                  <option selected value="">---Select---</option>
+                  <option *ngFor="let item of typeOfBoundaryWallData" [value]="item.anxtValue">
+                      {{ item.anxtName }}
+                  </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Details of classrooms available in the schools (For classes Pre Primary to XII ) / विद्यालयों
+              में उपलब्ध कक्षाओं का विवरण (पूर्व प्राथमिक से बारहवीं कक्षा के लिए)
+          </h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th>No. of Classrooms used for instructional purposes / शिक्षण उद्देश्यों के लिए
+                              उपयोग की जाने वाली कक्षाओं की संख्या </th>
+                          <th>No. of classrooms under construction / निर्माणाधीन कक्षाओं की संख्या</th>
+                          <th>Total Classrooms in dilapidated condition / जर्जर हालत में कुल कक्षाएं</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td><input type="text" class="form-control"
+                                  formControlName="classRoomForInstructional"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off">
+                          </td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="classRoomUnderConstruction"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="classRoomUnderdilapidated"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Out of the Total Classrooms used for instructional purposes, the details by stage/level /
+              निर्देशात्मक उद्देश्यों के लिए उपयोग की जाने वाली कुल कक्षाओं में से, चरण/स्तर के अनुसार विवरण
+          </h5>
+          <div class="row">
+              <ng-container *ngIf="lowestClass<1">
+                  
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Pre-Primary <br> पूर्व प्राथमिक</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="classForPreprimary"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                  </div>
+                  <div class="col-lg-1"></div>
+             
+              </ng-container>
+              <ng-container  *ngIf="highestClass >= 5 && lowestClass <= 1">
+                 
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Primary <br>प्राथमिक</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="classForPrimary"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                  </div>
+                  <div class="col-lg-1"></div>
+            
+              </ng-container>
+              <ng-container  *ngIf="highestClass >= 8 && lowestClass <= 6">
+               
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Upper-Primary <br>ऊपरी प्राथमिक</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="classUpperprimary"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                  </div>
+                  <div class="col-lg-1"></div>
+             
+              </ng-container>
+              <ng-container *ngIf="highestClass >= 10 && lowestClass <= 9">
+                 
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Secondary <br> माध्यमिक</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="classForSecondary"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                      <div class="col-lg-1"></div>
+                  </div>
+                  <div class="col-lg-1"></div>
+              </ng-container>
+              <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                  
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Higher-Secondary <br> उच्च माध्यमिक</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="classHighersecondary"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                  </div>
+                  <div class="col-lg-1"></div>
+             
+              </ng-container>
+            
+              <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Currently Not in Use <br> वर्तमान में उपयोग में नहीं है
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="classCurrentlyNotInUse"
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                  <!-- <span class="mandatory">*</span> -->
+              </div>
+              <div class="col-xxl-1 col-xl-3"></div>
+            
+                  <div class="col-xxl-2 col-xl-6 col-lg-6 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Total Number of Classrooms used for instructional Purposes
+                          <br>शिक्षण उद्देश्यों के लिए उपयोग की जाने वाली कक्षाओं की कुल संख्या
+                      </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input type="text" class="form-control" formControlName="totClassForInstructional"
+                          (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                      <!-- <span class="mandatory">*</span> -->
+                  </div>
+             
+          </div>
+         
+      </div>
+      <div class="formpatch">
+          <h5>Classrooms by condition / शर्त के अनुसार कक्षाएं</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th rowspan="2">Type of Classrooms / कक्षाओं का प्रकार</th>
+                          <th colspan="3">No. Classrooms by condition / सं. शर्त के अनुसार कक्षाएं </th>
+                      </tr>
+                      <tr>
+                          <th>Good condition / अच्छी हालत</th>
+                          <th>Need minor repair / मामूली मरम्मत की जरूरत है</th>
+                          <th>Need major repair / बड़ी मरम्मत की जरूरत है</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Pucca / पक्का भवन </td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="puccaClassGoodCondition"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control" formControlName="puccaClassMinorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control" formControlName="puccaClassMajorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                      </tr>
+                      <tr>
+                          <td>Partially pucca / आंशिक रूप से पक्का</td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="partiallyPuccaClassGoodCondition"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="partiallyPuccaClassMinorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="partiallyPuccaClassMajorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                      </tr>
+                      <tr>
+                          <td>Kuchcha / कच्चा </td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="kuchchaClassGoodCondition"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="kuchchaClassMinorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control"
+                                  formControlName="kuchchaClassMajorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                      </tr>
+                      <tr>
+                          <td>Tent / तंबू </td>
+                          <td><input type="text" class="form-control" formControlName="tentClassGoodCondition"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control" formControlName="tentClassMinorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                          <td><input type="text" class="form-control" formControlName="tentClassMajorRepair"
+                                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                  autocomplete="off"></td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Total number of rooms other than classrooms available in the
+                      school <br> विद्यालय में उपलब्ध कक्षाओं के अलावा अन्य कमरों की कुल संख्या
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="roomOtherThenClass"
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                  <span class="mandatory">*</span>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-6 col-lg-4 col-md-12 col-sm-12  form-group">
+                  <label class="form-label">Does the school have toilet? <br> क्या स्कूल में शौचालय है?
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isSchoolHaveToilet"
+                      (change)="schoolHavetoilet($any($event.target).value)">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+          </div>
+      </div>
+      <!-- <div class="row">
+          <div class="col-md-2 form-group">
+              <label class="form-label">Whether land is available for expansion of school facilities <br>क्या
+                  विद्यालय सुविधाओं के विस्तार के लिए भूमि उपलब्ध है</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="islandExpansionAvil">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-7"></div>
+          <div class="col-md-2 form-group">
+              <label class="form-label">Whether separate room for Head Teacher / Principal available</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isSeparateRoomForPrincipal">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-7"></div>
+          <div class="col-md-2 form-group">
+              <label class="form-label">Does the school have toilet? <br> क्या स्कूल में शौचालय है?</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isSchoolHaveToilet"
+                  (click)="schoolHavetoilet($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div> -->
+      <ng-container *ngIf="isSchoolHaveToilet == 1">
+          <div class="formpatch">
+              <h5>Details of Toilets / शौचालयों का विवरण</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th height="17" rowspan="2">Sl#/ क्रमांक#</th>
+                              <th rowspan="2">Description / विवरण</th>
+                              <th colspan="2"> Boys / लड़के</th>
+                              <th colspan="2">Girls / लड़कियाँ</th>
+                              <th colspan="2">Total / कुल</th>
+                          </tr>
+                          <tr>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>1</td>
+                              <td>Number of toilet seats available excluding CWSN friendly toilets /
+                                  सीडब्ल्यूएसएन अनुकूल शौचालयों को छोड़कर उपलब्ध शौचालय सीटों की संख्या</td>
+                              <td><input type="text" class="form-control" #totalToiletForBoysExcludCwsn
+                                      formControlName="totalToiletForBoysExcludCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfToiletExcludingCWSN(totalToiletForBoysExcludCwsn,totalToiletForGirlsExcludCwsn)"
+                                      (blur)="totalToFunctionalValidation(totalToiletForBoysExcludCwsn,functionalToiletForBoysExcludCwsn)"
+                                      (keyup)="totalToiletIncludingCWSNForBoys(totalToiletForBoysExcludCwsn,totalToiletForBoysOnCwsn,totalToiletForBoysIncludeCwsn,
+                                      totalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalToiletForBoysExcludCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      #functionalToiletForBoysExcludCwsn autocomplete="off"
+                                      (blur)="totalFunctionalToiletExcludingCWSN(functionalToiletForGirlsExcludCwsn,functionalToiletForBoysExcludCwsn,totalToiletForBoysExcludCwsn)"
+                                      (keyup)="functionalToiletIncludingCWSNForBoys(functionalToiletForBoysExcludCwsn,functionalToiletForBoysOnCwsn,functionalToiletForBoysIncludeCwsn,
+                                      functionalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalToiletForGirlsExcludCwsn"
+                                      #totalToiletForGirlsExcludCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfToiletExcludingCWSN(totalToiletForBoysExcludCwsn,totalToiletForGirlsExcludCwsn)"
+                                      (blur)="totalToFunctionalValidation(totalToiletForGirlsExcludCwsn,functionalToiletForGirlsExcludCwsn)"
+                                      (keyup)="totalToiletIncludingCWSNForGirls(totalToiletForGirlsExcludCwsn,totalToiletForGirlsOnCwsn,totalToiletForBoysIncludeCwsn,
+                                      totalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalToiletForGirlsExcludCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      #functionalToiletForGirlsExcludCwsn autocomplete="off"
+                                      (blur)="totalFunctionalToiletExcludingCWSN(functionalToiletForBoysExcludCwsn,functionalToiletForGirlsExcludCwsn,totalToiletForGirlsExcludCwsn)"
+                                      (keyup)="functionalToiletIncludingCWSNForGirls(functionalToiletForGirlsExcludCwsn,functionalToiletForGirlsOnCwsn,functionalToiletForBoysIncludeCwsn,
+                                      functionalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalNoOfToiletExcludCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalFunctionalToiletExcludCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> </td>
+                          </tr>
+                          <tr>
+                              <td>2</td>
+                              <td>Number of CWSN friendly toilet seats / सीडब्ल्यूएसएन अनुकूल शौचालय सीटों की
+                                  संख्या</td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalToiletForBoysOnCwsn" #totalToiletForBoysOnCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfToiletOnCWSN(totalToiletForBoysOnCwsn,totalToiletForGirlsOnCwsn)"
+                                      (blur)="totalToFunctionalValidation(totalToiletForBoysOnCwsn,functionalToiletForBoysOnCwsn)"
+                                      (keyup)="totalToiletIncludingCWSNForBoys(totalToiletForBoysExcludCwsn,totalToiletForBoysOnCwsn,totalToiletForBoysIncludeCwsn,
+                                      totalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control" #functionalToiletForBoysOnCwsn
+                                      formControlName="functionalToiletForBoysOnCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalFunctionalToiletOnCWSN(functionalToiletForGirlsOnCwsn,functionalToiletForBoysOnCwsn,totalToiletForBoysOnCwsn)"
+                                      (keyup)="functionalToiletIncludingCWSNForBoys(functionalToiletForBoysExcludCwsn,functionalToiletForBoysOnCwsn,functionalToiletForBoysIncludeCwsn,
+                                      functionalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalToiletForGirlsOnCwsn" #totalToiletForGirlsOnCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfToiletOnCWSN(totalToiletForBoysOnCwsn,totalToiletForGirlsOnCwsn)"
+                                      (blur)="totalToFunctionalValidation(totalToiletForGirlsOnCwsn,functionalToiletForGirlsOnCwsn)"
+                                      (keyup)="totalToiletIncludingCWSNForGirls(totalToiletForGirlsExcludCwsn,totalToiletForGirlsOnCwsn,totalToiletForBoysIncludeCwsn,
+                                      totalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalToiletForGirlsOnCwsn"
+                                      #functionalToiletForGirlsOnCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalFunctionalToiletOnCWSN(functionalToiletForBoysOnCwsn,functionalToiletForGirlsOnCwsn,totalToiletForGirlsOnCwsn)"
+                                      (keyup)="functionalToiletIncludingCWSNForGirls(functionalToiletForGirlsExcludCwsn,functionalToiletForGirlsOnCwsn,functionalToiletForBoysIncludeCwsn,
+                                      functionalToiletForGirlsIncludeCwsn)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalNoOfToiletOnCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalFunctionalToiletOnCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> </td>
+                          </tr>
+                          <tr>
+                              <td>3</td>
+                              <td>Total number of toilet seats including CWSN friendly toilets / अनुकूल
+                                  शौचालयों सहित शौचालय सीटों की कुल संख्या</td>
+
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalToiletForBoysIncludeCwsn"
+                                      #totalToiletForBoysIncludeCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly></td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalToiletForBoysIncludeCwsn"
+                                      #functionalToiletForBoysIncludeCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly></td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalToiletForGirlsIncludeCwsn"
+                                      #totalToiletForGirlsIncludeCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly></td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalToiletForGirlsIncludeCwsn"
+                                      #functionalToiletForGirlsIncludeCwsn
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly></td>
+                              <td>
+                                <div class="position-relative">
+                                <input type="text" class="form-control"
+                                      formControlName="totalNoOfToiletIncludeCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> 
+                                      <span class="mandatory">*</span>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="position-relative">
+                                <input type="text" class="form-control"
+                                      formControlName="totalFunctionalToiletIncludeCwsn"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly> 
+                                      <span class="mandatory">*</span>
+                                </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <!-- </ng-container> -->
+          <div class="formpatch">
+              <h5>Details of urinals / मूत्रालयों का विवरण</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th rowspan="2">Sl# / क्रमांक#</th>
+                              <th rowspan="2">Description / विवरण</th>
+                              <th colspan="2"> Boys / लड़के</th>
+                              <th colspan="2">Girls / लड़कियाँ</th>
+                              <th colspan="2">Total / कुल</th>
+                          </tr>
+                          <tr>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>1</td>
+                              <td>Total number of Urinals available / उपलब्ध मूत्रालयों की कुल संख्या</td>
+
+                              <td><input type="text" class="form-control" #totalUrinalsForBoys
+                                      formControlName="totalUrinalsForBoys"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfurinals(totalUrinalsForBoys,totalUrinalsForGirls)"
+                                      (blur)="totalToFunctionalValidation(totalUrinalsForBoys,functionalUrinalsForBoys)">
+                              </td>
+                              <td><input type="text" class="form-control" #functionalUrinalsForBoys
+                                      formControlName="functionalUrinalsForBoys"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalFunctionalurinal(functionalUrinalsForGirls,functionalUrinalsForBoys,totalUrinalsForBoys)">
+                              </td>
+                              <td><input type="text" class="form-control" #totalUrinalsForGirls
+                                      formControlName="totalUrinalsForGirls"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (change)="totalNoOfurinals(totalUrinalsForBoys,totalUrinalsForGirls)"
+                                      (blur)="totalToFunctionalValidation(totalUrinalsForGirls,functionalUrinalsForGirls)">
+                              </td>
+                              <td><input type="text" class="form-control" #functionalUrinalsForGirls
+                                      formControlName="functionalUrinalsForGirls"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalFunctionalurinal(functionalUrinalsForBoys,functionalUrinalsForGirls,totalUrinalsForGirls)">
+                              </td>
+                              <td>
+                                <div class="position-relative">
+                                        <input type="text" class="form-control" formControlName="totalNoOfUrinals"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly>
+                                      <span class="mandatory">*</span>
+                                </div>
+                              </td>
+                              <td>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control"
+                                      formControlName="totalFunctionalUrinals"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off" readonly>
+                                      <span class="mandatory">*</span>
+                                </div>
+                            </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Out of the total number of functional toilets, how many have
+                      running water available in the toilet for flushing and cleaning?
+                      <br>कार्यात्मक शौचालयों की कुल संख्या में से कितने शौचालय में फ्लशिंग और सफाई के लिए
+                      बहता पानी उपलब्ध है?</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" placeholder="Boys"
+                      formControlName="watterAvailInFunctionalTiletsForBoys"
+                      #watterAvailInFunctionalTiletsForBoys
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off"
+                      (blur)="noOfWorkingUnitFromFunctionalUnit(functionalToiletForBoysIncludeCwsn,watterAvailInFunctionalTiletsForBoys,1)">
+              </div>
+              <div class="col-lg-3 form-group">
+                  <input type="text" class="form-control" placeholder="Girls"
+                      formControlName="watterAvailInFunctionalTiletsForGirls"
+                      #watterAvailInFunctionalTiletsForGirls
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off"
+                      (blur)="noOfWorkingUnitFromFunctionalUnit(functionalToiletForGirlsIncludeCwsn,watterAvailInFunctionalTiletsForGirls,2)">
+              </div>
+              <div class="col-xxl-2"></div>
+              <div class="col-xxl-4 col-xl-6 col-lg-6 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Out of the total number of functional urinals, how many have
+                      running water available in the urinal for flushing and cleaning? <br>कार्यात्मक
+                      मूत्रालयों की कुल संख्या में से कितने में निस्तब्धता और सफाई के लिए मूत्रालय में बहता
+                      पानी उपलब्ध है?</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" placeholder="Boys"
+                      formControlName="watterAvailInFunctionalUrinalsForBoys"
+                      #watterAvailInFunctionalUrinalsForBoys
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off"
+                      (blur)="noOfWorkingUnitFromFunctionalUnit(functionalUrinalsForBoys,watterAvailInFunctionalUrinalsForBoys,3)">
+              </div>
+              <div class="col-lg-3 form-group">
+                  <input type="text" class="form-control" placeholder="Girls"
+                      formControlName="watterAvailInFunctionalUrinalsForGirls"
+                      #watterAvailInFunctionalUrinalsForGirls
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off"
+                      (blur)="noOfWorkingUnitFromFunctionalUnit(functionalUrinalsForGirls,watterAvailInFunctionalUrinalsForGirls,4)">
+              </div>
+          </div>
+          <div class="alert alert-danger" role="alert">
+              Note: ♦ Definition of functional toilet: water available in the toilet, minimal odor (no foul
+              smell),
+              unbroken seat, regularly cleaned,dry, with working drainage system, accessible to users,
+              closable door
+              <br>नोट: ♦ कार्यात्मक शौचालय की परिभाषा: शौचालय में उपलब्ध पानी, न्यूनतम गंध (कोई दुर्गंध नहीं),
+              अखंड सीट, नियमित रूप से साफ, सूखा, काम करने वाली जल निकासी प्रणाली के साथ, उपयोगकर्ताओं के लिए
+              सुलभ, बंद दरवाजा
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Is hand washing facility with soap available near toilets/urinals
+                      block?
+                      <br>क्या शौचालय/मूत्रालय खंड के पास साबुन से हाथ धोने की सुविधा उपलब्ध है?
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isHandWashingAvailAtToilet">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-xxl-5"> </div>
+              <div class="col-xxl-4 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Whether incinerator is available in/ attached to girls toilet?
+                      <br>क्या भस्मक लड़कियों के शौचालय में / संलग्न उपलब्ध है?
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isIncineratorAvail">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                      <option value="3">Yes, but not functional</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-xxl-5"> </div>
+          </div>
+      </ng-container>
+      <div class="row">
+          <div class="col-xxl-4 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether drinking water is available in the school premises? <br>क्या
+                  विद्यालय परिसर में पीने का पानी उपलब्ध है?</label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isDrinkingWaterAvail"
+                  (change)="drinkingWaterAvail($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <ng-container *ngIf="isDrinkingWaterAvail==1">
+              <label class="col-md-12 form-label mb-1">(b) Main Source of Drinking Water <br>पीने के पानी का
+                  मुख्य स्रोत
+              </label>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <!-- <th>Main Source of drinking water</th>
+                              <th>No. of Units</th>
+                              <th>No. of Functional Units</th> -->
+                              <th>Source / स्रोत
+                              </th>
+                              <th>Availability (1-Yes, 2-No) / उपलब्धता (1-हाँ, 2-नहीं)
+                              </th>
+                              <th>Functional (1-Yes, 2-No) / कार्यात्मक (1-हाँ, 2-नहीं)
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <!-- <td>Hand Pumps</td>
+                              <td><input type="text" class="form-control" formControlName="totalHandPumpAvail"
+                                      #totalHandPumpAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalHandPumpAvail,functionalHandPumpAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalHandPumpAvail" #functionalHandPumpAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalHandPumpAvail,functionalHandPumpAvail)">
+                              </td> -->
+                              <td>Hand Pumps / हैंडपंप
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isHandPumpAvail"
+                                      (change)="handPumpAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isHandPumpAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select" formControlName="isHandPumpFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Protected Well / अच्छी तरह से संरक्षित
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isProtectedWellAvail"
+                                      (change)="protectedWellAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isProtectedWellAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select" formControlName="isProtectedWellFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                              <!-- <td>Protected Well</td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalProtectedWellAvail" #totalProtectedWellAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalProtectedWellAvail,functionalProtectedWellAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalProtectedWellAvail"
+                                      #functionalProtectedWellAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalProtectedWellAvail,functionalProtectedWellAvail)">
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>Unprotected Well / असुरक्षित कुएं
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isUnProtectedWellAvail"
+                                      (change)="unprotectedWellAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isUnProtectedWellAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select"
+                                          formControlName="isUnProtectedWellFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                              <!-- <td>Unprotected Well</td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalUnProtectedWellAvail" #totalUnProtectedWellAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalUnProtectedWellAvail,functionalUnProtectedWellAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalUnProtectedWellAvail"
+                                      #functionalUnProtectedWellAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalUnProtectedWellAvail,functionalUnProtectedWellAvail)">
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>Tap water / नल का पानी
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isTapWaterAvail"
+                                      (change)="tapWaterAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isTapWaterAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select" formControlName="isTapWaterFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                              <!-- <td>Tap water</td>
+                              <td><input type="text" class="form-control" formControlName="totalTapWaterAvail"
+                                      #totalTapWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalTapWaterAvail,functionalTapWaterAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalTapWaterAvail" #functionalTapWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalTapWaterAvail,functionalTapWaterAvail)">
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>Packaged/Bottled Water / बोतलबंद पानी
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isBottledWaterAvail"
+                                      (change)="bottleWaterAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isBottledWaterAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select" formControlName="isBottledWaterFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                              <!-- <td>Packaged/Bottled Water</td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalBottledWaterAvail" #totalBottledWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalBottledWaterAvail,functionalBottledWaterAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalBottledWaterAvail"
+                                      #functionalBottledWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalBottledWaterAvail,functionalBottledWaterAvail)">
+                              </td> -->
+                          </tr>
+                          <tr>
+                              <td>Others / अन्य
+                              </td>
+                              <td>
+                                  <select class="form-select" formControlName="isOtherWaterAvail"
+                                      (change)="otherWaterAvail($any($event.target).value)">
+                                      <option value="">--Select--</option>
+                                      <option value="1">Yes</option>
+                                      <option value="2">No</option>
+                                  </select>
+                              </td>
+                              <ng-container *ngIf="isOtherWaterAvail == 1 else emptyTab">
+                                  <td>
+                                      <select class="form-select" formControlName="isOtherWaterFunctional">
+                                          <option value="">--Select--</option>
+                                          <option value="1">Yes</option>
+                                          <option value="2">No</option>
+                                      </select>
+                                  </td>
+                              </ng-container>
+                              <!-- <td>Others</td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="totalotherWaterAvail" #totalotherWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalotherWaterAvail,functionalotherWaterAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalotherWaterAvail" #functionalotherWaterAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalotherWaterAvail,functionalotherWaterAvail)">
+                              </td> -->
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </ng-container>
+          <div class="clearfix">
+          </div>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether water purifier/RO is available in the school? <br>क्या
+                  विद्यालय में वाटर जल शोधक उपलब्ध है?</label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isPurifierAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                  <option value="3">Yes, but not functional</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether water quality is tested from water testing lab? <br>क्या वाटर
+                  टेस्टिंग लैब से पानी की गुणवत्ता की जांच की जाती है? </label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isWaterQualityTested">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Does the school have provision for rain water harvesting?</label>
+              <br>क्या विद्यालय में वर्षा जल संचयन की व्यवस्था है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isRainWaterHarvestingAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                  <option value="3">Yes, but not functional</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether hand washing facility with soap available for washing hands
+                  before and
+                  after meal?</label>
+              <br>क्या भोजन से पहले और बाद में हाथ धोने के लिए साबुन से हाथ धोने की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isHandWashingAvail"
+                  (change)="handWashingAvail($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <ng-container *ngIf="isHandWashingAvail == 1">
+              <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If Yes, Number of wash points</label>
+                  <br>यदि हाँ, तो धुलाई बिंदु की संख्या
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="noOfWashPoints"
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether electricity connection is available in the school?</label>
+              <br>क्या विद्यालय में बिजली कनेक्शन उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isElectricityAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                  <option value="3">Yes, but not functional</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether solar panel is available in school ?</label>
+              <br>क्या विद्यालय में सौर पैनल उपलब्ध है ?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isSolarPanelAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+                  <option value="3">Yes, but not functional</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Whether the school have Library facility/Book Bank/Reading Corner? / क्या विद्यालय में पुस्तकालय
+              की सुविधा/बुक बैंक/पढ़ने का कोना है ?</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th></th>
+                          <th>Available / उपलब्ध </th>
+                          <th>Total numbers of books / पुस्तकों की कुल संख्या </th>
+                          <th>Total number of books from NCERT,NBT or any other Government publisher /
+                              <br>एनसीईआरटी, एनबीटी या किसी अन्य सरकारी प्रकाशक से पुस्तकों की कुल संख्या
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Library / पुस्तकालय </td>
+                          <td>
+                              <select class="form-select" formControlName="isLibraryAvail"
+                                  (change)="libraryAvail($any($event.target).value)">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes </option>
+                                  <option value="2">No </option>
+
+                              </select>
+                          </td>
+                          <ng-container *ngIf="isLibraryAvail == 1 else emptyTab">
+                              <td>
+                                  <div class="position-relative">
+                                  <input type="text" class="form-control" formControlName="totalBookInLibrary"
+                                      #totalBookInLibrary
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10"
+                                      autocomplete="off"
+                                      (blur)="totalBooksValidation(totalBookInLibrary,bookFromGovtPublisherInLibrary)">
+                                       <span class="mandatory">*</span>
+                                       </div>
+                              </td>
+                              <td>
+                                  <div class="position-relative">
+                                  <input type="text" class="form-control"
+                                      formControlName="bookFromGovtPublisherInLibrary"
+                                      #bookFromGovtPublisherInLibrary
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10"
+                                      autocomplete="off"
+                                      (blur)="totalBooksValidation(totalBookInLibrary,bookFromGovtPublisherInLibrary)">
+                                       <!-- <span class="mandatory">*</span> -->
+                                       </div>
+                              </td>
+                          </ng-container>
+                      </tr>
+                      <tr>
+                          <td>Book Bank / बुक बैंक</td>
+                          <td>
+                              <select class="form-select" formControlName="isBookBankAvail"
+                                  (change)="bookBankAvail($any($event.target).value)">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes </option>
+                                  <option value="2">No </option>
+                              </select>
+                          </td>
+                          <ng-container *ngIf="isBookBankAvail == 1 else emptyTab">
+                              <td>
+                                  <div class="position-relative">
+                                  <input type="text" class="form-control"
+                                      formControlName="totalBookInBookBank" #totalBookInBookBank
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10"
+                                      autocomplete="off"
+                                      (blur)="totalBooksValidation(totalBookInBookBank,bookFromGovtPublisherInBookbank)">
+                                       <span class="mandatory">*</span>
+                                       </div>
+                              </td>
+                              <td>
+                                  <div class="position-relative">
+                                  <input type="text" class="form-control"
+                                      formControlName="bookFromGovtPublisherInBookbank"
+                                      #bookFromGovtPublisherInBookbank
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10"
+                                      autocomplete="off"
+                                      (blur)="totalBooksValidation(totalBookInBookBank,bookFromGovtPublisherInBookbank)">
+                                       <!-- <span class="mandatory">*</span> -->
+                                       </div>
+                              </td>
+                          </ng-container>
+                      </tr>
+                      <tr>
+                          <td>Reading Corner / पढ़ने का कोना</td>
+                          <td>
+                              <select class="form-select" formControlName="isReadingCornerAvail"
+                                  (change)="readingCornerAvail($any($event.target).value)">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes </option>
+                                  <option value="2">No </option>
+                              </select>
+                          </td>
+                          <ng-container *ngIf="isReadingCornerAvail == 1 else emptyTab">
+                              <td>
+                                  <div class="position-relative">
+                                  <!-- <ng-container *ngIf="isReadingCornerAvail == 1 "> -->
+                                  <input type="text" class="form-control"
+                                      formControlName="totalBookInReadingCorner"
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10"
+                                      autocomplete="off">
+                                       <span class="mandatory">*</span>
+                                       </div>
+
+                                  <!-- </ng-container> -->
+                              </td>
+                              <td></td>
+                          </ng-container>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Does the school have a full-time librarian?</label>
+              <br>क्या विद्यालय में पूर्णकालिक पुस्तकालयाध्यक्ष है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isLibrarianAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Does the school subscribe to newspapers/magazines?</label>
+              <br>क्या विद्यालय समाचार पत्रों/पत्रिकाओं की सदस्यता लेता है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isNewspaperAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether land is available for expansion of school facilities <br>क्या
+                  विद्यालय सुविधाओं के विस्तार के लिए भूमि उपलब्ध है</label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="islandExpansionAvil">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether Playground facility is available?</label>
+              <br>क्या खेल के मैदान की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isPlaygroundAvail"
+                  (change)="playGroundAvail($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="clearfix"></div>
+          <ng-container *ngIf="isPlaygroundAvail == 2 ">
+              <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If No, Whether school has made adequate arrangements for children
+                      to play
+                      outdoor games and other physical activities in an adjoining playground/municipal park
+                      etc.</label>
+                  <br>यदि नहीं, तो क्या विद्यालय ने बच्चों के लिए खेल के मैदान/नगरपालिका पार्क आदि में बाहरी
+                  खेल और अन्य शारीरिक गतिविधियों के लिए पर्याप्त व्यवस्था की है।
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isAdjoiningPlaygroundAvail">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+          <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether Medical check-up of students was conducted in last academic
+                  year</label>
+              <br>क्या पिछले शैक्षणिक वर्ष में छात्रों का मेडिकल चेक-अप किया गया था?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isMedicalCheckupConducted"
+                  (change)="medicakCheckup($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <ng-container *ngIf="isMedicalCheckupConducted == 1 ">
+              <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If Yes, Total number of Medical check-ups conducted in the school
+                      during last
+                      academic year</label>
+                  <br>यदि हां, तो पिछले शैक्षणिक वर्ष के दौरान स्कूल में आयोजित चिकित्सा जांच की कुल संख्या
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="noOfMedicalCheckupConducted"
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off">
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+      </div>
+      <div class="row">
+          <label class="col-md-12 form-label mb-2">Health check-up parameters carried out / स्वास्थ्य जांच के
+              मापदंड पूरे किए गए :</label>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th>Height / कद</th>
+                          <th>Weight / वज़न</th>
+                          <th>Eyes / आँखें</th>
+                          <th>Dental / चिकित्सकीय</th>
+                          <th>Throat / गला</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                              <select class="form-select" formControlName="isHeightParameterAvail">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                              </select>
+                          </td>
+                          <td>
+                              <select class="form-select" formControlName="isWeightParameterAvail">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                              </select>
+                          </td>
+                          <td>
+                              <select class="form-select" formControlName="isEyesParameterAvail">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                              </select>
+                          </td>
+                          <td>
+                              <select class="form-select" formControlName="isDentalParameterAvail">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                              </select>
+                          </td>
+                          <td>
+                              <select class="form-select" formControlName="isThroatParameterAvail">
+                                  <option value="">--Select--</option>
+                                  <option value="1">Yes</option>
+                                  <option value="2">No</option>
+                              </select>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">De-worming tablets given to children?</label>
+              <br>बच्चों को दी कृमिनाशक गोली ?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isDewormingTabletGiven">
+                  <option value="">--Select--</option>
+                  <option value="1">Complete (two doses) </option>
+                  <option value="2">Partially (one dose) </option>
+                  <option value="3">Not given</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether school maintains Annual health records?</label>
+              <br>क्या विद्यालय वार्षिक स्वास्थ्य रिकॉर्ड रखता है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isAnnualHealthRecordMaintained">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes </option>
+                  <option value="2">No </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Is thermal scanner available in the school?</label>
+              <br>क्या विद्यालय में तापीय स्कैनर उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isTharmalScannerAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes </option>
+                  <option value="2">No </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Is First Aid facility available?</label>
+              <br>क्या प्राथमिक उपचार की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isFirstAidKitAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes </option>
+                  <option value="2">No </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Is life saving/essential medicines available?</label>
+              <br>क्या जीवन रक्षक/आवश्यक दवाएं उपलब्ध हैं?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isLifeSavingMedicineAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes </option>
+                  <option value="2">No </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Iron and Folic acid tablets given to children as per guidelines of
+                  WCD</label>
+              <br>डब्ल्यूसीडी के दिशा-निर्देशों के अनुसार बच्चों को दी गई आयरन और फोलिक एसिड की गोलियां
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isIronAndFolicTabletsGiven">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether ramp for disabled children to access school building exists
+                  ?</label>
+              <br>क्या विकलांग बच्चों के लिए विद्यालय भवन तक पहुँचने के लिए रैंप मौजूद है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isRampAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether Hand-rails for ramp is available ?</label>
+              <br>क्या रैंप के लिए हैंड-रेल उपलब्ध हैं?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isHandRailsForRampAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether School has special educator ?</label>
+              <br>क्या विद्यालय में विशेष शिक्षक है ?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isSpecialEducatorAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Dedicated </option>
+                  <option value="2">At cluster level </option>
+                  <option value="3">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether Kitchen Garden is available in school?</label>
+              <br>क्या विद्यालय में शाक वाटिका उपलब्ध है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isKitchenGardenAvail">
+                  <option value="">--Select--</option>
+                  <option value="1">Yes</option>
+                  <option value="2">No</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Does the school have dustbins for collection of waste? / क्या विद्यालय में कूड़ा उठाने के लिए
+              कूड़ेदान हैं?</h5>
+          <div class="row">
+              <div class="col-lg-2 form-group">
+                  <label class="form-label">Each Class Room</label>
+                  <br>प्रत्येक कक्षा कक्ष
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isEachClassRoomDustbinAvail">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes and all</option>
+                      <option value="2">No</option>
+                      <option value="3">Yes but some</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                  <label class="form-label">Toilet</label>
+                  <br>शौचालय
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isToiletDustbinAvail">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+              <div class="col-lg-2 form-group">
+                  <label class="form-label">Kitchen</label>
+                  <br>रसोईघर
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="isKitchenDustbinAvail">
+                      <option value="">--Select--</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-5"> </div>
+      <div class="row">
+          <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Does the school have furniture for students?</label>
+              <br>क्या विद्यालय में छात्रों के लिए फर्नीचर है?
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="isFurnitureAvail"
+                  (change)="furnitureAvail($any($event.target).value)">
+                  <option value="">--Select--</option>
+                  <option value="1">1-Yes for all </option>
+                  <option value="2">2-Partial </option>
+                  <option value="3">3-No Furniture Available</option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+      </div>
+      <ng-container *ngIf="isFurnitureAvail == 1 || isFurnitureAvail == 2">
+          <div class="row">
+              <div class="col-xxl-4 col-xl-7 col-lg-6 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If 1-Yes for all or 2-Partial then, No. of students for whom
+                      furniture is
+                      available ?</label>
+                  <br>यदि सभी के लिए 1-हां या 2-आंशिक तो, उन छात्रों की संख्या जिनके लिए फर्नीचर उपलब्ध है?
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="noOfFurnitureAvail"
+                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="10" autocomplete="off">
+                  <span class="mandatory">*</span>
+              </div>
+          </div>
+      </ng-container>
+      <div>
+        <button type="button" (click)="pageChangeWarningHandler('./../../otherInfo/')" class="btn btn-purple me-2">
+            Previous / पिछला
+          </button>
+          <!-- <a routerLink="./../../otherInfo/{{encId}}" class="btn btn-purple me-2">Previous / पिछला</a> -->
+          <button class="btn btn-success me-2" *ngIf="draftStatus === 1">Save as Draft / प्रारूप के रूप में
+              सहेजें</button>
+          <button class="btn btn-success me-2" *ngIf="draftStatus == 2">Update / अपडेट करें</button>
+          <button class="btn btn-danger me-2" type="reset" *ngIf=" draftStatus === 1">Reset
+              /पुनर्स्थापित</button>
+          <!-- <a routerLink="../../physicalequipmentinfo/{{encId}}" class="btn btn-purple">Next / अगला</a> -->
+          <button type="button" (click)="pageChangeWarningHandler('../../physicalequipmentinfo/')" class="btn btn-purple me-2">
+            Next / अगला
+          </button>
+
+      </div>
+  </form>
+</div>
+
+<ng-template #emptyTab>
+  <td></td>
+  <td></td>
+</ng-template>

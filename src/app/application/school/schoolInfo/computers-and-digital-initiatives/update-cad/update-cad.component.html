@@ -1,0 +1,933 @@
+<div class="tab-content" id="main_form">
+
+    <div class="tab-pane active step5-content" role="tabpanel" id="step5">
+        <h5 class="text-center mb-4 top-space">Computers and Digital Initiatives / कंप्यूटर और डिजिटल पहल </h5>
+        <form [formGroup]="CADForm">
+            <input type="hidden" formControlName="encId">
+            <input type="hidden" formControlName="academicYear" class="form-control">
+            <div class="formpatch">
+                <div class="row">
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Is CAL Lab available in the school ? <br> क्या CAL लैब विद्यालय में
+                            उपलब्ध है?
+                        </label>
+                    </div>
+
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="isCALLab" class="form-select">
+                            <option value="">--Select--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+
+                    <div class="col-xxl-1"></div>
+
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Is ICT Lab available in the school ? <br>क्या आईसीटी लैब विद्यालय में
+                            उपलब्ध है?</label>
+                    </div>
+
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="isICTLab" class="form-select">
+                            <option value="">--Select--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                    <div class="col-xxl-1"></div>
+
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Year of implementation <br> कार्यान्वयन का वर्ष
+                        </label>
+                    </div>
+
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" formControlName="ICTLabYear"
+                            (keypress)="customValidators.keyPressNumbers($event)" maxlength="4" class="form-control">
+                        <span class="mandatory">*</span>
+
+                    </div>
+                    <div class="col-xxl-1"></div>
+
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Whether the ICT Lab is functional or not</label>
+                        <br> आईसीटी लैब क्रियाशील है या नहीं
+                    </div>
+
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="isICTLabFunc" class="form-select">
+                            <option value="">--Select--</option>
+                            <option value="1">Yes</option>
+                            <option value="2">No</option>
+                        </select>
+                        <span class="mandatory">*</span>
+
+                    </div>
+                    <div class="col-xxl-1"></div>
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Which model is implemented in the school</label>
+                        <br> विद्यालय में कौन सा मॉडल लागू है
+
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="model" class="form-select">
+                            <option value="" *ngIf="labModelChanged==false"> --- Select ---</option>
+                            <option value="" *ngIf="labModelChanged==true">Loading...</option>
+                            <option *ngFor="let item of labModelData" [value]="item.anxtValue">{{ item.anxtValue }} - {{
+                                item.anxtName }}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                    <div class="col-xxl-1"></div>
+                    <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                        <label class="form-label">Type of the ICT Instructor in the school</label>
+                        <br> विद्यालय में आईसीटी प्रशिक्षक का प्रकार
+                    </div>
+
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="ICTInstructorType" class="form-select">
+                            <option value="" *ngIf="ITCInstructorTypeChanged==false"> --- Select ---</option>
+                            <option value="" *ngIf="ITCInstructorTypeChanged==true">Loading...</option>
+                            <option *ngFor="let item of ITCInstructorTypeData" [value]="item.anxtValue">{{
+                                item.anxtValue }} - {{ item.anxtName }}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="formpatch">
+                <h5>Does the school have the following / क्या विद्यालय में निम्नलिखित हैं</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th width="40%">Items / सामान</th>
+                                <th width="20%">Available / उपलब्ध</th>
+                                <th width="20%">Total No. of Units / <br>इकाइयों की कुल संख्या</th>
+                                <th width="20%">No. of Functional Units / <br>कार्यात्मक इकाइयों की संख्या</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Desktop/PCs / डेस्कटॉप / पीसी </td>
+                                <td>
+                                    <div class="position-relative">
+                                        <select formControlName="isDesktop" class="form-select"
+                                            (change)="isDesktopRdControl($event)">
+                                            <option value="">--Select--</option>
+                                            <option value="1">Yes</option>
+                                            <option value="2">No</option>
+                                        </select>
+                                        <span class="mandatory">*</span>
+                                    </div>
+                                </td>
+                                <ng-container *ngIf="isDesktop==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totDesktop" type="text" class="form-control" #totDesktop
+                                            (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                            (blur)="totVsFunCheck(totDesktop,totFnDesktop,1)">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnDesktop" type="text" class="form-control"
+                                            #totFnDesktop (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3" (change)="totVsFunCheck(totDesktop,totFnDesktop,2)">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td> Laptop/Notebook / लैपटॉप / नोटबुक</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <!-- <select formControlName="isLaptop" class="form-select" #refTest (change)="setControl(refTest)" [attr.data-formcontrol]="'isLaptop'"> -->
+                                    <select formControlName="isLaptop" class="form-select"
+                                        (change)="isLaptopRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isLaptop==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totLaptop" #totLaptop
+                                            (blur)="totVsFunCheck(totLaptop,totFnLaptop,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnLaptop" #totFnLaptop
+                                            (blur)="totVsFunCheck(totLaptop,totFnLaptop,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Tablets / टैबलेट</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isTablets" class="form-select"
+                                        (change)="isTabletsRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isTablets==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totTablets" #totTablets
+                                            (blur)="totVsFunCheck(totTablets,totFnTablets,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnTablets" #totFnTablets
+                                            (blur)="totVsFunCheck(totTablets,totFnTablets,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>PCs with Integrated Teaching Learning Devices / एकीकृत शिक्षण सीखने के उपकरणों के
+                                    साथ पीसी</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isPCIntegrated" class="form-select"
+                                        (change)="isPCIntegratedRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isPCIntegrated==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totPCIntegrated" #totPCIntegrated
+                                            (blur)="totVsFunCheck(totPCIntegrated,totFnPCIntegrated,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnPCIntegrated" #totFnPCIntegrated
+                                            (blur)="totVsFunCheck(totPCIntegrated,totFnPCIntegrated,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Digital Boards with Content Management Systems and solutions (CMS)/ Learning
+                                    Management System / Learning Management System / सामग्री प्रबंधन प्रणाली और समाधान
+                                    (सीएमएस) / अधिगम प्रबंधन प्रणाली के साथ डिजिटल बोर्ड</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isDigBoard" class="form-select"
+                                        (change)="isDigBoardRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isDigBoard==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totDigBoard" #totDigBoard
+                                            (blur)="totVsFunCheck(totDigBoard,totFnDigBoard,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnDigBoard" #totFnDigBoard
+                                            (blur)="totVsFunCheck(totDigBoard,totFnDigBoard,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Projector / प्रक्षेपक</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isProjector" class="form-select"
+                                        (change)="isProjectorRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isProjector==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totProjector" #totProjector
+                                            (blur)="totVsFunCheck(totProjector,totFnProjector,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnProjector" #totFnProjector
+                                            (blur)="totVsFunCheck(totProjector,totFnProjector,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Printer / मुद्रक</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isPrinter" class="form-select"
+                                        (change)="isPrinterRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isPrinter==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totPrinter" #totPrinter
+                                            (blur)="totVsFunCheck(totPrinter,totFnPrinter,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+
+                                        <input formControlName="totFnPrinter" #totFnPrinter
+                                            (blur)="totVsFunCheck(totPrinter,totFnPrinter,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Scanner / चित्रान्वीक्षक</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isScanner" class="form-select"
+                                        (change)="isScannerRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isScanner==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totScanner" #totScanner
+                                            (blur)="totVsFunCheck(totScanner,totFnScanner,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnScanner" #totFnScanner
+                                            (blur)="totVsFunCheck(totScanner,totFnScanner,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Server / सर्वर</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isServer" class="form-select"
+                                        (change)="isServerRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isServer==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totServer" #totServer
+                                            (blur)="totVsFunCheck(totServer,totFnServer,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnServer" #totFnServer
+                                            (blur)="totVsFunCheck(totServer,totFnServer,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Web Camera / वेब कैमरा</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isWebCamera" class="form-select"
+                                        (change)="isWebCameraRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isWebCamera==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totWebCamera" #totWebCamera
+                                            (blur)="totVsFunCheck(totWebCamera,totFnWebCamera,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnWebCamera" #totFnWebCamera
+                                            (blur)="totVsFunCheck(totWebCamera,totFnWebCamera,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Smart TV / स्मार्ट टीवी </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isSmartTV" class="form-select"
+                                        (change)="isSmartTVRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isSmartTV==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totSmartTV" #totSmartTV
+                                            (blur)="totVsFunCheck(totSmartTV,totFnSmartTV,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnSmartTV" #totFnSmartTV
+                                            (blur)="totVsFunCheck(totSmartTV,totFnSmartTV,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Smart Class rooms used for teaching with digital boards/ smart
+                                    boards/ virtual classrooms/ smart TV / डिजिटल बोर्ड/स्मार्ट बोर्ड/वर्चुअल
+                                    क्लासरूम/स्मार्ट टीवी के साथ शिक्षण के लिए उपयोग किए जाने वाले स्मार्ट क्लास रूम
+                                </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isSmartClsRoom" class="form-select"
+                                        (change)="isSmartClsRoomRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isSmartClsRoom==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totSmartClsRoom" #totSmartClsRoom
+                                            (blur)="totVsFunCheck(totSmartClsRoom,totFnSmartClsRoom,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnSmartClsRoom" #totFnSmartClsRoom
+                                            (blur)="totVsFunCheck(totSmartClsRoom,totFnSmartClsRoom,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Mobile phone used for teaching / पढ़ाने के लिए इस्तेमाल किया जाने वाला मोबाइल फोन
+                                </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isMobileUsed" class="form-select"
+                                        (change)="isMobileUsedRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isMobileUsed==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totMobileUsed" #totMobileUsed
+                                            (blur)="totVsFunCheck(totMobileUsed,totFnMobileUsed,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnMobileUsed" #totFnMobileUsed
+                                            (blur)="totVsFunCheck(totMobileUsed,totFnMobileUsed,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Radio used for teaching / पढ़ाने के लिए इस्तेमाल किया जाने वाला रेडियो</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isRadioUsed" class="form-select"
+                                        (change)="isRadioUsedRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+
+                                </td>
+                                <ng-container *ngIf="isRadioUsed==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totRadioUsed" #totRadioUsed
+                                            (blur)="totVsFunCheck(totRadioUsed,totFnRadioUsed,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnRadioUsed" #totFnRadioUsed
+                                            (blur)="totVsFunCheck(totRadioUsed,totFnRadioUsed,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Generator/Invertors/Power Backup/Big UPS / जेनरेटर/इनवर्टर/पावर बैकअप/बिग यूपीएस
+                                </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isGenerator" class="form-select"
+                                        (change)="isGeneratorRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+                                </td>
+                                <ng-container *ngIf="isGenerator==1; else emptyTD">
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totGenerator" #totGenerator
+                                            (blur)="totVsFunCheck(totGenerator,totFnGenerator,1)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                    <td>
+                                        <div class="position-relative">
+                                        <input formControlName="totFnGenerator" #totFnGenerator
+                                            (blur)="totVsFunCheck(totGenerator,totFnGenerator,2)" type="text"
+                                            class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                                            maxlength="3">
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </td>
+                                </ng-container>
+                            </tr>
+                            <tr>
+                                <td>Internet facility / इंटरनेट सुविधा</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isInternetFacility" class="form-select"
+                                        (change)="isInternetFacilityRdControl($event)">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+                                </td>
+                                <td>
+                                    <ng-container *ngIf="isInternetFacility==1">
+                                        <div class="position-relative">
+                                        <select formControlName="internetConnectivty" class="form-select">
+                                            <option value="">--Select--</option>
+                                            <option value="1">1-Broadband/Leased Line</option>
+                                            <option value="2">2-USB Modem/dongle/Portable Hotspot</option>
+                                            <option value="3">3-Telephone line with modem</option>
+                                            <option value="4">4-Mobile phone Internet</option>
+                                            <option value="5">5-Any Other type of connection</option>
+                                            <option value="6">6-VSAT</option>
+                                        </select>
+                                        <span class="mandatory">*</span>
+                                         </div>
+                                    </ng-container>
+                                </td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>DTH-TV channels / डीटीएच-टीवी चैनल</td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isDTH" class="form-select">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>E- Content and Digital Resources for I-XII / I-XII के लिए ई-सामग्री और डिजिटल संसाधन
+                                </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isEContent" class="form-select">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                            <tr>
+                                <td>Assistive tech-based solutions for CWSN / CWSN के लिए ई-सामग्री और डिजिटल संसाधन
+                                </td>
+                                <td>
+                                    <div class="position-relative">
+                                    <select formControlName="isCWSN" class="form-select">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Yes</option>
+                                        <option value="2">No</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                     </div>
+                                </td>
+                                <td></td>
+                                <td></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+
+            <h5>Does the school have the following facilities? / क्या विद्यालय में निम्नलिखित सुविधाएं हैं?</h5>
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <label class="form-label">Computer Lab for Students <br>छात्रों के लिए कंप्यूटर लैब</label>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select formControlName="isComLabForStd" class="form-select">
+                        <option value="">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <label class="form-label">Whether ICT based tools are used for teaching? <br>क्या शिक्षण के लिए
+                        आईसीटी आधारित उपकरणों का उपयोग किया जाता है?</label>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select formControlName="isICTTools" class="form-select" (change)="isICTToolsRdControl($event)">
+                        <option value="">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="isICTTools==1">
+                <div class="col-md-5 form-group">
+                    <label class="form-label">If 1-YES, Number of hours spent/week <br>यदि 1-हाँ, बिताए गए घंटों की
+                        संख्या/सप्ताह</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input formControlName="noOfHours" type="text" (keypress)="customValidators.keyPressNumbers($event)"
+                        maxlength="3" class="form-control">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-5 form-group">
+                    <label class="form-label">Does the School have Digital Library?</label>
+                    <br>क्या विद्यालय में डिजिटल पुस्तकालय है ?
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select formControlName="hvDigiLib" class="form-select" (change)="hvDigiLibRdControl($event)">
+                        <option value="">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="row" *ngIf="hvDigiLib==1">
+                <div class="col-md-5 form-group">
+                    <label class="form-label">If 1-YES, Number of e-Books/e-Contents available</label>
+                    <br>यदि 1-हाँ, उपलब्ध ई-पुस्तकों/ई-सामग्री की संख्या
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input formControlName="noOfEBooks" type="text"
+                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" class="form-control">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="formpatch">
+                <h5>Teaching & Non-Teaching Staff / शिक्षण एवं गैर-शिक्षण कर्मचारी</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th colspan="2" class="text-center">Number of Non-teaching / Administrative and Support
+                                    staff in-Position / गैर-शिक्षण / प्रशासनिक और सहायक कर्मचारियों की स्थिति की संख्या
+                                </th>
+                            </tr>
+                            <tr>
+                                <th>Type of Staffs / कर्मचारियों का प्रकार</th>
+                                <th>Count / गिनती</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td> Accountant / लेखाकार</td>
+                                <td><input formControlName="accountant" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>Library Assistant / पुस्तकालय सहायक</td>
+                                <td><input formControlName="libraryAsst" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>Laboratory Assistant / प्रयोगशाला सहायक</td>
+                                <td><input formControlName="labAsst" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>UDC/Head Clerk / यूडीसी / हेड क्लर्क</td>
+                                <td><input formControlName="UDC" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>LDC / एलडीसी</td>
+                                <td><input formControlName="LDC" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>Peon/MTS / चपरासी / एमटीएस</td>
+                                <td><input formControlName="peon" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                            <tr>
+                                <td>Night Watchman / रात का पहरेदार</td>
+                                <td><input formControlName="watchman" type="text" class="form-control"
+                                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th colspan="2" class="text-center">Number of Teaching Staff In-position / अध्यापन
+                                    कर्मचारियों की संख्या पद पर</th>
+                            </tr>
+                            <tr>
+                                <th>Teaching Staff in-position / शिक्षण कर्मचारी पद पर</th>
+                                <th>Total Number of Teaching Staff / कुल शिक्षण कर्मचारियों की संख्या</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Teaching Staff (Regular Teacher) / शिक्षण कर्मचारी (नियमित शिक्षक)</td>
+                                <td>{{permanentTecherCount}}</td>
+                            </tr>
+                            <tr>
+                                <td>Teaching Staff (Contract Teacher) / शिक्षण कर्मचारी (संविदा शिक्षक)</td>
+                                <td>{{contractTecherCount}}</td>
+                            </tr>
+                            <tr>
+                                <td>Part time instructors for Arts, Health and Physical Education positioned per RTE
+                                    norms for upper primary section <br>उच्च प्राथमिक खण्ड हेतु आरटीई मानदंडों के अनुसार
+                                    स्थित कला, स्वास्थ्य एवं शारीरिक शिक्षा हेतु अंशकालिक प्रशिक्षक</td>
+                                <td>{{partTimeTecherCount}}</td>
+                            </tr>
+                            <tr>
+                                <td>Total Teaching Staff in Position (a+b+c) / पद पर कुल शिक्षण कर्मचारी (क+ख+ग)</td>
+                                <td>{{permanentTecherCount+contractTecherCount+partTimeTecherCount}}</td>
+                            </tr>
+                            <tr>
+                                <td>Out of total teachers, how many teachers have Aadhar number / कुल शिक्षकों में से
+                                    कितने शिक्षकों के आधार संख्या है</td>
+                                <td>{{addharaCount}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+
+            </div>
+
+            <div>
+                <!-- <a routerLink="./../../physicalequipmentinfo/{{encId}}" class="btn btn-purple me-2">Previous / पिछला</a> -->
+                <button type="button" (click)="pageChangeWarningHandler('./../../physicalequipmentinfo/')"
+                    class="btn btn-purple me-2">
+                    Previous / पिछला
+                </button>
+                <!-- <button class="btn btn-success me-2" *ngIf="draftStatus === 1" (click)="draft()">Save as Draft / प्रारूप के रूप में सहेजें</button> -->
+                <button class="btn btn-success me-2" *ngIf="draftStatus === 1" (click)="finalSubmit()">Submit / जमा
+                    करें</button>
+                <button class="btn btn-success me-2" *ngIf="draftStatus === 2" (click)="formSubmit()">Update</button>
+                <button type="reset" class="btn btn-danger me-2" *ngIf="draftStatus === 1">Reset / पुनर्स्थापित</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+<ng-template #emptyTD>
+    <td></td>
+    <td></td>
+</ng-template>

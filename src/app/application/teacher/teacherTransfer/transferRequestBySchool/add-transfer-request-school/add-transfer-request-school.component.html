@@ -1,0 +1,262 @@
+<div>
+    <div class="pageHeading">
+      <div class="heading__tab d-flex justify-content-end">
+          <div class="tab__section">
+            <a routerLink="./../../viewTeacherTransfer"  class="tablink d-inline-block" routerLinkActive="active">Transfer Request Approval <br> शिक्षक अनुरोध</a>
+              <a routerLink="./../viewTransferRequestSchool"  class="tablink d-inline-block active" routerLinkActive="active">Transfer Request By School <br> विद्यालय द्वारा स्थानांतरण अनुरोध</a>
+              <!-- <a routerLink="./../viewconsolidate"  class="tablink d-inline-block" routerLinkActive="active">Consolidate Transfer <br> समेकित स्थानांतरण</a> -->
+              <a routerLink="./../../relieving/viewRelieving"  class="tablink d-inline-block" routerLinkActive="active">Relieving <br> विरमित</a>
+              <a routerLink="./../../joiningSchool/viewJoiningSchool"  class="tablink d-inline-block" routerLinkActive="active">Joining School <br> विद्यालय में शामिल होना</a>
+          </div>
+      </div>
+      <div class="heading__tab mt-2">
+          <div><h3 class="pageName">Transfer Request By School / स्कूल द्वारा स्थानांतरण अनुरोध</h3>  </div>
+      </div>
+     
+      <div class="tabArea">
+              <a routerLink="./../addTransferRequestSchool"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+              <a routerLink="./../viewTransferRequestSchool"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखें</a>
+          </div>
+  </div>
+  
+    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+    <div class="row top-space formpatch">
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label"> Districtt <br> जिला</label>
+            </div>
+            <div class="col-lg-3 form-group  colon-top">
+                <span class="colon">:</span>
+                <label class="label-data fw-bold">{{ (searchDistrictData[0]?.districtName) ? this.searchDistrictData[0]?.districtName : "N/A" }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+             <div class="col-lg-2 form-group">
+                <label for="" class="form-label"> Block <br> प्रखण्ड</label>
+            </div>
+            <div class="col-lg-3 form-group  colon-top">
+                <span class="colon">:</span>
+                <label class="label-data fw-bold">{{ (searchBlockData[0]?.blockName) ? searchBlockData[0]?.blockName : "N/A" }}</label>
+            </div> 
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+                    <label for="" class="form-label">Cluster <br> संकुल</label>
+                </div>
+                <div class="col-lg-3 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data fw-bold">{{ (clusterData[0]?.clusterName) ? clusterData[0]?.clusterName : "N/A" }}</label>
+                </div>
+                <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label">School<br> विद्यालय</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon"></span>
+                <label class="label-data fw-bold">{{ (getSchoolData[0]?.schoolUdiseCode) ? getSchoolData[0]?.schoolUdiseCode : "N/A" }} - {{ (getSchoolData[0]?.schoolName) ? getSchoolData[0]?.schoolName : "N/A" }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+             <div class="col-lg-2 form-group">
+                <label for="" class="form-label"> Nature of Appointment <br>नियुक्ति की प्रकृति</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span><select class="form-select" aria-label="Default select example"
+                  name="searchNatureOfAppointmt" autocomplete="off" [(ngModel)]="searchNatureOfAppointmt">
+                  <option value="" *ngIf="teacherAppointmentChanged==false">-- Select --</option>
+                  <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                  <option *ngFor="let appointment of teacherAppointment" [value]="appointment.anxtValue">
+                    {{ appointment.anxtName }}
+                  </option>
+                </select>
+            </div> 
+            <div class="col-lg-1"></div>
+           
+                <div class="col-lg-2 form-group">
+                    <label class="form-label">Teacher Designation <br> शिक्षक पदनाम</label>
+                </div>
+                <div class="col-lg-3 form-group colon-top">
+                    <span class="colon">:</span>
+                    <!-- <select  aria-label="Default select example" class="form-select">
+                        <option  value="0">--Select--</option>
+                        <option  value="1">Head Master</option>
+                        <option  value="2">Acting Head Master</option>
+                        <option  value="3">Teacher / Assistant Teacher</option>
+                        <option  value="5">Instructor Positioned as per RTE</option>
+                        <option  value="6">College Principal</option>
+                        <option  value="7">Vice-Principal</option>
+                        <option  value="8">Lecturer</option>
+                        <option  value="9">ICT Instructor</option>
+                        <option  value="10">School Coordinator</option>
+                        <option  value="11">Vocational Trainer</option>
+                        <option  value="12">Lab Instructor</option>
+                        <option  value="99">Others</option></select> -->
+
+                        <select class="form-select" aria-label="Default select example"
+                  name="searchTeacherTitle" autocomplete="off" [(ngModel)]="searchTeacherTitle">
+                  <option value="" *ngIf="teacherTitleChanged==false">-- Select --</option>
+                  <option value="" *ngIf="teacherTitleChanged==true">Loading...</option>
+                  <option *ngFor="let title of teacherTitles" [value]="title.anxtValue">
+                    {{ title.anxtName }}
+                  </option>
+                </select>
+                        
+                </div>
+                                               
+                <div class="col-lg-1"></div>
+
+                <div class="col-lg-2">
+                  <button class="btn btn-default btn-purple"> Search <i class="bi bi-search"></i></button>
+                </div>
+            </div>
+            </form>
+
+
+            <!-- --------------------------------------------------By Me----------------------------------------------------- -->
+            <div class="mt-4" [hidden]="filterData.teacherList?.length === 0">
+              <div class="table-responsive">
+                <mat-progress-bar
+                  mode="indeterminate"
+                  *ngIf="matTable.isLoading"
+                ></mat-progress-bar>
+                <table
+                  class="mat-elevation-z8"
+                  mat-table
+                  [dataSource]="matTable.dataSource"
+                  matSort
+                  matTableExporter
+                  #exporter="matTableExporter"
+                >
+                  <!-- Checkbox Column -->
+                  
+
+                  <ng-container matColumnDef="select">
+                    <th mat-header-cell *matHeaderCellDef class="bg-lightpurple" [hidden]="filterData.loadResponse?.allSelected">
+                      <mat-checkbox
+                        (change)="$event ? masterToggle() : null"
+                        [checked]="matTable.selection.hasValue() && isAllSelected()"
+                        [indeterminate]="
+                          matTable.selection.hasValue() && !isAllSelected()
+                        "
+                        
+                      >
+                      </mat-checkbox>
+                    </th>
+                    <td mat-cell *matCellDef="let row" [hidden]="filterData.loadResponse?.allSelected">
+                      <mat-checkbox
+                        (click)="$event.stopPropagation()"
+                        (change)="$event ? matTable.selection.toggle(row) : null"
+                        [checked]="matTable.selection.isSelected(row)"
+                      >
+                      </mat-checkbox>
+                    </td>
+                  </ng-container>
+          
+                  <ng-container matColumnDef="slNo">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      class="bg-lightpurple"
+                    >
+                      Sl No. / क्रमांक
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                  </ng-container>
+                  <ng-container matColumnDef="teacherName">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      class="bg-lightpurple"
+                    >
+                      Teacher Name / शिक्षक का नाम
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ (element?.teacherName) ? element?.teacherName : '--'  }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="teacherTitle">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      class="bg-lightpurple"
+                    >
+                      Designation / पद
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ (element?.teacherTitle) ? element?.teacherTitle : '--'  }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="doj">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      class="bg-lightpurple"
+                    >
+                    Date of Joining / नियुक्ति की तिथि
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      {{ (element?.serviceJoiningDt) ? (element?.serviceJoiningDt | date:'dd-MMM-yyyy') : '--'  }}
+                    </td>
+                  </ng-container>
+                  <ng-container matColumnDef="remark">
+                    <th
+                      mat-header-cell
+                      *matHeaderCellDef
+                      mat-sort-header
+                      class="bg-lightpurple"
+                    >
+                    Remark
+                    </th>
+                    <td mat-cell *matCellDef="let element">
+                      <input type="text" value="" #remark (change)="onChange(element?.tId,remark.value)" maxlength="350" autocomplete="off" class="form-control"/>
+                    </td>
+                  </ng-container>
+          
+                  <tr mat-header-row *matHeaderRowDef="matTable.displayedColumns"></tr>
+                  <tr
+                    mat-row
+                    *matRowDef="let row; columns: matTable.displayedColumns"
+                  ></tr>
+                </table>
+          
+                <mat-paginator
+                  #paginator
+                  [length]="matTable.totalRows"
+                  [pageIndex]="matTable.currentPage"
+                  [pageSize]="matTable.pageSize"
+                  [pageSizeOptions]="getPageSizeOptions"
+                  (page)="onPageChange($event)"
+                  aria-label="Select page"
+                  class="noPrint"
+                  showFirstLastButtons
+                ></mat-paginator>
+              </div>
+            </div>
+          
+            <div [hidden]="filterData.teacherList?.length === 0">
+              <div>
+                <a class="btn btn-success me-2" (click)="onSubmit()"
+                  >Submit / जमा करें</a
+                >
+              </div>
+            </div>
+          
+            
+            <!-- <ng-container
+            *ngIf="matTable.isNorecordFound"
+            >
+            <div class="alert alert-info text-center fw-bold" role="alert">
+            <span *ngIf="matTable.isNorecordFound">
+            {{ "No record found." }}
+            </span>      
+            </div>
+            </ng-container>   -->
+            
+            <div class="alert alert-info text-center  fw-bold" role="alert" *ngIf="matTable.isNorecordFound">
+              {{ "No record found." }}
+           </div>
+           <div class="alert alert-info text-center  fw-bold" role="alert" *ngIf="isInitAdmin">
+              {{ "Please Search to find list" }}
+           </div>
+  </div>
+ 

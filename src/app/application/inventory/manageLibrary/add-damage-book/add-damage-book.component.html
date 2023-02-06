@@ -1,0 +1,154 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName">Add Damage Book / क्षति पुस्तिका जोड़ें</h3>
+         </div>
+         <div class="tab__section">
+           <a routerLink="./../viewBook"  class="tablink" routerLinkActive="active">Book Master <br> बुक मास्टर</a>
+           <a routerLink="./../viewBookOpeningStock"  class="tablink" routerLinkActive="active">Opening Stock <br> ओपनिंग स्टॉक</a>
+           <a routerLink="./../viewBookReceipt"  class="tablink " routerLinkActive="active">Book Receipt <br> पुस्तक रसीद</a>
+           <a routerLink="./../viewDamageBook"  class="tablink active" routerLinkActive="active">Damage Book <br> क्षति पुस्तिक</a>
+           <a routerLink="./../viewStockStatus"  class="tablink" routerLinkActive="active">Stock Status <br> स्टॉक की स्थित</a>
+         </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्</span>
+      <div class="tabArea">
+         <a routerLink="./../addDamageBook"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a>
+         <a routerLink="./../viewDamageBook"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखें </a>
+      </div>
+   </div>
+   <form [formGroup]="damageBook" (ngSubmit)="damageSubmit()">
+   <div class="row top-space formpatch">
+      <div class="col-lg-2 form-group">
+         <label class="form-label">District <br> जिला</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+         <span class="colon">:</span>
+        <label class="form-data">{{(districtName) ? districtName :'--'}}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Block/ULB<br> ब्लॉक/यूएलबी</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label class="form-data">{{(blockName) ? blockName :'--'}}</label>
+      </div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Village/Ward<br> गांव/वार्</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label class="form-data">{{(clusterName) ? clusterName :'--'}}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">School Name<br> विद्यालय का नाम</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label class="form-data">{{(schoolName) ? schoolName :'--'}}</label>
+      </div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Academic Year<br> अकादमिक वर्</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label for="" class="form-data"> {{academicYear}} </label>
+         <!-- <select class="form-select" aria-label="Default select example" formControlName="academicYear">
+           <option value="">--Select--</option>
+           <option value="2019-20">2019-20</option>
+          <option value="2020-21">2020-21</option>
+          <option value="2021-22">2021-22</option>
+          <option value="2022-23">2022-23</option>
+        </select>
+        <span  class="mandatory">*</span> -->
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Book Type<br>पुस्तक का प्रकार</label>
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <select class="form-select" formControlName="bookType" (change)="filterBookName($any($event.target).value)">
+           <option value="" *ngIf="bkTypeChanged==false">-- Select --</option>
+           <option value="" *ngIf="bkTypeChanged==true">Loading...</option>
+           <option *ngFor="let item of bkType" value="{{item.anxtValue}}">
+              {{item.anxtName}}
+           </option> 
+         </select>
+         <span  class="mandatory">*</span>
+      </div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Book Name<br> पुस्तक का नाम</label>
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <select class="form-select" formControlName="bookName" (change)="filterBookNo($any($event.target).value)">
+           <option value="" *ngIf="bookNameChanged==false">-- Select --</option>
+           <option value="" *ngIf="bookNameChanged==true">Loading...</option>
+           <option *ngFor="let bookItem of bookFilterData"  [value]="bookItem.bookId">  
+           {{bookItem.bookName}} 
+           </option>
+         </select>
+         <span  class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Book No.<br>पुस्तक क्र.</label>
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <select class="form-select" formControlName="bookNo" >
+           <option value="" *ngIf="bookNumberChanged==false">-- Select --</option>
+           <option value="" *ngIf="bookNumberChanged==true">Loading...</option>
+           <option *ngFor="let bookNumber of bookNumberData"  [value]="bookNumber.bookNo">  
+           {{bookNumber.bookNo}} 
+           </option>
+         </select>
+         <span  class="mandatory">*</span>
+      </div>
+      <div class="col-lg-2 form-group">
+       <label class="form-label">Quantity <br>मात्रा</label>
+    </div>
+    <div class="col-lg-3 form-group">
+       <span class="colon">:</span>
+       <input  type="text" class="form-control" formControlName="quantity" maxlength="4" (blur)="greaterThanZero($any($event.target).value)" (keypress)="customValidators.keyPressNumbers($event)"> 
+       <span  class="mandatory">*</span>
+    </div>
+    <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Damage Reason<br>नुकसान का कारण</label>
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <select class="form-select"  formControlName="reasonDamage" autocomplete="off">
+           <option value="" *ngIf="reasonDaChanged==false">-- Select --</option>
+         <option value="" *ngIf="reasonDaChanged==true">Loading...</option>
+         <option *ngFor="let damage of damageR" value="{{damage.anxtValue}}">
+           {{damage.anxtName}}
+         </option> 
+       </select>
+       <span  class="mandatory">*</span>
+      </div>
+      <div class="col-md-1">
+       <img src="assets/img/loading.gif" *ngIf="reasonDaChanged==true" alt="dsd">
+     </div>
+      <div class="col-lg-2 form-group">
+         <label class="form-label">Damage Date<br>क्षति की तारीख</label>
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker bsDatepicker
+         [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,showClearButton: true, clearPosition: 'right'}"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="damageDate" readonly>
+         <span  class="mandatory">*</span>
+      </div>
+      <div class="col-lg-7"></div>
+   </div>
+   <div>
+       <button class="btn btn-success me-2">Submit / जमा करें</button>
+       <button type="reset" class="btn btn-danger" >Reset / पुनर्स्थापित </button>
+   </div>
+</form>
+</div>

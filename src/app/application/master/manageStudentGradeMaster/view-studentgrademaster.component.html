@@ -1,0 +1,51 @@
+<div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <h3 class="pageName">View Grade Master/ग्रेड मास्टर देखें
+        </h3> 
+        
+    </div>
+      
+    <div class="tabArea">
+       
+        <a routerLink="./../viewStudentGradeMaster" class="neuro viewLink" routerLinkActive="active" 
+        *ngIf="plPrivilege=='admin'" ><i class="bi bi-eye me-2"></i>View/देखें
+      </a>   
+       
+    </div>
+      
+    
+    </div>
+    
+      <div class="row top-space">
+        <div class="col-lg-6">
+          
+          <div class="table-responsive">
+            <div>  
+              <table class="table  table-bordered">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th scope="col" width="15px">SI#/क्र.सं.
+                  </th>
+                  <th scope="col">Grade Name/ग्रेड का नाम
+                  </th>
+                  <th scope="col">Range (in %)/रेंज (% में)
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let post of studentGradeData; let i = index">
+                      <th scope="row">{{ i + 1 }}</th>
+                    <td>{{ post.gradeName }}</td>
+                    <td>{{ post.minRange }}-{{ post.maxRange }}</td>
+                    </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+
+

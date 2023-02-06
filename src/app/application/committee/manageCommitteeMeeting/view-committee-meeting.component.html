@@ -1,0 +1,209 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Committee Meeting/समिति की बैठक प्रबंधित करें</h3>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../addCommitteeMeeting" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add Committee Meeting/समिति की बैठक जोड़ें</a>
+      <a routerLink="./../viewCommitteeMeeting" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View Committee Meetings/समिति की बैठक देखें</a>
+    </div>
+  </div>
+  <ng-container *ngIf="permissionDiv == true">
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <form [formGroup]="viewMemberAttenSearchform" (ngSubmit)="attendMemberSearch()">
+          <div class="search-container student-info">
+            <div class="searchPanel">
+              <div class="row">
+                <div class="form-group  col-lg-2">
+                  <label for="exampleInputEmail1" class="form-label me-2">Committee Type<br>समिति का प्रकार</label>
+                </div>
+                <div class="form-group  col-lg-3">
+                  <span class="colon">:</span>
+                  <select class="form-select" formControlName="committeeType">
+                    <option value="" selected>--Select--</option>
+                    <option value="{{item.anxtValue}}" *ngFor="let item of committeeTypeData">{{item.anxtName}}</option>
+                  </select>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="form-group col-lg-2">
+                  <label for="exampleInputEmail1" class="form-label me-2">From Date<br>तिथि से
+                  </label>
+                </div>
+                <div class="form-group col-lg-3">
+                  <span class="colon">:</span>
+                  <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ showClearButton: true, clearPosition: 'right',dateInputFormat: 'DD-MMM-YYYY' }" aria-describedby="emailHelp"
+                    formControlName="searchfromDate" [maxDate]="maxDate" readonly>
+                </div>
+                <div class="form-group col-lg-2">
+                  <label for="exampleInputEmail1" class="form-label me-2">To Date<br>तिथि तक
+                  </label>
+                </div>
+                <div class="form-group col-lg-3">
+                  <span class="colon">:</span>
+                  <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ showClearButton: true, clearPosition: 'right',dateInputFormat: 'DD-MMM-YYYY' }" aria-describedby="emailHelp"
+                    formControlName="searchtoDate" [maxDate]="maxDate" readonly>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="form-group col-lg-2">
+                  <button class="btn btn-default btn-purple"> Search/खोजें 
+                    <i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+        data-original-title="Click me">Search Panel/खोज पट्टिका 
+      </button>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="row mt-4">
+      <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+        <div class="page__rightarea">
+          <div class="page__util">
+            <div class="util">
+              <div class="util">
+                <a title="Excel" class="excel" (click)="downloadCommitteeMettingList()"><i
+                    class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive" id="viewTable">
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No / क्र.सं.
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="meetingDate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Meeting Date / मीटिंग की तारीख
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.meetingDate) ?
+                (element?.meetingDate|date:'dd-MMM-yyyy') :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="totalMemberAttended">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Total Member Attended / कुल सदस्य ने भाग लिया
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link">
+                <a class="text-primary" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  (click)="getMemberAttended(element?.encId)">{{element.memberAttended}}</a>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="proceedingFile">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Proceeding File / कार्यवाही फ़ाइल
+              </th>
+              <td mat-cell *matCellDef="let element" class="text-center font-weight-bold">
+                <ng-container *ngIf="element?.docInfo !== ''">
+                  <a class="text-success " (click)="downloadFile(element?.docInfo)" href="{{this.fileDownloadUrl}}"
+                    target="_blank"><i class="bi bi-download" style="font-size:30px;"></i></a>
+                </ng-container>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="meetingDiscussion">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Meeting Description / बैठक में हुई चर्चा
+              </th>
+              <td mat-cell *matCellDef="let element"> <span>
+                  {{element?.meetingDiscussion.length > 40 ? (element?.meetingDiscussion |
+                  slice:0:40):element?.meetingDiscussion }}
+                  <small style="font-style: italic;" *ngIf="element?.meetingDiscussion.length > 40"> ... <a
+                      href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription"
+                      (click)="showDescription(element?.meetingDiscussion)">View More</a></small>
+                </span></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length"
+                class="mt-2 text-danger">
+                No Records Found!
+              </td>
+            </tr>
+          </table>
+          <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </div>
+      <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </div>
+    </div>
+  </ng-container>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+    {{ "You don't have the permission to access this page !!" }}
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <ng-container>
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead class="bg-lightpurple">
+                <tr role="row">
+                  <th>Sl#/क्र.सं.
+                  </th>
+                  <th>Name/नाम
+                  </th>
+                  <th>Mobile/मोबाइल
+                  </th>
+                  <th>Email/ईमेल
+                  </th>
+                  <th>Gender/लिंग
+                  </th>
+                  <th>Position/पद
+                  </th>
+                  <th>Member Type/सदस्य प्रकार
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of meetingAttendedMemberData;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{item.memberName}}</td>
+                  <td>{{item.mobile}}</td>
+                  <td>{{item.email}}</td>
+                  <td>{{item.gender}}</td>
+                  <td>{{item.position}}</td>
+                  <td>{{item.memberType}}</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </ng-container>
+      </div>
+      <div class="modal-footer">
+
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close/बंद करें
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

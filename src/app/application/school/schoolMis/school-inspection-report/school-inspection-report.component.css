@@ -1,0 +1,9 @@
+.bg-custom-beige {
+    background-color: #e7f1ff;
+}
+
+#viewInspectionDetails .accordion-button:not(.collapsed) {
+    color: #2a48a3 !important;
+    background-color: #e7f1ff !important;
+    font-weight: 600;
+}

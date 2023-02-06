@@ -1,0 +1,198 @@
+<div>
+    <div class="pageHeading noprint">
+      <div class="heading__tab">
+        <h3 class="pageName">Active Inactive User Count Report</h3>
+      </div>
+  
+      <div class="tabArea noprint">
+        <a routerLink="../../inActiveUserList/activeUserCountReport" class="neuro viewLink active" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>Report</a>
+        <!-- <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a> -->
+      </div>
+    </div>
+    <div class="top-space noprint">
+      <ng-container>
+        <div class="search-container">
+          <div class="search-sec" id="searchPanel" style="display: block">
+            <div class="searchPanel">
+              <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+                novalidate>
+                <div class="row">
+                  
+                    <div class="col-lg-2 form-group">
+                       <label for="dwUserLevel" class="form-label"> Report Status</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                       <span class="colon">:</span>
+                       <select name="reportStatus" [(ngModel)]="reportStatus" class="form-select">
+                        <option  *ngFor="let user of levelOfUser" value="{{user.id}}">{{user.level}}</option>
+                       </select>
+                    </div>
+                    <div class="col-md-1"></div>
+
+                    <div class="col-md-1 form-group" *ngIf="district == false">
+                      <label for="" class="form-label">District </label>
+                    </div>
+                    <div class="col-md-3 form-group" *ngIf="district == false">
+                      <span class="colon">:</span>
+                      <select class="form-select" aria-label="Default select example" [(ngModel)]="scDistrictId"
+                        name="scDistrictId" autocomplete="off" >
+                        <option value="" *ngIf="
+                            scDisrtictSelect == true && sessionDistrictId === ''
+                          ">
+                          --Select--
+                        </option>
+                        <option value="" *ngIf="scDisrtictLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                          {{ districtItem.districtCode }} -
+                          {{ districtItem.districtName }}
+                        </option>
+                      </select>
+                    </div>
+                    
+                    <div class="col-md-2 form-group">
+                        <button class="btn btn-default btn-purple">
+                        Search <i class="bi bi-search"></i>
+                        </button>
+                    </div>
+                </div>
+              </form>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+        Search Panel
+      </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-0" [hidden]="resultListData?.length === 0">
+      <div class="col-lg-12">
+          <div class="page__rightarea">
+            <!-- <div class="p-2">
+              <button type="button" class="btn btn-success " (click)="excelDeatils()">
+                <i class="bi bi-file-earmark-excel"></i
+                  > Export Details Inspection Report
+              </button>
+            </div> -->
+              <div class="page__util">
+                  <div class="util">
+                      <a title="Excel" (click)="excel()" class="excel"><i
+                              class="bi bi-file-earmark-excel"></i></a>
+                      <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                  </div>
+              </div>
+          </div>
+  
+          <div>
+              <div >
+                  <div class="table-responsive" id="viewTable">
+                      <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                      </mat-progress-bar>
+                      <table class="table table-bordered" *ngIf="pageLevel == 1">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col">Total Users</th>
+                                <th scope="col">Total Logged-in Users</th>
+                                <th scope="col">Total Not Logged-in Users</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let element of resultListData; index as i">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{ element?.totalUsers }}</td>
+                                <td>{{ (element?.totalUsers) - (element?.totalInactiveUsers) }}</td>
+                                <td>{{ element?.totalInactiveUsers }}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="1" class="text-center"><strong>Total</strong></td>
+                                <td><strong>{{allUsers}}</strong></td>
+                                <td><strong>{{allActiveUsers}}</strong></td>
+                                <td><strong>{{allInactiveUsers}}</strong></td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                      <table class="table table-bordered" *ngIf="pageLevel == 2">
+                          <thead class="bg-lightpurple">
+                              <tr>
+                                  <th scope="col">Sl.No</th>
+                                  <th scope="col">District Name</th>
+                                  <th scope="col">Total Users</th>
+                                  <th scope="col">Total Logged-in Users</th>
+                                  <th scope="col">Total Not Logged-in Users</th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let element of resultListData; index as i">
+                                  <td>{{ i + 1 }}</td>
+                                  <td>
+                                      <a >{{element?.Distict ? element?.Distict : "--"}}</a>
+                                  </td>
+                                  <td>{{ element?.totalUsers }}</td>
+                                  <td>{{ (element?.totalUsers) - (element?.totalInactiveUsers) }}</td>
+                                  <td>{{ element?.totalInactiveUsers }}</td>
+                              </tr>
+  
+                              <tr>
+                                  <td colspan="2" class="text-center"><strong>Total</strong></td>
+                                  <td><strong>{{allUsers}}</strong></td>
+                                  <td><strong>{{ (allUsers) - (allInactiveUsers)}}</strong></td>
+                                  <td><strong>{{allInactiveUsers}}</strong></td>
+                                  
+                              </tr>
+                          </tbody>
+                      </table>
+                      <table class="table table-bordered" *ngIf="pageLevel == 3">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col">District Name</th>
+                                <th scope="col">Block Name</th>
+                                <th scope="col">Total Users</th>
+                                <th scope="col">Total Logged-in Users</th>
+                                <th scope="col">Total Not Logged-in Users</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let element of resultListData; index as i">
+                                <td>{{ i + 1 }}</td>
+                                <td>{{element?.Distict ? element?.Distict : "--"}}</td>
+                                <td>{{element?.Block ? element?.Block : "--"}}</td>
+                                <td>{{ element?.totalUsers }}</td>
+                                <td>{{ (element?.totalUsers) - (element?.totalInactiveUsers) }}</td>
+                                <td>{{ element?.totalInactiveUsers }}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="3" class="text-center"><strong>Total</strong></td>
+                                <td><strong>{{allUsers}}</strong></td>
+                                <td><strong>{{ (allUsers) - (allInactiveUsers)}}</strong></td>
+                                <td><strong>{{allInactiveUsers}}</strong></td>
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                      
+                  </div>
+              </div>
+              
+              
+              
+          </div>
+          <ng-template #showEmptyAlert> </ng-template>
+      </div>
+  </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+      {{ "Please Search to find Active Inactive User Count Report" }}
+    </div>
+  </div>
+  
+  

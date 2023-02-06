@@ -1,0 +1,496 @@
+<div>
+    <div class="pageHeading">
+        <div><h3 class="pageName">View Officer Notification / अधिसूचना अधिकारी देखें </h3></div>
+
+        <div class="tabArea">
+            <a routerLink="./../addOfficerNotification" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+            
+            <a routerLink="./../viewOfficerNotification" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/देखें </a>
+        </div>
+
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">District<br>ज़िला
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-control" [(ngModel)]="searchDistrictId" name="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                                        <option value="" *ngIf="scDisrtictSelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scDisrtictLoading==true">Loading...</option>
+                                        <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} - {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Block<br>प्रखंड 
+                                    </label>
+                                </div>
+
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-control" [(ngModel)]="searchBlockId" name="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                                        <option value="" *ngIf="scBlockSelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scBlockLoading==true">Loading...</option>
+                                        <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                                            {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Cluster<br>समूह 
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-control" [(ngModel)]="searchClusterId" name="searchClusterId" autocomplete="off">
+                                        <option value="" *ngIf="scClusterSelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scClusterLoading==true">Loading...</option>
+                                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                            {{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Group Name<br>समूह नाम
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" [(ngModel)]="searchGroup" name="searchGroup" autocomplete="off">
+                                        <option value="" *ngIf="scDesignationSelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scDesignationLoading==true">Loading...</option>
+                                        <option *ngFor="let designationItem of designationData" [value]="designationItem.intDesignationId">
+                                            {{ designationItem.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">From Date<br>दिनांक से
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <input type="date" class="form-control" [(ngModel)]="searchFromDate" name="searchFromDate" autocomplete="off"> -->
+                                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker [bsConfig]="{ showClearButton: true, clearPosition: 'right',dateInputFormat: 'DD-MMM-YYYY' }" aria-describedby="emailHelp"
+                                    [(ngModel)]="searchFromDate" name="searchFromDate" readonly>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">To Date<br>आज तक
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <input type="date" class="form-control" [(ngModel)]="searchToDate" name="searchToDate" autocomplete="off"> -->
+                                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker [bsConfig]="{ showClearButton: true, clearPosition: 'right',dateInputFormat: 'DD-MMM-YYYY' }" aria-describedby="emailHelp" [(ngModel)]="searchToDate" name="searchToDate" readonly>
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Category<br>श्रेणी
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-control" [(ngModel)]="searchCategory" name="searchCategory" (change)="getNotificationComponent($any($event.target).value)" autocomplete="off">
+                                        <option value="" *ngIf="scCategorySelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scCategoryLoading==true">Loading...</option>
+                                        <option *ngFor="let categoryItem of categoryData" [value]="categoryItem.categoryId">
+                                            {{ categoryItem.categoryName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Component<br>अवयव
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-control" [(ngModel)]="searchComponent" name="searchComponent" autocomplete="off">
+                                        <option value="" *ngIf="scComponentSelect==true">-- Select --</option>
+                                        <option value="" *ngIf="scComponentLoading==true">Loading...</option>
+                                        <option *ngFor="let componentItem of componentData" [value]="componentItem.categoryId">
+                                            {{ componentItem.categoryName }}
+                                        </option>
+                                    </select>
+                                </div>                            
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Notification Mode<br></label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" [(ngModel)]="searchMode" name="searchMode" autocomplete="off">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Portal Inbox</option>
+                                        <option value="2">SMS</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Type<br> प्रकार
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" [(ngModel)]="searchType" name="searchType" autocomplete="off">
+                                        <option value="">--Select--</option>
+                                        <option value="3">Officer Notice</option>
+                                        <option value="4">Individual</option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-3 ">
+                                    <button class="btn btn-default btn-purple"> Search/खोज करें<i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel/पैनेल खोजें
+        </button>
+    </div>
+
+    <div class="clearfix"></div>
+
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Excel" class="excel" (click)="downloadNotificationList()"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" [hidden]="isLoading" id="viewTable">
+                <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+                <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter">
+                    
+                    <ng-container matColumnDef="slNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Sl#/क्र.सं.
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="type">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Type/ प्रकार
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.noticeTypeName) ? (element?.noticeTypeName) : '--'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="notificationMode">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Notification Mode/अधिसूचना मोड
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.notifyModeName) ? (element?.notifyModeName) :'--'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Categoryश्रेणी
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.category) ? (element?.category) : '--' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="component">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Component/अवयव
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.component) ? (element?.component) : '--'}}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" width="25%"> Subject/विषय
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.subject) ? (element?.subject) : '--' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="createdOn">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Created On/पर बनाया
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.createdOn | date:'dd-MMM-yyyy') ? (element?.createdOn | date:'dd-MMM-yyyy') :'--' }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Status/दर्जा </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.sendNotifyStatus == 1)? 'Message Sent' : 'Not Send' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="lastSent">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Last Sent/अंतिम भेजा गया
+
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.lastSentOn != null)? (element?.lastSentOn | date:'dd-MMM-yyyy') : '--' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="sendNotification">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint"> Send Notification/सूचना भेजें </th>
+                        <td mat-cell *matCellDef="let element" class="noPrint">
+                            <a title="Take Action" class="btn btn-info btn-sm" href="javasctip:void(0)" (click)="sendNotification(element?.encId)">Send Notification</a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="action">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" width="120"> Action/क्रिया </th>
+                        <td mat-cell *matCellDef="let element" class="noPrint">
+                            <a href="javasctip:void(0)" data-bs-toggle="modal" data-bs-target="#NotificationModal" title="View Details" class="edit-btn me-2" (click)="viewNotificationDetails(element?.encId)"><i class="bi bi-eye-fill"></i></a>
+                            <a title="Edit" [routerLink]="['./../editOfficerNotification/', element?.encId]" class="edit-btn me-2" *ngIf="adminPrivilege"><i class="bi bi-pencil-square text-primary"></i></a>
+                            <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteNotification(element?.encId)" *ngIf="element?.sendNotifyStatus != 1 && adminPrivilege"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <table>
+                    <tr *ngIf="!dataSource.data.length">
+                        <td style="text-align: center" [attr.colspan]="viewNotifications.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                            No Records Found!
+                        </td>
+                    </tr>
+                </table>
+
+                <mat-paginator [hidden]="viewNotifications?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>                    
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="NotificationModal" tabindex="-1"
+    aria-labelledby="NotificationModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="NotificationModalLabel">Notification Details</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+
+            <div class="popup-loader" *ngIf="showNotificationLoader"><img src="/assets/img/loading.gif" /> <br>Loading. Please wait...</div>
+
+            <div class="modal-body" *ngIf="showNotificationDetails">
+                <ng-container *ngFor="let notificationRec of notificationDetails;let j = index">
+                    <div class="row">
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Notification Mode<br>अधिसूचना मोड
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.notifyModeName) ? (notificationRec.notifyModeName) : '--' }}</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Category<br>श्रेणी
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.category) ? (notificationRec.category) : '--' }}</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Component<br>अवयव
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.component) ? (notificationRec.component) : '--' }}</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Content Type<br>सामग्री प्रकार
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.contentType == 1) ? 'English' : (notificationRec.contentType == 2) ? 'Hindi' : 'N/A' }}</label>
+                        </div>
+                        
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Subject<br>विषय
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.subject) ? (notificationRec.subject) :'--'  }}</label>
+                        </div>
+
+                        <ng-container *ngIf="notificationRec.notifyMode==1">
+                            <div class="col-md-3 form-group">
+                                <label class="form-label">Description<br>विवरण
+                                </label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <span class="colon">:</span>
+                                <label class="form-label fw-normal">{{ (notificationRec.notifyContent) ? notificationRec.notifyContent : '--' }}</label>
+                            </div>
+                        </ng-container>
+                        <ng-container *ngIf="notificationRec.typeOfAttachment==2 || notificationRec.typeOfAttachment==3; else attachmentNA">
+                            <ng-container *ngIf="notificationRec.typeOfAttachment==2">
+                                <div class="col-md-3 form-group">
+                                    <label class="form-label">Document<br>दस्तावेज़
+                                    </label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <span class="colon">:</span>
+                                    <label class="form-label fw-normal">
+                                        <a href="{{ fileUrl + '/' +notificationRec.document.replace('.', '~') }}" target="_blank" *ngIf="notificationRec.document; else documentNA"> View Document </a>
+                                        <ng-template #documentNA> N/A </ng-template>
+                                    </label>
+                                </div>
+                            </ng-container>
+
+                            <ng-container *ngIf="notificationRec.typeOfAttachment==3">
+                                <div class="col-md-3 form-group">
+                                    <label class="form-label">URL<br>यूआरएल
+                                    </label>
+                                </div>
+                                <div class="col-md-8 form-group">
+                                    <span class="colon">:</span>
+                                    <label class="form-label fw-normal">
+                                        <a href="{{ notificationRec.LinkUrl }}" target="_blank" *ngIf="notificationRec.LinkUrl; else linkNA"> {{ notificationRec.LinkUrl }} </a>
+                                        <ng-template #linkNA> N/A </ng-template>
+                                    </label>
+                                </div>
+                            </ng-container>
+                        </ng-container>
+                        <ng-template #attachmentNA>
+                            <div class="col-md-3 form-group">
+                                <label class="form-label">Attachment<br>अनुलग्नक 
+                                </label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <span class="colon">:</span>
+                                <label class="form-label fw-normal">N/A<br>एन/ए</label>
+                            </div>
+                        </ng-template>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Notice Type/सूचना प्रकार
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.noticeTypeName) ? (notificationRec.noticeTypeName) :'--' }}</label>
+                        </div>
+                        
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">District<br>ज़िला
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.districtName) ? notificationRec.districtCode+' - '+notificationRec.districtName : '--' }}</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Block<br>प्रखंड 
+                            </label>
+                        </div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.blocks) ? notificationRec.blocks : '--' }}</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <label class="form-label">Cluster<br>समूह 
+                            </label></div>
+                        <div class="col-md-8 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-normal">{{ (notificationRec.clusters) ? notificationRec.clusters : '--' }}</label>
+                        </div>   
+
+                        <ng-container *ngIf="notificationRec.noticeType==3">
+                            <div class="col-md-3 form-group">
+                                <label class="form-label">Group name<br>समूह नाम
+                                </label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <span class="colon">:</span>
+                            </div>
+                            <div class="table-responsive">
+                                <table class="table table-bordered poptable">
+                                    <thead>
+                                        <tr>
+                                            <th>Sl No./क्र.सं.
+                                            </th>
+                                            <th>Designation/पद
+                                            </th>
+                                            <th>Level/स्तर
+                                            </th>
+                                            <th>User List/उपयोगकर्ता सूची
+                                            </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let desgUsers of userDetails;let k = index">
+                                            <td>{{ k+1 }}</td>
+                                            <td>{{ desgUsers.vchDesignationName }}</td>
+                                            <td>{{ (desgUsers.intLevelId == 5) ? 'State' : (desgUsers.intLevelId == 4) ? 'District' : (desgUsers.intLevelId == 3) ? 'Block' : (desgUsers.intLevelId == 2) ? 'Cluster' : 'N/A' }}</td>
+                                            <td>
+                                                <ng-container *ngIf="desgUsers.selectedUsers; else desgUserNA">
+                                                    <div *ngFor="let userList of desgUsers.selectedUsers.split('||')">
+                                                        <i class="bi bi-person"></i> {{ userList }}
+                                                    </div>                                    
+                                                </ng-container>
+                                                <ng-template #desgUserNA> N/A </ng-template>                                                
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div> 
+                        </ng-container>
+                        
+                        <ng-container *ngIf="notificationRec.noticeType==4">
+                            <div class="col-md-3 form-group">
+                                <label class="form-label">Selected Users</label>
+                            </div>
+                            <div class="col-md-8 form-group">
+                                <span class="colon">:</span>
+                                <label class="form-label fw-normal">
+                                    <ng-container *ngIf="userDetails[0].selectedUsers; else userNA">
+                                        <div *ngFor="let userList of userDetails[0].selectedUsers.split('||')">
+                                            <i class="bi bi-person"></i> {{ userList }}
+                                        </div>                                    
+                                    </ng-container>
+                                    <ng-template #userNA> N/A </ng-template>
+                                </label>
+                            </div>
+                        </ng-container>
+                        
+                    </div>
+                </ng-container>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close/बंद करें
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,335 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Leave Entitlement/अवकाश के लिए पात्रता</h3>
+    </div>
+    <div class="tabArea">
+      <a
+        routerLink="./../addLeaveEntitlement"
+        class="neuro addLink"
+        routerLinkActive="active"   
+        *ngIf="adminPrivilege"
+        ><i class="bi bi-plus-lg me-2"></i>Add Leave Entitlement/अवकाश पात्रता जोड़ें</a
+      >
+      <a
+        routerLink="./../viewLeaveEntitlement"
+        class="neuro viewLink"
+        routerLinkActive="active"
+        ><i class="bi bi-eye me-2"></i>View Leave Entitlement/अवकाश पात्रता देखें</a
+      >
+    </div>
+  </div>
+  <div class="searchPanel top-space">
+    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+
+
+      <div class="row">
+        <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label">Leave Type <br>अवकाश के प्रकार</label>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="leaveTypeId"
+            name="leaveTypeId" autocomplete="off">
+            <option value="" *ngIf="leaveTypeSelect == true">
+              --Select--
+            </option>
+            <option value="" *ngIf="leaveTypeLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of lvtype" [value]="item.anxtValue">
+              {{ item.anxtName }}
+            </option>
+          </select>
+        </div>  
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="leaveTypeLoading==true" alt="dsd">
+        </div>
+        <!-- <div class="col-sm-1"></div> -->
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Teacher Type<br>शिक्षक के  प्रकार </label>
+            </div>
+          </div>            
+          <div class="col-md-3 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example"  [(ngModel)]="teacherType"
+              name="teacherType">
+                <option value="">--Select--</option>
+                <option value="1">HM / Principal</option>
+                <option value="2">Other Teachers</option>
+              </select>
+            </div>
+          </div>
+
+        
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">Nature of Appointment<br>नियुक्ति की प्रकृति </label>
+          </div>
+        </div>
+  
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="natureOfAppointmt"
+            name="natureOfAppointmt" autocomplete="off">
+            <option value="" *ngIf="natureOfAppointmtSelect == true">
+              --Select--
+            </option>
+            <option value="" *ngIf="natureOfAppointmtLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let appointment of teacherAppointment"  [value]="appointment.anxtValue">  
+              {{ appointment.anxtName }} 
+      </option>
+          </select>
+        </div>  
+        <!-- <div class="col-sm-1"></div> -->
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="natureOfAppointmtLoading==true" alt="dsd">
+        </div>    
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">Appointing Authority<br>नियुक्ति प्राधिकारी </label>
+          </div>
+        </div>
+  
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="appointingAuth"
+            name="appointingAuth" autocomplete="off">
+            <option value="" *ngIf="appointingAuthSelect == true">
+              --Select--
+            </option>
+            <option value="" *ngIf="appointingAuthLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let appointmentAuth of appointingAuth2"  [value]="appointmentAuth.anxtValue">  
+              {{ appointmentAuth.anxtName }} 
+      </option>
+          </select>
+        </div>  
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="appointingAuthLoading==true" alt="dsd">
+        </div>  
+
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">Appointment Type<br>नियुक्ति का प्रकार </label>
+          </div>
+        </div>            
+        <div class="col-md-3 form-group">
+         
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" [(ngModel)]="appointmentType"
+              name="appointmentType" autocomplete="off">
+              <option value="" *ngIf="appointmentTypeSelect == true">
+                --Select--
+              </option>
+              <option value="" *ngIf="appointmentTypeLoading == true">
+                Loading...
+              </option>
+              <option *ngFor="let appointment of appointmentType2"  [value]="appointment.anxtValue">  
+                {{ appointment.anxtName }} 
+            </option>
+            </select>
+          </div>  
+       
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="appointmentTypeLoading==true" alt="dsd">
+        </div>    
+       
+       
+        <div class="col-lg-1">
+          <button class="btn btn-default btn-purple" type="submit">
+            Search/खोज करें
+            <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Excel" class="excel" (click)="downloadLeaveEntitlementList()"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="table-responsive" id="viewTable">
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+          </mat-progress-bar>
+          <table  class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter" >
+          
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No /क्रमांक#
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Leave Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Leave Type/अवकाश के प्रकार
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.anxtName) ? element?.anxtName :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Teacher Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Teacher Type/शिक्षक के  प्रकार
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.teacherTypeTxt  ) ? element?.teacherTypeTxt   :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Nature of Appointment">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Nature of Appointment/नियुक्ति की प्रकृति
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.natureofAppointmentName  ) ? element?.natureofAppointmentName   :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Appointing Authority">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Appointing Authority/नियुक्ति प्राधिकारी
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.appointingAuthorityName ) ? element?.appointingAuthorityName  :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Appointment Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Appointment Type/नियुक्ति का प्रकार
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.appointmentTypeName  ) ? element?.appointmentTypeName   :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="No. of days">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                No. of days/दिनों की संख्या
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.numberofDays ) ? element?.numberofDays  :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Document Required">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Document Required/आवश्यक दस्तावेज
+ 
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.docRequiredTxt ) ? element?.docRequiredTxt  :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Remarks">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Remarks/टिप्पणियां
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.entRemarks  ) ? element?.entRemarks   :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Approval Process">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noprint">
+                Approval Process/अनुमोदन की प्रक्रिया
+
+              </th>
+            <td mat-cell *matCellDef="let element" class="noPrint"><a class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#exampleModal"  (click)="viewLvApprovalProcess(element?.encId)"><i class="bi bi-info-circle"></i
+              ></a></td>
+            </ng-container>
+            
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+               Action/क्रिया
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                 <a title="Edit" [routerLink]="['./../editLeaveEntitlement/', element?.encId]" class="edit-btn me-2"><i
+                     class="bi bi-pencil-square text-primary"></i></a>
+                 <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteLeaveEntitlement(element?.encId)"><i
+                     class="bi bi-trash"></i></a>
+               </td>
+            </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+            </table>
+            <table>
+              <tr *ngIf="!dataSource.data.length">
+                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                  No Records Found!
+                </td>
+              </tr>
+            </table>
+            <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                 class="noPrint"   showFirstLastButtons>
+                  </mat-paginator>
+          </div>
+        </div>
+        <!-- <ng-template #showEmptyAlert>
+         
+        </ng-template> -->
+      </div>
+    </div>
+    <!-- <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+    </div> -->
+  </div>
+
+  <div
+  class="modal fade"
+  id="exampleModal"
+  tabindex="-1"
+  aria-labelledby="exampleModalLabel"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Leave Approval Process/अवकाश अनुमोदन की प्रक्रिया
+
+        </h5>
+        <button
+          type="button"
+          class="btn-close"
+          data-bs-dismiss="modal"
+          aria-label="Close"
+        ></button>
+      </div>
+      <div class="modal-body">
+        <div class="formpatch top-space">
+          <table class="table table-bordered cell-border">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th>#</th>
+                <th>Office/कार्यालय
+                </th>
+                <th>Approval Officer/अनुमोदन अधिकारी</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Level-{{ levelNumber }}</td>
+                <td>{{ officeName }}</td>
+                <td>{{ vchDesignationName }}</td>
+              </tr>
+              <tr>
+                <td>Level-{{ levelNumber2 }}</td>
+                <td>{{ officeName2 }}</td>
+                <td>{{ vchDesignationName2 }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+

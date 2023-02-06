@@ -1,0 +1,54 @@
+<div class="pageHeading">
+    <h3 class="pageName">Add Grant configuration/ अनुदान विन्यास जोड़ें</h3>
+    <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्</span>
+    <div class="tabArea">
+        <a routerLink="./../addGrantConfiguration" class="neuro addLink" routerLinkActive="active"	*ngIf="adminPrivilege"><i
+                class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a>
+        <a routerLink="./../viewGrantConfiguration" class="neuro viewLink" routerLinkActive="active"><i
+                class="bi bi-eye me-2"></i>View / देखें </a>
+
+    </div>
+</div>
+<form [formGroup]="addGrantConfigForm" (ngSubmit)="onSubmit()">
+    <div class="top-space">
+
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <label class="form-label">School Type <br>स्कूल का प्रकार </label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="schoolType">
+                    <option value="" selected>--Select--</option>
+                    <option *ngFor="let item of schoolCategoryData" value="{{item.schlCatId}}">{{item.schlCatName}}</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scCatLoading==true" alt="dsd">
+              </div>
+        </div>
+
+        <div class="row formpatch">
+            <div class="col-lg-2 form-group">
+                <label class="form-label">Grant Type <br> अनुदान प्रकार </label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <div class="check__box mb-6 class--checkbox" >
+                    <div class="form-group checkbox" *ngFor="let grantTypeData of grantTypeDatas ;let i=index;">
+                        <input  type="checkbox" [id]="grantTypeData.grantName" class="check" value="{{grantTypeData.grantTypeId}}" 
+                        (change)="changeGrantType($event) ">
+                        <label [for]="grantTypeData.grantName"> {{grantTypeData.grantName}}</label>
+                    </div>
+                </div>
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-success me-2">Submit / जमा करें</button>
+            <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित</button>
+        </div>
+    </div>
+</form>

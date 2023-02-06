@@ -1,0 +1,286 @@
+<form [formGroup]="assessmentScheduleForm">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Assessment Schedule / असेसमेंट शेड्यूल</h3>
+        </div>
+      </div>
+      <span class="indicator"
+        >( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span
+      >
+      <div class="tabArea">
+        <a
+          routerLink="./"
+          class="neuro addLink"
+          routerLinkActive="active"
+          *ngIf="adminPrivilege"
+          ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a
+        >
+        <a
+          routerLink="./../view"
+          class="neuro addLink"
+          routerLinkActive="active"
+          ><i class="bi bi-eye me-2"></i>View / देखें </a
+        >
+      </div>
+    </div>
+
+    <div class="formpatch mt-3">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="" class="form-label"
+              >Academic Year <br />अकादमिक वर्ष
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label for="" class="form-label fw-bold">
+              {{ currentAcademicYear || "--" }}</label
+            >
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Assessment Type <br />मूल्यांकन का प्रकार
+          </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            aria-label="Default select example"
+            class="form-select"
+            formControlName="assessmentType"
+            autofocus
+            tabindex="1"
+          >
+            <option value="" *ngIf="annextureLoad === false">--Select--</option>
+            <option value="" *ngIf="annextureLoad === true">Loading...</option>
+            <option
+              [value]="item.anxtValue"
+              ng-reflect-value="1"
+              *ngFor="let item of assessmentAnnexture"
+            >
+              {{ item?.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="" class="form-label">Class <br />वर्ग  </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            (change)="classChangeHandler(); getSubjects(); getStreamGroupType()"
+            formControlName="class"
+            tabindex="1"
+          >
+            <option value="" *ngIf="annextureLoad === false">--Select--</option>
+            <option value="" *ngIf="annextureLoad === true">Loading...</option>
+
+            <option
+              [value]="item.anxtValue"
+              ng-reflect-value="1"
+              *ngFor="let item of classAnnexture"
+            >
+              {{ item?.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <ng-container *ngIf="isClassGreaterThanTen === true">
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="" class="form-label"> Stream <br />धारा </label>
+          </div>
+          <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              formControlName="stream"
+              tabindex="2"
+              (change)="getStreamGroupType()"
+              (change)="getSubjects()"
+            >
+              <option value="" *ngIf="streamLoad === false">--Select--</option>
+              <option value="" *ngIf="streamLoad === true">Loading...</option>
+              <option
+                [value]="item.anxtValue"
+                ng-reflect-value="1"
+                *ngFor="let item of annextureData?.STREAM_TYPE"
+              >
+                {{ item?.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="
+          isClassGreaterThanTen === true && isScienceStreamSelected === true
+        "
+      >
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="" class="form-label"> Group <br />समूह </label>
+          </div>
+          <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              formControlName="group"
+              tabindex="3"
+              (change)="getSubjects()"
+            >
+              <option value="" *ngIf="streamGroupTypeLoad === false">
+                --Select--
+              </option>
+              <option value="" *ngIf="streamGroupTypeLoad === true">
+                Loading...
+              </option>
+              <option
+                [value]="item.anxtValue"
+                ng-reflect-value="1"
+                *ngFor="let item of streamGroupAnnexture"
+              >
+                {{
+                  item.anxtValue == 1
+                    ? item?.anxtName + " (Non-Medical)"
+                    : item?.anxtName + " (Medical)"
+                }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </ng-container>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Subject <br />
+            विषय</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            aria-label="Default select example"
+            class="form-select"
+            formControlName="subject"
+            tabindex="4"
+          >
+            <option selected value="" *ngIf="subjectLoad === false">
+              --Select--
+            </option>
+            <option selected value="" *ngIf="subjectLoad === true">
+              Loading...
+            </option>
+            <option
+              [value]="item?.subjectId"
+              ng-reflect-value="1"
+              *ngFor="let item of classWiseSubjects"
+            >
+              {{ item?.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Date of Exam <br />परीक्षा की तिथि</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            class="form-control"
+            formControlName="dateOfExam"
+            tabindex="5"
+            readonly
+            #datepickerYMD="bsDatepicker"
+            placeholder="DD-MM-YYYY"
+            bsDatepicker
+            [bsConfig]="{
+              dateInputFormat: 'DD-MMM-YYYY'
+            }"
+            [minDate]="minDateGetter"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Start Time <br />प्रारंभ का समय
+          </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="time"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="startTime"
+            tabindex="6"
+          />
+
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Duration (In Minute) <br />अवधि (मिनट में)</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="duration"
+            tabindex="7"
+            (keypress)="customValidators.keyPressNumbers($event)"
+            maxlength="3"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button
+      type="submit"
+      class="btn btn-success me-2"
+      (click)="onSubmit()"
+      tabindex="8"
+    >
+      Submit / जमा करें
+    </button>
+    <button type="reset" class="btn btn-danger" tabindex="9">
+      Reset / पुनर्स्थापित
+    </button>
+  </div>
+</form>

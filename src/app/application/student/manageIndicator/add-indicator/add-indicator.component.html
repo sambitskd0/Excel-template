@@ -1,0 +1,63 @@
+<div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName"> Indicator</h3>
+            
+         </div>
+         <app-common-tab></app-common-tab>
+      </div>
+      
+
+       <div class="tabArea">
+          <a routerLink="./../add"  class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Add</a>
+          <a routerLink="./../view" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View</a>   
+          <span class="indicator">( * ) Indicator Mandatory</span>
+       </div>
+    </div>
+    <div class="top-space">
+       <form [formGroup]="indicatorForm" (ngSubmit)="onSubmit()">
+       <div class="row">
+          <div class="col-lg-2 form-group">
+             <label for="exampleInputEmail1" class="form-label">Class </label>
+          </div>
+          <div class="col-lg-3 form-group">
+             <span class="colon">:</span>
+             <select class="form-select" aria-label="Default select example" formControlName="classId" (change)="getSubject($any($event.target).value)">
+                <option value="" *ngIf="classChanged == false">--- Select ---</option>
+                     <option value="" *ngIf="classChanged == true">Loading...</option>
+                     <option *ngFor="let cls of classList" value={{cls.anxtValue}}>{{ cls.anxtName }}</option>
+             </select>
+             <span class="mandatory">*</span>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-lg-2 form-group">
+             <label for="exampleInputEmail1" class="form-label">Subject </label>
+          </div>
+          <div class="col-lg-3 form-group">
+             <span class="colon">:</span>
+             <select class="form-select" aria-label="Default select example" formControlName="subjectId">
+               <option selected value="">---Select Type---</option>
+               <option *ngFor="let item of subjectData" value="{{item.subjectId}}">{{item.subjectName}}</option>
+             </select>
+             <span class="mandatory">*</span>
+          </div>
+       </div>
+       <div class="row formpatch">
+          <div class="col-lg-2 form-group">
+             <label for="exampleInputEmail1" class="form-label">Indicator Name </label>
+          </div>
+          <div class="col-lg-3 form-group">
+             <span class="colon">:</span>
+             <textarea cols="4" rows="4" class="form-control" formControlName="indicator"  maxlength="300"aria-describedby="emailHelp"></textarea>
+                 <small>Maximum <span class="text-danger">(300)</span> Characters</small>
+             <span class="mandatory">*</span>
+          </div>
+       </div>
+       <div>
+          <button class="btn btn-success me-2">Submit</button>
+          <button class="btn btn-danger">Reset</button>
+       </div>
+       </form> 
+    </div>

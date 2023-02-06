@@ -1,0 +1,182 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Training Inspection Details (Official Works)</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="top-space">
+
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">1) Training Type </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal">{{trainingData?.trainingTypeName || "--"}}</label>
+              </div>
+           </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">2) Name of the Training </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal">{{trainingData?.trainingName || "--"}}</label>
+              </div>
+           </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">3) Duration of Training (in Days) </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal">{{trainingData?.trainingDuration || "--"}}</label>
+              </div>
+           </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">4) Training Start Date </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal">{{trainingData?.startDate ? (trainingData?.startDate|date:'dd-MMM-yyyy') :'--'}}</label>
+              </div>
+           </div>
+          </div>
+
+          <div class="patch">
+            <div class="row patch-heading">
+               <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">5) No. of Participants   </label>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-4 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label"> Registered </label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                            <label for="" class="form-label fw-normal">{{trainingData?.registeredParticipants ? trainingData?.registeredParticipants :'--'}}</label>  
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-4 col-md-1  form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label">Present</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                            <strong>
+                                <label for="" class="form-label fw-normal">{{trainingData?.presentParticipants ? trainingData?.presentParticipants :'--'}}</label>
+                              </strong>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                  </div>
+               </div>
+            </div>
+          </div>
+
+          <div class="patch">
+            <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                      <label for="exampleInputEmail1" class="form-label">6) No. of Trainers   </label>
+                    
+                  </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                  <div class="row">
+                      <div class=" col-4 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label"> Registered </label>
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                      <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                            <label for="" class="form-label fw-normal">{{trainingData?.registeredTrainers ? trainingData?.registeredTrainers :'--'}}</label>  
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                      <div class="col-4 col-md-1  form-group">
+                        <div class="">
+                            <label for="exampleInputEmail1" class="form-label">Present</label>
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                      <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                            <strong>
+                                <label for="" class="form-label fw-normal">{{trainingData?.presentTrainers ? trainingData?.presentTrainers :'--'}}</label>
+                              </strong>
+                        </div>
+                      </div>
+                      <div class="col-md-1"></div>
+                  </div>
+                </div>
+            </div>
+          </div>
+            
+
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">7) Type of Training </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal"> {{trainingData?.trainingType ? trainingData?.trainingType :'--'}}</label>
+              </div>
+           </div>
+          </div>
+
+          <div class="row">
+            <div class="col-md-6 form-group">
+              <div class="">
+                 <label for="exampleInputEmail1" class="form-label">8) Availability of Training materials </label>
+              </div>
+           </div>
+           <div class="col-md-3 form-group">
+              <div class=""> <span class="colon">:</span>
+                 <label for="" class="form-label fw-normal"> {{trainingData?.materialAvailability ? trainingData?.materialAvailability :'--'}}</label>
+              </div>
+           </div>
+          </div>
+          
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

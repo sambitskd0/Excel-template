@@ -1,0 +1,44 @@
+<div>
+    <div class="pageHeading">
+    <div><h3 class="pageName">Update Configure Geofencing/जियोफ़ेंसिंग कॉन्फ़िगर अपडेट करें
+    </h3>
+        <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+        </span></div>
+    <div class="tabArea">
+        <a routerLink="./../editGeoFencing"  class="neuro addLink active" routerLinkActive="active" 
+        *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Update</a> 
+    </div>
+    </div>
+    <div>
+   
+    <div class="top-space">
+        <form [formGroup]="editGeoFencingForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="encId">
+        <div class="row formpatch">
+        <div class="col-lg-2 form-group">
+           <label for="exampleInputEmail1" class="form-label">Update Geo Fencing Distance/जियोफ़ेंसिंग की दूरी अपडेट  करें
+        </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" minlength="1"  maxlength="9" formControlName="GeoFencingValue" aria-describedby="emailHelp"  (keypress)="customValidators.keyPressNumbers($event)" >
+            <small>Entered distance should be in meter./प्रवेश की दूरी मीटर में होनी चाहिए
+            </small>
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-success me-2">Update/अद्यतन</button>
+    </div>
+</form>
+</div>
+
+
+
+
+
+
+
+
+
+

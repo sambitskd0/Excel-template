@@ -1,0 +1,203 @@
+<form [formGroup]="trainingTeacherForm">
+  <div class="screen-space mobApp">
+    <div class="d-flex justify-content-between align-items-center">
+      <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+      <div class="indicator">( * ) Indicator Mandatory</div>
+    </div>
+    <div class="pageHeading">
+      <div class="d-flex justify-content-between">
+        <div>
+          <h3 class="pageName pt-2">Training</h3>
+        </div>
+        <!-- <div><span class="indicator mt-2">( * ) Indicator Mandatory</span></div> -->
+      </div>
+    </div>
+    <div class="clearfix"></div>
+    <div class="formpatch top-space pb-3">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >1) Choose Training Type <span class="mandatory">*</span></label
+            >
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <select
+              aria-label="Default select example"
+              class="form-select"
+              formControlName="trainingTypeId"
+            >
+              <option value="" *ngIf="trainingTypeChanged == false">
+                --Select--
+              </option>
+              <option value="" *ngIf="trainingTypeChanged == true">
+                Loading...
+              </option>
+              <option
+                *ngFor="let trainingType of allTrainingType"
+                [value]="trainingType.anxtValue"
+              >
+                {{ trainingType.anxtName }}
+              </option>
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >2) Write the Name of Training Place
+              <span class="mandatory">*</span></label
+            >
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              type="text"
+              class="form-control"
+              formControlName="trainingPlace"
+              maxlength="120"
+              (keypress)="
+                customValidators.alphaNumericValidator(
+                  $event,
+                  'comma',
+                  'space',
+                  'dot',
+                  'hyphen'
+                )
+              "
+              autocomplete="off"> 
+			 </div>
+		  </div>
+	   </div>
+	   <div class="row">
+		  <div class="col-md-2 form-group">
+			 <div class="">
+				<label for="exampleInputEmail1" class="form-label">3) Duration of Training (in Days) <span class="mandatory">*</span> </label>
+			 </div>
+		  </div>
+		  <div class="col-md-3 form-group">
+			 <div class="colon-top">
+				<span class="colon">:</span>
+				<input type="number" class="form-control" formControlName="trainingDuration" maxlength="3"  (keyup)="keyUpInputNumber($event,'trainingDuration',3)">
+				
+			 </div>
+		  </div>
+	   </div>
+	   <div class="row">
+		  <div class="col-md-2 form-group">
+			 <div class="">
+				<label for="exampleInputEmail1" class="form-label">4) Type of Training <span class="mandatory">*</span></label>
+			 </div>
+		  </div>
+		  <div class="col-md-3 form-group">
+			<div class="colon-top"> <span class="colon">:</span>
+				<div class="radiobuttons">
+					<div  class="rdio rdio-primary form-check-inline">
+						<input name="trainingType" value="1" id="radio3" type="radio"  formControlName="trainingType" checked = "true">
+						<label  for="radio3">Residential </label>
+					</div>
+					<div class="rdio rdio-primary form-check-inline">
+						<input name="trainingType" value="2" id="radio4" type="radio" formControlName="trainingType" checked = "false">
+						<label  for="radio4">Non-Residential </label>
+					</div>	 
+				</div>
+	        </div>
+		  </div>
+	   </div>
+			<div class="patch">
+				<div class="row patch-heading">
+					<div class="col-md-12 col-12">
+						<div class="">
+							<label for="exampleInputEmail1" class="form-label">5) No. of Trainers <span class="mandatory">*</span></label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="row">
+							<div class=" col-5 col-md-2 form-group">
+								<div class="">
+									<label for="exampleInputEmail1" class="form-label">Registered </label>
+								</div>
+							</div>
+							<div class="col col-md-3 form-group">
+								<div class="pb-1"> <span class="colon">:</span>
+									<input type="number" class="form-control" formControlName="registeredTrainers" maxlength="3"  
+									(keyup)="keyUpInputNumber($event,'registeredTrainers',3)" 
+									(blur)="maxLimitChk('registeredTrainers','presentTrainers','Number Of Teacher registered','Number Of Teacher Present')"
+									>  </div>
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-5 col-md-2 form-group">
+								<div class="">
+									<label for="exampleInputEmail1" class="form-label">Present </label>
+								</div>
+							</div>
+							<div class="col col-md-3 form-group">
+								<div class="pb-1"> <span class="colon">:</span>
+									<input type="number" class="form-control" formControlName="presentTrainers" maxlength="3"  
+									(keyup)="keyUpInputNumber($event,'presentTrainers',3)"
+									(blur)="maxLimitChk('registeredTrainers','presentTrainers','Number Of Teacher registered','Number Of Teacher Present')"
+									> 
+								 </div>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="patch">
+				<div class="row patch-heading">
+					<div class="col-md-12 col-12">
+						<div class="">
+							<label for="exampleInputEmail1" class="form-label">6) No. of Participants <span class="mandatory">*</span></label>
+						</div>
+					</div>
+				</div>
+				<div class="row">
+					<div class="col-md-6">
+						<div class="row">
+							<div class=" col-5 col-md-2 form-group">
+								<div class="">
+									<label for="exampleInputEmail1" class="form-label">Registered </label>
+								</div>
+							</div>
+							<div class="col col-md-3 form-group">
+								<div class="pb-1"> <span class="colon">:</span>
+									<input type="number" class="form-control" formControlName="registeredParticipants" maxlength="3"  
+					          (keyup)="keyUpInputNumber($event,'registeredParticipants',3)"
+							  (blur)="maxLimitChk('registeredParticipants','presentParticipants','Number Of Participants registered','Number Of Participants Present')" >  
+					</div>
+							</div>
+							<div class="col-md-1"></div>
+							<div class="col-5 col-md-2 form-group">
+								<div class="">
+									<label for="exampleInputEmail1" class="form-label">Present </label>
+								</div>
+							</div>
+							<div class="col col-md-3 form-group">
+								<div class="pb-1"> <span class="colon">:</span>
+									<input type="number" class="form-control" formControlName="presentParticipants" maxlength="3" 
+					             (keyup)="keyUpInputNumber($event,'presentParticipants',3)"
+								 (blur)="maxLimitChk('registeredParticipants','presentParticipants','Number Of Participants registered','Number Of Participants Present')" > 
+					 </div>
+							</div>
+						
+						</div>
+					</div>
+				</div>
+			</div>
+	</div>
+	<div>
+		<button type="submit" class="btn btn-success me-2" (click)="onSubmit()">Submit</button>
+    <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+ </div>
+ </div>
+ </form>

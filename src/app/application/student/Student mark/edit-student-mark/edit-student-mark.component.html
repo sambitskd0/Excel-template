@@ -1,0 +1,282 @@
+<div>
+    <div class="pageHeading">
+      <div>
+          <h3 class="pageName">Student Mark / छात्र का प्राप्तांक</h3>
+          <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+      </div>
+      <div class="tabArea">
+          <a class="neuro addLink active" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit / संपादन करना</a>
+          <a routerLink="../../viewStudentMark" class="neuro viewLink"><i class="bi bi-eye me-2"></i>View / देखे</a>
+          <a routerLink="../../markReportCard" class="neuro viewLink"><i class="bi bi-eye me-2"></i>Report Card / प्रतिवेदन पत्रक</a>
+      </div>
+    </div>
+    <div class="top-space">
+        <div class="search-container">
+            <div class="search-sec">
+              <div class="searchPanel">
+                  <div class="row">
+                    <div class="col-md-2 form-group">
+                        <div class="">
+                          <label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="exampleInputEmail1" class="form-label fw-bold">{{ academicYear ? academicYear : "--" }}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                          <label for="" class="form-label">District <br>जिला</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold"> {{ districtName ? districtName : "--" }} </label>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                          <label for="" class="form-label">Block <br>खंड</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">{{ blockName ? blockName : "--" }}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                          <label for="exampleInputEmail1" class="form-label">Cluster <br>संकुल</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">
+                          {{ clusterName ? clusterName : "--" }}
+                          </label>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                          <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">{{ schoolUdiseCode ? schoolUdiseCode : "--" }} - {{ schoolName ? schoolName : "--" }}</label>
+                        </div>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                          <label for="" class="form-label">Class <br>वर्ग</label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{ className ? className : "--" }}</label>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-6">
+                        <ng-container *ngIf="classId == 11 || classId == 12">
+                          <div class="row">
+                              <div class="col-lg-4 form-group">
+                                <label for="" class="form-label">Stream <br>धाराएँ</label>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <label for="" class="form-label fw-bold">{{ streamName ? streamName : "--" }}</label>
+                              </div>
+                          </div>
+                        </ng-container>
+                    </div>
+                    <div class="col-md-6">
+                        <ng-container *ngIf="(streamId == 3 && classId == 11) || classId == 12">
+                          <div class="row">
+                              <div class="col-lg-4 form-group">
+                                <label for="" class="form-label">Group <br>समूह</label>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <label for="" class="form-label fw-bold">{{ groupName ? groupName : "--" }}</label>
+                              </div>
+                          </div>
+                        </ng-container>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <div class="col-md-2 form-group">
+                        <div class="">
+                          <label class="form-label">Exam Type <br>परीक्षा का प्रकार</label>
+                        </div>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">{{ examTypeName ? examTypeName : "--" }}</label>
+                        </div>
+                    </div>
+                  </div>
+                  <div class="row" style="margin-top: 5%;;">
+                    <span style="color:red"><strong>नोट –ग्रेड A -81% से 100% अंक(बहुत अच्छा) B -61% से 80% अंक (अच्छा)
+                       C-41% से 60% अंक (संतोषप्रद)
+                       &nbsp; &nbsp; D-33% से 40% अंक (प्रयास की आवश्यकता) E-0% से 32% अंक (विशेष
+                       प्रयास/ शिक्षण की आवश्यकता)
+                   </strong></span>
+                 </div>
+              </div>
+            </div>
+        </div>
+    </div>
+    <div class="clearfix"></div>
+    <form [formGroup]="studentMarkForm" (ngSubmit)="submitStudentMark()">
+        <div class="row mt-3">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                          <th scope="col" rowspan="2">#</th>
+                          <th scope="col" rowspan="2">Student Code / छात्र का कोड</th>
+                          <th scope="col" rowspan="2">Name / नाम</th>
+                          <th scope="col" rowspan="2">Father Name / पिता का नाम</th>
+                          <th scope="col" [attr.colspan]="this.colspanLength" class="text-center">Subject  / विषय</th>
+                          <th scope="col" rowspan="2">Total Mark / कुल अंक</th>
+                          <th scope="col" rowspan="2">Secured Mark / सुरक्षित अंक  <span class="text-danger">*</span></th>
+                          <th scope="col" rowspan="2">
+                            Overall Percentage / कुल प्रतिशत<span class="text-danger">*</span>
+                         </th>
+                         <th scope="col" rowspan="2">
+                            Overall Grade / कुल ग्रेड <span class="text-danger">*</span>
+                         </th>
+                        </tr>
+                        <tr>
+                          <ng-container *ngFor="let subjectDataHeading of subListingData">
+                              <th [attr.colspan]="subjectDataHeading.colspan"> {{ subjectDataHeading.subject }} </th>
+                              <th>Grade / श्रेणी</th>
+                          </ng-container>
+                        </tr>
+                    </thead>
+                    <tbody formArrayName="studentMarkArray">
+                        <tr *ngFor="let stdData of studentMarkInfo().controls; let stdIndex=index">
+
+                          <ng-container [formGroupName]="stdIndex">
+
+                              <td scope="row">{{ stdIndex + 1 }}</td>
+                              <td style="width:10%;">
+                                <input formControlName="checkItem" type="hidden">
+                                <input type="hidden" class="form-control" formControlName="studentId" />
+                                <input type="hidden" class="form-control" formControlName="studentCode" />
+                                <input type="hidden" class="form-control" formControlName="studentName" />
+                                <input type="hidden" class="form-control" formControlName="fatherName" />
+                                <label>{{stdData?.get('studentCode')?.value}}</label>
+                              </td>
+                              <td style="width:10%;">
+                                <label>{{stdData?.get('studentName')?.value}}</label>
+                              </td>
+                              <td style="width:10%;">
+                                <label>{{stdData?.get('fatherName')?.value}}</label>
+                              </td>
+
+                              <ng-container formArrayName="stdSubArray">
+                                <!-- <ng-container *ngFor="let item of subListingData"> -->
+                                <ng-container *ngFor="let skill of stdSubInfo(stdIndex).controls; let subIndex=index">
+                                  <ng-container [formGroupName]="subIndex">
+                                    <td style="width:5%;">
+                                      <div class="input-group">
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="thmark"
+                                            formControlName="thMark"
+                                            (keypress)="customValidators.keyPressNumbersDecimal($event)" 
+                                            maxLength="5" 
+                                            (blur)="checkTotalMark(stdIndex,subIndex,thSecured,thTotal)"
+                                            #thSecured
+                                            (blur)="CalculateGrade(stdIndex,subIndex)"
+                                          />
+                                          <div class="input-group-append" *ngIf="this.rawStudentData[stdIndex]['subjectData'][subIndex]['theoryMark']>1000">
+                                            <span class="input-group-text"> / {{this.rawStudentData[stdIndex]['subjectData'][subIndex]['theoryMark']}}</span>
+                                          </div>
+                                      </div>                                 
+                                      <input type="hidden" class="form-control" formControlName="theoryMark" #thTotal/>
+                                      <!-- formControlName="thMark" -->
+                                      <br/>
+                                      <div class="input-group" *ngIf="this.rawStudentData[stdIndex]['subjectData'][subIndex]['practicalMark']>0">
+                                          <input
+                                            type="text"
+                                            class="form-control"
+                                            placeholder="prmark"
+                                            formControlName="prMark"
+                                            (keypress)="customValidators.keyPressNumbersDecimal($event)" 
+                                            maxLength="5"
+                                            (blur)="checkTotalMark(stdIndex,subIndex,prSecured,prTotal)"
+                                            #prSecured
+                                            (blur)="CalculateGrade(stdIndex,subIndex)"
+                                          />
+                                          <div class="input-group-append" *ngIf="this.rawStudentData[stdIndex]['subjectData'][subIndex]['practicalMark']>1000">
+                                            <span class="input-group-text"> / {{this.rawStudentData[stdIndex]['subjectData'][subIndex]['practicalMark']}}</span>
+                                          </div>
+                                      </div> 
+                                      <input type="hidden" class="form-control" formControlName="practicalMark" #prTotal/>
+                                      <input type="hidden" class="form-control" formControlName="fullMarkForSub"
+                                      #fullMarkForSub />
+                                      <input type="hidden" class="form-control" formControlName="subjectId"/>
+                                      <input type="hidden" class="form-control" formControlName="isExist" />
+
+
+                                      <!-- formControlName="prMark" -->
+                                    </td>
+                                    <td style="width:5%;">
+                                      <div class="input-group">
+                                         <input type="text" class="form-control inputAsLabel"
+                                            formControlName="grade" maxLength="5" #grade />
+                                      </div>
+                                   </td>
+                                  </ng-container>
+                                </ng-container>
+                              </ng-container>
+
+                              <td style="width:7%;">
+                                <input type="text" class="form-control inputAsLabel" formControlName="totalMark" (keypress)="customValidators.keyPressNumbersDecimal($event)" maxLength="5" />
+                              </td>
+                              <td style="width:7%;">
+                                <input type="text" class="form-control inputAsLabel" formControlName="securedMark" (keypress)="customValidators.keyPressNumbersDecimal($event)" maxLength="5"/>
+                              </td>
+                              <td style="width:5%;">
+                                <input type="text" class="form-control inputAsLabel"
+                                   formControlName="overAllPercentage" maxLength="5" />
+                             </td>
+                             <td style="width:5%;">
+                                <input type="text" class="form-control inputAsLabel" formControlName="overAllGrade"
+                                   maxLength="5" />
+                             </td>
+                          </ng-container>
+
+                        </tr>
+                    </tbody>
+                  </table>
+              </div>
+            </div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-success me-2">Update / अपडेट करें</button>
+          <button type="button" class="btn btn-danger" (click)="cancelForm()">Cancel / रद्द करें</button>
+        </div>
+    </form>
+</div>

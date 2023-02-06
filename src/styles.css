@@ -1,0 +1,2347 @@
+/* You can add global styles to this file, and also import other style files */
+:root {
+  --header-height: 3rem;
+  --nav-width: 68px;
+  --first-color: #4723d9;
+  --first-color-light: #afa5d9;
+  --white-color: #f7f6fb;
+  --body-font: "Nunito", sans-serif;
+  --normal-font-size: 1rem;
+  --z-fixed: 100;
+  --purple: #63409a;
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  position: relative;
+  min-height: 100%;
+  background-color: hsl(0deg 0% 97%);
+  font-size: 16px;
+}
+
+/* required class  start*/
+.pageLayer {
+  padding-left: 2rem;
+  border: 1px solid rgb(244 244 244);
+  box-shadow: 0em 0em 1em rgb(240 248 255);
+  margin-bottom: 0rem;
+}
+/*CSS for DIVYA APP*/
+.screen-space {
+  padding: 2rem;
+}
+.patch-heading .mandatory {
+  color: #e9edf0;
+  text-decoration: none;
+  font-weight: bold;
+  /* position: absolute;*/
+  right: 10px;
+  top: 10px;
+  font-size: 0.9em;
+  vertical-align: sub;
+}
+/*.mandatory {
+    color: rgb(239 75 55);
+    text-decoration: none;
+    font-weight: bold;
+    /* position: absolute;
+    right: 0;
+    top: 27%; * /
+    font-size: .9em;
+    vertical-align: sub;
+  }*/
+/*.screen-space{ }*/
+.back-btn {
+  display: flex;
+  /*justify-content: flex-end;*/
+}
+.back-btn .btn-purple {
+  background-color: rgb(0 168 157);
+  border: 1px solid rgb(0 168 157);
+  color: #fff;
+  padding: 0.3rem 0.5rem;
+  font-size: 13px;
+}
+.patch {
+  margin: 20px 0px 10px;
+  padding: 15px 18px 15px 15px;
+  background: #fff;
+  border: 1px solid #63409a;
+}
+.patch-heading {
+  margin: -15px -18px 15px -15px;
+  background: #63409a;
+  color: #fff;
+}
+/*CSS for DIVYA APP*/
+
+.formpatch {
+  border-bottom: 1px dotted rgb(99 64 154);
+  margin-bottom: 1rem;
+}
+
+.formpatch h5 {
+  color: rgb(99 64 154);
+  border-left: 2px dotted;
+  padding-left: 10px;
+  margin-bottom: 2rem;
+  margin-top: 2rem;
+  font-size: 1.2rem;
+}
+
+.tab__section {
+  display: flex;
+}
+
+.mt-7 {
+  margin-top: 7rem;
+}
+
+button.top-info-details {
+  background-color: rgb(255 214 107 / 53%);
+  color: #000;
+  border: none;
+  margin: 0 auto;
+  width: 47%;
+  padding: 0.3rem 0rem;
+  border-radius: 2px;
+  font-weight: 600;
+}
+
+.indicator {
+  float: right;
+  color: rgb(255 0 0);
+  font-size: 15px;
+  margin-top: 10px;
+  font-weight: 600;
+}
+
+.form-group {
+  margin-bottom: 1rem;
+  position: relative;
+}
+
+.mandatory {
+  color: rgb(239 75 55);
+  text-decoration: none;
+  font-weight: bold;
+  position: absolute;
+  right: 0;
+  top: 27%;
+  font-size: 0.8em;
+}
+.mandatoryRd {
+  color: rgb(239 75 55);
+  text-decoration: none;
+  font-weight: bold;
+  right: 0;
+  top: 27%;
+  font-size: 0.8em;
+}
+/* required class  end */
+
+.headerarea {
+  position: relative;
+  margin: var(--header-height) 0 0 0;
+  padding: 0 1rem;
+  font-family: var(--body-font);
+  font-size: var(--normal-font-size);
+  transition: 0.5s;
+}
+
+
+
+
+
+#wrapper {
+  padding-left: 0;
+  transition: all 0.5s ease;
+  position: relative;
+}
+
+a {
+  color: #2196f3;
+  text-decoration: none;
+}
+
+#sidebar-wrapper {
+  z-index: 2;
+  position: fixed;
+  left: 269px;
+  width: 252px;
+  margin-left: -250px;
+  overflow-y: scroll;
+  margin-top: 1.3rem;
+  margin-bottom: 1rem;
+  border-radius: 8px;
+  overflow-x: hidden;
+  background: var(--purple);
+  bottom: 0;
+  top: 47px;
+  border-top-right-radius: 0;
+  border-top-left-radius: 0;
+  transition: all 1s ease;
+}
+
+.navbar {
+  padding-bottom: 0 !important;
+}
+
+#wrapper.toggled #sidebar-wrapper {
+  width: 250px;
+}
+
+.sidebar-brand {
+  position: absolute;
+  top: 0;
+  width: 250px;
+  text-align: center;
+}
+
+.sidebar-brand h2 {
+  margin: 0;
+  font-weight: 600;
+  font-size: 24px;
+  color: #fff;
+}
+
+.sidebar-nav {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+  padding-top: 10px;
+}
+
+.sidebar-nav > li a {
+  display: block;
+  text-decoration: none;
+  color: #ede2e2;
+  font-size: 15px;
+  transition: 0.5s;
+  padding: 10px 15px;
+  display: flex;
+  border-top: 1px solid #7c57b7;
+  border-bottom: 1px solid #4b297e;
+}
+
+.sidebar-nav .accordion .accordion-item .accordion-body > li a {
+  display: block;
+  text-decoration: none;
+  color: #c9b6e7;
+  font-size: 0.925rem;
+  padding-left: 0.5rem;
+}
+
+.sidebar-nav .accordion .accordion-item .accordion-body > li a:hover {
+  color: #d6cce7;
+}
+
+.sidebar-nav .accordion .accordion-item .accordion-body > li::marker {
+  color: #beafd7 !important;
+  display: none !important;
+}
+
+.sidebar-nav .accordion .accordion-item .accordion-body > li {
+  border-top: 1px solid #4c2b81;
+  border-bottom: 1px solid #704aad;
+}
+
+.sidebar-nav > li a svg {
+  margin-top: 5px;
+  width: 16px;
+  height: 16px;
+}
+
+.sidebar-nav > li.active > a {
+  text-decoration: none;
+  color: rgb(206 175 255);
+  border-left: 4px solid rgb(206 175 255);
+}
+
+.sidebar-nav > li > a:hover {
+  text-decoration: none;
+  color: rgb(206 175 255);
+}
+
+.sidebar-nav > li > a i.fa {
+  font-size: 24px;
+  width: 60px;
+}
+
+#navbar-wrapper {
+  width: 100%;
+  position: absolute;
+  z-index: 2;
+}
+
+#wrapper.toggled #navbar-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+#navbar-wrapper .navbar {
+  margin-bottom: 0;
+  position: fixed;
+  width: 100%;
+  background-color: rgb(247 247 247);
+}
+
+#navbar-wrapper .navbar .header-section {
+  border-width: 0 0 0 0;
+  background-color: rgb(238 238 238);
+  font-size: 24px;
+  border: 1px solid rgb(204 204 204 / 19%);
+  padding-top: 0.5rem;
+  padding-bottom: 0.5rem;
+  padding-top: 0.7rem;
+  height: 65px;
+  width: calc(100% - 265px);
+  border-bottom-right-radius: 6px;
+  border-bottom-left-radius: 0px;
+  border-top-right-radius: 6px;
+  border-top-left-radius: 0px;
+}
+
+.logo-header {
+  border-width: 0 0 0 0;
+  background-color: rgb(99 64 154);
+  font-size: 24px;
+  border: 1px solid rgb(204 204 204 / 19%);
+  border-bottom: none;
+  padding: 10px;
+  height: 65px;
+  width: 252px;
+  margin-left: 4px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 6px;
+  border-top-right-radius: 0px;
+  border-top-left-radius: 6px;
+}
+
+#navbar-wrapper .navbar a {
+  color: #fff;
+  line-height: 1;
+}
+
+#navbar-wrapper .navbar a:hover {
+  color: #f8be12;
+}
+
+#content-wrapper {
+  width: 100%;
+  /* position: absolute; */
+  padding: 0 15px;
+  /* top: 90px; */
+  padding-left: 265px;
+  margin-top: 80px;
+}
+
+#wrapper.toggled #content-wrapper {
+  position: absolute;
+  margin-right: -250px;
+}
+
+.login-btn {
+  background-color: rgb(99 64 154);
+  padding: 3px 6px;
+  border-radius: 7px;
+}
+
+.header-icons i {
+  color: rgb(99 64 154);
+}
+
+.header-icons i:hover {
+  color: rgb(155 102 237);
+}
+
+.btn-purple {
+  background-color: rgb(0 168 157);
+  border: 1px solid rgb(0 168 157);
+  color: #fff;
+}
+
+.btn-purple:hover {
+  background-color: rgb(27 147 139);
+  color: #fff;
+}
+
+.btn-purple:focus {
+  outline: none;
+  box-shadow: none;
+}
+
+.bg-lightpurple {
+  background-color: rgb(150 118 199);
+  color: #fff;
+}
+
+/* dashboard Add view page starts */
+.pageHeading {
+  top: 5.5rem;
+  background-color: #f7f7f7;
+  z-index: 2;
+  left: 18rem;
+  right: 1.5rem;
+}
+
+.pageHeading .heading__tab {
+  display: flex;
+  /* align-items: center; */
+  justify-content: space-between;
+}
+
+.pageHeading .heading__tab .tablink {
+  padding: 0.3rem 1rem;
+  border: 1px solid var(--purple);
+  color: var(--purple);
+  margin-left: 0.1rem;
+  text-decoration: none;
+}
+
+.pageHeading .heading__tab .tablink.active {
+  background: var(--purple);
+  color: #fff;
+}
+.pageName {
+  color: rgb(99 64 154);
+  margin-bottom: 0rem;
+  font-size: 1.2rem;
+  margin-top: 0rem;
+  display: inline-block;
+}
+
+.tabArea {
+  border-bottom: 1px solid rgb(225 225 225);
+}
+
+.neuro {
+  width: auto;
+  padding: 10px 10px;
+  display: inline-flex;
+  align-items: center;
+  margin-right: 10px;
+  font-size: 15px;
+  color: rgb(98 98 98);
+  transition: all 0.2s ease-in-out;
+  cursor: pointer;
+  font-weight: 600;
+  text-decoration: none;
+}
+
+.neuro:hover {
+  color: rgb(99 64 154);
+}
+
+.neuro.active {
+  color: rgb(99 64 154);
+  border-bottom: 2px solid rgb(99 64 154);
+}
+
+.searchPanel {
+  padding: 1rem;
+  border: 1px solid #63409a40;
+  border-radius: 3px;
+}
+
+.edit-btn {
+  background-color: #e58b06;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #fff;
+  background-color: rgb(62 80 183 / 19%);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: rgb(41 62 181);
+}
+
+.edit-btn:hover {
+  color: rgb(113 132 237);
+}
+
+.delete-btn {
+  background-color: #f5c4c4;
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #cb0b0b;
+}
+
+.delete-btn:hover {
+  color: #eb4141;
+}
+
+.add-btn {
+  background-color: rgb(60 124 222);
+  padding: 2px 4px;
+  border-radius: 3px;
+  color: #fff;
+}
+
+.add-btn:hover {
+  color: #fff;
+}
+
+.view-btn {
+  background-color: rgb(33 112 233 / 43%);
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+.tranfer-btn {
+  color: rgb(34 104 72);
+  padding: 1px 6px;
+  border: 0;
+  border-radius: 3px;
+  background-color: rgb(150 191 172 / 76%);
+}
+
+.tranfer-btn:hover {
+  background-color: rgb(32 82 59);
+}
+
+.action-btn {
+  padding: 0 2px;
+  font-size: 11px;
+  background-color: rgb(30 39 197);
+  border: 1px solid rgb(30 39 197);
+}
+
+.action-btn:hover {
+  background-color: rgb(62 71 221);
+}
+
+.cancel-btn {
+  padding: 0 2px;
+  font-size: 11px;
+  background-color: rgb(243 17 0);
+  border: 1px solid rgb(243 17 0);
+}
+
+.cancel-btn:hover {
+  background-color: rgb(199 46 35);
+}
+
+.main-container {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+  min-height: 100vh;
+}
+
+.contentBox {
+  flex: 1 1 auto;
+}
+
+.search-container {
+  position: relative;
+  min-height: 35px;
+  margin-bottom: 2px;
+  margin-top: 1rem;
+}
+
+.form-label {
+  margin-bottom: 0.2rem;
+  padding-top: 5px;
+}
+
+.student-info .searchPanel:nth-child(1) {
+  padding-bottom: 0;
+  border-radius: 3px 3px 0 0;
+}
+
+.student-info .search-sec .searchPanel:nth-child(1) {
+  padding-top: 0;
+  border-top: 0;
+  border-bottom: 1px solid rgb(0 91 148 / 18%);
+  border-radius: 0px 0px 3px 3px;
+}
+
+.searchopen {
+  padding: 6px 15px;
+  background: rgb(67 43 104);
+  color: #f1e7e7;
+  border: 1px solid rgb(67 43 104);
+  float: right;
+  font-weight: 600;
+  margin-bottom: 1rem;
+  border-radius: 4px;
+}
+
+.searchopen:hover {
+  color: #f1e7e7;
+  background: rgb(99 64 154);
+}
+
+.top-space {
+  margin-top: 1rem;
+}
+
+/* dashboard Add view page ends */
+
+/* radio btn custom starts */
+.rdio {
+  position: relative;
+}
+
+.rdio input[type="radio"] {
+  opacity: 0;
+}
+
+.rdio label {
+  padding-left: 10px;
+  cursor: pointer;
+  margin-bottom: 7px !important;
+}
+
+.rdio label:before {
+  width: 15px;
+  height: 15px;
+  position: absolute;
+  top: 4px;
+  left: 0;
+  content: "";
+  display: inline-block;
+  border-radius: 50px;
+  border: 2px solid rgb(126 45 249);
+  background: #fff;
+}
+
+.rdio input[type="radio"] {
+  margin: 0px;
+}
+
+.rdio input[type="radio"]:disabled + label {
+  color: #999;
+}
+
+.rdio input[type="radio"]:disabled + label:before {
+  background-color: #c7c4cd;
+  border: 1px solid #c7c4cd;
+}
+
+.rdio input[type="radio"]:checked + label::after {
+  content: "";
+  position: absolute;
+  top: 8px;
+  left: 4px;
+  display: inline-block;
+  font-size: 11px;
+  width: 7px;
+  height: 7px;
+  background-color: rgb(126 45 249);
+  border-radius: 50px;
+}
+
+.rdio-default input[type="radio"]:checked + label:before {
+  border-color: rgb(126 45 249);
+}
+
+.rdio-primary input[type="radio"]:checked + label:before {
+  border-color: rgb(126 45 249);
+}
+
+.rdio-primary input[type="radio"]:checked + label::after {
+  background-color: rgb(126 45 249);
+}
+.colon {
+  position: absolute;
+  left: 0;
+  top: 5px;
+  font-weight: 700;
+}
+
+.minimum-text {
+  font-size: 12px;
+}
+
+/* CSS added By Bibhudatta  start*/
+
+.MultiCheckBox {
+  border: 1px solid #e2e2e2;
+  padding: 5px;
+  border-radius: 4px;
+  cursor: pointer;
+  background: #fff;
+}
+
+.MultiCheckBox .k-icon {
+  font-size: 15px;
+  float: right;
+  font-weight: bolder;
+  margin-top: -7px;
+  height: 10px;
+  width: 14px;
+  color: #787878;
+}
+
+.MultiCheckBoxDetail {
+  display: none;
+  position: absolute;
+  z-index: 2;
+  background-color: #f7f7f7;
+  border: 1px solid #e2e2e2;
+  overflow-y: hidden;
+  width: 94% !important;
+}
+
+.MultiCheckBoxDetailBody {
+  overflow-y: scroll;
+  max-height: 150px !important;
+}
+
+.MultiCheckBoxDetail .cont {
+  clear: both;
+  overflow: hidden;
+  padding: 2px 5px;
+}
+
+.MultiCheckBoxDetail .cont:hover {
+  background-color: #cfcfcf;
+}
+
+.MultiCheckBoxDetailBody > div > div {
+  float: left;
+  margin-right: 10px;
+}
+
+.MultiCheckBoxDetailHeader {
+  overflow: hidden;
+  position: relative;
+  height: 28px;
+  background-color: rgb(99 64 154);
+}
+
+.MultiCheckBoxDetailHeader > input {
+  position: absolute;
+  top: 7px;
+  left: 5px;
+}
+
+.MultiCheckBoxDetailHeader > div {
+  position: absolute;
+  top: 2px;
+  left: 27px;
+  color: #fff;
+}
+.MultiCheckBoxDetailBody::-webkit-scrollbar-thumb {
+  background-color: #8f54a0;
+  border-radius: 10px;
+  border: 4px solid #ffffff;
+}
+/* .cont input:checked>div {
+  background-color: #2196F3;
+} */
+/*.MultiCheckBoxDetailHeader input{
+  padding: 0;
+  height: initial!important;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+ .MultiCheckBoxDetailHeader div {
+  position: relative;
+  cursor: pointer;
+}
+
+.MultiCheckBoxDetailHeader div:before {
+  content:'';
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid #0079bf;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 5px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.MultiCheckBoxDetailHeader input.mulinput:checked , .MultiCheckBoxDetailHeader div:after  {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 6px;
+  height: 14px;
+  border: solid #0079bf;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.cont input.mulinput{
+  padding: 0;
+  height: initial!important;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.cont div:first-child {
+  position: relative;
+  cursor: pointer;
+}
+
+.cont div:first-child:before {
+  content:'';
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid #0079bf;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 5px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+}
+
+.cont input.mulinput:checked , .cont div:first-child:after  {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 6px;
+  height: 14px;
+  border: solid #0079bf;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+} */
+
+/* .MultiCheckBoxDetail input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+} */
+/* .MultiCheckBoxDetail input:checked + .cont>div:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 6px;
+  height: 14px;
+  border: solid #0079bf;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+.MultiCheckBoxDetail .cont>div:before {
+  content:'';
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 2px solid #0079bf;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05), inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 10px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 5px;
+} */
+/* CSS added By Bibhudatta  end*/
+
+.table-responsive .form-select {
+  width: auto !important;
+}
+
+.custom-btn-width {
+  min-width: 170px !important;
+}
+
+/* checkbox-custom start */
+.check__box {
+  display: flex;
+  align-items: center;
+}
+
+.check__box .form-group {
+  display: block;
+  margin-bottom: 0;
+  margin-right: 20px;
+}
+
+.check__box .form-group input {
+  padding: 0;
+  height: initial;
+  width: initial;
+  margin-bottom: 0;
+  display: none;
+  cursor: pointer;
+}
+
+.check__box .form-group label {
+  position: relative;
+  cursor: pointer;
+}
+
+.check__box .form-group label:before {
+  content: "";
+  -webkit-appearance: none;
+  background-color: transparent;
+  border: 1px solid var(--purple);
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05),
+    inset 0px -15px 10px -12px rgba(0, 0, 0, 0.05);
+  padding: 7px;
+  display: inline-block;
+  position: relative;
+  vertical-align: middle;
+  cursor: pointer;
+  margin-right: 7px;
+  background: #f7f7f7;
+}
+
+.check__box .form-group input:checked + label:after,
+.check__box .form-group input:checked + span:after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: 2px;
+  left: 9px;
+  width: 6px;
+  height: 14px;
+  border: solid var(--purple);
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.class--checkbox {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  grid-gap: 5px;
+}
+
+.class--checkbox .form-group {
+  margin-right: 0px;
+}
+/* checkbox-custom end*/
+
+/* autoComplete css starts customized with material css */
+.mat-form-field.autoComplete {
+  width: 100% !important;
+}
+.mat-form-field-appearance-fill .mat-form-field-infix {
+  padding: 0.25em 0 0.75em 0 !important;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: rgb(255 255 255) !important;
+}
+.mat-form-field-infix {
+  padding: 0.5em 0 !important;
+  border-top: none !important;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  padding: 0.3rem 0.75em 0 0.75em !important;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex {
+  background-color: rgb(255 255 255) !important;
+  border: 1px solid #ced4da !important;
+}
+.mat-input-element {
+  caret-color: transparent;
+}
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple,
+.mat-form-field.mat-form-field-invalid .mat-form-field-ripple.mat-accent {
+  background-color: #462876;
+}
+.read-only-true .mat-form-field-outline .mat-form-field-outline-start {
+  border: white !important;
+}
+
+.read-only-true .mat-form-field-outline .mat-form-field-outline-end {
+  border: white !important;
+}
+/* autoComplete css ends */
+
+/* custom-scroolbar start*/
+#sidebar-wrapper::-webkit-scrollbar {
+  width: 2px;
+}
+
+#sidebar-wrapper::-webkit-scrollbar-track {
+  background-color: var(--purple);
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#sidebar-wrapper::-webkit-scrollbar-thumb {
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  background: rgb(167, 167, 167);
+}
+/* custom-scroolbar end*/
+
+.colon-top .colon {
+  top: -2px;
+}
+
+.tooltip__btn {
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.util a {
+  color: #fff;
+  padding: 5px 7px;
+  cursor: pointer;
+  transition: 0.5s;
+}
+
+.util a:hover {
+  color: #fff;
+}
+
+.pdf {
+  background: #b56c00;
+  margin-left: 10px;
+}
+
+.excel {
+  background-color: #0d7d2a;
+}
+
+.print {
+  background-color: #204d74;
+}
+
+.delete {
+  background-color: #c00101;
+}
+
+.pdf:hover {
+  background-color: #c47603;
+}
+
+.excel:hover {
+  background-color: #095a1e;
+}
+
+.print:hover {
+  background-color: #0c3a63;
+}
+
+.delete:hover {
+  background-color: #920707;
+}
+
+.page__rightarea {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 0.8rem;
+  margin-top: 0.5rem;
+}
+
+.util span {
+  font-weight: 600;
+  margin-right: 10px;
+}
+
+.util span i {
+  font-size: 0.8rem;
+}
+
+.util .publish i {
+  color: #01d066;
+}
+
+.util .unpublish i {
+  color: #f8a900;
+}
+
+.bg-lightpurple th {
+  border: 1px solid #8b65c5;
+}
+
+.addmore__section {
+  display: flex;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+
+.btn-view {
+  background: #1397ff;
+  color: #fff;
+  transition: 0.5s;
+}
+
+.btn-view:hover {
+  background: #0a7cd3;
+  color: #fff;
+}
+
+.regi__info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.regi__info a {
+  border: 1px solid var(--purple);
+  padding: 17px 10px;
+  height: auto;
+  color: var(--purple);
+  text-decoration: none;
+  font-weight: 600;
+  margin-right: 5px;
+  transition: 0.5s;
+  line-height: inherit;
+}
+
+.regi__info a:hover {
+  background-color: var(--purple);
+  color: #fff;
+  text-decoration: none;
+}
+.regi__info .neuro.active {
+  background-color: var(--purple);
+  color: #fff;
+  border-bottom: none;
+}
+.theme-green .bs-datepicker-head {
+  background-color: #462876;
+}
+.theme-green .bs-datepicker-body table td.week span {
+  color: #9864eb;
+  display: none;
+}
+.theme-green .bs-datepicker-body table td span.selected,
+.theme-green .bs-datepicker-body table td.selected span,
+.theme-green .bs-datepicker-body table td span[class*="select-"]:after,
+.theme-green .bs-datepicker-body table td[class*="select-"] span:after {
+  background-color: #673ab7;
+}
+.theme-green .btn-today-wrapper .btn-success,
+.theme-green .btn-clear-wrapper .btn-success {
+  background-color: #462876 !important;
+  border-color: #462876 !important;
+}
+.bs-datepicker-body table td span {
+  display: block;
+  margin: 0 auto;
+  font-size: 13px;
+  border-radius: 9%;
+}
+/* default datepicker */
+/* .form-group .bs-datepicker .bs-media-container {
+  display: flex;
+}
+.form-group .bs-datepicker-head {
+  background-color: #63409a;
+  min-width: 270px;
+  height: 50px;
+  padding: 10px;
+  border-radius: 3px 3px 0 0;
+  text-align: justify;
+}
+.form-group .bs-datepicker-head:after {
+  content: "";
+  display: inline-block;
+  vertical-align: top;
+  width: 100%;
+}
+
+.form-group .bs-datepicker-body {
+  padding: 10px;
+  border-radius: 0 0 3px 3px;
+  min-height: 232px;
+  min-width: 278px;
+  border: 1px solid #e9edf0;
+  background-color: aliceblue;
+}
+.form-group .bs-datepicker-body .days.weeks {
+  position: relative;
+  z-index: 1;
+}
+.form-group .bs-datepicker-body table {
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+}
+.form-group .bs-datepicker-body table td span {
+  display: block;
+  margin: 0 auto;
+  font-size: 13px;
+  border-radius: 50%;
+  -moz-user-select: none;
+  -webkit-user-select: none;
+  -ms-user-select: none;
+}
+.form-group .bs-datepicker-body table.days span {
+  width: 32px;
+  height: 32px;
+  line-height: 32px;
+}
+.form-group .bs-datepicker-body table th {
+  font-size: 13px;
+  color: #9aaec1;
+  font-weight: 400;
+  text-align: center;
+}
+.form-group .bs-datepicker-body table th {
+  font-size: 13px;
+  color: #9aaec1;
+  font-weight: 400;
+  text-align: center;
+}
+.form-group .bs-datepicker-body table td {
+  color: #54708b;
+  text-align: center;
+  position: relative;
+  padding: 0;
+}
+.form-group .bs-datepicker-body table td span.selected {
+  background-color: #63409a!important;
+}
+.form-group .bs-datepicker-body table td:not(.disabled):not(.week) span:not(.disabled):not(.is-other-month) {
+  cursor: pointer;
+}
+.form-group .bs-datepicker-head button.current {
+  border-radius: 15px;
+  max-width: 155px;
+  padding: 0 13px;
+}
+
+.form-group .bs-datepicker-head button.next, .form-group .bs-datepicker-head button.previous {
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+}
+.form-group .bs-datepicker-body table td:before, .form-group .bs-datepicker-body table td span:before {
+  content: "";
+  display: block;
+  position: absolute;
+  z-index: -1;
+  top: 6px;
+  bottom: 6px;
+  left: -3px;
+  right: -2px;
+  box-sizing: content-box;
+  background: transparent;
+}
+.form-group .bs-datepicker-head button {
+  display: inline-block;
+  vertical-align: top;
+  padding: 0;
+  height: 30px;
+  line-height: 30px;
+  border: 0;
+  background: transparent;
+  text-align: center;
+  cursor: pointer;
+  color: #fff;
+  transition: .3s;
+} */
+/* .setHolidays .weeks th, .months th, .years th{
+  padding: 2rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.setHolidays .weeks td span, .months td span, .years td span{
+  padding: 2rem 4rem;
+  cursor: pointer;
+  text-align: center;
+  display: block;
+  font-weight: 600;
+}
+
+.setHolidays .week{
+  display: none;
+}
+.setHolidays .weeks th:first-child{
+  display: none;
+}
+
+.setHolidays .bs-datepicker-head{
+  width: 100%;
+  background: #000;
+  display: flex;
+  justify-content: center;
+  box-shadow:#000 0px 3px 3px 0px;
+}
+
+.setHolidays .bs-datepicker-head button{
+  border: none;
+  color: #fff;
+  background: transparent;
+  font-size: 1.5rem;
+  padding: 10px 45px;
+}
+
+.setHolidays .previous span, .next span{ 
+  font-size: 2rem;
+}
+
+.setHolidays .bs-datepicker-body{
+  background: #fff; 
+  box-shadow: #c0b3d5 0px 3px 3px 0px;
+}
+
+.setHolidays .days td:hover {
+  background: #f4f4f4;
+}
+
+.setHolidays .days .selected{
+  background: var(--purple);
+  color: #fff;
+  border-radius: 5px;
+}
+
+.setHolidays .is-other-month{
+  color: #a7a7a7;
+}
+
+
+.setHolidays .bs-datepicker-head button.previous{
+  background: rgb(99 64 154);
+  margin: 10px 0;
+  border-radius: 56px;
+}
+
+.setHolidays .bs-datepicker-head button.next{
+  background: rgb(99 64 154);
+  margin: 10px 0;
+  border-radius: 56px;
+}
+
+.setHolidays .hoildayList{
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;
+  margin-top: 5px;
+}
+
+.setHolidays .hoildayList ul{
+  padding: 0;
+}
+
+.setHolidays .hoildayList li{
+ list-style: none;
+ padding: 0.5rem 1rem;
+}
+
+.setHolidays .hoildayList li strong{
+  margin-right: 10px;
+}
+
+.setHolidays .public-holiday .hoildayList-head , .optional-holiday .hoildayList-head {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.setHolidays .public-holiday .hoildayList-head {
+  background-color: rgb(252 235 235);
+  color: #cb0b0b;
+}
+
+.setHolidays .optional-holiday .hoildayList-head {
+  background-color: rgb(244 240 250);
+  color: var(--purple);
+}
+.setHolidays .notification .hoildayList-head {
+  background-color: #00968824;
+  color: #009688;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.setHolidays .notification li{
+  position: relative;
+  margin-left: 10px;
+}
+.setHolidays .notification li::before{
+  content: "\F231";
+  font-family: bootstrap-icons!important;
+  position: absolute;
+  top: 10px;
+  left: -5px;
+  font-size: 13px;
+  margin-left: 3px;
+  color: rgb(0 150 136);
+}
+.setHolidays .hoildayList-head h6{
+  margin-bottom: 0rem;
+}
+
+.setHolidays .bs-datepicker-body table tbody tr td:nth-child(2) span{
+  color: #cb0b0b;
+}
+
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(1) td:last-child span,
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(4) td:nth-child(2) span,
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(3) td:nth-child(2) span,
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(3) td:nth-child(6) span,
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(3) td:nth-child(7) span{
+  border-radius: 5px;
+}
+
+.setHolidays  .bs-datepicker-body table tbody tr:nth-child(1) td:nth-child(4) span{
+  color: #cb0b0b;
+  background-color: #fcebeb; 
+}
+
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(3) td:nth-child(3) span{
+  color: #cb0b0b;
+  background-color: #fcebeb;
+}
+
+.setHolidays .bs-datepicker-body table tbody tr:nth-child(5) td:nth-child(3) span{
+  color: var(--purple);
+  background-color: #f4f0fa; 
+} */
+
+.setHolidays .hoildayList {
+  border: 1px solid #ddd;
+  margin-bottom: 1rem;
+  margin-top: 5px;
+}
+
+.setHolidays .hoildayList ul {
+  padding: 0;
+}
+
+.setHolidays .hoildayList li {
+  list-style: none;
+  padding: 0.5rem 1rem;
+}
+
+.setHolidays .hoildayList li strong {
+  margin-right: 10px;
+}
+
+.setHolidays .public-holiday .hoildayList-head,
+.optional-holiday .hoildayList-head {
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+
+.setHolidays .public-holiday .hoildayList-head {
+  background-color: rgb(252 235 235);
+  color: #cb0b0b;
+}
+
+.setHolidays .optional-holiday .hoildayList-head {
+  background-color: rgb(244 240 250);
+  color: var(--purple);
+}
+.setHolidays .notification .hoildayList-head {
+  background-color: #00968824;
+  color: #009688;
+  padding: 1rem;
+  border-bottom: 1px solid #ddd;
+}
+.setHolidays .notification li {
+  position: relative;
+  margin-left: 10px;
+}
+.setHolidays .notification li::before {
+  content: "\F231";
+  font-family: bootstrap-icons !important;
+  position: absolute;
+  top: 10px;
+  left: -5px;
+  font-size: 13px;
+  margin-left: 3px;
+  color: rgb(0 150 136);
+}
+.setHolidays .hoildayList-head h6 {
+  margin-bottom: 0rem;
+}
+.public .day-content {
+  color: #cb0b0b;
+  background-color: #efc7c7;
+  border-radius: 3px;
+}
+.public .day-content:hover {
+  color: #ede9e9;
+  background-color: #c12e3ce6;
+}
+.optional .day-content {
+  color: #63409a;
+  background-color: #b793ed;
+  border-radius: 3px;
+}
+.optional .day-content:hover {
+  color: #fbfbfb;
+  background-color: #63409a;
+}
+
+/* .day-content.optional {
+  background-color: #7830e975!important;
+  border: 1px solid rgb(99 64 154 / 19%);
+  border-radius: 3px;
+}
+.day-content.public {
+  background-color: #ff001873!important;
+  border: 1px solid #ff001873;
+  border-radius: 3px;
+}
+.day-content.public:hover{
+  background-color: #e10d2187!important;
+} */
+/* calendar starts */
+
+.month-title {
+  text-align: center;
+  color: #000;
+  background-color: rgb(238 231 249 / 80%) !important;
+  max-height: 36px !important;
+}
+.month-title th {
+  color: #000 !important;
+  /*padding-bottom: 5px;min-height: 36px!important; */
+  padding-bottom: 0 !important;
+  height: 36px !important;
+  line-height: 150%;
+}
+.month {
+  border: 1px solid rgb(103 58 183 / 20%) !important;
+  border-radius: 5px !important;
+  margin-bottom: 0.7rem !important;
+  box-shadow: rgb(68 36 124 / 34%) 0 3px 5px;
+}
+.month tr td.weekend {
+  background-color: rgb(251 225 225 / 80%) !important;
+}
+.cell-header {
+  padding-left: 15px !important;
+  padding-top: 10px;
+}
+.day-content {
+  width: 40px;
+  height: 40px !important;
+}
+.day-content:hover {
+  background-color: rgb(99 64 154 / 27%) !important;
+  border: 1px solid rgb(99 64 154 / 19%);
+  border-radius: 3px;
+}
+.date-control-header {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  margin-bottom: 1rem;
+}
+.date-control-header button {
+  background-color: #462876;
+  border: 1px solid #462876;
+  margin: 10px;
+  border-radius: 3px;
+  color: #fff;
+}
+.date-control-header span {
+  color: #63409a;
+  font-weight: 600;
+  font-size: 1.3rem;
+}
+
+.user-profile {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-right: 1px solid #bebebe;
+  padding-right: 15px;
+  padding-top: 3px;
+}
+
+.parent-menu {
+  color: #ede2e2;
+  font-size: 20px;
+  padding: 10px 15px;
+  display: flex;
+  background-color: #462876;
+}
+
+.table > :not(:first-child) {
+  border-top: 1px solid currentColor;
+}
+
+.back {
+  background-color: #141415;
+}
+
+.sidebar-content-toggle #sidebar-wrapper {
+  transition: all 3s ease;
+  display: none;
+}
+
+.sidebar-content-toggle #content-wrapper {
+  padding-left: 0px;
+  transition: all 0.5s ease;
+}
+
+#wrapper .container-fluid {
+  justify-content: space-evenly;
+}
+
+/* ===== Scrollbar CSS ===== */
+* {
+  scrollbar-width: auto;
+  scrollbar-color: #8f54a0 #ffffff;
+}
+*::-webkit-scrollbar {
+  width: 10px;
+}
+
+*::-webkit-scrollbar-track {
+  background: #ffffff;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: #8f54a0;
+  border-radius: 10px;
+  border: 3px solid #ffffff;
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-item {
+  background-color: #59378f;
+  border: 0px solid rgb(70 40 118);
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-item .accordion-button {
+  color: #ffffff;
+  background-color: #512793a3;
+  box-shadow: inset 0 0px 0 rgb(243 240 240 / 0%);
+  border-radius: 0px;
+}
+
+#sidebar-wrapper
+  .sidebar-nav
+  .accordion
+  .accordion-item
+  .accordion-button:not(.collapsed) {
+  color: #ffffff;
+  background-color: #54279c;
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-item .accordion-body {
+  padding: 0;
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-button {
+  padding: 1rem 1rem;
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-button svg {
+  margin-top: 5px;
+  width: 16px;
+  height: 16px;
+}
+
+/* .sidebar-nav .accordion-collapse
+{
+  padding-right: 7px;
+  overflow-y: scroll;
+  height: 230px;
+} */
+.Graph-fullscreen .management-school-table {
+  height: 906px!important;
+}
+
+div.position-relative .mandatory {right: -6px;}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-item .accordion-body li {
+  padding: 0.5rem 0.5rem 0.5rem 0.5rem;
+}
+
+#sidebar-wrapper .sidebar-nav .accordion .accordion-button::after {
+  flex-shrink: 0;
+  width: 1.25rem;
+  height: 1.25rem;
+  margin-left: auto;
+  background-image: none;
+  background-repeat: no-repeat;
+  background-size: 1.25rem;
+  transition: transform 0.2s ease-in-out;
+  font-family: "bootstrap-icons";
+  content: "\f282";
+}
+
+/* Graph fullscreen start */
+@keyframes zoom-out {
+  0% {
+    transform: scale(0, 0);
+  }
+  100% {
+    transform: scale(1, 1);
+  }
+}
+
+@keyframes zoom-in {
+  0% {
+    transform: scale(1, 1);
+  }
+  100% {
+    transform: scale(0, 0);
+  }
+}
+
+.Graph-fullscreen {
+  display: block;
+  z-index: 1;
+  position: fixed;
+  width: 98%;
+  height: 92% !important;
+  top: 94px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  margin-top: -21px;
+  /* animation: zoom-out  1s ease-in; */
+  box-shadow: 1px 1px 5px #dddddd40 !important;
+  border-top-left-radius: 0.3rem !important;
+  border-top-right-radius: 0.3rem !important;
+  background-position: left;
+}
+
+.Graph-exitscreen {
+  display: block;
+  z-index: 1;
+  position: fixed;
+  width: 98%;
+  height: 92% !important;
+  top: 94px;
+  right: 0;
+  left: 0;
+  bottom: 0;
+  margin: auto;
+  margin-top: -21px;
+  /* animation: zoom-in  1s ease-in; */
+  box-shadow: 1px 1px 5px #dddddd40 !important;
+  border-top-left-radius: 0.3rem !important;
+  border-top-right-radius: 0.3rem !important;
+  transition: 10s ease;
+}
+
+#socialcategorystudent,
+#genderwisedetails,
+#classwisedetails {
+  height: 270px;
+}
+
+#teachernatureappointment,
+#teacherappointmenttype,
+#schoolcategorywisedetails,
+#schoolmanagementwisedetails,
+#mdmserved,
+#mdmattendance,
+#mdmteacherattendance,
+#teacherattendancelastsevendays  {
+  height: 445px;
+}
+
+.scws-portlet.Graph-fullscreen #socialcategorystudent,
+.scws-portlet.Graph-exitscreen #socialcategorystudent,
+.gws-portlet.Graph-fullscreen #genderwisedetails,
+.gws-portlet.Graph-exitscreen #genderwisedetails,
+.cws-portlet.Graph-fullscreen #classwisedetails,
+.cws-portlet.Graph-exitscreen #classwisedetails,
+.nawt-portlet.Graph-fullscreen #teachernatureappointment,
+.nawt-portlet.Graph-exitscreen #teachernatureappointment,
+.atwt-portlet.Graph-fullscreen #teacherappointmenttype,
+.atwt-portlet.Graph-exitscreen #teacherappointmenttype,
+.categoryws-portlet.Graph-fullscreen #schoolcategorywisedetails,
+.categoryws-portlet.Graph-exitscreen #schoolcategorywisedetails,
+.mws-portlet.Graph-fullscreen #schoolmanagementwisedetails,
+.mws-portlet.Graph-exitscreen #schoolmanagementwisedetails,
+.mdm-portlet.Graph-fullscreen #mdmattendance,
+.mdm-portlet.Graph-exitscreen #mdmattendance,
+.mdm-portlet.Graph-fullscreen #teacherattendancelastsevendays,
+.mdm-portlet.Graph-exitscreen #teacherattendancelastsevendays,
+.mdmser-portlet.Graph-fullscreen #mdmteacherattendance,
+.mdmser-portlet.Graph-exitscreen #mdmteacherattendance,
+.mdmser-portlet.Graph-fullscreen #mdmserved
+.mdmser-portlet.Graph-exitscreen
+  #mdmserved {
+  height: 700px;
+  margin: 0 auto;
+  width: 1000px;
+}
+
+.scws-portlet.Graph-fullscreen #socialcategorystudent .highcharts-container,
+.scws-portlet.Graph-exitscreen #socialcategorystudent .highcharts-container,
+.gws-portlet.Graph-fullscreen #genderwisedetails .highcharts-container,
+.gws-portlet.Graph-exitscreen #genderwisedetails .highcharts-container,
+.cws-portlet.Graph-fullscreen #classwisedetails .highcharts-container,
+.cws-portlet.Graph-exitscreen #classwisedetails .highcharts-container,
+.nawt-portlet.Graph-fullscreen #teachernatureappointment .highcharts-container,
+.nawt-portlet.Graph-exitscreen #teachernatureappointment .highcharts-container,
+.atwt-portlet.Graph-fullscreen #teacherappointmenttype .highcharts-container,
+.atwt-portlet.Graph-exitscreen #teacherappointmenttype .highcharts-container,
+.mws-portlet.Graph-fullscreen
+  #schoolmanagementwisedetails
+  .highcharts-container,
+.mws-portlet.Graph-exitscreen
+  #schoolmanagementwisedetails
+  .highcharts-container,
+.mdm-portlet.Graph-fullscreen #mdmattendance .highcharts-container,
+.mdm-portlet.Graph-exitscreen #mdmattendance .highcharts-container,
+.mdm-portlet.Graph-fullscreen #teacherattendancelastsevendays .highcharts-container,
+.mdm-portlet.Graph-exitscreen #teacherattendancelastsevendays .highcharts-container,
+.mdmser-portlet.Graph-fullscreen #mdmserved .highcharts-container,
+.mdmser-portlet.Graph-exitscreen #mdmserved .highcharts-container,
+.mdmser-portlet.Graph-fullscreen #mdmteacherattendance .highcharts-container,
+.mdmser-portlet.Graph-exitscreen #mdmteacherattendance .highcharts-container,
+.categoryws-portlet.Graph-fullscreen
+  #schoolcategorywisedetails
+  .highcharts-container,
+.categoryws-portlet.Graph-exitscreen
+  #schoolcategorywisedetails
+  .highcharts-container {
+  height: 700px !important;
+  width: 100% !important;
+}
+
+.scws-portlet.Graph-fullscreen #socialcategorystudent .highcharts-container svg,
+.scws-portlet.Graph-exitscreen #socialcategorystudent .highcharts-container svg,
+.gws-portlet.Graph-fullscreen #genderwisedetails .highcharts-container svg,
+.gws-portlet.Graph-exitscreen #genderwisedetails .highcharts-container svg,
+.mdm-portlet.Graph-fullscreen #teacherattendancelastsevendays .highcharts-container svg,
+.mdm-portlet.Graph-exitscreen #teacherattendancelastsevendays .highcharts-container svg,
+.mdmser-portlet.Graph-fullscreen #mdmteacherattendance .highcharts-container svg,
+.mdmser-portlet.Graph-exitscreen #mdmteacherattendance .highcharts-container svg,
+.nawt-portlet.Graph-fullscreen
+  #teachernatureappointment
+  .highcharts-container
+  svg,
+.nawt-portlet.Graph-exitscreen
+  #teachernatureappointment
+  .highcharts-container
+  svg,
+.atwt-portlet.Graph-fullscreen
+  #teacherappointmenttype
+  .highcharts-container
+  svg,
+.atwt-portlet.Graph-exitscreen
+  #teacherappointmenttype
+  .highcharts-container
+  svg,
+.categoryws-portlet.Graph-fullscreen
+  #schoolcategorywisedetails
+  .highcharts-container
+  svg,
+.categoryws-portlet.Graph-exitscreen
+  #schoolcategorywisedetails
+  .highcharts-container
+  svg,
+.mws-portlet.Graph-fullscreen
+  #schoolmanagementwisedetails
+  .highcharts-container
+  svg,
+.mws-portlet.Graph-exitscreen
+  #schoolmanagementwisedetails
+  .highcharts-container
+  svg,
+.mdm-portlet.Graph-fullscreen #mdmattendance .highcharts-container svg,
+.mdm-portlet.Graph-exitscreen #mdmattendance .highcharts-container svg,
+.mdmser-portlet.Graph-fullscreen #mdmserved .highcharts-container svg,
+.mdmser-portlet.Graph-exitscreen #mdmserved .highcharts-container svg,
+.cws-portlet.Graph-fullscreen #classwisedetails .highcharts-container svg,
+.cws-portlet.Graph-exitscreen #classwisedetails .highcharts-container svg {
+  height: 100%;
+  width: 100%;
+}
+/* Graph fullscreen end */
+/* multi seclect css start */
+.multiselect-dropdown .dropdown-btn {
+  border: 1px solid #ced4da !important;
+  background-color: #fff !important;
+}
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret:before {
+  content: "\F282" !important;
+  font-family: bootstrap-icons !important;
+  position: relative !important;
+  top: 10px !important;
+  color: #060606 !important;
+  margin-top: 4px;
+  border-style: none !important;
+  border-width: 0 !important;
+  border-color: transparent !important;
+}
+.multiselect-dropdown .dropdown-btn .dropdown-multiselect__caret {
+  top: 0px !important;
+}
+
+@media only screen and (max-width: 1280px) {
+.pageHeading .heading__tab {
+  margin-bottom: 1.5rem;
+  flex-direction: column;
+}
+.tab__section {
+  margin-top: 0.5rem;
+}
+}
+
+
+
+/* multi seclect css end */
+@media only screen and (max-width: 1366px) {
+  .Graph-fullscreen {
+    top: 94px;
+    width: 97.5%;
+  }
+  .searchPanel.condense  {
+    font-size: .9rem;
+   
+  }
+
+  
+  .searchPanel.condense .form-group {
+    margin-bottom: 0rem;
+   
+  }
+  
+  .searchPanel.condense .form-label {
+    padding-top: 0px;
+  }
+
+  .scws-portlet.Graph-fullscreen #socialcategorystudent .highcharts-container,
+  .cws-portlet.Graph-fullscreen #classwisedetails .highcharts-container,
+  .nawt-portlet.Graph-fullscreen
+    #teachernatureappointment
+    .highcharts-container,
+  .atwt-portlet.Graph-fullscreen #teacherappointmenttype .highcharts-container,
+  .categoryws-portlet.Graph-fullscreen
+    #schoolcategorywisedetails
+    .highcharts-container,
+  .mws-portlet.Graph-fullscreen
+    #schoolmanagementwisedetails
+    .highcharts-container,
+  .mdm-portlet.Graph-fullscreen #mdmattendance .highcharts-container,
+  .mdmser-portlet.Graph-fullscreen #mdmserved .highcharts-container {
+    height: 600px !important;
+  }
+
+  .gws-portlet.Graph-fullscreen #genderwisedetails .highcharts-container {
+    height: 460px !important;
+  }
+  
+}
+
+@media (max-width: 1024px) {
+  #sidebar-wrapper {
+    width: 0px;
+  }
+  #content-wrapper {
+    padding-left: 0px;
+  }
+  .sidebar-content-toggle #sidebar-wrapper .sidebar-nav {
+    padding-top: 0px;
+  }
+  .sidebar-content-toggle #sidebar-wrapper {
+    width: 250px;
+    margin-top: 26.5px;
+    display: block;
+    border-top-right-radius: 6px;
+    border-top-left-radius: 6px;
+    left: 270px;
+    transition: all 0.2s ease;
+  }
+}
+
+
+@media (max-width: 768px) {
+  .regi__info {
+    display: grid;
+    grid-gap: 1rem 1rem;
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .searchPanel.condense  {
+    font-size: 1rem;
+   
+  }
+ 
+.form-label {
+ 
+  font-weight: 400;
+
+}
+button.top-info-details {
+  width: 97%;
+}
+}
+
+
+
+@media (max-width: 640px) {
+  .regi__info {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+
+
+@media (min-width: 992px) {
+  #wrapper.toggled {
+    padding-left: 60px;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    width: 60px;
+  }
+
+  #wrapper.toggled #navbar-wrapper {
+    position: absolute;
+    margin-right: -190px;
+  }
+
+  #wrapper.toggled #content-wrapper {
+    position: absolute;
+    margin-right: -190px;
+  }
+
+  #navbar-wrapper {
+    position: relative;
+  }
+
+  #wrapper.toggled {
+    padding-left: 60px;
+  }
+
+  /* #content-wrapper {
+    position: relative;
+  } */
+
+  #wrapper.toggled #navbar-wrapper,
+  #wrapper.toggled #content-wrapper {
+    position: relative;
+    margin-right: 60px;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 991px) {
+  #wrapper.toggled #navbar-wrapper {
+    position: absolute;
+    margin-right: -250px;
+  }
+
+  #wrapper.toggled #content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+  }
+
+  #navbar-wrapper {
+    position: relative;
+  }
+
+  #wrapper.toggled {
+    padding-left: 250px;
+  }
+
+  #content-wrapper {
+    position: relative;
+    top: 0;
+  }
+
+  #wrapper.toggled #navbar-wrapper,
+  #wrapper.toggled #content-wrapper {
+    position: relative;
+    margin-right: 250px;
+  }
+}
+
+@media (max-width: 768px) {
+  .colon {
+    display: none;
+  }
+  #content-wrapper {
+    padding-left: 0px;
+  }
+
+  .class--checkbox {
+    grid-template-columns: repeat(1, 1fr);
+  }
+
+  .pageLayer {
+    padding-left: 1.5rem;
+  }
+
+  .user-profile {
+    display: none !important;
+  }
+
+  .pageHeading {
+    margin-top: 12%;
+  }
+
+  #wrapper {
+    padding-left: 0;
+  }
+
+  #wrapper.toggled #sidebar-wrapper {
+    width: 250px;
+  }
+
+  #wrapper.toggled #navbar-wrapper {
+    position: absolute;
+    margin-right: -250px;
+  }
+
+  #wrapper.toggled #content-wrapper {
+    position: absolute;
+    margin-right: -250px;
+  }
+
+  #navbar-wrapper {
+    position: relative;
+  }
+
+  #wrapper.toggled {
+    padding-left: 250px;
+  }
+
+  #content-wrapper {
+    margin-top: 0px;
+  }
+
+  #wrapper.toggled #navbar-wrapper,
+  #wrapper.toggled #content-wrapper {
+    position: relative;
+    margin-right: 250px;
+  }
+
+  .regi__info a {
+    padding: 5px 5px;
+}
+
+.form-group {
+  margin-bottom: 0rem;
+}
+.pageLayer .form-select, 
+.pageLayer .form-control,
+.pageLayer .multiselect-dropdown,
+.form-check-inline
+{
+  margin-bottom: 1rem;
+}
+.formpatch h5 {
+  margin-bottom: 1rem;  
+}
+
+
+
+}
+
+@media only screen and (max-width: 640px) {
+  .indicator {
+    margin-top: 50px;
+    /* display: flex;
+    font-size: 12px; */
+  }
+
+  .pageHeading {
+    margin-top: 16%;
+}
+
+  footer {
+    margin-top: 1rem;
+  }
+  
+  
+ 
+  .patch-heading .form-label {
+    padding-top: 5px;
+  }
+  
+
+  
+}
+
+@media only screen and (max-width: 576px) {
+  .indicator {
+    margin-top: 10px;
+    display: block;
+    float: none;
+    text-align: right;
+}
+  .logo-header {
+    display: none;
+  }
+  #navbar-wrapper .navbar .header-section {
+    width: calc(100% - 0px);
+    border-bottom-left-radius: 6px;
+    border-top-left-radius: 6px;
+  }
+  .screen-space .pageName {
+    font-size: 1.2rem;
+  }
+  /*.screen-space .top-space {    margin-top: -20px;}*/
+  .screen-space .indicator {
+    /* display: block;   */
+    font-size: 0.9rem;
+    /* position: absolute; */
+    /* right: 10px;
+    top: 10px; */
+  }
+  .form-label {
+    font-size: 0.95rem;
+  }
+  .mobApp .mandatory {
+    top: 2px;
+    margin-left: 5px;
+    font-size: 0.9em;
+    /*vertical-align: sub;*/
+    position: relative;
+    right: auto;
+    display: none;
+  }
+  .mobApp .indicator {
+    margin-top: 0px;
+    display: none;
+  }
+  .patch-heading .mandatory {
+    color: #e9edf0;
+    position: relative;
+    top: 0px;
+    /*text-decoration: none;
+    font-weight: bold;
+    right: 10px;*/
+  }
+
+  .regi__info a {
+    font-size: 12px;
+  }
+  .tab__section {
+  
+    flex-direction: column;
+}
+
+.pageHeading .heading__tab .tablink {
+  
+  margin-bottom: 10px;
+}
+}
+
+@media only screen and (max-width: 480px) {
+  .pageHeading {
+    margin-top: 20%;
+  }
+  .screen-space {
+    padding: 1.5rem;
+  }
+  .indicator {
+    font-size: 10px;
+    /* margin-top: 15px; */
+  }
+  .screen-space .pageHeading {
+    margin-top: 1%;
+  }
+}
+
+
+
+
+
+
+
+@media only screen and (max-width: 380px) {
+  .pageHeading {
+    margin-top: 25%;
+  }
+}
+
+
+@media (max-width: 375px){
+  .regi__info {
+      grid-template-columns: repeat(1, 1fr);
+      grid-gap: 1rem 0rem;
+  }
+  .neuro {
+    justify-content: flex-start;
+  }
+}
+
+@media only screen and (max-width: 320px) {
+  ul.right-sider {
+    padding-left: 0rem;
+  }
+  .pageHeading {
+    margin-top: 30%;
+  }
+}
+
+@media print {
+  .logo-header,
+  footer,
+  .header-section,
+  .pageHeading,
+  .top-space,
+  .page__rightarea {
+    display: none;
+  }
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  /* font-family: Roboto, "Helvetica Neue", sans-serif; */
+}
+table {
+  width: 100%;
+}
+th.mat-sort-header-sorted {
+  color: black;
+}
+.mat-table .mat-header-cell {
+  font-size: 15px;
+  text-align: center !important;
+  padding-left: 10px;
+  border: 0.5px solid #e4d7f7;
+  font-weight: 600;
+}
+
+td.mat-cell {
+  /* row padding */
+  /* row border */
+  border: 0.5px solid #e4d7f7;
+  padding: 8px 10px !important;
+}
+
+.mat-paginator {
+  background-color: unset;
+}
+
+.mat-elevation-z8 {
+  box-shadow: unset;
+}
+
+/* Datepicker css */
+.bs-datepicker-body table td.week span {
+  color: #63409a !important;
+}
+
+.bs-datepicker-body table td span.selected,
+.bs-datepicker-head,
+.bs-datepicker-head,
+.bs-datepicker button:active,
+.bs-datepicker-body table td.selected span,
+.bs-datepicker-body table td span[class*="select-"]:after,
+.bs-datepicker-body table td[class*="select-"] span:after,
+.bs-datepicker-body table td.active-week span:hover {
+  background-color: #63409a !important;
+}
+
+.mat-option:last-child:before {
+  content: "All";
+  float: left;
+  text-transform: none;
+  top: 4px;
+  position: relative;
+}
+.mat-option:last-child .mat-option-text {
+  display: none;
+  position: relative;
+}

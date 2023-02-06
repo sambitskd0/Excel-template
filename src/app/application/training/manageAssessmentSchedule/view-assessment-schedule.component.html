@@ -1,0 +1,245 @@
+<div class="pageHeading">
+    <div class="heading__tab">
+        <h3 class="pageName">Assessment Schedule</h3>
+        <span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+
+    <div class="tabArea">
+        <a routerLink="./../add" class="neuro addLink" routerLinkActive="active" *ngIf="plPrivilege == 'admin'"><i
+                class="bi bi-plus-lg me-2"></i>Add</a>
+        <a routerLink="./" class="neuro addLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View</a>
+    </div>
+</div>
+
+<div class="search-container">
+    <div class="searchPanel">
+        <div class="row">
+            <div class="col-md-2 form-group3">
+                <label for="" class="form-label">Academic Year </label><br />शैक्षणिक
+                वर्ष
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="userInput.academicYear"
+                    tabindex="1">
+                    <option value="{{ userInput.academicYear }}">
+                        {{ userInput.academicYear }}
+                    </option>
+                </select>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+                <div>
+                    <label for="exampleInputEmail1" class="form-label">Training Subject</label><br />प्रशिक्षण विषय
+                </div>
+            </div>
+            <div class="col-lg-3 form-group">
+                <div>
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" #subjectRef
+                        (change)="getTrainings(+subjectRef.value)" tabindex="2" [(ngModel)]="userInput.subjectId">
+                        <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let subject of subjects" [value]="subject.subjectId">
+                            {{ subject.subject }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+                <div>
+                    <label for="exampleInputEmail1" class="form-label">Training Name</label><br />प्रशिक्षण का नाम
+                </div>
+            </div>
+            <div class="col-lg-3 form-group">
+                <div>
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" tabindex="3"
+                        [(ngModel)]="userInput.trainingId">
+                        <option value="" *ngIf="loadingObj?.trainingLoad == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="loadingObj?.trainingLoad == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let item of trainingData" [value]="item.trainingId">
+                            {{ item.trainingName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2">
+                <button class="btn btn-default btn-purple" (click)="onSearch()" tabindex="4">
+                    Search <i class="bi bi-search"></i>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util" [hidden]="true">
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" [hidden]="+scheduleData?.length === 0">
+                <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort>
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <ng-container matColumnDef="slNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    #
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="academicYear">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Academic Year / शैक्षणिक वर्ष
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.academicYear }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="subject">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Subject / प्रशिक्षण का विषय
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.subject || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="trainingName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Name / प्रशिक्षण का नाम
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.trainingName || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="trainingStartDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Start Date / प्रशिक्षण प्रारंभ तिथि
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.trainingStartDate | date: "dd-MMM-yyyy" || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="trainingEndDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training End Date / प्रशिक्षण समाप्ति तिथि
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.trainingEndDate | date: "dd-MMM-yyyy" || "--" }}
+                                </td>
+                            </ng-container>
+                            <!-- <ng-container matColumnDef="preAssessmentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Pre Assessment Date / पूर्व मूल्यांकन तिथि
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.preAssessmentDate | date: "dd-MMM-yyyy" || "--" }}
+                                </td>
+                            </ng-container> -->
+
+                            <!-- <ng-container matColumnDef="preAssessmentStartTime">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Start time (Pre) / प्रारंभ समय (पूर्व)
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.preAssessmentStartTime
+                                    ? (element?.preAssessmentStartTime | timeFormat)
+                                    : "--"
+                                    }}
+                                </td>
+                            </ng-container> -->
+
+                            <!-- <ng-container matColumnDef="postAssessmentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Post Assessment Date / मूल्यांकन के बाद की तिथि
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.postAssessmentDate | date: "dd-MMM-yyyy" || "--"
+                                    }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="postAssessmentStartTime">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Start time (Post) / प्रारंभ समय (बाद)
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.postAssessmentStartTime
+                                    ? (element?.postAssessmentStartTime | timeFormat)
+                                    : "--"
+                                    }}
+                                </td>
+                            </ng-container> -->
+                            <ng-container matColumnDef="duration">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Duration / अवधि
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.duration || "--" }}
+                                </td>
+                            </ng-container>
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                                    Action / कार्रवाई करें
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="action-link">
+                                    <ng-container  *ngIf = " element?.assessmentStatus == 1">
+                                        <span class="text-info"> Training Inprocess</span>
+                                    </ng-container>
+                                    <ng-container  *ngIf = "element?.assessmentStatus == 2">
+                                        <a title="Edit" [routerLink]="['./../edit/', element?.scheduleId]"
+                                        class="edit-btn me-2">
+                                        <i class="bi bi-pencil-square text-primary"></i></a>
+
+                                    <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                                        (click)="onDelete(element)"><i class="bi bi-trash"></i></a>
+                                     </ng-container>
+                                     <ng-container  *ngIf = "element?.assessmentStatus == 3">
+                                        <span class="text-danger"> Training Ended</span>
+                                     </ng-container>
+                                   
+                                </td>
+                            </ng-container> 
+                        </tr>
+                    </thead>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                    showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-container *ngIf="isNorecordFound || !isSearched">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+        <span *ngIf="isNorecordFound">
+            {{ "No record found." }}
+        </span>
+        <span *ngIf="!isSearched">
+            {{ "Please select drop-down lists to view the records." }}
+        </span>
+    </div>
+</ng-container>

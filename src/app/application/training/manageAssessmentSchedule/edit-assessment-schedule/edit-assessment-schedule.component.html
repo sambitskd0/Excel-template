@@ -1,0 +1,345 @@
+<form autocomplete="off" [formGroup]="assessmentScheduleForm" (ngSubmit)="onSubmit()" (keydown.enter)="onSubmit()">
+    <div>
+        <div class="pageHeading">
+            <div class="heading__tab">
+                <div>
+                    <h3 class="pageName">
+                        Teacher Assessment Schedule / शिक्षक मूल्यांकन अनुसूची
+                    </h3>
+                </div>
+            </div>
+            <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+            <div class="tabArea">
+                <a routerLink="./" class="neuro addLink" routerLinkActive="active"><i
+                        class="bi bi-plus-lg me-2"></i>Edit / संपादित करें</a>
+                <a routerLink="./../../view" class="neuro addLink" routerLinkActive="active"><i
+                        class="bi bi-eye me-2"></i>View / देखें</a>
+            </div>
+        </div>
+
+        <div class="formpatch top-space">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Academic Year </label><br />शैक्षणिक वर्ष
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="academicYear"
+                        tabindex="1">
+                        <option value="{{
+                userInput.academicYear ? userInput.academicYear : '--'
+              }}">
+                            {{ userInput.academicYear }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Training Subject</label><br />प्रशिक्षण विषय
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" #subjectRef
+                        (change)="getTrainings(+subjectRef.value)" formControlName="suject" tabindex="2">
+                        <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let subject of allDataObj.subjects" [value]="subject.subjectId">
+                            {{ subject.subject }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Training Name</label><br />प्रशिक्षण का नाम
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" formControlName="training"
+                        tabindex="3">
+                        <option value="" *ngIf="loadingObj?.trainingLoad == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="loadingObj?.trainingLoad == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let item of allDataObj.trainingData" [value]="item.trainingId">
+                            {{ item.trainingName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">Training Start Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="trainingStartDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="4" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">Training End Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="trainingEndDate" readonly #datepickerYMD="bsDatepicker"
+                        placeholder="DD-MM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"
+                        [minDate]="minDateGetter" tabindex="5" />
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">State Training Start Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="stateTrainingStartDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="4" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">State Training End Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="stateTrainingEndDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="5" />
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">District Training Start Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="districtTrainingStartDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="4" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">District Training End Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="districtTrainingEndDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="5" />
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">Block Training Start Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="blockTrainingStartDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="4" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">Block Training End Date</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="blockTrainingEndDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="5" />
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+           
+            
+            <div class="row">
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">State Pre Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="statePreAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="6" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">State Pre assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="statePreStartTime" tabindex="7" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">State Post Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="statePostAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="8" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">State Post assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="statePostStartTime" tabindex="9" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">District Pre Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="districtPreAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="6" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">District Pre assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="districtPreStartTime" tabindex="7" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">District Post Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="districtPostAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="8" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">District Post assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="districtPostStartTime" tabindex="9" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+            </div>
+
+            <div class="row">
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">Block Pre Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="blockPreAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="6" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">Block Pre assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="blockPreStartTime" tabindex="7" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">Block Post Assessment Date</label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" formControlName="blockPostAssessmentDate" readonly
+                        #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDateGetter" tabindex="8" />
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-sm-1"></div>
+                <div class="col-md-1 form-group">
+                    <label for="" class="form-label">Block Post assessemnt start Time </label>
+                </div>
+                <div class="col-md-1 form-group">
+                    <span class="colon">:</span>
+                    <input type="time" class="form-control" id="" aria-describedby="emailHelp"
+                        formControlName="blockPostStartTime" tabindex="9" />
+
+                    <span class="mandatory">*</span>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="" class="form-label">Duration (In Minute)</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="" aria-describedby="emailHelp"
+                        (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" formControlName="duration"
+                        tabindex="10" />
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success me-2" tabindex="11">
+            Update
+        </button>
+        <button type="button" class="btn btn-danger" (click)="onCancel()">
+            Cancel/ रद्द करना
+        </button>
+    </div>
+</form>

@@ -1,0 +1,229 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab d-flex justify-content-end">
+            <div class="tab__section">
+              <a routerLink="./../../viewTeacherTransfer"  class="tablink d-inline-block" routerLinkActive="active">Transfer Request Approval <br> शिक्षक अनुरोध</a>
+                <a routerLink="./../viewTransferRequestSchool"  class="tablink d-inline-block" routerLinkActive="active">Transfer Request By School <br> विद्यालय द्वारा स्थानांतरण अनुरोध</a>
+                <a routerLink="./../../relieving/viewRelieving"  class="tablink d-inline-block active" routerLinkActive="active">Relieving <br> विरमित</a>
+                <a routerLink="./../addjoiningschool"  class="tablink d-inline-block" routerLinkActive="active">Joining School <br> विद्यालय में शामिल होना</a>
+            </div>
+        </div>
+        <div class="heading__tab mt-2">
+            <div><h3 class="pageName">Add Relieving / विरमित जोड़ें</h3>  </div>
+        </div>        
+        <div class="tabArea">
+            <a routerLink="./../addRelieving"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-plus-lg me-2"></i>Add</a>
+            <a routerLink="./../viewRelieving"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View</a>
+        </div>
+    </div>
+  
+  
+       <div class="top-space formpatch">
+        <div class="row">
+          <div class="col-lg-2 form-group">
+            <label for="" class="form-label"> District</label>
+        </div>
+        <div class="col-lg-3 form-group  colon-top">
+            <span class="colon">:</span>
+            <label class="label-data fw-bold">{{ (searchDistrictData[0]?.districtCode) ? this.searchDistrictData[0]?.districtCode : "N/A" }} - {{ (searchDistrictData[0]?.districtName) ? this.searchDistrictData[0]?.districtName : "N/A" }}</label>
+        </div>
+        <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label for="" class="form-label"> Block</label>
+        </div>
+        <div class="col-lg-3 form-group  colon-top">
+            <span class="colon">:</span>
+            <label class="label-data fw-bold">{{ (searchBlockData[0]?.blockCode) ? searchBlockData[0]?.blockCode : "N/A" }} - {{ (searchBlockData[0]?.blockName) ? searchBlockData[0]?.blockName : "N/A" }}</label>
+        </div> 
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Cluster</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span>
+                <label class="label-data fw-bold">{{ (clusterData[0]?.clusterCode) ? clusterData[0]?.clusterCode : "N/A" }} - {{ (clusterData[0]?.clusterName) ? clusterData[0]?.clusterName : "N/A" }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+            <label for="" class="form-label">School Category</label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="label-data fw-bold">{{ (schoolCatData[0]?.schlCatName) ? this.schoolCatData[0]?.schlCatName : "N/A" }}</label>
+        </div>
+        <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label for="" class="form-label"> School</label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="label-data fw-bold">{{ (getSchoolData[0]?.schoolUdiseCode) ? getSchoolData[0]?.schoolUdiseCode : "N/A" }} - {{ (getSchoolData[0]?.schoolName) ? getSchoolData[0]?.schoolName : "N/A" }}</label>
+        </div> 
+            <div class="col-lg-1"></div>
+            <div class="col-md-2 form-group">
+                <label for="exampleInputEmail1" class="form-label">Designation</label>
+             </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchTeacherTitle"
+                                      name="searchTeacherTitle">
+                                      <option value="" *ngIf="teacherTitleChanged==false">-- Select --</option>
+                                      <option value="" *ngIf="teacherTitleChanged==true">Loading...</option>
+                                      <option *ngFor="let title of teacherTitles" [value]="title.anxtValue">
+                                        {{ title.anxtName }}
+                                      </option>
+                    
+                                    </select>
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-2 form-group3">
+               <label for="exampleInputEmail1" class="form-label">Teacher Name</label>
+            </div>
+            <div class="col-md-3 form-group"> 
+             <span class="colon">:</span>
+             <select class="form-select" aria-label="Default select example" name="teacherId" [(ngModel)]="teacherId">
+                <option value="" *ngIf="teacherChanged == false" selected>--Select--</option>
+                <option value="" *ngIf="teacherChanged == true">Loading...</option>
+                <option *ngFor="let item of teacherList" [value]="item.tId">{{ item.teacherId}}- {{ item.teacherName
+                  }}</option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1"></div>
+        </div>
+       <div class=" mt-4">
+          <div class="table-responsive">
+              <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">
+                        <div class="checkbox check__box">
+                          <div class="form-group me-0">
+                            <label>
+                              <input type="checkbox" class="check" id="checkAll">
+                              <span></span>
+                            </label>
+                          </div>
+                          </div>
+                      </th>
+                      <th scope="col" width="15px">Sl#</th>
+                      <th scope="col">Name</th>
+                      <th scope="col">Date of Joining</th>
+                      <!-- <th scope="col">Status</th> -->
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <th scope="row" width="10px">
+                        <div class="check__box">
+                          <div class="form-group checkbox me-0">
+                              <input type="checkbox" id="checkbox1" class="check">
+                              <label for="checkbox1"></label>
+                          </div>
+                          </div>
+                      </th>
+                      <th scope="row">1</th>
+                      <td>Rajendra Prasad</td>
+                      <td>20.04.2022</td>
+                      <!-- <td width="100px">
+                        <a routerLink="./../manageAgency" title="Edit" class="edit-btn me-2"><i class="bi bi-pencil-square" ></i></a>
+                        <a title="Delete" class="delete-btn"><i class="bi bi-trash3"></i></a>
+                    </td> -->
+                    </tr>
+                    <tr>
+                      <th scope="row" width="10px">
+                        <div class="check__box">
+                          <div class="form-group checkbox me-0">
+                              <input type="checkbox" id="checkbox2" class="check">
+                              <label for="checkbox2"></label>
+                          </div>
+                          </div>
+                      </th>
+                      <th scope="row">2</th>
+                      <td>Seema Ranjan Chopra</td>
+                      <td>12.03.2022</td>
+                      <!-- <td width="100px">
+                        <a routerLink="./../manageAgency" title="Edit" class="edit-btn me-2"><i class="bi bi-pencil-square" ></i></a>
+                        <a title="Delete" class="delete-btn"><i class="bi bi-trash3"></i></a>
+                    </td> -->
+                    
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+      
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Relieving Date</label>
+                 </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="date" class="form-control" id="" aria-describedby="emailHelp">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+  </div>
+
+</div>
+<div class=" formpatch">
+    <h5>To School</h5>
+ <div class="row">
+     <div class="col-md-2 form-group3">
+        <label for="exampleInputEmail1" class="form-label">District</label>
+     </div>
+     <div class="col-md-3 form-group colon-top"> 
+         <span class="colon">:</span>
+         <label class="label-data fw-bold">212- Patna</label>
+      
+     </div>
+     <div class="col-md-1"></div>
+     <div class="col-md-2 form-group">
+         <label for="exampleInputEmail1" class="form-label">Block </label>
+      </div>
+     <div class="col-md-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label  class="label-data fw-bold">201308- Phulwarisharif</label>
+     </div>
+ </div>
+ <div class="row">
+     <div class="col-md-2 form-group3">
+        <label for="exampleInputEmail1" class="form-label">Cluster</label>
+     </div>
+     <div class="col-md-3 form-group colon-top"> 
+         <span class="colon">:</span>
+         <label class="label-data fw-bold">M.S. Dhibra</label>
+     </div>
+     <div class="col-md-1"></div>
+     <div class="col-md-2 form-group">
+         <label for="exampleInputEmail1" class="form-label">School Category</label>
+      </div>
+     <div class="col-md-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label class="label-data fw-bold">Primary</label>
+     </div>
+ </div>
+ <div class="row">
+     <div class="col-md-2 form-group">
+         <label for="exampleInputEmail1" class="form-label">School Name</label>
+      </div>
+     <div class="col-md-3 form-group colon-top">
+         <span class="colon">:</span>
+         <label class="label-data fw-bold">10280901501 - Utkramit unchh Madhyamik vidyalaya</label>
+     </div>
+     <div class="col-lg-1"></div>
+ </div>
+ </div>
+ <div>
+    <a class="btn btn-success me-2">Submit</a>
+    <a class="btn btn-danger me-2">Reset</a>
+</div>
+  </div>
+ 
+
+  
+  
+
+
+

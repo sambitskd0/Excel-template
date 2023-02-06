@@ -1,0 +1,49 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit District/जिला को संपादन करें </h3>
+            <span class="indicator">( * ) Indicates Mandatory </span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें </a>
+            <a routerLink="../../viewDistrict" class="neuro viewLink"><i class="bi bi-eye me-2"></i>View/देखें</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="districtForm" (ngSubmit)="onSubmit()">
+            <input type="hidden" formControlName="encId">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">District Name <br>जिले का नाम </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input  type="text" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" formControlName="districtName" autocomplete="off"
+                        (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" minlength="2" maxlength="25" autocomplete="off" >
+                    <span class="mandatory">*</span>
+                   
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <div class="mb-3">
+                        <label for="exampleInputEmail1" class="form-label">District Code<br>जिला का कोड  </label>
+                    </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        formControlName="districtCode" autocomplete="off"
+                        (keypress)="customValidators.keyPressNumbers($event)" minlength="1" maxlength="4" autocomplete="off">
+                    <span class="mandatory">*</span>
+
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Update/अद्यतन</button>
+                <button class="btn btn-danger" (click)="onCancel()">Cancel/ रद्द करना</button>
+            </div>
+        </form>
+    </div>

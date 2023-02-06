@@ -1,0 +1,911 @@
+<div>
+    <div class="pageHeading noprint">
+        <div class="heading__tab">
+            <h3 class="pageName">School Monitoring Report</h3>
+        </div>
+
+        <div class="tabArea noprint">
+            <a routerLink="./../schoolInspection" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>Report</a>
+            <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+        </div>
+    </div>
+    <div class="top-space noprint">
+        <ng-container>
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block">
+                    <div class="searchPanel">
+                        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                            autocomplete="off" novalidate>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का
+                                        स्तर</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                                        (change)="getDesignationGroup($any($event.target).value);">
+                                        <option value="0" *ngIf="userLevelId === 0">--Select--</option>
+                                        <option value="5" *ngIf="stateUser == false">State</option>
+                                        <option value="4" *ngIf="distUser == false">District</option>
+                                        <option value="3" *ngIf="blkUser == false">Block</option>
+                                        <option value="2" *ngIf="cluUser == false">Cluster</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Designation <br />पद </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="designationGroupId" [(ngModel)]="designationGroupId"
+                                        class="form-select" (change)="getSubDesignation($any($event.target).value);">
+                                        <option value="" *ngIf="desGrpSelect == false">--Select--</option>
+                                        <option value="" *ngIf="desGrpLoading == true">Loading...</option>
+                                        <option *ngFor="let item of DesignationGroupData"
+                                            [value]="item.designationGroupId">
+                                            {{ item.designationGroupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDesignationId" name="scDesignationId">
+                                        <option value="" *ngIf="scDesignationChanged == false">--Select--</option>
+                                        <option value="" *ngIf="scDesignationLoading == true">Loading...</option>
+                                        <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                            {{ item.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School UDISE Code</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control schoolUdiseCode" [(ngModel)]="schoolUdiseCode"
+                                        name="schoolUdiseCode" />
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">District <br />जिला </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off"
+                                        (change)="getBlock($any($event.target).value);" #district>
+                                        <option value="" *ngIf="scDisrtictSelect == true">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let districtItem of searchDistrictData"
+                                            [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} -
+                                            {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                    <span class="mandatory" *ngIf="userLevelId != 5 ">*</span>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label"> Block <br />प्रखण्ड</label>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scBlockId" name="scBlockId" autocomplete="off"
+                                        (change)="getCluster($any($event.target).value);" #block>
+                                        <option value="" *ngIf="scBlockSelect == true">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scBlockLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                                            {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Cluster <br />संकुल </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scClusterId" name="scClusterId" autocomplete="off"
+                                        (change)="getSchool($any($event.target).value);">
+                                        <option value="" *ngIf="scClusterSelect == true">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scClusterLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                            {{ clusterItem.clusterCode }} -
+                                            {{ clusterItem.clusterName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School <br />विद्यालय</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolId" name="schoolId" autocomplete="off">
+                                        <option value="" *ngIf="scSchoolSelect == true">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scSchoolLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Start Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="startDate" name="startDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">End Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="endDate" name="endDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Status </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="inspStatusId" name="inspStatusId" autocomplete="off">
+                                        <option value="0">--All--</option>
+                                        <option value="1">Completed Visit</option>
+                                        <option value="2">Incomplete Visit</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School Status </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolStatusId" name="schoolStatusId" autocomplete="off">
+                                        <option value="0">--All--</option>
+                                        <option value="1">Open</option>
+                                        <option value="2">Close</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School Type</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolType" name="schoolType" autocomplete="off">
+                                        <option value="">--All--</option>
+                                        <option value="1">Elementry</option>
+                                        <option value="2">Secondary</option>
+                                        <option value="3">Composite</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <button class="btn btn-default btn-purple">
+                                        Search <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+            Search Panel
+        </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4 noprint" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Excel" (click)="excel()" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="table-responsive" id="viewTable">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+                    <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                        #exporter="matTableExporter">
+                        <ng-container matColumnDef="slNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Sl.No / क्र.सं.
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Udise">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                UDISE Code / यू-डायस कोड
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{
+                                element?.schoolUdiseCode ? element?.schoolUdiseCode : "--"
+                                }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="school_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                School Name / विद्यालय का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{
+                                (element?.schoolName | titlecase) ? element?.schoolName : "--"
+                                }}
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="district_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                District Name / जिले का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.districtCode ? element?.districtCode : "--" }} -
+                                {{ element?.districtName ? element?.districtName : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="block_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Block Name /प्रखण्ड का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.blockCode ? element?.blockCode : "--" }}
+                                -
+                                {{ element?.blockName ? element?.blockName : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="cluster_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Cluster Name / संकुल का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.clusterCode ? element?.clusterCode : "--" }} -
+                                {{ element?.clusterName ? element?.clusterName : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="nagar_name">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Panchayat/Municipal  /  पंचायत/नगर निगम
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <b>{{ element?.nagarType == 1 ? "Municipal" : "Panchayat" }} : - </b>
+                                {{ element?.panchayatName ? element?.panchayatName : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="school_type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                               School Type / स्कूल का प्रकार
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.schoolType ? element?.schoolType : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="inspected_date">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Monitoring Date Time / निगरानी दिनांक समय
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.date ? element?.date : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="monitor_by">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Monitored By / द्वारा निगरानी की गई
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.vchfullName ? element?.vchfullName : "--" }}
+
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="desg">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Designation / पद
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.vchDesignationName ? element?.vchDesignationName : "--" }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="mobile">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Mobile. No / मोबाइल संख्या
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element?.vchMobileNo ? element?.vchMobileNo : "--" }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                                View Details / विवरण देखें
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                                <a data-bs-toggle="modal" data-bs-target="#exampleModal" class="mat-raised-button"
+                                    style="background-color: #63409a; color: white"
+                                    (click)="TakeAction(element?.encId)"><i class="bi bi-eye"></i></a>
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="status">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"
+                                style="width: 18%">
+                                Status / स्थिति
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                -->School was
+                                <strong>{{ element?.schoolOpenStatustxt }}</strong> <br />
+                                -->Attendance Monitoring
+                                <strong>{{
+                                    element?.attendanceInspection == 1 ? "Done" : "Not Done"
+                                    }}</strong><br />
+                                -->Indicator Monitoring
+                                <strong>{{
+                                    element?.indicatorInspection == 1 ? "Done" : "Not Done"
+                                    }}</strong><br />
+                                Overall Status: <strong>{{ element?.overallstatus }}</strong>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 noPrint">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                        [pageSizeOptions]="getPageSizeOptions" (page)="onPageChange($event)" class="noPrint"
+                        aria-label="Select page" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+            <ng-template #showEmptyAlert> </ng-template>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{ "Please Search to find School Monitoring Details" }}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div>
+                    <h5 class="modal-title" id="exampleModalLabel">
+                        School Monitoring Report Card
+                    </h5>
+                </div>
+                <div>
+                    <a href="javascript: void(0)" (click)="printModal()" class="btn btn-primary noprint"><i
+                            class="bi bi-printer"></i></a>
+                    <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+            </div>
+            <div class="modal-body printReport" id="printModal">
+                <div class="formpatch">
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">UDISE</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.schoolUdiseCode ? datas?.schoolUdiseCode : "--"
+                                }}</label>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">School Name / विद्यालय का नाम</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.schoolName | titlecase
+                                }}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">District / जिला</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.districtName | titlecase
+                                }}</label>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Block / प्रखण्ड</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.blockName | titlecase
+                                }}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Cluster / संकुल</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.clusterName | titlecase
+                                }}</label>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Monitored Date</label>
+                        </div>
+
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{ datas?.date ? datas?.date : "--" }}
+                                {{ datas?.time ? datas?.time : "--" }}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <!-- <div class="col-md-2 form-group">
+              <label for="" class="form-label">Monitored Time</label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label for="" class="form-label">{{
+                datas?.time ? datas?.time : "--"
+                }}</label>
+            </div>
+            <div class="col-md-1"></div> -->
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Monitored By</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.vchfullName | titlecase
+                                }}</label>
+                        </div>
+                        <div class="col-md-1"></div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Designation / पद </label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <label for="" class="form-label">{{
+                                datas?.vchDesignationName ? datas?.vchDesignationName : "--"
+                                }}</label>
+                        </div>
+                    </div>
+                    <!-- <div class="row">
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Designation</label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label for="" class="form-label">{{
+                datas?.vchDesignationName ? datas?.vchDesignationName : "--"
+                }}</label>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Image</label>
+            </div>
+            <div class="col-md-3 form-group" *ngIf="imageUrlTeacher != '' ">
+              <span class="colon">:</span>
+             
+              <label class="label-data fw-bold">
+                <img [src]="imageUrlTeacher" style="width: auto; height: 100px" />
+
+              </label>
+            </div>
+            <div class="col-md-3 form-group" *ngIf="imageUrlTeacher == '' ">
+              <span class="colon">:</span>
+              
+              <label class="label-data fw-bold">
+                <img *ngIf="imageUrlTeacher && isimageUrlTeacher" [src]="imageUrlTeacher"
+                  style="width: auto; height: 100px" />
+              </label>
+            </div>
+          </div> -->
+                </div>
+                <div *ngIf="datas?.schoolOpenStatus === 1">
+                    <h5 class="mt-3">Staff Attendance</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-lightpurple">
+                                        <tr>
+                                            <th scope="col">Staff Type</th>
+                                            <th scope="col">Posted</th>
+                                            <th scope="col">Present</th>
+                                            <th scope="col">On Office Work</th>
+                                            <th scope="col">Absent</th>
+                                            <th scope="col">Leave</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let tat of tatten">
+                                            <td *ngIf="tat?.teacherType == 1">Head Master</td>
+                                            <td *ngIf="tat?.teacherType == 2">Teacher</td>
+                                            <td *ngIf="tat?.teacherType == 3">Non-Teaching Staff</td>
+                                            <td *ngIf="
+                          tat?.teacherType == 2 ||
+                          tat?.teacherType == 1 ||
+                          tat?.teacherType == 3
+                        ">
+                                                {{ tat?.totalPosted ? tat?.totalPosted : "0" }}
+                                            </td>
+                                            <td *ngIf="
+                          tat?.teacherType == 2 ||
+                          tat?.teacherType == 1 ||
+                          tat?.teacherType == 3
+                        ">
+                                                {{ tat?.totalPresent ? tat?.totalPresent : "0" }}
+                                            </td>
+                                            <td *ngIf="
+                          tat?.teacherType == 2 ||
+                          tat?.teacherType == 1 ||
+                          tat?.teacherType == 3
+                        ">
+                                                {{ tat?.outForOfficialWork ? tat?.outForOfficialWork : "0" }}
+                                            </td>
+                                            <td *ngIf="
+                          tat?.teacherType == 2 ||
+                          tat?.teacherType == 1 ||
+                          tat?.teacherType == 3
+                        ">
+                                                {{ tat?.absent ? tat?.absent : "0" }}
+                                            </td>
+                                            <td *ngIf="
+                          tat?.teacherType == 2 ||
+                          tat?.teacherType == 1 ||
+                          tat?.teacherType == 3
+                        ">
+                                                {{ tat?.authorizedLeave ? tat?.authorizedLeave : "0" }}
+                                            </td>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                        <tr *ngIf="tatten == ''">
+                                            <td colspan="6" class="text-center">No Record Found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-3">Absent HM/Teacher/Non-Teaching Staff List</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-lightpurple">
+                                        <tr>
+                                            <th scope="col">Name</th>
+                                            <th scope="col">Type</th>
+                                            <th scope="col">Gender</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let abteac of absentTeacherList">
+                                            <ng-container *ngIf="
+                          abteac?.teacherType == 1 ||
+                          abteac?.teacherType == 2 ||
+                          abteac?.teacherType == 3
+                        ">
+                                                <td>{{ abteac?.teacherName | titlecase }}</td>
+                                                <td *ngIf="abteac?.teacherType == 1">Head Master</td>
+                                                <td *ngIf="abteac?.teacherType == 2">Teacher</td>
+                                                <td *ngIf="abteac?.teacherType == 3">Non-Teaching</td>
+                                                <td *ngIf="abteac?.teaherGender == 1">Male</td>
+                                                <td *ngIf="abteac?.teaherGender == 2">Female</td>
+                                            </ng-container>
+                                        </tr>
+                                    </tbody>
+                                    <tbody>
+                                        <tr *ngIf="absentTeacherList == ''">
+                                            <td colspan="3" class="text-center">No Record Found</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- <h5 class="mt-3">Absent Non-Teaching Staff List</h5>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">Name</th>
+                      <th scope="col">Gender</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let abteac of absentTeacherList">
+                      <ng-container *ngIf="abteac?.teacherType == 3">
+                        <td>{{ abteac?.teacherName | titlecase }}</td>
+                        <td *ngIf="abteac?.teaherGender == 1">Male</td>
+                        <td *ngIf="abteac?.teaherGender == 2">Female</td>
+                      </ng-container>
+                    </tr>
+                  </tbody>
+                  <tbody>
+                    <tr *ngIf="absentTeacherList == ''">
+                      <td colspan="2" class="text-center">No Record Found</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div> -->
+                    <h5 class="mt-3">Student Attendance</h5>
+
+                    <tbody>
+                        <tr *ngIf="studentAttendence == ''">
+                            <td colspan="2" class="text-center">No Record Found</td>
+                        </tr>
+                    </tbody>
+                    <div>
+                        <!-- <h5 class="mt-3">{{ "Class-" + stuAtten.classGroupId }}</h5> -->
+                        <div class="row">
+                            <div class="col-lg-12">
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead class="bg-lightpurple">
+                                            <tr>
+                                                <th scope="col" style="text-align: center">#</th>
+                                                <th scope="col" colspan="3" style="text-align: center">
+                                                    Boys
+                                                </th>
+                                                <th scope="col" colspan="3" style="text-align: center">
+                                                    Girls
+                                                </th>
+                                                <th scope="col" colspan="3" style="text-align: center">
+                                                    Transgender
+                                                </th>
+                                            </tr>
+                                            <tr>
+                                                <th rowspan="2" style="text-align: center">Class</th>
+                                                <th rowspan="2" style="text-align: center">Enrolled</th>
+                                                <th colspan="2" style="text-align: center">Present</th>
+                                                <th rowspan="2" style="text-align: center">Enrolled</th>
+                                                <th colspan="2" style="text-align: center">Present</th>
+                                                <th rowspan="2" style="text-align: center">Enrolled</th>
+                                                <th colspan="2" style="text-align: center">Present</th>
+                                            </tr>
+                                            <tr>
+                                                <th>On Register</th>
+                                                <th>Actual</th>
+                                                <th>On Register</th>
+                                                <th>Actual</th>
+                                                <th>On Register</th>
+                                                <th>Actual</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr *ngFor="let stuAtten of studentAttendence">
+                                                <td>
+                                                    <b>{{ "Class - " + stuAtten.classGroupId }}</b>
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.totalEnrolledBoys != null
+                                                    ? stuAtten?.totalEnrolledBoys
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.attendanceOnRegisterBoys != null
+                                                    ? stuAtten?.attendanceOnRegisterBoys
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.actualPresentBoys != null
+                                                    ? stuAtten?.actualPresentBoys
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.totalEnrolledGirls != null
+                                                    ? stuAtten?.totalEnrolledGirls
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.attendanceOnRegisterGirls != null
+                                                    ? stuAtten?.attendanceOnRegisterGirls
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.actualPresentGirls != null
+                                                    ? stuAtten?.actualPresentGirls
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.totalEnrolledTransGender != null
+                                                    ? stuAtten?.totalEnrolledTransGender
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.attendanceOnRegisterTransGender != null
+                                                    ? stuAtten?.attendanceOnRegisterTransGender
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                                <td>
+                                                    {{
+                                                    stuAtten?.actualPresentTransGender != null
+                                                    ? stuAtten?.actualPresentTransGender
+                                                    : "--"
+                                                    }}
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-3">Indicators</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-lightpurple">
+                                        <tr>
+                                            <th scope="col">Sl.No</th>
+                                            <th scope="col">Indicators</th>
+                                            <th scope="col">Observation</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr *ngFor="let ans of answerList; let i = index">
+                                            <td>{{ i + 1 }}</td>
+                                            <td>{{ ans?.inspQuestion }}</td>
+                                            <td>{{ ans?.answer }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5 class="mt-3" *ngIf="imageUrlTeacher && isimageUrlTeacher">
+                        Image
+                    </h5>
+                    <div class="row" *ngIf="imageUrlTeacher && isimageUrlTeacher">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <label class="label-data fw-bold">
+                                    <img *ngIf="imageUrlTeacher && isimageUrlTeacher" [src]="imageUrlTeacher"
+                                        style="width: auto; height: 100px" />
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div *ngIf="datas?.schoolOpenStatus == 2">
+                    <h5 class="mt-3">School Report</h5>
+                    <div class="row">
+                        <div class="col-lg-12">
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <thead class="bg-lightpurple">
+                                        <tr>
+                                            <th scope="col">School Status</th>
+                                            <th scope="col">Reason</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>Close</td>
+                                            <td>{{ datas?.schoolCloseReason }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                    <div></div>
+                </div>
+            </div>
+            <div class="modal-footer noprint">
+                <a (click)="printModal()" class="btn btn-primary noprint">Print</a>
+                <button type="button" data-bs-dismiss="modal" class="btn btn-danger noprint">
+                    Close / बंद करें
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

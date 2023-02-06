@@ -1,0 +1,373 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+   <div class="modal-content">
+     <div class="modal-header">
+       <h5 class="modal-title" id="exampleModalLabel">Kasturba Gandhi Balika Vidyalay (KGBV) Inspection Details</h5>
+       <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+     </div>
+     <div class="modal-body">
+       <div class="top-space">
+ 
+         <div class="row"> 
+            <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">1) Type of CWSN Category </label>
+                </div>
+           </div>
+           <div class="col-md-3 form-group">
+                <div class=""> <span class="colon">:</span>
+                   <label for="" class="form-label fw-normal"> {{surveyData?.KGBVType ? surveyData?.KGBVType :'--'}}</label>
+                </div>         
+           </div>
+         </div>
+ 
+         <div class="row"> 
+             <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">2) Total Enrolled CWSN Girls (It should be maximum 25)</label>
+                </div>
+             </div>
+             <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal"> {{surveyData?.totalCwsnGirls ? surveyData?.totalCwsnGirls :'--'}}</label>
+                   </div>         
+             </div>
+          </div>
+ 
+          <div class="row"> 
+             <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">3) Present CWSN Girls</label>
+                </div>
+             </div>
+             <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal"> {{surveyData?.presentCwsnGirls ? surveyData?.presentCwsnGirls :'--'}}</label>
+                   </div>         
+             </div>
+          </div>
+ 
+          <div class="row"> 
+             <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">4) What is the condition of class relative efficiency of CWSN ?</label>
+                </div>
+             </div>
+             <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal"> {{surveyData?.efficiencyType ? surveyData?.efficiencyType :'--'}}</label>
+                   </div>         
+             </div>
+          </div>
+ 
+          <div class="row"> 
+             <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">5) Is tagged specific teacher are coming daily or according to roster ?</label>
+                </div>
+             </div>
+             <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal"> {{surveyData?.taggedTeacherCome ? surveyData?.taggedTeacherCome :'--'}}</label>
+                   </div>         
+             </div>
+          </div>
+ 
+          <div class="row"> 
+             <div class="col-md-6 form-group">
+                <div class="">
+                   <label for="exampleInputEmail1" class="form-label">6) Is there TLM for girl child use ?</label>
+                </div>
+             </div>
+             <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal"> {{surveyData?.TLMAvailable ? surveyData?.TLMAvailable :'--'}}</label>
+                   </div>         
+             </div>
+          </div>
+ 
+ 
+          <div class="patch">
+           <div class="row patch-heading">
+             <div class="col-md-6 col-12 form-group">
+               <div class="">
+                 <label for="exampleInputEmail1" class="form-label">7) Available Aid & Appliances in KGBV </label>
+               </div>
+             </div>
+           </div>
+           <div class="row">
+             <div class="col-md-12">
+                <div class="row" *ngIf="surveyData?.KGVBOption == 1">
+                   <div class=" col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Hearing Aid </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1  col-sm-2 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label for="" class="form-label fw-normal">{{surveyData?.hearingAid || "--"}}</label>  
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2  form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Word book </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <strong>
+                              <label for="" class="form-label fw-normal">{{surveyData?.wordBook || "--"}}</label>
+                            </strong>
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class=" col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Articulation Book </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                         <label for="" class="form-label fw-normal">{{surveyData?.articulationBook || "--"}}</label> 
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Story Book </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.storyBook || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class=" col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Puzzle </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.puzzle || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Mirror </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.mirror || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Group Hearing Aid</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.groupHearingAid || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Speech Trainer Machine</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.speechTrainerMachine || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Extra battery for hearing aid</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.extraBattery || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">TLM</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.TLMHI || "--"}}</label>   
+                      </div>
+                   </div>
+                </div>
+                <div class="row" *ngIf="surveyData?.KGVBOption == 2">
+                   <div class=" col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Brailler </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1  col-sm-2 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label for="" class="form-label fw-normal">{{surveyData?.brailler || "--"}}</label>  
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2  form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Braille Slate </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <strong>
+                              <label for="" class="form-label fw-normal">{{surveyData?.brailleSlate || "--"}}</label>
+                            </strong>
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Abacus </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.abacus || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class=" col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Teller Frame </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.tellerFrame || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-3 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Stick (White Cane) </label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.stick || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Sound Ball</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.soundBall || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Chess</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.chess || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Geometry Kit</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.geometryKit || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Tactile Map</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.tactileMap || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Tactile Globe</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.tactileGlobe || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Braille Paper</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.braillePaper || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">Braille Books</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.brailleBooks || "--"}}</label>   
+                      </div>
+                   </div>
+                   <div class="col-md-1"></div>
+                   <div class="col-4 col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">TLM</label>
+                      </div>
+                   </div>
+                   <div class="col col-md-1 form-group">
+                      <div class=""> <span class="colon">:</span>
+                        <label for="" class="form-label fw-normal">{{surveyData?.TLMVI || "--"}}</label>   
+                      </div>
+                   </div>
+                </div>
+ 
+             </div>
+          </div>
+         </div>
+         
+         
+      </div>
+     </div>
+     <div class="modal-footer">
+       <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+         Close
+       </button>
+     </div>
+   </div>
+ </div>
+ 

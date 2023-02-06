@@ -1,0 +1,64 @@
+<div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <h3 class="pageName">View  Examination//परीक्षा जोड़ें</h3> 
+        <div class="tab__section">
+            <a routerLink="./../viewExaminationMaster"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Examination Master')">Exam Master/परीक्षा का मास्टर</a>
+            <a routerLink="./../markConfiguration/addMarkConfiguration"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Mark Configuration')">Mark Configuration/कॉन्फ़िगरेशन चिह्नित करें</a>
+        </div>
+        </div>
+      
+      <div class="tabArea">
+        <a routerLink="./../addExaminationMaster"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+        <a routerLink="./../viewExaminationMaster" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a> 
+      </div>
+       </div>
+      <div class="row mt-4">
+          <div class="col-lg-12">
+            <div class="page__rightarea">
+              <div class="page__util">
+                 
+              </div>
+              </div>
+               <div>  
+                <div class="table-responsive">
+                  <table class="table  table-bordered">
+                    <thead class="bg-lightpurple">
+                  <tr>
+                    <th scope="col" width="15px">SI#/क्र.सं.
+                    </th>
+                    <th scope="col">Exam Type/परीक्षा का प्रकार
+                    </th>
+                    <th scope="col">Class(s)/वर्ग (ओं)
+                    </th>
+                    <th scope="col">Description/विवरण
+                    </th>
+                    <th scope="col" *ngIf="adminPrivilege">Action/क्रिया</th>
+                    
+                  </tr>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let post of examinationMasterdata; let i = index">
+                        <th scope="row">{{ i + 1 }}</th>
+                        <td>{{ post.examinationTypeId }}</td>
+                        <td>{{ post.classNames }}</td>
+                        <td>{{ post.description }}</td>
+                         <td width="100px" *ngIf="adminPrivilege">
+                          <a routerLink="./../editExaminationMaster/{{ post.encId }}" title="Edit" class="edit-btn me-2"><i
+                              class="bi bi-pencil-square"></i></a>
+                            <a title="Delete" class="delete-btn" (click)="deleteExaminationMaster(post.encId)"
+                            [style.cursor]="'pointer'"><i class="bi bi-trash3"></i></a>  
+                        </td>
+                        </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+      
+        </div>
+     
+      
+  
+  
+  
+  

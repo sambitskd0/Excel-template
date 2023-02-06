@@ -1,0 +1,31 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+
+      <h5 class="modal-title" id="exampleModalLabel"> Any Other Visit Details (Official Works)</h5>
+      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+    </div>
+    <div class="modal-body">
+      <div class="top-space">
+        <div class="row">
+          <div class="col-md-3 form-group">
+            <label for="exampleInputEmail1" class="form-label"
+              >Name of Work
+            </label>
+          </div>
+          <div class="col-md-9 form-group">
+            <span class="colon">:</span>
+            <label class="form-label fw-normal">
+              {{ surveyData?.nameOfWork || "--" }}</label
+            >
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+        Close
+      </button>
+    </div>
+  </div>
+</div>

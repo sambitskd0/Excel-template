@@ -1,0 +1,454 @@
+<div>
+  <div class="pageHeading">
+     <div>
+        <h3 class="pageName">Student Progression / छात्र का प्रगति</h3>
+        <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+     </div>
+     <div class="tabArea">
+        <a class="neuro viewLink active" routerLinkActive="active" ><i class="bi bi-plus-lg me-2"></i>Update Progression / प्रगति देखें</a> 
+        <a routerLink="./../report" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>Progression Report / प्रगति रिपोर्ट</a>
+        <div class="float-end d-inline-block"></div>
+     </div>
+  </div>
+   <form [formGroup]="searchForm" (ngSubmit)="onSearch()" autocomplete="off">
+      <div class="search-container">
+         <div class="search-sec" id="searchPanel" style="display: block;">
+            <div class="searchPanel">
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <div class=""><label class="form-label">Academic Year</label><br>शैक्षणिक वर्ष</div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold"> 2022-23</label>
+                     </div>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <div class="">
+                        <label class="form-label">District</label><br>जिला
+                     </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                           <option value="" *ngIf="scDisrtictSelect == true">--- Select ---</option>
+                           <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                           <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{ districtItem.districtName }}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <div class="">
+                        <label class="form-label">Block</label><br>प्रखण्ड
+                     </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                           <option value="" *ngIf="scBlockSelect == true">--- Select ---</option>
+                           <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                           <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">{{ blockItem.blockCode }} - {{ blockItem.blockName }}  </option>
+                        </select>
+                        <span class="mandatory">*</span>
+                     </div>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <div class="">
+                        <label class="form-label">Cluster</label><br>संकुल
+                     </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                           <option value="" *ngIf="scClusterSelect == true">--- Select ---</option>
+                           <option value="" *ngIf="scClusterLoading == true">Loading...</option>
+                           <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }} </option>
+                        </select>
+                        <span class="mandatory">*</span>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <div class="">
+                        <label class="form-label">School</label><br>विद्यालय
+                     </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="searchSchoolId" autocomplete="off" (change)="getSchoolWiseClasses($any($event.target).value)">
+                           <option value="" *ngIf="scSchoolSelect == true">--- Select ---</option>
+                           <option value="" *ngIf="scSchoolLoading == true">Loading...</option>
+                           <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">{{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                     </div>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <div class=""><label class="form-label">Student Code / Name </label><br>छात्र कोड / नाम</div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control" formControlName="studentCodeName">
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <div class="">
+                        <label class="form-label">Class</label> <br>वर्ग
+                     </div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <select formControlName="classId" class="form-select" (click)="classControlChange($any($event.target).value)">
+                           <option value="" *ngIf="classChanged==false">--- Select ---</option>
+                           <option value="" *ngIf="classChanged==true">Loading...</option>
+                           <option *ngFor="let cls of classList" [value]="cls.classId">
+                           {{ cls.class }}
+                           </option>
+                        </select>
+                        <span class="mandatory">*</span>
+                     </div>
+                     <span class="mandatory">*</span>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <div class=""><label class="form-label">Section </label><br>भाग</div>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span> 
+                        <select formControlName="section" class="form-select">
+                           <option value="" *ngIf="sectionChanged==false">--- Select ---</option>
+                           <option value="" *ngIf="sectionChanged==true">Loading...</option>
+                           <option *ngFor="let item of sectionList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                        </select>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-6 ">
+                     <ng-container *ngIf="classId == 11 || classId == 12">
+                        <div id="11" class="row">
+                           <div class="col-lg-4 form-group">
+                              <label class="form-label">Stream / धाराएँ</label>
+                           </div>
+                           <div class="col-lg-6 form-group">
+                              <span class="colon">:</span>
+                                 <select class="form-select" formControlName="stream" (click)="streamControlChange($any($event.target).value)">
+                                    <option value="" *ngIf="streamChanged==false">--- Select ---</option>
+                                    <option value="" *ngIf="streamChanged==true">Loading...</option>
+                                    <option *ngFor="let item of streamList" [value]="item.anxtValue"> {{ item.anxtName }}
+                                    </option>
+                                 </select>
+                                 <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </ng-container>
+                  </div>
+                  <div class="col-lg-6">
+                     <ng-container *ngIf="classId > 10 && stream == 3">
+                        <div id="science" class="row">
+                           <div class="col-lg-4 form-group">
+                              <label class="form-label">Group</label><br>समूह
+                           </div>
+                           <div class="col-lg-6 form-group">
+                              <span class="colon">:</span>
+                                 <select formControlName="group" class="form-select">
+                                    <option value="" *ngIf="groupChanged==false">--- Select ---</option>
+                                    <option value="" *ngIf="groupChanged==true">Loading...</option>
+                                    <option *ngFor="let item of groupList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                                 </select>
+                                 <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </ng-container>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class=""><button type="submit" class="btn btn-default btn-purple"> Search / खोज <i  class="bi bi-search"></i></button></div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </form>
+  <div class="clearfix"></div>
+
+   <ng-container *ngIf="isStudentData === true">
+      <form [formGroup]="stdProgressionForm" (ngSubmit)="submitStdProgression()">
+         <div class="row mt-3">
+            <div class="col-lg-12">
+               <div class="page__rightarea">
+                 
+                  <div class="page__util legend__attended">
+                      <div class="legendPatch">
+                           <ul>
+                              <li><a class="legend-pg"></a>Progressed</li>
+                              <li><a class="legend-ntpg"></a>Not Progressed</li>
+                           </ul>
+                        </div>
+                     <div class="util">
+                        <!-- <span class="publish"><i class="bi bi-square-fill me-1"></i>Publish</span>
+                        <span class="unpublish"><i class="bi bi-square-fill me-1"></i>Unpublish</span> 
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a> -->
+                     </div>
+                  </div>
+               </div>
+               <div class="table-responsive">
+                  <table class="table  table-bordered">
+                     <thead class="bg-lightpurple">
+                        <tr>
+                           <th scope="col">
+                              <div _ngcontent-wky-c38="" class="checkbox check__box">
+                                 <div _ngcontent-wky-c38="" class="form-group me-0">
+                                    <label _ngcontent-wky-c38="">
+                                    <input _ngcontent-wky-c38="" type="checkbox" formControlName="checkAll" (click)="checkUncheckAll()">
+                                    <span _ngcontent-wky-c38=""></span>
+                                    </label>
+                                 </div>
+                              </div>
+                           </th>
+                           <th scope="col">#</th>
+                           <th scope="col">Student Code / छात्र कोड</th>
+                           <th scope="col">Name / नाम</th>
+                           <th scope="col">Father Name / पिता का नाम</th>
+                           <th scope="col">Mother Name / माता का नाम</th>
+                           <th scope="col">DOB / जन्म तिथि</th>
+                           <th scope="col">Progress Status / प्रगति की स्थिति</th>
+                           <th scope="col">New Class / नया वर्ग</th>
+                           <th scope="col">Promoted Section / प्रचारित भाग</th>
+                           <!-- <th scope="col">Grade / % of Marks obtained / श्रेणी / % पाया हुआ अंक</th> -->
+                           <!-- <th scope="col">Attendance(in Days) / उपस्थिति (दिनों में)</th>
+                           <th scope="col">Facilities received by CWSN / सीडब्ल्यूएसएन द्वारा प्राप्त सुविधाएं</th>
+                           <th scope="col">No. of uniform</th>
+                           <th scope="col">Free text books / पाठ्य पुस्तकों का निःशुल्क सेट</th> -->
+                        </tr>
+                     </thead>
+                     <tbody formArrayName="stdProgressionArray">                     
+                        <tr *ngFor="let stdData of studentData; let stdIndex=index">
+                           <ng-container [formGroupName]="stdIndex">
+                              <td>
+                                 <div class="checkbox check__box">
+                                    <div class="form-group me-0">
+                                       <label>
+                                          <input formControlName="checkItem" type="checkbox" class="check">
+                                          <span></span>
+                                       </label>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td scope="row">{{ stdIndex + 1 }}</td>
+                              <td  style="width:10%;">
+                                 <input type="hidden" class="form-control" formControlName="studentId" />
+                                 <label *ngIf="stdData?.progressionStatus>1" class="badge badge-warning bg-warning">{{ stdData?.studentCode }}</label>
+                                 <label *ngIf="stdData?.progressionStatus<=1" class="badge badge-primary bg-primary">{{ stdData?.studentCode }}</label>
+                              </td>
+                              <td style="width:10%;">
+                                 <label>{{stdData?.studentName}}</label>
+                              </td>
+                              <td style="width:10%;">
+                                 <label>{{stdData?.fatherName}}</label>
+                              </td>
+                              <td style="width:10%;">
+                                 <label>{{stdData?.motherName}}</label>
+                              </td>
+                              <td style="width:10%;">
+                                 <label>{{stdData?.dob | date:'dd-MMM-yyyy' }}</label>
+                              </td>
+                              <td>
+                                 <select formControlName="progressionStatus" #pgStatus class="form-select" aria-label="Default select example" (change)="checkNewClass(stdIndex)"> 
+                                    <!-- <option value="">--Select--</option>
+                                    <option value="2">Promoted</option>
+                                    <option value="4">Promoted, moved to other school </option>
+                                    <option *ngIf="clsPS==10 || clsPS==12" value="6">Passout </option>
+                                    <option value="3">Repeater </option> -->
+                                    <ng-container *ngIf="clsPS<12 && classList[classList.length-1].classId!=10 && classList[classList.length-1].classId != clsPS">
+                                       <option value="2">Promoted</option>
+                                    </ng-container>
+                                    <ng-container *ngIf="clsPS<12 && (clsPS==10 || classList[classList.length-1].classId == clsPS)">
+                                       <option value="4">Promoted, moved to other school</option>
+                                    </ng-container>
+                                    <ng-container *ngIf="clsPS==10 || clsPS==12">
+                                       <option value="6">Passout</option>
+                                    </ng-container>
+                                    <ng-container>
+                                       <option value="3">Repeater</option>
+                                    </ng-container>
+                                    <!--                                        
+                                       <option value="2" *ngIf="clsPS<12 && classList[classList.length-1].classId != clsPS">Promoted</option>
+                                       <option value="4" *ngIf="clsPS<12 && classList[classList.length-1].classId == clsPS">Promoted, moved to other school </option>
+                                       <option value="6" *ngIf="clsPS==10 || clsPS==12" >Passout </option>
+                                       <option value="3">Repeater</option>
+                                       <option value="5">Dropout </option> 
+                                    -->
+                                 </select>
+                              </td>
+                              <td>
+                                 <input type="text" class="form-control inputAsLabel" formControlName="newClass" #newClass/>
+                              </td>
+                              <td>
+                                 <select formControlName="promotedSection" class="form-select" aria-label="Default select example">
+                                    <option value="">--Select--</option>
+                                    <option *ngFor="let item of sectionList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                                 </select>
+                              </td>
+                              <!-- <td>
+                                 <ng-container *ngIf="stdData?.securedMark>0">
+                                    <a class="formpatch">{{stdData?.examType}}</a>
+                                    <br/><label class="form-label">Secured Mark : </label> {{stdData?.securedMark | number}}
+                                    <br/><label class="form-label">Total Mark : </label> {{stdData?.totalMark | number}} 
+                                    <br/><label class="form-label">Grade(%) : </label> {{stdData?.grade}} ( {{stdData?.percentage | number : '1.0-2'}} % )
+                                    <br/><a data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="markDetails(stdData?.stdEncId)">Mark Details</a> 
+                                 </ng-container>
+                              </td> -->
+                           </ng-container>
+
+                        </tr>
+                     </tbody>
+                  </table>
+               </div>
+            </div>
+         </div>
+         <div>
+            <button *ngIf="progressionBtnEnable" type="submit" class="btn btn-success mt-3">Submit Progression</button>
+         </div>
+      </form>
+   </ng-container>
+
+   <ng-container *ngIf="noFilter === true">
+      <div class="alert alert-info text-center fw-bold" role="alert">
+         {{ "Please filter the search pannel, then the data will load......" }}
+      </div>
+   </ng-container>
+
+   <ng-container *ngIf="emptyResult===true">
+      <div class="alert alert-info text-center fw-bold" role="alert">
+         {{ "No record found" }}
+      </div>
+   </ng-container>
+
+</div>
+
+<!-- for generate TC -->
+<div class="modal generate__tc fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header">
+             <h5 class="modal-title" id="exampleModalLabel">
+                 Mark Details
+             </h5>
+             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+             <div class="row">
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label class="form-label">Student Name </label><br>छात्र का नाम
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label for=""><span>:</span> <strong> {{markData[0]?.studentName}} </strong>
+                         </label>
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label class="form-label">Student Code</label><br>छात्र का कोड
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label for=""><span>:</span> <strong> {{markData[0]?.studentCode}} </strong> </label>
+                     </div>
+                 </div>
+             </div>
+             <div class="row">
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label class="form-label">Class</label><br>वर्ग
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label for=""><span>:</span> <strong>Class {{ classId }} </strong> </label>
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label class="form-label">Section </label><br>भाग
+                     </div>
+                 </div>
+                 <div class="col-lg-3" style="width:21% ;">
+                     <div class="">
+                         <label for=""><span>:</span> <strong> {{secData[section] || '--'}} </strong> </label>
+                     </div>
+                 </div>
+             </div>
+             <div class="table-responsive mt-3">
+                 <table class="table table-bordered">
+                     <thead class="bg-lightpurple">
+                         <tr>
+                             <th scope="col">Exam Type / परीक्षा का प्रकार</th>
+                             <th scope="col">Total Mark / कुल अंक</th>
+                             <th scope="col">Secured Mark / सुरक्षित अंक</th>
+                             <th scope="col">Grade / श्रेणी</th>
+                         </tr>
+                     </thead>
+                     <tbody>
+                         <tr *ngFor="let md of markData">
+                             <td scope="row">{{md.examType}}</td>
+                             <td>{{md.totalMark}}</td>
+                             <td>{{md.securedMark}}</td>
+                             <td>{{md.grade}} ({{md.percentage | number : '1.0-2' }}%) </td>
+                         <!-- </tr>
+                         <tr>
+                             <td><strong>Total Mark / कुल अंक</strong></td>
+                             <td><strong>{{totMark}}</strong></td>
+                             <td><strong>{{secMark}}</strong></td>
+                             <td></td>
+                         </tr>
+                         <tr>
+                             <td><strong>Overal Grade</strong></td>
+                             <td></td>
+                             <td></td>
+                             <td><strong>{{grade}}</strong></td>
+                         </tr>
+                         <tr>
+                             <td><strong>नोट –ग्रेड A -81% से 100% अंक(बहुत अच्छा) B -61% से 80% अंक (अच्छा)
+                                     C-41% से 60% अंक (संतोषप्रद)
+                                     &nbsp; &nbsp; D-33% से 40% अंक (प्रयास की आवश्यकता) E-0% से 32% अंक (विशेष
+                                     प्रयास/ शिक्षण की आवश्यकता)
+                                 </strong></td>
+                             <td></td>
+                             <td></td>
+                             <td></td>
+                         </tr> -->
+                     </tbody>
+                 </table>
+             </div>
+         </div>
+         <div class="modal-footer">
+             <button type="button" class="btn btn-danger" data-bs-dismiss="modal" >
+                 Close / बंद करे
+             </button>
+         </div>
+     </div>
+   </div>
+ </div>
+ <!-- for generate TC -->

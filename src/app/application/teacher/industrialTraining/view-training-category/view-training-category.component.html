@@ -1,0 +1,136 @@
+<div>
+  <div class="pageHeading">
+     <div class="heading__tab">
+        <div>
+           <h3 class="pageName">Type of Training  / प्रशिक्षण का प्रकार </h3>
+        </div>
+        <div class="tab__section">             
+           <a routerLink="./../viewTrainingAgency"  class="tablink d-inline-block" >Training Agency <br> प्रशिक्षण संस्था</a>
+           <a routerLink="./../viewTrainingCategory"  class="tablink d-inline-block" routerLinkActive="active">Type of Training <br> प्रशिक्षण का तरीका</a>
+           <a routerLink="./../viewIndustrialTraining"  class="tablink d-inline-block" >Industrial Training <br> औद्योगिक प्रशिक्षण</a>
+        </div>
+     </div>
+     
+     <div class="tabArea">
+        <a routerLink="./../addTrainingCategory"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+        <a routerLink="./../viewTrainingCategory"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+     </div>
+  </div>
+  <div class="search-container student-info">
+     <form [formGroup]="trainingCategory" (ngSubmit)="onSearch()">
+     <div class="searchPanel">
+        <div class="row">
+           <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 form-group">
+              <div >
+                 <label   class="form-label">Type of Training Name </label><br />प्रशिक्षण का प्रकार नाम
+              </div>
+           </div>
+           <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-6 form-group">
+              <div>
+                 <span class="colon">:</span>
+                 <input type="text" class="form-control" formControlName="trainingName" id=""  aria-describedby="emailHelp">
+              </div>
+           </div>
+           <div class="col-lg-3 mb-3">
+              <button class="btn btn-default btn-purple"> Search / खोजें <i class="bi bi-search"></i></button>
+           </div>
+        </div>
+     </div>
+    </form>
+  </div>
+  <div class=" mt-4" [hidden]="resultListData?.length === 0">
+     <div class="page__rightarea">
+        <div class="page__util">
+           <div class="util">
+            <a title="Excel" class="excel" (click)="downloadTrainingCategoryList()"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+           </div>
+        </div>
+     </div>
+     <div  id="viewTable">
+       <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+       </mat-progress-bar>
+       <div class="table-responsive">
+        <table  class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+        #exporter="matTableExporter" >
+        <ng-container matColumnDef="slNo">
+           <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+             SI# / क्रम#
+           </th>
+           <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+         </ng-container>
+         <ng-container matColumnDef="Training Name">
+           <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+             Type of Training Name / प्रशिक्षण का प्रकार नाम
+           </th>
+           <td mat-cell *matCellDef="let element">{{(element?.trainingName) ? element?.trainingName :'--' }}</td>
+         </ng-container>
+         <ng-container matColumnDef="Description">
+           <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+             Description / विवरण
+           </th>
+           <td mat-cell *matCellDef="let element">
+             {{ element?.description.length > 60 ? (element?.description | slice:0:60):element?.description }}
+             <small style="font-style: italic;" *ngIf="element?.description.length > 60"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.description)">View More</a></small>
+       </td>
+           <td mat-cell *matCellDef="let element">{{(element?.description) ? element?.description :'--' }}</td>
+         </ng-container>
+         <ng-container matColumnDef="CreatedOn">
+           <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+             CreatedOn
+           </th>
+           <td mat-cell *matCellDef="let element">{{(element?.createdOn) ? (element?.createdOn|date:'dd-MMM-yyyy') :'--' }}</td>
+         </ng-container>
+         <ng-container matColumnDef="action">
+           <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+            Action / कार्रवाई करें
+           </th>
+           <td mat-cell *matCellDef="let element" class="action-link noPrint">
+              <a title="Edit" [routerLink]="['./../editTrainingCategory/', element?.encId]" class="edit-btn me-2"><i
+                  class="bi bi-pencil-square text-primary"></i></a>
+              <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteTraining(element?.encId)"><i
+                  class="bi bi-trash"></i></a>
+            </td>
+         </ng-container>
+           <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+           <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+         </table>
+       </div>
+     
+        <!-- <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+              No Records Found!
+            </td>
+          </tr>
+        </table> -->
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+               class="noPrint" showFirstLastButtons>
+              </mat-paginator>
+      </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+    </div>
+  </div>
+
+
+
+
+<!-- View Description Modal -->
+<div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,264 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">Doctor Details  / डॉक्टर का विवरण</h3>
+      <div class="tab__section">
+        <a routerLink="./../viewDocterDetails" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Doctor Details')">Doctor Details / डॉक्टर का विवरण</a>
+        <a routerLink="./../viewHealthCheckUp" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Health Check Up')">Health Check up / स्वास्थ्य जांच</a>
+      </div>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addDocterDetails" class="neuro addLink" routerLinkActive="active"
+      *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a class="neuro viewLink active"><i class="bi bi-eye me-2"></i>View / देखे</a>
+      <span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+  </div>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <!-- <form [formGroup]="doctorDetailsSearchform" (ngSubmit)="onsearch()"> -->
+      <form name="form" class="form-horizontal" (ngSubmit)="onsearch()" #searchForm="ngForm" novalidate>
+        <div class="search-container">
+          <div class="search-sec" id="searchPanel" style="display: block;">
+            <div class="searchPanel">
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष </label></div>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchAcademicYear"
+                      name="searchAcademicYear">
+                      <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                  <label for="" class="form-label">District <br>जिला</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchDistrictId"
+                      name="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                      <option value="" *ngIf="scDisrtictSelect == true">
+                        --- Select ---
+                      </option>
+                      <option value="" *ngIf="scDisrtictLoading == true">
+                        Loading...
+                      </option>
+                      <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                        {{ districtItem.districtCode }} -
+                        {{ districtItem.districtName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1">
+                  <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <label for="" class="form-label">Block <br>प्रखण्ड</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchBlockId"
+                      name="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                      <option value="" *ngIf="scBlockSelect == true">
+                        --- Select ---
+                      </option>
+                      <option value="" *ngIf="scBlockLoading == true">
+                        Loading...
+                      </option>
+                      <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1">
+                  <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Cluster <br>संकुल</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchClusterId"
+                      name="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                      <option value="" *ngIf="scClusterSelect == true">
+                        --- Select ---
+                      </option>
+                      <option value="" *ngIf="scClusterLoading == true">
+                        Loading...
+                      </option>
+                      <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                        {{ clusterItem.clusterCode }} -
+                        {{ clusterItem.clusterName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1">
+                  <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true" alt="dsd">
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchSchoolId"
+                      name="searchSchoolId" autocomplete="off">
+                      <option value="" *ngIf="scSchoolSelect == true">
+                        --- Select ---
+                      </option>
+                      <option value="" *ngIf="scSchoolLoading == true">
+                        Loading...
+                      </option>
+                      <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                        {{ schoolItem.schoolUdiseCode }} -
+                        {{ schoolItem.schoolName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1">
+                  <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true" alt="dsd">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Doctor Name / डॉक्टर का नाम </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" [(ngModel)]="doctorName" name="doctorName">
+                  </div>
+                </div>
+                <div class="col-lg-1">
+                </div>
+              </div>
+
+              <div class="row">
+                <div class=""><button class="btn btn-default btn-purple"> Search / खोजें <i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </form>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search
+      Panel / खोज पट्टिका</button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row">
+    <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Excel" class="excel" (click)="downLoadDoctorDeatilsList()"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive" id="viewTable">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+          #exporter="matTableExporter">
+          <ng-container matColumnDef="slNo">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              Sl.No / क्रमांक
+            </th>
+            <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+          </ng-container>
+          <ng-container matColumnDef="doctorName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              Doctor Name / डॉक्टर का नाम
+            </th>
+            <td mat-cell *matCellDef="let element">{{(element?.doctorName) ? element?.doctorName:'--' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="contactNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              Contact Number / संपर्क संख्या
+            </th>
+            <td mat-cell *matCellDef="let element">{{(element?.doctorMob) ? element?.doctorMob:'--' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="purposeOfVisit">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              Purpose Of Visit / आने का उद्देश्य
+            </th>
+            <td mat-cell *matCellDef="let element">{{(element?.allPurposeOfVisitNames) ? element?.allPurposeOfVisitNames
+              :'--' }}</td>
+          </ng-container>
+          <ng-container matColumnDef="visitDetails">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              Visit Details / विवरण देखें
+            </th>
+            <!-- <td mat-cell *matCellDef="let element">{{(element?.doctorDetailsDesc) ? element?.doctorDetailsDesc :'--' }}
+            </td> -->
+            <td mat-cell *matCellDef="let element">  {{ element?.doctorDetailsDesc?.length > 60 ? (element?.doctorDetailsDesc | slice:0:60):element?.doctorDetailsDesc }}
+              <small style="font-style: italic;" *ngIf="element?.doctorDetailsDesc?.length > 60"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.doctorDetailsDesc)">View More</a></small>
+            </td>
+          </ng-container>
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+              Action / गतिविधि
+            </th>
+            <td mat-cell *matCellDef="let element" class="action-link noPrint">
+              <a title="Edit" [routerLink]="['./../editDocterDetails/', element?.encId]" class="edit-btn me-2"><i
+                  class="bi bi-pencil-square text-primary"></i></a>
+              <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                (click)="deleteDoctorDetails(element?.encId)"><i class="bi bi-trash"></i></a>
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length"
+              class="mt-2 text-danger">
+              No Records Found!
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+          showFirstLastButtons class="noPrint">
+        </mat-paginator>
+      </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin">
+      {{ "Please Search to find Doctor Lists" }}
+    </div>
+  </div>
+</div>
+ <!-- View Description Modal -->
+ <div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

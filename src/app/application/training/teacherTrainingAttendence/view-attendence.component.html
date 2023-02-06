@@ -1,0 +1,442 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">
+        View Training Attendance / प्रशिक्षण उपस्थिति देखें
+      </h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addAttendence" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../viewAttendence" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+    </div>
+  </div>
+
+  <div class="top-space">
+    <div class="search-container">
+      <div class="searchPanel">
+        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+          novalidate>
+          <div class="row">
+            <div class="col-md-2 form-group3">
+              <div>
+                <label for="" class="form-label">Academic Year</label><br />शैक्षणिक वर्ष
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="academicYear"
+                name="academicYear" tabindex="1">
+                <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                  {{ this.years }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <div>
+                <label class="form-label">Training level</label><br />प्रशिक्षण
+                का स्तर
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="trainingLevel" (change)="checkValid($any($event.target).value)"
+                  name="trainingLevel" aria-label="Default select example" class="form-select">
+                  <!-- <option value="">--Select / चुनें--</option> -->
+                  <option [value]="this.anxtValue">
+                    {{this.anxtName}}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+
+          </div>
+          <div class="row">
+
+            <div class="col-lg-2">
+              <label class="form-label">Training Subject</label><br />प्रशिक्षण
+              का विषय
+            </div>
+            <div class="col-lg-3 form-group">
+              <select [(ngModel)]="trainingSubject" id="trainingSubjects" name="trainingSubject"
+                (change)="getTraininingName($any($event.target).value)" aria-label="Default select example"
+                class="form-select" #trainingSubjects>
+                <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let subject of res" [value]="subject.subjectId">
+                  {{ subject.subject }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj?.subjectLoad == true" alt="dsd" />
+            </div>
+            <div class="col-lg-2 form-group">
+              <div>
+                <label class="form-label">Training Name</label><br />प्रशिक्षण
+                का नाम
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="trainingName"
+                  (change)="checkTrainingDate({trainingId:$any($event.target).value,academicYear:this.academicYear,subjectId:trainingSubjects.value,trainingLevel:this.trainingLevel})"
+                  name="trainingName" aria-label="Default select example" class="form-select">
+                  <option value="" *ngIf="loadingObj?.traiingLoading == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj?.traiingLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let train of trainingNames" [value]="train.trainingId">
+                    {{ train.trainingName }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+            </div>
+          </div>
+          <div class="row" *ngIf="userLevel == 4">
+
+            <div class="col-lg-2 form-group">
+              <div><label class="form-label">District</label><br />जिला</div>
+            </div>
+
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                  aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                  <option value="" *ngIf="loadingObj.districtLoad == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj.districtLoad == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                    {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+            </div>
+            
+          </div>
+
+          <div class="row" *ngIf="userLevel == 3">
+
+            <div class="col-lg-2 form-group">
+              <div><label class="form-label">District</label><br />जिला</div>
+            </div>
+
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                  aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                  <option value="" *ngIf="loadingObj.districtLoad == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj.districtLoad == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                    {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+            </div>
+
+            <div class="col-lg-2 form-group">
+              <label class="form-label">Block</label><br />प्रखण्ड
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId" aria-label="Default
+                      select example" #block>
+                <option value="" *ngIf="loadingObj.blockLoad == false">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.blockLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of blockData" [value]="item.blockId">
+                  {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.blockLoad == true" alt="dsd" />
+            </div>
+          </div>
+          <div class="row">
+
+
+
+            <div class="col-lg-2 form-group">
+              <label class="form-label">Training Date</label>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div>
+                <span class="colon">:</span>
+                <input class="form-control" [(ngModel)]="trainingDate" name="trainingDate" readonly
+                  #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker [minDate]="this.trainingStartDate"
+                  [maxDate]="this.trainingEndDate" [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+              </div>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.trainingDateLoad == true" alt="dsd" />
+            </div>
+
+
+            <div class="col-lg-2">
+              <button class="btn btn-default btn-purple">
+                Search / खोजें <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="row mt-4">
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+      <div class="col-lg-12">
+        <div class="page__rightarea">
+          <div class="page__util">
+            <div class="util">
+              <a title="Excel" class="excel" (click)="downloadTeacherListBatch(searchForm.value)"><i
+                  class="bi bi-file-earmark-excel"></i></a>
+              <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="viewTableForm">
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter">
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  SI# / क्रम#
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="academicYear">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Academic Year / शैक्षणिक वर्ष
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.academicYear ? element?.academicYear : "--" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="trainingSubject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Subject / प्रशिक्षण का विषय
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.subject ? element?.subject : "--" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="trainingName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Name / प्रशिक्षण का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.trainingName ? element?.trainingName : "--" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="trainingDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Date / प्रशिक्षण की तिथि
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                  element?.trainingDate
+                  ? (element?.trainingDate | date: "dd-MMM-yyyy")
+                  : "--"
+                  }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="trainingLocation">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Location / प्रशिक्षण का स्थान
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <label *ngFor="let location of trainingLocationType">
+                    <span *ngIf="element?.trainingLocation == location.anxtValue">{{location.anxtName}}</span>
+                  </label>
+                </td>
+                <!-- <td mat-cell *matCellDef="let element">
+                  <label *ngIf="element?.trainingLocation == 1">DIET Office</label>
+                  <label *ngIf="element?.trainingLocation == 2">SCERT Office</label>
+                  <label *ngIf="element?.trainingLocation == 3">Other Place</label>
+                </td> -->
+              </ng-container>
+
+              <ng-container matColumnDef="present">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Present Count
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <span>{{element?.attendenceCount[0].present}}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="absent">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Absent Count
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <span>{{element?.attendenceCount[0].absent}}</span>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="batchName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Batch Name / बैच का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <label *ngFor="let bat of batches">
+                    <label *ngIf="bat.id === element?.bachId">
+                      {{ bat.batchName }}
+                    </label>
+                  </label>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="attendanceDetails">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                  Attendance Details / उपस्थिति का विवरण
+                </th>
+                <td mat-cell *matCellDef="let element" class="noPrint">
+                  <button class="btn btn-success" data-bs-toggle="modal" (click)="
+                      getTeacherList({
+                        recordId: element?.recordId,
+                        trainingId: element?.trainingId,
+                        trainingDate: element?.trainingDate,
+                        batchId: element?.bachId
+                      })
+                    " data-bs-target="#exampleModal">
+                    View / देखें
+                  </button>
+                </td>
+              </ng-container>
+
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <table>
+              <tr *ngIf="!dataSource.data.length">
+                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                  No Records Found!
+                </td>
+              </tr>
+            </table>
+            <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions" class="noPrint" (page)="onPageChange($event)" aria-label="Select page"
+              showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </form>
+
+        <ng-template #showEmptyAlert> </ng-template>
+      </div>
+    </div>
+
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-3" role="alert" *ngIf="isInitAdmin">
+      {{ "Please Search to find Training Attendance" }}
+    </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Trainees Attendance Details / प्रशिक्षु कि उपस्थिति का विवरण
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th scope="col" width="30px">#</th>
+                <th scope="col">
+                  Trainees Name / प्रशिक्षु का नाम
+                </th>
+                <th scope="col">Attendance Status / उपस्थिति कि स्थिति</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let t of teacherLists">
+                <td scope="row">{{ t.slNo ? t.slNo : "--" }}</td>
+                <td>
+              <tr>
+                <td *ngIf="t.traineeType === 1">
+                  {{
+                  t.teacherName[0].teacherName
+                  ? t.teacherName[0].teacherName
+                  : "--"
+                  }}
+                </td>
+                <td *ngIf="t.traineeType === 2">
+                  {{
+                  t.teacherName[0].vchfullName
+                  ? t.teacherName[0].vchfullName
+                  : "--"
+                  }}
+                </td>
+              </tr>
+
+              </td>
+              <td *ngIf="t.attendenceStatus == 1">Present</td>
+              <td *ngIf="t.attendenceStatus == 2">Absent</td>
+              <td *ngIf="t.attendenceStatus == null">Absent</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close / बंद करें
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

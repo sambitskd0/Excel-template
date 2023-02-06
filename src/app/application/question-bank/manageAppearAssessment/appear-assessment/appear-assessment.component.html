@@ -1,0 +1,152 @@
+<div *ngIf="isClickToStart === false">
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Appear Assessment / मूल्यांकन दिखाएँ</h3>
+      </div>
+    </div>
+    <div class="tabArea"></div>
+  </div>
+
+  <div class="top-space">
+    <div class="row">
+      <div class="col-md-2 form-group">
+        <label class="form-label">
+          Assessment Type <br />मूल्यांकन का प्रकार
+        </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.assessmentType || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label">
+          Date <br />
+          तिथि </label
+        >
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.dateOfExam | date : "dd-MMMM-yyyy" || "--"
+        }}</label>
+      </div>
+      <div class="col-md-2"></div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label">Time <br />समय</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">
+          {{
+            assessmentData?.startTime
+              ? (assessmentData?.startTime | timeFormat)
+              : "--"
+          }}
+        </label>
+      </div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Duration <br />अवधि </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.duration || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2"></div>
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Class <br />वर्ग </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.className || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Subject <br />विषय </label>
+      </div>
+
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.subject || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2"></div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Set Name <br />सेट का नाम </label>
+      </div>
+
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.setName || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label">Full Marks <br />पूर्ण अंक</label>
+      </div>
+
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          assessmentData?.totalMark || "--"
+        }}</label>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div>
+  <div class="pageHeading">
+    <span class="indicator"
+      >( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span
+    >
+    <div class="tabArea"></div>
+  </div>
+
+  <div class="top-space">
+    <div class="one-section">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label class="form-label">
+            Student Code/Aadhaar <br />छात्र कोड/आधार
+          </label>
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            [(ngModel)]="userInput"
+            maxlength="20"
+            tabindex="1"
+            #userInputRef
+            autofocus
+            (keypress)="customValidators.keyPressNumbers($event)"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <a
+        class="btn btn-success me-2 next-one"
+        (click)="studentInputHanlder()"
+        tabindex="2"
+        >Click To Start / शुरू करने के लिए क्लिक करें</a
+      >
+    </div>
+  </div>
+</div>

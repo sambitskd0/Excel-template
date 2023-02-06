@@ -1,0 +1,7 @@
+/* th,
+td {
+  text-transform: uppercase;
+} */
+th,td{
+  white-space: nowrap;
+}

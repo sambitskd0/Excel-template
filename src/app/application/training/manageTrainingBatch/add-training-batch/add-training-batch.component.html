@@ -1,0 +1,267 @@
+<form [formGroup]="CreateTraining" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Manage Training Batch / प्रशिक्षण बैच</h3>
+        </div>
+        
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+      <div class="tabArea">
+        <a routerLink="./../addTrainingBatch" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+        <a routerLink="./../viewTrainingBatch" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View / देखें</a>
+        <a routerLink="./../viewTeacherListBatch" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>Trainee List / प्रशिक्षु की सूची
+        </a>
+      </div>
+    </div>
+
+    <div class="formpatch top-space">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Academic Year </label><br />शैक्षणिक वर्ष
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" formControlName="academicYear" tabindex="1" #academic>
+            <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+              {{ this.years }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Subject</label><br />प्रशिक्षण विषय
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingSubject" (change)="getTrainingName($any($event.target).value)"
+            aria-label="Default select example" class="form-select" #subject>
+            <option value="" *ngIf="loadingObj?.subjectLoad == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.subjectLoad == true">
+              Loading...
+            </option>
+
+            <option *ngFor="let subject of res" [value]="subject.subjectId">
+              {{ subject.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Name</label><br />प्रशिक्षण का नाम
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select aria-label="Default select example" (change)="checkValid({level:trainingLevel.value,TrainingId:$any($event.target).value});getTeacherCount({TrainingId:$any($event.target).value,level:trainingLevel.value,scDistrictId:scDistrictId.value,scBlockId:scBlockId.value});" formControlName="trainingId" name="trainingId" id="trainingId" #trainingId class="form-select"
+            >
+            <option value="" *ngIf="loadingObj?.traiingLoading == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.traiingLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let train of training" [value]="train.trainingId">
+              {{ train.trainingName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Department</label><br />प्रशिक्षण विभाग
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="department" aria-label="Default select example" class="form-select">
+            <option value="" *ngIf="loadingObj.departmentload == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.departmentload == true">
+              Loading...
+            </option>
+            <option *ngFor="let dep of departmentList" [value]="dep.anxtValue">
+              {{ dep.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Level</label><br />प्रशिक्षण का स्तर
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select aria-label="Default select example" id="trainingLevel" name="trainingLevel" #trainingLevel formControlName="trainingLevel" class="form-select">
+            <!-- <option value="">--Select / चुनें--</option> -->
+            <option  [value]="this.anxtValue">
+              {{this.anxtName}}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row" *ngIf="this.userProfile.userLevel != 5">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">District</label><br />जिला
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="scDistrictId" id="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+            aria-label="Default select example" (change)="getBlock($any($event.target).value);getTeacherCount({TrainingId:trainingId.value,level:trainingLevel.value,scDistrictId:$any($event.target).value,scBlockId:scBlockId.value});" #scDistrictId>
+            <option value="" *ngIf="loadingObj.districtLoad == false && sessionDistrictId == ''">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.districtLoad == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of districtData" [value]="item.districtId">
+              {{ item.districtCode }} - {{ item.districtName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row" *ngIf="this.userProfile.userLevel != 5">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Block </label><br />प्रखण्ड
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="scBlockId" id="scBlockId" name="scBlockId" (change)="getTeacherCount({TrainingId:trainingId.value,level:trainingLevel.value,scDistrictId:scDistrictId.value,scBlockId:$any($event.target).value})" class="form-select scBlockId" aria-label="Default
+                                                select example" #scBlockId>
+            <option value="" *ngIf="loadingObj.blockLoad == false  && sessionBlockId == ''">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.blockLoad == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of blockData" [value]="item.blockId">
+              {{ item.blockCode }} - {{ item.blockName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Location </label><br />प्रशिक्षण स्थान
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="tLocation" class="form-select" aria-label="Default select example">
+            <option value="" *ngIf="loadingObj.traningLoc == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.traningLoc == true">
+              Loading...
+            </option>
+            <option *ngFor="let trainingLocation of trainingLocationType" [value]="trainingLocation.anxtValue">
+              {{ trainingLocation.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Total No. of Master Trainers Available for
+            Training</label><br />प्रशिक्षण के लिए उपलब्ध मास्टर प्रशिक्षकों की कुल संख्या
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+
+          <input type="text" formControlName="noOfMaster" id="exampleInputEmail1" aria-describedby="emailHelp"
+            class="form-control" value="{{ totalNoTrainer }}" readonly />
+            
+        </div>
+        <div class="col-md-1" *ngIf="totalNoTrainer > 0"><a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewTeacherList" (click)="showTeacherList({
+            academicYear: academic.value,
+            subjectId: subject.value,
+            trainingId: trainingId.value
+          })
+        ">view</a></div>
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj?.noOfMasterload == true" alt="dsd" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Create Batches</label><br />बैच बनाएं
+        </div>
+        <!-- <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <ng-multiselect-dropdown [placeholder]="'Select Batches'" [settings]="dropdownSettings" [data]="batches"
+            formControlName="batchesList">
+          </ng-multiselect-dropdown>
+          <span class="mandatory">*</span>
+        </div> -->
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <input type="text" formControlName="batchesList" id="exampleInputEmail1" aria-describedby="emailHelp"
+            class="form-control" maxlength="1" (keypress)="customValidators.keyPressNumbers($event)" />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2">
+      Submit / जमा करें
+    </button>
+    <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित</button>
+  </div>
+</form>
+
+<!-- View All Teacher List Modal -->
+<div class="modal fade" id="viewTeacherList" tabindex="-1" aria-labelledby="viewTeacherListLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" >
+          Trainee List
+        </h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <!-- <div class="col-lg-12 form-group" id="descriptionText">{{ allTeacherName }}</div> -->
+          <table class="table table-striped table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th style="width: 100px">Sl no.</th>
+                <th>Trainee Name</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let teacherLis of teacherListData; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ teacherLis.name ? teacherLis?.name : "--" }}</td>
+              </tr>
+              
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

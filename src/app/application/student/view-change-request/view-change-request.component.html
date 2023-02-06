@@ -1,0 +1,461 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">View Student Information / छात्र की जानकारी देखें</h3><span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../add" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../view" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View / देखे</a>
+      <a *ngIf="userProfile.designationId == 46" routerLink="./../verifyreq" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View Verification Requests / सत्यापन अनुरोध देखें</a>
+      <a *ngIf="userProfile.designationId == 46" routerLink="./../cr" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View Modification Requests / परिवर्तन अनुरोध देखें</a>
+    </div>
+  </div>
+
+  <form [formGroup]="stdSearchForm" (ngSubmit)="onSearch()" autocomplete="off">
+  <!-- <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate> -->
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <div class="search-container">
+          <div class="search-sec">
+            <div class="searchPanel">
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">District  <br>जिला  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                      <option value="" *ngIf="scDisrtictSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                      <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{ districtItem.districtName }}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Block <br>प्रखण्ड </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                      <option value="" *ngIf="scBlockSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                      <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">{{ blockItem.blockCode }} - {{ blockItem.blockName }}  </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>                 
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true">
+                </div>
+              </div>              
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">Cluster <br>समूह  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                      <option value="" *ngIf="scClusterSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scClusterLoading == true">Loading...</option>
+                      <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }} </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchSchoolId" autocomplete="off" (change)="getSchoolWiseClasses($any($event.target).value)">
+                      <option value="" *ngIf="scSchoolSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scSchoolLoading == true">Loading...</option>
+                      <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">{{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true">
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Class  <br> वर्ग </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="classId" class="form-select" (click)="classControlChange($any($event.target).value)">
+                      <option value="" *ngIf="classChanged==false">--- Select ---</option>
+                      <option value="" *ngIf="classChanged==true">Loading...</option>
+                      <option *ngFor="let cls of classList" [value]="cls.classId">
+                        {{ cls.class }}
+                      </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Section <br> भाग </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="section" class="form-select">
+                      <option value="" *ngIf="sectionChanged==false">--- Select ---</option>
+                      <option value="" *ngIf="sectionChanged==true">Loading...</option>
+                      <option *ngFor="let item of sectionList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <ng-container *ngIf="classId == 11 || classId == 12">
+                    <div id="11" class="row">
+
+                      <div class="col-lg-4 form-group">
+                        <label class="form-label">Stream  <br> संकाय</label>
+                      </div>
+                      <div class="col-lg-6 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="stream" (click)="streamControlChange($any($event.target).value)">
+                          <option value="" *ngIf="streamChanged==false">--- Select ---</option>
+                          <option value="" *ngIf="streamChanged==true">Loading...</option>
+                          <option *ngFor="let item of streamList" [value]="item.anxtValue"> {{ item.anxtName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                  </ng-container>
+                </div>
+
+                <div class="col-md-6 form-group">
+                  <ng-container *ngIf="classId > 10 && stream == 3">
+                    <div id="science" class="row">
+
+                      <div class="col-lg-4 form-group">
+                        <label class="form-label">Group</label>
+                      </div>
+                      <div class="col-lg-6 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="group" class="form-select">
+                          <option value="" *ngIf="groupChanged==false">--- Select ---</option>
+                          <option value="" *ngIf="groupChanged==true">Loading...</option>
+                          <option *ngFor="let item of groupList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                        </select>
+                      </div>
+
+                    </div>
+                  </ng-container>
+                </div>
+              </div>           
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Student Code <br> छात्र का कोड</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="studentCode" (keypress)="customValidators.keyPressNumbers($event)"
+                    [maxlength]="15">
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Admission Number <br> नामांकन संख्या</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="admissionNo">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="">
+                  <button class="btn btn-default btn-purple" type="submit"> Search / खोजें  <i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज पट्टिका</button>
+    </div>
+  </form>
+
+  <div class="clearfix"></div>
+
+  <div class="row mt-3" [hidden]="resultListData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+                  <button *ngIf="userProfile.designationId == 46 && bulkApprovalFlag == 1" class="btn btn-sm btn-default btn-purple me-2" (click)="bulkAprroval()">Bulk Approve</button>
+                  <a title="Excel" class="excel"(click)="downLoadStudentList()" ><i class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>                  
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="emptyResult === false">
+          <form [formGroup]="viewTableForm">
+            <div class="table-responsive" id="viewTable">
+              <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+              </mat-progress-bar>
+    
+              <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                #exporter="matTableExporter">
+    
+                <ng-container matColumnDef="chkAll">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" width="40px">
+                    <div class="checkbox check__box">
+                      <div class="form-group me-0">
+                        <label>
+                          <input type="checkbox" class="check" formControlName="checkAll" (click)="checkUncheckAll()">
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <div class="checkbox check__box">
+                      <div class="form-group me-0">
+                        <label>
+                          <input type="checkbox" class="check" id="checkRecord" [checked]="element?.isChecked"
+                            [value]="element?.studentId" (change)="onCheckboxChange($event)">
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="slNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    #
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Student Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Student Name /  छात्र का नाम
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.studentName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Student Code">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Student Code / छात्र का कोड
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.studentCode }}</td>
+                </ng-container>
+    
+                <!-- <ng-container matColumnDef="Admission Number">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Admission Number
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.admissionNo }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Admission Date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Admission Date
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.admissionDate | date:'dd-MMM-yyyy' }}</td>
+                </ng-container> -->
+    
+                <ng-container matColumnDef="Father Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Father Name / पिता का नाम 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.fatherName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="DOB">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    DOB / जन्म तिथि 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.dob | date:'dd-MMM-yyyy' }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Gender">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Gender / लिंग 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.genderName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Class">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Class / वर्ग 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.className }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="School">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    School  / विद्यालय 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.schoolName }}</td>
+                </ng-container>   
+   
+                <ng-container matColumnDef="Status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint"> Action/ गतिविधि </th>
+                  <td mat-cell *matCellDef="let element" style="width: 120px;" class="noPrint">
+
+                      <a (click)='openLink(element?.studentId)' title="View" class="view-btn me-2" [style.cursor]="'pointer'">
+                        <i class="bi bi-eye-fill text-primary"></i>
+                      </a>
+
+                      <a title="Approval of Profile Modification Request" class="badge badge-info bg-info me-2" *ngIf="element?.crStatus == 1 && userProfile?.designationId == 46" data-bs-toggle="modal" data-bs-target="#crApprovalModal" (click)="approvalForCR(element?.studentId)" [style.cursor]="'pointer'">
+                        <!-- <i class="bi bi-arrow-right-square-fill"></i> -->
+                         Take Action
+                      </a>
+
+                      <a title="Send Request to Modify" class="edit-btn me-2" *ngIf="adminPrivilege && element?.freezStatus && (element?.crStatus == 0 || element?.crStatus == 3)" (click)="requestToModify(element?.studentId)" [style.cursor]="'pointer'"> 
+                        <i class="bi bi-arrow-clockwise"></i>
+                      </a>
+
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Verification Status" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                    Verification Status / सत्यापन की स्थिति 
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <a *ngIf="element?.verificationStatus==0 && userProfile.designationId == 46" class="btn btn-danger me-2" data-bs-toggle="modal" data-bs-target="#nonverifiedModal" (click)="verifyStudent(element?.studentId)"> Not Verified</a>
+                    <a *ngIf="element?.verificationStatus==0 && userProfile.designationId !== 46" class="badge badge-danger bg-danger">Not Verified</a>
+                    <a *ngIf="element?.verificationStatus==1" class="badge badge-success bg-success"> Verified</a>                   
+
+                    <br/>
+
+                    <span *ngIf="element?.crStatus==1" class="badge badge-warning bg-warning">Requested For Modification</span>
+
+                    <span *ngIf="element?.crStatus==2" class="badge badge-success bg-success">Change Request Approved</span>
+
+                    <span *ngIf="element?.crStatus==3" class="badge badge-danger bg-danger">Change Request Rejected </span>
+
+                  </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+    
+              <table>
+                <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                    No Records Found!
+                  </td>
+                </tr>
+              </table>
+    
+              <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                showFirstLastButtons class="noPrint">
+              </mat-paginator>
+    
+            </div>
+          </form>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="noFilter === true">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+      {{ "Please filter the search pannel, then the data will load......" }}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="emptyResult===true">
+    <div class="alert alert-info text-center fw-bold" role="alert"  >
+      {{ "No record found" }}
+    </div>
+  </ng-container>
+
+</div>
+
+<!-- CR Approval Modal -->
+<div class="modal fade" id="crApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form [formGroup]="crApprovalForm" (ngSubmit)="crApprovalSubmit()" autocomplete="off">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Approval of student profile modification </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #stdVerifyClose></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Action Type</label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <div class=" pt-2">                
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="crStatus" value="2" id="crStatusApprove" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                    <label for="crStatusApprove">Approve</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="crStatus" value="3" id="crStatusRevert" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                    <label for="crStatusRevert">Reject</label>
+                </div>
+              </div>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row formpatch">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Remarks </label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <textarea cols="4" rows="4" formControlName="crRemarks" class="form-control" aria-describedby="Remarks" maxlength="500"></textarea>
+              <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+              <span *ngIf="crStatus==3"  class="mandatory">*</span>
+            </div>
+          </div>
+          <input type="hidden" formControlName="studentId"> 
+          <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> 
+

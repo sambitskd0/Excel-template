@@ -1,0 +1,169 @@
+<div>
+  <div class="pageHeading">
+     <div class="heading__tab">
+        <h3 class="pageName">Mark Configuration/कॉन्फ़िगरेशन चिह्नित करें
+      </h3>
+        <div class="tab__section">
+           <a routerLink="../../viewExaminationMaster" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Examination Master')">Exam Master/परीक्षा का मास्टर
+         </a>
+           <a routerLink="./../addMarkConfiguration" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Mark Configuration')">Mark Configuration/कॉन्फ़िगरेशन चिह्नित करें
+         </a>
+        </div>
+     </div>
+     <div class="tabArea">
+        <a routerLink="./../addMarkConfiguration" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+           class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+         </a>
+        <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+      </span>
+     </div>
+  </div>
+  <div class="top-space">
+     <div class="formpatch">
+        <form [formGroup]="markConfigurationSearchForm" (ngSubmit)="getSubjectListForMarkEntry()">
+        <div class="row">
+           <div class="col-lg-2 form-group">
+              <label for="exampleInputEmail1" class="form-label">Examination Type<br>परीक्षा का प्रकार
+            </label>
+           </div>
+           <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example"
+                 (change)="getClassName($any($event.target).value)" formControlName="examType">
+                 <option selected value="">---Select Type---</option>
+                 <option *ngFor="let anextureTypeItem of anextureType;" value="{{anextureTypeItem.anxtValue}}">{{anextureTypeItem.anxtName}}</option>
+              </select>
+              <span class="mandatory">*</span>
+           </div>
+        </div>
+        <div class="row">
+           <div class="col-lg-2 form-group">
+              <label for="exampleInputEmail1" class="form-label">Class<br>वर्ग 
+              </label>
+           </div>
+           <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" id="select_class"  (change)="classChange($any($event.target).value)"   formControlName="classId">
+                 <option  value="" *ngIf="classLoading==false">--Select Class--</option>
+                 <option  value="" *ngIf="classLoading==true">Loading...</option>
+                 <option *ngFor="let item of examinationWiseClassData" [value]="item.anxtValue">
+                 {{item.anxtName}}</option>
+              </select>
+              <span class="mandatory">*</span>
+           </div>
+        </div>
+        <ng-container  *ngIf="classId == 11 || classId == 12" >
+           <div class="row hide" >
+              <div class="col-lg-2 form-group">
+                 <label for="" class="form-label">Stream </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                 <span class="colon">:</span>
+                 <select class="form-select" aria-label="Default select example" formControlName="streamId"  (change)="streamChange($any($event.target).value)" >
+                    <option  value="">--Select Stream--</option>
+                    <option *ngFor="let item of streamData" [value]="item.anxtValue">
+                    {{item.anxtName}}</option>
+                 </select>
+                 <span class="mandatory">*</span>
+              </div>
+           </div>
+        </ng-container>
+        <ng-container *ngIf="streamId == 3">
+           <div class="row group">
+              <div class="col-lg-2 form-group">
+                 <label for="" class="form-label">Group </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                 <span class="colon">:</span>
+                 <select class="form-select" aria-label="Default select example"  formControlName="groupId">
+                    <option  value="">--Select Group--</option>
+                    <option *ngFor="let item of groupData" [value]="item.anxtValue">
+                    {{ item.anxtName }}
+                    </option>  
+                 </select>
+                 <span class="mandatory">*</span>
+              </div>
+           </div>
+        </ng-container>
+        <div class="row">
+           <div  class=""><button  class="btn btn-default btn-purple"> Search/खोज <i  class="bi bi-search"></i></button></div>
+        </div>
+        </form>
+        <ng-container  *ngIf="isSubjectListData === true &&  this.emptyResult === false">
+           <form [formGroup]="addMarkConfigurationForm" (ngSubmit)="validateSubmitMarkConfiguration()">
+           <div class="row mt-4">
+              <div class="col-lg-12">
+                 <div class="table-responsive">
+                    <div class="pb-1 float-end">
+                       <button class="btn btn-warning btn-sm" (click)="enableFields()" *ngIf="disableFields === true">
+                       Edit/संपादन करें
+                       </button>
+                       <button class="btn btn-primary btn-sm" (click)="enableFields()" *ngIf="
+                       disableFields === false && subjectListData?.length
+                       ">
+                       Cancel/रद्द करना
+                       </button>
+                    </div>
+                    <table class="table  table-bordered">
+                       <thead class="bg-lightpurple">
+                          <tr>
+                             <th scope="col" width="15px">SI#/क्र.सं.
+                           </th>
+                             <th scope="col">Subject List/विषय सूची
+                           </th>
+                             <th scope="col">Theory Mark/थ्योरी में अंक
+                           </th>
+                             <th scope="col">Practical Mark/व्यावहारिक में अंक
+                           </th>
+                             <th scope="col">Min. Pass Mark/न्यूनतम पास अंक
+                           </th>
+                             <th scope="col">Total/कुल
+                           </th>
+                          </tr>
+                       </thead>
+                       <tbody formArrayName="markConfigarray">
+                          <tr *ngFor="let item of markConfigSubject().controls; index as i"
+                          [formGroupName]="i">
+                          <th scope="row">{{ i + 1 }}</th>
+                          <td>
+                             <input type="hidden" class="form-control" formControlName="subjectId" aria-describedby="emailHelp"
+                                ><input type="text" class="form-control" formControlName="subject" aria-describedby="emailHelp"
+                                >
+                          </td>
+                          <td><input type="text" class="form-control" formControlName="theoryMark" #theoryMark aria-describedby="emailHelp"
+                            (keypress)="customValidators.keyPressNumbers($event)"
+                            (blur)="fullMarkCalculation(theoryMark,practicalMark, i)" maxlength="3" ></td>
+                          <td><input type="text" class="form-control" formControlName="practicalMark" #practicalMark aria-describedby="emailHelp"
+                            (keypress)="customValidators.keyPressNumbers($event)"
+                            (blur)="fullMarkCalculation(theoryMark,practicalMark, i)" maxlength="3"></td>
+                          <td><input type="text" class="form-control" formControlName="minPassMark" #minPassMark aria-describedby="emailHelp"
+                            (keypress)="customValidators.keyPressNumbers($event)"
+                            maxlength="3" (blur)="minPassMarkValidation(minPassMark,fullMark,practicalMark,theoryMark, i)"></td>
+                          <td><input type="text" class="form-control" formControlName="fullMark" #fullMark aria-describedby="emailHelp"
+                            (keypress)="customValidators.keyPressNumbers($event)"
+                            maxlength="3"></td>
+                          </tr>
+                       </tbody>
+                    </table>
+                 </div>
+              </div>
+           </div>
+           <div>
+              <button class="btn btn-success me-2">Submit/जमा करें
+            </button>
+           </div>
+           </form>
+        </ng-container>
+     </div>
+  </div>
+</div>
+<ng-container  *ngIf="isSubjectListData === false && emptyResult===true">
+  <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+     {{ "No Record Found" }}
+  </div>
+</ng-container>
+<ng-container *ngIf="isSubjectListData === false && emptyResult===false">
+  <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+     {{ "Please Filter the Search Pannal. Then the data will Load......" }}
+  </div>
+</ng-container>

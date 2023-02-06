@@ -1,0 +1,561 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Grievance at My Label/मेरे स्तर पर शिकायत
+            </h3>
+        </div>
+        <div class="tabArea">
+            <a [routerLink]="[ApplicationURL + tab.tb_path]" class="neuro viewLink" routerLinkActive="active" *ngFor="let tab of tabs"><i class="bi bi-eye me-2"></i>{{ tab.tb_name }}</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block;">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm">
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">District<br>जिला
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" name="searchDistrictId" [(ngModel)]="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                                        <option value="" *ngIf="scDisrtictSelect==true">--Select--</option>
+                                        <option value="" *ngIf="scDisrtictLoading==true">Loading...</option>
+                                        <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} - {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Block<br>प्रखण्ड
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" name="searchBlockId" [(ngModel)]="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                                        <option value="" *ngIf="scBlockSelect==true">--Select--</option>
+                                        <option value="" *ngIf="scBlockLoading==true">Loading...</option>
+                                        <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Cluster<br>झुंड</label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" name="searchClusterId" [(ngModel)]="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                                        <option value="" *ngIf="scClusterSelect==true">--Select--</option>
+                                        <option value="" *ngIf="scClusterLoading==true">Loading...</option>
+                                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                        {{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">School <br>विद्यालय</label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" [(ngModel)]="searchSchoolId" name="searchSchoolId" autocomplete="off">
+                                        <option value="" *ngIf="scSchoolSelect==true">--Select--</option>
+                                        <option value="" *ngIf="scSchoolLoading==true">Loading...</option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                        {{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Grievance No.<br>शिकायत नं.
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input type="text" class="form-control" [(ngModel)]="tokenNo" name="tokenNo" autocomplete="off" maxlength="15" (keypress)="customValidators.keyPressNumbers($event)">
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Grievance Details<br>
+                                        शिकायत का विवरण
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input type="text" class="form-control" [(ngModel)]="grievanceDescription" name="grievanceDescription" autocomplete="off" maxlength="250">
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">From Date<br>दिनांक से
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker bsDatepicker [bsConfig]="{ showClearButton: true, clearPosition: 'right', dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" [(ngModel)]="fromDate" name="fromDate" autocomplete="off" readonly>
+                                </div>
+                                
+                                <div class="col-md-1"></div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">To Date<br>आज तक
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker bsDatepicker [bsConfig]="{ showClearButton: true, clearPosition: 'right', dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" [(ngModel)]="toDate" name="toDate" autocomplete="off" readonly>
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Status<br>स्थिति
+                                    </label>
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" [(ngModel)]="grvncStatus" name="grvncStatus" autocomplete="off">
+                                        <option value="" *ngIf="statusChanged==false">--Select--</option>
+                                        <option value="" *ngIf="statusChanged==true">Loading...</option>
+                                        <option *ngFor="let getStatusData of statusData" [value]="getStatusData.statusCodeId">
+                                            {{ getStatusData.statusName }}
+                                        </option>
+                                </select>
+                                </div>
+
+                                <div class="col-lg-1"></div>
+
+                                <div class="col-lg-2">
+                                    <button class="btn btn-default btn-purple"> Search/खोज करें<i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel/पैनेल खोजें
+        </button>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="indicators-pannel">
+        <ul>
+            <li><span class="timeline-color light-red-bg"></span> Pending/लंबित 
+                <span class="badge badge-secondary">{{ pendingCount }}</span></li>
+            <li><span class="timeline-color light-darkgreen-bg"></span> Resolved/समाधान हो गया
+                <span class="badge badge-secondary">{{ resolvedCount }}</span></li>
+            <li><span class="timeline-color light-navy-bg"></span> In Process/प्रक्रिया में है
+                <span class="badge badge-secondary">{{ inProcessCount }}</span></li>
+            <li><span class="timeline-color light-purple-bg"></span> On Hold/होल्ड पर
+                <span class="badge badge-secondary">{{ onHoldCount }}</span></li>
+            <li><span class="timeline-color light-darkyellow-bg"></span> Forward/आगे
+                <span class="badge badge-secondary">{{ forwardCount }}</span></li>
+            <li><span class="timeline-color light-green-bg"></span> Discard/त्यागें
+                <span class="badge badge-secondary">{{ discardCount }}</span></li>
+        </ul>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Excel" class="excel" (click)="downloadGrievanceList()"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" [hidden]="isLoading" id="viewTable">
+                <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+                <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter">
+
+                    <ng-container matColumnDef="slNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> # </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="token">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Grievance No. /शिकायत नं.
+                        </th>
+                        <td mat-cell *matCellDef="let element"><a class="text-primary" href="javasctip:void(0)" data-bs-toggle="modal" data-bs-target="#GrievanceDetailsModal" (click)="viewGrievanceDetails(element?.grievanceTktNo, element?.encId)">{{ element?.grievanceTktNo }}</a></td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="registrationDate">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Registration Date/रजिस्ट्रेशन की तारीख
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.createdOn | date:'dd-MMM-yyyy' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="school">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">School/विद्यालय 
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.schoolUdiseCode }} - {{ element?.schoolName }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="location">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Location (Block, District)/स्थान(प्रखण्ड,जिला) </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.blockName }}, {{ element?.districtName }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Category / Sub Category / Subject /श्रेणी/उप श्रेणी/विषय</th>
+                        <td mat-cell *matCellDef="let element">{{ element?.grvncCatName }} / {{ element?.grvncSubCatName }} / {{ element?.subjectName }}</td>
+                    </ng-container>                    
+
+                    <ng-container matColumnDef="grievanceDetails">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Grievance Details/शिकायत का विवरण </th>
+                        <td mat-cell *matCellDef="let element">
+                                {{ element?.grievanceDesc.length > 60 ? (element?.grievanceDesc | slice:0:60):element?.grievanceDesc }}
+                                <small style="font-style: italic;" *ngIf="element?.grievanceDesc.length > 60"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.grievanceDesc)">View More</a></small>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actionTakenBy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Action Taken By/की गई कार्रवाई </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.grievanceStatus != 1) ? element?.actionTakenUser: '--' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actionToBeTakenBy">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Action to be Taken by/की जाने वाली कार्रवाई </th>
+                        <td mat-cell *matCellDef="let element">{{ (element?.grievanceStatus != 2 && element?.grievanceStatus != 6) ? element?.vchUserName: '--' }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="grievanceStatus">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Status/स्थिति </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.statusName }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="takeAction">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">Action/क्रिया</th>
+                        <td mat-cell *matCellDef="let element" class="noPrint">
+                            <a title="Take Action" class="btn btn-info btn-sm" href="javasctip:void(0)" data-bs-toggle="modal" data-bs-target="#actionModal" (click)="takeAction(element?.grievanceTktNo, element?.encId, element?.approvalEncId, element?.userName, element?.userCode, element?.grvncCatName, element?.grvncSubCatName, element?.subjectName)" *ngIf="element?.grievanceStatus != 2 && element?.grievanceStatus != 6">Action</a>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="actionHistory">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint"> Action History/कार्रवाई का इतिहास</th>
+                        <td mat-cell *matCellDef="let element" class="noPrint">
+                            <a title="View Details" class="btn btn-purple btn-sm" href="javasctip:void(0)" data-bs-toggle="modal" data-bs-target="#ActionHistoryModal" (click)="viewActionHistory(element?.grievanceTktNo, element?.encId, element?.approvalEncId)">View Details</a>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    
+                </table>
+                <table>
+                    <tr *ngIf="!dataSource.data.length">
+                        <td style="text-align: center" [attr.colspan]="viewGrievance.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                            No Records Found!
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator [hidden]="viewGrievance?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>                    
+                </mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- View Description Modal -->
+<div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Grievance Details/शिकायत का विवरण</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<!-- Grievance Details Modal -->
+<div class="modal fade" id="GrievanceDetailsModal" tabindex="-1" aria-labelledby="GrievanceDetailsModalLabel" aria-hidden="true">
+    <app-grievance-details-modal [grievanceDetails]="grievanceDetails" [showGrievanceTktNo]="showGrievanceTktNo"></app-grievance-details-modal>
+</div>
+
+<!-- Grievance Action History Modal -->
+<div class="modal fade" id="ActionHistoryModal" tabindex="-1" aria-labelledby="ActionHistoryLabel" aria-hidden="true">
+    <app-grievance-history-modal [grievanceActionDetails]="grievanceActionDetails" [grievanceLogDetails]="grievanceLogDetails" [showGrievanceActionTktNo]="showGrievanceActionTktNo"></app-grievance-history-modal>      
+</div>
+
+
+<div class="modal fade" id="actionModal" tabindex="-1" aria-labelledby="actionModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title " id="actionModalLabel">Take Action/कार्रवाई करें</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="takeActionForm"  (ngSubmit)="submitTakeAction()">
+                    <input type="hidden" formControlName="takeActionEncId" autocomplete="off">
+                    <input type="hidden" formControlName="takeActionApprovalEncId" autocomplete="off">
+                    
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <label class="form-label">Grievance No.<br>शिकायत नं.
+                            </label>
+                        </div>
+                        <div class="col-lg-6 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data"><b>{{ showTakeActionTktNo }}</b></label>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <label class="form-label">Complainer<br>शिकायतकर्ता
+                            </label>
+                        </div>
+                        <div class="col-lg-6 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data">{{ actionCompalainerCode }} - {{ actionCompalainer }}</label>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <label class="form-label">Category / Sub Category<br>श्रेणी/उप श्रेणी </label>
+                        </div>
+                        <div class="col-lg-6 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data">{{ actionCategory }} / {{ actionSubCategory }}</label>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <label class="form-label">Subject/विषय
+                            </label>
+                        </div>
+                        <div class="col-lg-6 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data">{{ actionSubject }}</label>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                    
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <div class="">
+                                <label class="form-label">Take Action/कार्रवाई करें </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example" formControlName="takeActionStatus" autocomplete="off" (change)="showSection($any($event.target).value)">
+                                    <option value="">--Select--</option>
+                                    <option *ngFor="let actionStatus of actionStatusData" [value]="actionStatus.statusCodeId">
+                                          {{ actionStatus.statusName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+
+                    <div class="row expResolveDate" *ngIf="expResolveDate">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <div class="">
+                                <label class="form-label">Expected Resolve Date</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input class="form-control" formControlName="actionTakenExpDate" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker [bsConfig]="{ showClearButton: true, clearPosition: 'right', dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="maxDate"  autocomplete="off" (blur)="dateValidation()" readonly>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+
+                    <div class="forward" *ngIf="forward">
+                        <div class="row">
+                            <div class="col-lg-4 offset-lg-1 form-group"></div>
+                            <div class="col-lg-6 form-group">
+                                <div class="">
+                                    <span class="colon">:</span>
+                                    <div class="radiobuttons pt-2">
+                                        <div class="rdio rdio-primary form-check-inline" *ngIf="showStateRadio">
+                                            <input value="5" id="radio16" type="radio" class="state" name="actionTakenForward" formControlName="actionTakenForward" autocomplete="off" (click)="showDemographySection($any($event.target).value); filterDesignation(5)">
+                                            <label for="radio16">State</label>
+                                        </div>
+                                        <div class="rdio rdio-primary form-check-inline">
+                                            <input value="4" id="radio17" type="radio" class="district" name="actionTakenForward" formControlName="actionTakenForward" autocomplete="off" (click)="showDemographySection($any($event.target).value); filterDesignation(4)">
+                                            <label for="radio17">District</label>
+                                        </div>
+                                        <div class="rdio rdio-primary form-check-inline">
+                                            <input value="3" id="radio18" type="radio" class="block" name="actionTakenForward" formControlName="actionTakenForward" autocomplete="off" (click)="showDemographySection($any($event.target).value); filterDesignation(3)">
+                                            <label for="radio18">Block</label>
+                                        </div>
+                                        <span class="mandatory">*</span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+
+                        <div class="row districtlist" *ngIf="districtlist">
+                            <div class="col-lg-4 offset-lg-1 form-group">
+                                <div class="">
+                                    <label class="form-label">District</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <div class="">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" formControlName="actionTakenDistrict" autocomplete="off" (change)="showBlock($any($event.target).value); showAuthority()">
+                                        <option value="">--Select--</option>
+                                        <option *ngFor="let district of districtData" [value]="district.districtId">
+                                            {{ district.districtCode }} - {{ district.districtName }}
+                                        </option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+
+                        <div class="row blocklist" *ngIf="blocklist">
+                            <div class="col-lg-4 offset-lg-1 form-group">
+                                <div class="">
+                                    <label class="form-label">Block</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <div class="">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example" formControlName="actionTakenBlock" autocomplete="off" (change)="showAuthority()">
+                                        <option value="" *ngIf="blockChanged==false">--Select--</option>
+                                        <option value="" *ngIf="blockChanged==true">Loading...</option>
+                                        <option  *ngFor="let block of blockData"  [value]="block.blockId">  
+                                            {{ block.blockCode }} - {{ block.blockName }}
+                                        </option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 offset-lg-1 form-group">
+                                <div class="">
+                                    <label class="form-label">Designation</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <div class="">
+                                    <select class="form-select" aria-label="Default select example" formControlName="actionTakenDesignation" autocomplete="off" (change)="showAuthority()">
+                                        <option value="">--Select--</option>
+                                        <option *ngFor="let designation of designationFilterData" [value]="designation.intDesignationId">
+                                            {{ designation.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-lg-4 offset-lg-1 form-group">
+                                <div class="">
+                                    <label class="form-label">Authority</label>
+                                </div>
+                            </div>
+                            <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <div class="">
+                                    <select class="form-select" aria-label="Default select example" formControlName="actionTakenAuthority" autocomplete="off">
+                                        <option value="" *ngIf="authorityChanged==false">--Select--</option>
+                                        <option value="" *ngIf="authorityChanged==true">Loading...</option>
+                                        <option *ngFor="let authority of authorityData" [value]="authority.intUserId">
+                                        {{ authority.vchUserName }}
+                                        </option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="col-lg-1"></div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <div class="">
+                                <label class="form-label">Action Description<br>क्रिया विवरण</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <textarea rows="3" class="form-control" autocomplete="off" formControlName="actionTakenDescription" maxlength="250" (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea>
+                                <span class="mandatory">*</span>
+                                <small>(Maximum <span class="text-danger" id="lblChar">250</span> characters)</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1 form-group">
+                            <div class="">
+                                <label class="form-label">Upload Document/दस्तावेज़ अपलोड करें</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-6 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input class="form-control" type="file" formControlName="actionTakenFile" autocomplete="off" (change)="fileEvent($event)">
+                                <small class="text-danger">(Only .png,.jpg,.jpeg,.pdf Files Of Max Size 2 MB.)</small>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"><button type="button" class="btn btn-outline-danger" (click)="clearFile()" *ngIf="showClear" title="Clear File"><i class="bi bi-x-lg"></i></button></div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-4 offset-lg-1"></div>
+                        <div class="col-lg-6 form-group">
+                            <div class="">
+                                <button type="submit" class="btn btn-success me-2">Submit/जमा करें
+                                </button>
+                                <button type="button" class="btn btn-danger" (click)="resetTakeAction()">Reset/पुनर्स्थापित 
+                                </button>
+                            </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closeModal>Close</button>
+            </div>
+
+        </div>
+    </div>
+</div>

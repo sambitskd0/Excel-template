@@ -1,0 +1,134 @@
+<div>
+  <div class="pageHeading">
+      <div><h3 class="pageName">View Educational Qualification / शैक्षिक योग्यता देखें</h3>
+      </div>
+      <div class="tabArea">         
+      </div>
+  </div>
+  <div class="formpatch pt-4">
+    <div class="regi__info">
+      <a [routerLink]="['../../viewRegistrationInfo/',teacherId]" class="neuro addLink"  >Registration Info<br> पंजीकरण का
+        विवरण</a>
+      <a [routerLink]="['./']" class="neuro viewLink"  routerLinkActive="active">Educational Info<br> शैक्षिक
+        विवरण</a>
+      <a [routerLink]="['../../viewProfessionalInfo/',teacherId]" class="neuro viewLink"  >Professional Info<br>
+        व्यावसायिक विवरण</a>
+      <a [routerLink]="['../../viewOtherInfo/',teacherId]" class="neuro viewLink"  >Other Info<br> अन्य जानकारियाँ अद्यतन करें</a>
+      <a [routerLink]="['../../viewTrainingAndLanguageInfo/',teacherId]" class="neuro viewLink"  >Training & Language Info<br>
+        प्रशिक्षण और भाषा का विवरण</a>
+      </div> 
+      <!-- <div class="row mt-3">
+        <button class="searchopen text-center" style="margin: auto; width: 40%">
+          {{ "Name : " + teacherName + ' , '+  "Title : " + teacherTitle}}
+        </button>
+      </div>  -->
+      <h5>Educational Qualification (Pre-Service) / शैक्षिक योग्यता (पूर्व सेवा)</h5>
+      <div class="row mt-4">
+          <div class="col-lg-12">
+            <div class="table-responsive">
+              <table class="table  table-bordered" *ngIf="!preServiceDataEmpty">
+                <thead class="bg-lightpurple">
+                  <tr>                      
+                    <th scope="col">Education / शिक्षा</th> 
+                    <th scope="col">Year of Passing / उत्तीर्ण होने का वर्ष</th>
+                    <th scope="col">School/College /<br> विद्यालय/महाविद्यालय</th>
+                    <th scope="col">Board/Council/University /<br> बोर्ड/परिषद/विश्वविद्यालय</th>
+                    <th scope="col">Marks Obtained / प्राप्तांक</th>
+                    <th scope="col">Full Marks / पूर्णांक</th>
+                    <th scope="col">Percentage / प्रतिशत</th>
+                  </tr>
+                </thead>
+                <tbody id="addmore-preservice">
+                  <tr class="addmore-preservice" *ngFor=" let preServiceData of preServiceDatas"> 
+                     
+                    <td>
+                      <label for="" class="form-label fw-bold" >{{(preServiceData.educationType) ? preServiceData.educationType :'--' }}</label>
+                  </td>
+                    <td>
+                      <label for="" class="form-label fw-bold" >{{(preServiceData.yearOfPassing) ? preServiceData.yearOfPassing :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(preServiceData.schoolCollege) ? preServiceData.schoolCollege :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(preServiceData.boardCouncilUniversity) ? preServiceData.boardCouncilUniversity :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(preServiceData.marksObtained) ? preServiceData.marksObtained :'--'}}</label>
+                    </td>
+                    <td>
+                     <label for="" class="form-label fw-bold" >{{(preServiceData.totalMark) ? preServiceData.totalMark :'--'}}</label>
+                    </td>
+                    <td>
+
+                     <label for="" class="form-label fw-bold" >{{(preServiceData.percentage) ? preServiceData.percentage :'--'}} %</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="preServiceDataEmpty">
+                {{ "No record found" }}
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div class="formpatch">
+      <h5> Educational Qualification (In-Service) / शैक्षिक योग्यता (सेवा में)</h5>
+      <div class="row mt-4">
+          <div class="col-lg-12">
+            <div class="table-responsive">
+              <table class="table  table-bordered" *ngIf="!inServiceDataEmpty">
+                <thead class="bg-lightpurple">
+                  <tr>                        
+                    <th scope="col">Education / शिक्षा</th>
+                    <th scope="col">Year of Passing / उत्तीर्ण होने का वर्ष</th>
+                    <th scope="col">School/College /<br> विद्यालय/महाविद्यालय</th>
+                    <th scope="col">Board/Council/University /<br> बोर्ड/परिषद/विश्वविद्यालय</th>
+                    <th scope="col">Marks Obtained / प्राप्तांक</th>
+                    <th scope="col">Full Marks / पूर्णांक</th>
+                    <th scope="col">Percentage / प्रतिशत</th>
+                  </tr>
+                </thead>
+                <tbody id="addmore-inservice">
+                  <tr class="inservice-data" *ngFor=" let inServiceData of inServiceDatas">
+                     
+                    <td>
+                      <label for="" class="form-label fw-bold" >{{(inServiceData.educationType) ? inServiceData.educationType :'--' }}</label>
+                  </td>
+                    <td>
+                      <label for="" class="form-label fw-bold" >{{(inServiceData.yearOfPassing) ? inServiceData.yearOfPassing :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(inServiceData.schoolCollege) ? inServiceData.schoolCollege :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(inServiceData.boardCouncilUniversity) ? inServiceData.boardCouncilUniversity :'--'}}</label>
+                    </td>
+                    <td>
+                        <label for="" class="form-label fw-bold" >{{(inServiceData.marksObtained) ? inServiceData.marksObtained :'--'}}</label>
+                    </td>
+                    <td>
+                     <label for="" class="form-label fw-bold" >{{(inServiceData.totalMark) ? inServiceData.totalMark :'--'}}</label>
+                    </td>
+                    <td>
+
+                     <label for="" class="form-label fw-bold" >{{(inServiceData.percentage) ? inServiceData.percentage :'--'}} %</label>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+              <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="inServiceDataEmpty">
+                {{ "No record found" }}
+              </div>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+      <div>
+        <a [routerLink]="['../../viewRegistrationInfo/',teacherId]" class="btn btn-success me-2">Previous / पिछला</a>
+        <a [routerLink]="['../../viewProfessionalInfo/',teacherId]" class="btn btn-purple">Next / अगला</a>   
+   </div>
+  </div>

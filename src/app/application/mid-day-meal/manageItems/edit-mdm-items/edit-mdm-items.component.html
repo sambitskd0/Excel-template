@@ -1,0 +1,57 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage MDM Item / एमडीएम आइटम प्रबंधित करें</h3>
+            <span class="indicator">( * ) Indicator Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+            <a routerLink="../../viewMdmItems" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें </a>
+        </div>
+    </div>
+    <form [formGroup]="MDMMasterEditForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch mt-3">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label   class="form-label">Item Name <br> आइटम का नाम </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control" autocomplete="off"
+                            (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" maxlength="25" minlength="2"
+                            autocomplete="off" formControlName="itemName" />
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label   class="form-label">Description <br> विवरण </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <textarea class="form-control" id="exampleFormControlTextarea1" rows="3" maxlength="500"
+                            autocomplete="off" formControlName="description"
+                            (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea>
+                        <span class="minimum-text">Maximum <span class="text-danger">(500) </span> Characters</span>
+                        <!-- <span class="mandatory">*</span> -->
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success me-2">Update / अद्यतन</button>
+            <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+        </div>
+    </form>

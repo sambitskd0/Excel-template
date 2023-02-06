@@ -1,0 +1,237 @@
+<div>
+  <div class="pageHeading">
+      <div>
+          <h3 class="pageName">Student Progression / छात्र का प्रगति</h3>
+          <span class="indicator">( * ) Indicator Mandatory / संकेतक अनिवार्य</span>
+      </div>
+      <div class="tabArea">
+          <a routerLink="./../update" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Update Progression / प्रगति देखें</a>
+          <a class="neuro viewLink active" routerLinkActive="active"><i class="bi bi-eye me-2"></i>Progression Report / प्रगति रिपोर्ट</a>
+          <!-- <a routerLink="./../viewstudentassessment" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View</a> -->
+          <div class="float-end d-inline-block"></div>
+      </div>
+  </div>
+
+  <div class="top-space">
+      <ng-container *ngIf="show">
+          <div class="search-container">
+              <div class="search-sec">
+                  <div class="searchPanel">
+                      <div class="row">
+                          <div class="col-lg-2 form-group">
+                              <div class="">
+                                  <label for="" class="form-label">District</label><br />
+                                  जिला
+                              </div>
+                          </div>
+                          <div class="col-lg-3 form-group">
+                              <div class="">
+                                  <span class="colon">:</span>
+                                  <label for="" class="form-label fw-bold"> {{ districtCode ? districtCode : "" }} - {{ districtName ? districtName : "" }}</label>
+                              </div>
+                          </div>
+                          <div class="col-lg-1"></div>
+                          <div class="col-lg-2 form-group">
+                              <div class="">
+                                  <label for="" class="form-label">Block</label><br />
+                                  प्रखण्ड
+                              </div>
+                          </div>
+                          <div class="col-lg-3 form-group">
+                              <div class="">
+                                  <span class="colon">:</span>
+                                  <label for="" class="form-label fw-bold"> {{ blockCode ? blockCode : "" }} - {{ blockName ? blockName : "" }} </label>
+                              </div>
+                          </div>
+                          <!-- <div class="col-lg-1"></div> -->
+                          <!-- <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="" class="form-label"
+                             >Block</label
+                             >
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold"
+                             >801505- Phulwarisharif
+                          </label>
+                       </div>
+                    </div> -->
+                      </div>
+                      <div class="row">
+                          <div class="col-lg-2 form-group">
+                              <div class="">
+                                  <label for="exampleInputEmail1" class="form-label">Cluster</label><br />
+                                  संकुल
+                              </div>
+                          </div>
+                          <div class="col-lg-3 form-group">
+                              <div class="">
+                                  <span class="colon">:</span>
+                                  <label for="" class="form-label fw-bold">
+                                    {{ clusterCode ? clusterCode : "" }} - {{ clusterName ? clusterName : "" }}
+                                  </label>
+                              </div>
+                          </div>
+                          <div class="col-lg-1"></div>
+                          <div class="col-lg-2 form-group">
+                              <div class="">
+                                  <label for="exampleInputEmail1" class="form-label">School</label><br />
+                                  विद्यालय
+                              </div>
+                          </div>
+                          <div class="col-lg-3 form-group">
+                              <div class="">
+                                  <span class="colon">:</span>
+                                  <label for="" class="form-label fw-bold"> {{ schoolUdiseCode ? schoolUdiseCode : "" }} -
+                                    {{ schoolName ? schoolName : "" }}</label>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </ng-container>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="row mt-3">
+      <div class="col-lg-12">
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th rowspan="2">Sl# / क्रम</th>
+                          <th rowspan="2" width="5%">Class / वर्ग</th>
+                          <th rowspan="2">
+                              Progressed from {{pgData?.prvAcademicYear}} / {{pgData?.prvAcademicYear}} से आगे बढ़े<br />
+                              (including repeaters) / (पुनरावर्तक सहित) <br />
+                              (A) / (अ)
+                          </th>
+                          <th rowspan="2">
+                              New Enrollment in {{pgData?.academicYear}} / {{pgData?.academicYear}} में नया नामांकन <br />
+                              (B) / (ब)
+                          </th>
+                          <th rowspan="2">
+                              Total Enrollment in {{pgData?.academicYear}} / {{pgData?.academicYear}} में कुल नामांकन<br />
+                              (C = A + B) / (स = अ + ब )
+                          </th>
+                          <th colspan="5">Progression Completed for {{academicYear}} / {{academicYear}} के लिए प्रगति पूर्ण</th>
+                          <th rowspan="2">
+                              Progression Completed as per Total Enrollment (C) / कुल नामांकन के अनुसार प्रगति पूर्ण (सी) <br />
+                              (D = A+B+C+D) / (डी = ए+बी+सी+डी)
+                          </th>
+                          <th rowspan="2">
+                              Progression pending / प्रगति लंबित<br />
+                              (E = C - D) / (ई = सी - डी)
+                          </th>
+                      </tr>
+                      <tr>
+                          <th>Promoted (a) / प्रचारित (अ )</th>
+                          <th>Repeater (b) / पुनरावर्तक (ब)</th>
+                          <th>Dropout (c) / ख़ारिज किया हुआ ( स)</th>
+                          <th>Promoted, move to other school (d) / पदोन्नत, दूसरे स्कूल में जाना (डी)</th>
+                          <th>Passout(10th / +2) / पासआउट(10वीं / +2)</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr *ngFor="let data of pgData.pgInfo; let i=index;">                         
+                          <td>{{i+1}}</td>
+                          <td>Class {{data.class}} / वर्ग {{data.class}}</td>
+
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'A')"> {{data.progressed}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'B')"> {{data.newEnrolled}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'C')"> {{data.C}} </a></td>
+
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'D')"> {{data.promoted}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'E')"> {{data.repeater}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'F')"> {{data.dropout}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'G')"> {{data.promotedOtherSchool}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'H')"> {{data.passout}} </a></td>
+
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'I')"> {{data.D}} </a></td>
+                          <td><a data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#viewStudentList" (click)="showStudentList(data.class,'J')"> {{data.E}} </a></td>
+                      </tr>
+                     
+                      <tr>
+                          <td colspan="2">Total / कुल</td>
+                          <td>{{pgData.progressedTot}}</td>
+                          <td>{{pgData.newEnrolledTot}}</td>
+                          <td>{{pgData.CTot}}</td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>{{pgData.passoutTot}}</td>
+                          <td>{{pgData.DTot}}</td>
+                          <td>{{pgData.ETot}}</td>
+                      </tr>
+                      <tr style="display: none;">
+                          <td colspan="2"></td>
+                          <td></td>
+                          <td>
+                              <!-- <a class="btn btn-info" target="_blank" routerLink="../../studentinformation/addstudentinformation">New enrollment in {{pgData.prePrvAcademicYear}} / {{pgData.prePrvAcademicYear}} में नया नामांकन</a> -->
+                          </td>
+                          <td>
+                              <!-- <a class="btn btn-info" target="_blank" routerLink="./../viewprogression">Progression from {{pgData.prePrvAcademicYear}} to {{academicYear}} / {{pgData.prePrvAcademicYear}} से {{academicYear}} तक प्रगति</a> -->
+                          </td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td></td>
+                          <td>
+                              <a href="javascript:void(0);" class="btn btn-info processing_btn" style="display: none;">Processing / प्रसंस्करण ...</a>
+                              <!-- <a href="javascript:void(0);" class="btn btn-info modalSession" data-srcYear="{{pgData.prePrvAcademicYear}}" data-modalyear="{{academicYear}}">Freeze data of {{pgData.prePrvAcademicYear}}</a> -->
+                              <a href="javascript:void(0);" class="btn btn-secondary disabled" style="display: none;">Freeze data of {{pgData.prePrvAcademicYear}} / {{pgData.prePrvAcademicYear}} का डेटा फ्रीज करें</a>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+  </div>
+</div>
+
+
+
+<!-- View All student List Modal -->
+<div class="modal fade" id="viewStudentList" tabindex="-1" aria-labelledby="viewTeacherListLabel" aria-hidden="true">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student Lists</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row">
+            <table class="table table-striped  table-bordered" *ngIf="studebtListModal?.length>0">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th style="width: 100px;">Sl no.</th>
+                  <th>Student Code</th>
+                  <th>Student Name</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let studentList of studebtListModal;let i = index">
+                  <td>{{i+1}}</td>
+                  <td>{{studentList.studentCode}}</td>
+                  <td>{{studentList.studentName}}</td>
+                </tr>
+              </tbody>
+            </table>
+
+            <table *ngIf="studebtListModal?.length==0">
+                <tr>
+                    <th colspan="3" style="text-align: center;">No record found!</th>
+                </tr>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>

@@ -1,0 +1,372 @@
+<div>
+  <form [formGroup]="studentAchievementForm" (ngSubmit)="submitStudentAchievement()">
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <h3 class="pageName">Student Achievement / छात्र उपलब्धि</h3>
+        <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+      </div>
+
+
+      <div class="tabArea">
+        <a routerLink="./../addStudentAchievement" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+            class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+        <a routerLink="./../viewStudentAchievement" class="neuro viewLink" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View / देखे</a>
+      </div>
+    </div>
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <div class="search-container">
+          <div class="search-sec" id="searchPanel" style="display: block;">
+            <div class="searchPanel">
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष </label></div>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="exampleInputEmail1" class="form-label fw-bold"> {{(academicYear) ? academicYear :
+                      '--'}}</label>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="" class="form-label">District <br>जिला</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label  fw-bold">
+                      {{(districtName) ? districtName : '--'}}
+                    </label>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="" class="form-label">Block <br>प्रखंड</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold">{{(blockName) ? blockName : '--'}}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">Cluster<br>संकुल </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold">
+                      {{(clusterName) ? clusterName : '--'}}
+                    </label>
+                  </div>
+                </div>
+
+
+              </div>
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">Village/Ward <br>गांव/कक्ष</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold">
+                      {{(villageName) ? villageName : '--'}}
+                    </label>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold">{{(schoolUdiseCode) ? schoolUdiseCode : '--'}} -
+                      {{(schoolName) ? schoolName : '--'}}</label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="">
+                  <!-- <button  class="btn btn-default btn-purple"> Search <i  class="bi bi-search"></i></button> -->
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </ng-container>
+      <!-- <button class="searchopen" type="button"(click)="toggle()" id="hide"   data-toggle="tooltip" data-original-title="Click me">Search Panel</button>  -->
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="formpatch mt-5">
+
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Event Type <br>आयोजन का प्रकार </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="eventTypeId"
+              (change)="getEventCategoryAccordingToEventType($any($event.target).value)">
+              <option selected value="">--Select--</option>
+              <option *ngFor="let item of eventTypeData" [value]="item.eventId">
+                {{ item.eventType }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Event Category <br>आयोजन श्रेणी</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="eventCategoryId"
+              (change)="getEventMasterAccordingToEventCategory($any($event.target).value)">
+              <option selected value="" *ngIf="eventCategoryLoading === false">
+                ---Select Event Category---
+              </option>
+              <option selected value="" *ngIf="eventCategoryLoading === true">
+                Loading...
+              </option>
+              <option *ngFor="let item of eventCategoryData" [value]="item.eventCategoryId">
+                {{ item.categoryName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Event Name <br>कार्यक्रम नाम</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="eventNameId">
+              <option selected value="" *ngIf="eventNameLoading === false">
+                ---Select Event Name---
+              </option>
+              <option selected value="" *ngIf="eventNameLoading === true">
+                Loading...
+              </option>
+              <option *ngFor="let item of eventNameData" [value]="item.eventMasterId">
+                {{ item.eventName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Level of Event <br>आयोजन का स्तर</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="eventLevelId">
+              <option selected value="">--Select--</option>
+              <option *ngFor="let item of levelData" [value]="item.anxtValue">
+                {{ item.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Event Date <br>आयोजन दिनांक </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <!-- <input type="date" class="form-control" formControlName="eventDate" (blur)="eventDateValidation();"> -->
+            <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="eventDate" readonly>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Class <br>वर्ग</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="classId"
+              (change)="classChange($any($event.target).value)">
+              <option selected value="">--Select--</option>
+              <!-- <option *ngFor="let item of classData" [value]="item.anxtValue">
+                    {{ item.anxtName }}
+                </option>    -->
+              <option *ngFor="let item of classData" [value]="item.classId">
+                {{ item.class }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-6 ">
+          <ng-container *ngIf="classId == 11 || classId == 12">
+            <div class="row">
+
+              <div class="col-lg-4 form-group">
+                <label for="" class="form-label">Stream <br>धाराएँ</label>
+              </div>
+              <div class="col-lg-6 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="streamId"
+                  (change)="streamChange($any($event.target).value)">
+                  <option selected value="">---Select Stream---</option>
+                  <option *ngFor="let item of streamData" [value]="item.anxtValue">
+                    {{ item.anxtName }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="col-lg-6 ">
+          <ng-container *ngIf="streamId == 3">
+            <div class="row">
+              <div class="col-lg-4 form-group">
+                <label for="" class="form-label">Group <br>समूह</label>
+              </div>
+              <div class="col-lg-6 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="groupId"
+                  (change)="groupChange($any($event.target).value)">
+                  <option selected value="">---Select Group---</option>
+                  <option *ngFor="let item of groupData" [value]="item.anxtValue">
+                    {{ item.anxtName }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+          </ng-container>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label"> Prize <br>इनाम</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="prizeId">
+              <option selected value="">--Select--</option>
+              <option *ngFor="let item of prizeData" [value]="item.anxtValue">
+                {{ item.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Student Name <br>छात्र का नाम</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <ng-multiselect-dropdown [placeholder]="'Select Student'" [settings]="dropdownSettings" [data]="studentData"
+              formControlName="studentId">
+            </ng-multiselect-dropdown>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label">Image Upload <br>फोटो अपलोड करें</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <input type="file" class="form-control" formControlName="achivementImage" name="achivementImage"
+              #achivementImage (change)="handleFileInputAchievement($event)" accept="image/*">
+            <span class="minimum-text text-danger"> (Only jpeg, jpg, png file supported & Maximum size is 300KB)</span>
+            <br>
+            <img *ngIf="imageUrlAchievement && isimageUrlAchievement" [src]="imageUrlAchievement"
+              style="width: auto; height: 100px;">
+            &nbsp;
+            <i class="bi bi-x text-danger" *ngIf="isimageUrlAchievement" (click)="removeAchievementImage()"
+              style="cursor:pointer;font-size: 2rem;"></i>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label for="" class="form-label" for="achievementDesc"> Description <br>विवरण </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <textarea id="exampleFormControlTextarea1" rows="3" class="form-control" maxlength="500"
+              formControlName="achievementDesc" id="achievementDesc"
+              (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea>
+            <span class="minimum-text">Maximum <span class="text-danger">(500) </span> Characters</span>
+          </div>
+        </div>
+
+      </div>
+
+
+    </div>
+    <div>
+      <button class="btn btn-success me-2">Submit / जमा करें</button>
+      <button class="btn btn-danger" type="reset" (click)="formCancel()">Reset / पुनर्स्थापित</button>
+    </div>
+  </form>
+</div>

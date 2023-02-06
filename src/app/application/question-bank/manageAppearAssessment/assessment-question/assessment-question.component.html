@@ -1,0 +1,201 @@
+<div>
+
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Appear Assessment / मूल्यांकन दिखाएँ</h3>
+      </div>
+    </div>
+
+    <h5 class="text-end d-inline-block float-end">
+      <i class="bi bi-alarm"></i> Times Left :
+      <strong class="text-danger">{{
+        duration | date: "H:mm:ss":"UTC"
+      }}</strong>
+    </h5>
+    <div class="tabArea">
+      <a routerLink="./" class="neuro addLink" routerLinkActive="active"
+        ><i class="bi bi-plus-lg me-2"></i>Online exam / ऑनलाइन परीक्षा</a
+      >
+    </div>
+  </div>
+
+  <div class="top-space">
+    <div class="searchPanel mb-3">
+      <div class="row">
+        <div class="col-md-2">
+          <label class="form-label"> Student Name <br>विद्यार्थी का नाम</label>
+        </div>
+        <div class="col-md-3 form-group mb-0">
+          <span class="colon">:</span>
+          <label class="form-label fw-normal">{{
+            studentInfo?.studentName || "--"
+          }}</label>
+        </div>
+  
+        <div class="col-md-2">
+          <label class="form-label"> Student Code <br>छात्र कोड</label>
+        </div>
+        <div class="col-md-3 form-group mb-0">
+          <span class="colon">:</span>
+          <label class="form-label fw-normal">{{
+            studentInfo?.studentCode || "--"
+          }}</label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-9">
+        <div class="two-section" *ngFor="let item of questions; let i = index">
+          <div class="row" *ngIf="item.slNo == questionSlNo">
+            <div class="col-md-12 form-group">
+              Q {{ item.slNo }}.
+              <label class="form-label" *ngIf="item.questionText">
+                {{ item.questionText }}
+              </label>
+              <label class="form-label" *ngIf="item.questionImg">
+                <img
+                  [src]="fileUrl + '/' + item.questionImg?.replace('.', '~')"
+                  class="questionBankImg"
+                />
+               
+              </label>
+              <span class="badge bg-secondary" style="margin-left: 15px">
+                Mark :{{ item.mark }}</span
+              >
+            </div>
+            <div class="col-md-5 form-group">
+              <div class="radiobuttons radiobuttons--modify">
+                <div class="rdio rdio-primary">
+                  <input
+                    name="radio"
+                    [value]="1"
+                    id="radio1"
+                    type="radio"
+                    [(ngModel)]="item.answer"
+                  />
+                  <label for="radio1" *ngIf="item.optionAText"
+                    >A : {{ item.optionAText }}</label
+                  >
+
+                  <label for="radio1" *ngIf="item.optionAImg">
+                    A :
+                    <img
+                      [src]="fileUrl + '/' + item.optionAImg?.replace('.', '~')"
+                      class="questionBankImg"
+                    />
+                  </label>
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="2"
+                    id="radio2"
+                    type="radio"
+                  />
+                  <label for="radio2" *ngIf="item.optionBText"
+                    >B : {{ item.optionBText }}</label
+                  >
+
+                  <label for="radio2" *ngIf="item.optionBImg">
+                    B :<img
+                      [src]="fileUrl + '/' + item.optionBImg?.replace('.', '~')"
+                      class="questionBankImg"
+                    />
+                  </label>
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="3"
+                    id="radio3"
+                    type="radio"
+                  />
+                  <label for="radio3" *ngIf="item.optionCText"
+                    >C : {{ item.optionCText }}</label
+                  >
+
+                  <label for="radio3" *ngIf="item.optionCImg">
+                    C :
+                    <img
+                      [src]="fileUrl + '/' + item.optionCImg?.replace('.', '~')"
+                      class="questionBankImg"
+                    />
+                  </label>
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="4"
+                    id="radio4"
+                    type="radio"
+                  />
+                  <label for="radio4" *ngIf="item.optionDText"
+                    >D : {{ item.optionDText }}</label
+                  >
+
+                  <label for="radio4" *ngIf="item.optionDImg">
+                    D :
+                    <img
+                      [src]="fileUrl + '/' + item.optionDImg?.replace('.', '~')"
+                      class="questionBankImg"
+                    />
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="item.slNo == questionSlNo">
+            <a
+              class="btn btn-dark me-2 prv-two"
+              *ngIf="questionSlNo > 1"
+              (click)="onQuestionChange('previous')"
+              >Previous</a
+            >
+            <a
+              class="btn btn-primary me-2 next-two"
+              (click)="onQuestionChange('next')"
+              *ngIf="questions.length !== item.slNo"
+              >Next</a
+            >
+            <a
+              class="btn btn-success me-2"
+              *ngIf="questions && questions.length === item.slNo"
+              (click)="onSubmit()"
+              >Submit</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="markedPatch">
+          <div class="legendPatch">
+            <ul>
+              <li><a class="legend-attended"></a>Attended</li>
+              <li><a class="legend-notattended"></a>Not Attended</li>
+              <li><a class="legend-curQuestion"></a>Current Question</li>
+            </ul>
+          </div>
+          <ul class="mb-0">
+            <li *ngFor="let item of questions; let i = index">
+              <a
+                (click)="showQuestionByNumber = +item?.slNo"
+                [ngClass]="{
+                  attended: +item?.answer,
+                  curQuestion: +item?.slNo === this.questionSlNo
+                }"
+                [style.cursor]="'pointer'"
+              >
+                {{ item?.slNo }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

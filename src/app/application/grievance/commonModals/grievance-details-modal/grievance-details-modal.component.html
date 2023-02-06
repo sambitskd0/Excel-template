@@ -1,0 +1,142 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="GrievanceDetailsModalLabel">Grievance Details/शिकायत का विवरण
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="popup-loader" *ngIf="showLoader"><img src="/assets/img/loading.gif" /> <br>Loading. Please wait...</div>
+
+        <div class="modal-body" *ngIf="showDetails">
+            <div class="row" *ngFor=" let grievanceDetail of grievanceDetails ;let i = index">
+
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Grievance No.<br>शिकायत नं.
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"><b> {{ showGrievanceTktNo }} </b></label>
+                </div>
+
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Complainer<br>शिकायतकर्ता
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{grievanceDetail.userCode}} - {{ grievanceDetail.userName }}</label>
+                </div>
+                <div class="col-lg-3 form-grou">
+                    <label class="form-label">Email<br>ईमेल
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ (grievanceDetail.userEmail) ? grievanceDetail.userEmail : "N/A" }}
+                    </label>
+                </div>
+                <div class="col-lg-3 form-grou">
+                    <label class="form-label">Mobile No.<br>मोबाइल नं.
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data">
+                        {{ (grievanceDetail.userMobile) ? grievanceDetail.userMobile : "N/A" }} </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Designation<br>पद
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data">
+                        {{ (grievanceDetail.vchDesignationName) ? grievanceDetail.vchDesignationName : 'N/A' }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">District<br>जिला
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.districtName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Block<br>प्रखण्ड
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.blockName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Cluster<br>समूह 
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.clusterName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">School<br>विद्यालय 
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.schoolName }}
+                        ({{ grievanceDetail.schoolUdiseCode }})</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Category<br>श्रेणी
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.grvncCatName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Sub Category<br>उप श्रेणी
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.grvncSubCatName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Subject<br>विषय
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.subjectName }}</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Attachment<br>संलग्नक
+                    </label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data">
+                        <a href="{{ fileUrl + '/' +grievanceDetail.documentFile.replace('.', '~') }}"
+                            target="_blank" *ngIf="grievanceDetail.documentFile; else historyNA"> View Attachment
+                        </a>
+                        <ng-template #historyNA> N/A </ng-template>
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <label class="form-label">Complaint Description<br>शिकायत विवरण</label>
+                </div>
+                <div class="col-lg-8 form-group colon-top">
+                    <span class="colon">:</span>
+                    <label class="label-data"> {{ grievanceDetail.grievanceDesc }}</label>
+                </div>
+            </div>
+        </div>
+
+        <div class="modal-footer">
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close/बंद करें
+            </button>
+        </div>
+    </div>
+</div>

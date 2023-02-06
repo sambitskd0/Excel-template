@@ -1,0 +1,281 @@
+<form [formGroup]="appointedForm">
+  <div class="yes__appoint">
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Initial Salary (At the time of appointment) <br />प्रारंभिक वेतन
+          (नियुक्ति के समय)</label
+        >
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          formControlName="initialSalary"
+          maxlength="8"
+          (keypress)="customValidators.keyPressNumbers($event)"
+          (keypress)="customValidators.firstCharValidator($event)"
+        />
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Present basic Salary <br />
+          वर्तमान मूल वेतन</label
+        >
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          formControlName="presentBasicSalary"
+          maxlength="8"
+          (keypress)="customValidators.keyPressNumbers($event)"
+          (keypress)="customValidators.firstCharValidator($event)"
+        />
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Appointment Letter No./Date <br />नियुक्ति पत्र संख्या/तिथि</label
+        >
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          formControlName="appointmentLetterNumber"
+          maxlength="100"
+          (keypress)="customValidators.alphaNumericValidator($event,'slash','hyphen','space')"
+          (keypress)="customValidators.firstCharValidator($event)"
+        />
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Date of Present posting/joining <br />
+          वर्तमान पोस्टिंग / नियुक्ति की तिथि</label
+        >
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <!-- <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          formControlName="dateOfPresentPostingJoining"
+        /> -->
+
+        <input
+          class="form-control"
+          #datepickerYMD="bsDatepicker"
+          placeholder="DD-MMM-YYYY"
+          bsDatepicker
+          [bsConfig]="{
+            dateInputFormat: 'DD-MMM-YYYY'
+          }"
+          [value]="dateOfPresentPostingJoining"
+          formControlName="dateOfPresentPostingJoining"
+          [maxDate]="maxDate"
+          autocomplete="off"
+          readonly
+        />
+
+        <!-- <mat-form-field>
+          <input matInput [matDatepicker]="picker" placeholder="Choose a date">
+          <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+          <mat-datepicker #picker ></mat-datepicker>
+        </mat-form-field> -->
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >PRAN / GPF / UAN <br />पीआरएएन / जीपीएफ / यूएएन
+        </label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="text"
+          class="form-control"
+          id="exampleInputEmail1"
+          aria-describedby="emailHelp"
+          formControlName="pranGpf"
+          maxlength="12"
+          (keypress)="customValidators.alphaNumericValidator($event)"
+          (keypress)="customValidators.firstCharValidator($event)"
+        />
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Payment Process <br />भुगतान प्रक्रिया</label
+        >
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          id="select__yesbank"
+          formControlName="paymentProcess"
+          #paymentProcess
+          (change)="paymentProcessChangeHandler(+paymentProcess.value)"
+        >
+          <option value="">---Select---</option>
+          <option
+            [value]="item.anxtValue"
+            *ngFor="let item of paymentProcessAnnextures"
+          >
+            {{ item.anxtName }}
+          </option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <div class="hide" id="bankt" *ngIf="showBankFields === true">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Name of Bank</label
+          ><br />
+          बैंक का नाम
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <!-- <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="nameOfBank"
+            maxlength="100"
+            (keypress)="customValidators.firstCharValidator($event)"
+            (keypress)="customValidators.onlyAlphabets($event)"
+          /> -->
+
+          <select
+            formControlName="nameOfBank"
+            class="form-select"
+            aria-label="Bank Name"
+            #bank
+            (change)="onBankChange()"
+          >
+            <option value="">--Select--</option>
+            <option
+              *ngFor="let bank of annextureResults?.data?.BANK"
+              [value]="bank.anxtValue"
+            >
+              {{ bank.anxtName }}
+            </option>
+          </select>
+
+          <span class="mandatory">*</span>
+        </div>
+        <ng-container *ngIf="+bank.value == 12">
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label"
+              >Other Bank Name</label
+            ><br />अन्य बैंक का नाम
+          </div>
+          <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input
+              type="text"
+              class="form-control"
+              id="exampleInputEmail1"
+              aria-describedby="emailHelp"
+              formControlName="otherBankName"
+              maxlength="50"
+              (keypress)="customValidators.firstCharValidator($event)"
+              (keypress)="
+                customValidators.alphaNumericValidator($event, 'space')
+              "
+            />
+            <span class="mandatory">*</span>
+          </div>
+        </ng-container>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label"
+            >Name of Branch</label
+          ><br />शाखा का नाम
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="nameOfBranch"
+            maxlength="100"
+            (keypress)="customValidators.firstCharValidator($event)"
+            (keypress)="customValidators.alphaNumericValidator($event, 'space')"
+          />
+          <span class="mandatory">*</span>
+        </div>
+
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label"
+            >Bank Account Number</label
+          ><br />
+          बैंक खाता संख्या
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="bankAccountNumber"
+            maxlength="24"
+            (keypress)="customValidators.keyPressNumbers($event)"
+            (keypress)="customValidators.firstCharValidator($event)"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">IFSC Code</label
+          ><br />आईएफएससी कोड
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id="exampleInputEmail1"
+            aria-describedby="emailHelp"
+            formControlName="ifscCode"
+            maxlength="11"
+            (keypress)="customValidators.firstCharValidator($event)"
+            (keypress)="customValidators.alphaNumericValidator($event)"
+          />
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+    </div>
+  </div>
+</form>

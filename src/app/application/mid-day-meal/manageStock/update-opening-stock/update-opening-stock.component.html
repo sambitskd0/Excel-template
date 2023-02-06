@@ -1,0 +1,133 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Update Opening Stock / प्रारंभिक भंडार अद्यतन करें </h3><span class="indicator">( * )
+                Indicator Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../updateOpeningStock" class="neuro addLink active" routerLinkActive="active"><i
+                    class="bi bi-plus-lg me-2"></i>Update Opening Stock / प्रारंभिक भंडार अद्यतन करें</a>
+            <a routerLink="./../updateStock" class="neuro addLink" routerLinkActive="active"><i
+                    class="bi bi-plus-lg me-2"></i>Update Stock / भंडार अद्यतन करें</a>
+        </div>
+    </div>
+
+    <form [formGroup]="updateOpeningStockForm" (ngSubmit)="onSubmit()">
+        <ng-container *ngIf="permissionDiv == true">
+            <div class="formpatch top-space">
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">District <br> ज़िला </label>
+                    </div>
+                    <div class="col-md-3 form-group"> <span class="colon">:</span>
+                        <label for="" class="form-label"> {{districtCode}}-{{districtName}} </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Block <br> अंचल </label>
+                    </div>
+                    <div class="col-md-3 form-group"> <span class="colon">:</span>
+                        <label for="" class="form-label ">{{blockCode}}-{{blockName}} </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Cluster <br> समूह </label>
+                    </div>
+                    <div class="col-md-3 form-group"> <span class="colon">:</span>
+                        <label for="" class="form-label "> {{clusterCode}}-{{clusterName}} </label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">School <br> विद्यालय </label>
+                    </div>
+                    <div class="col-md-3 form-group"> <span class="colon">:</span>
+                        <label for="" class="form-label ">{{schoolUdise}}-{{schoolName}}</label>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Rice Stock <br> चावल का भंडार </label>
+                    </div>
+                    <div class="col-md-3 form-group"> <span class="colon">:</span>
+                        <div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1">K.G</span>
+                            <input type="text" class="form-control" aria-describedby="basic-addon1"
+                                formControlName="riceStock" (keypress)="customValidators.onlyNumbersWithDecimal($event)"
+                                autocomplete="off" maxlength="7" [readonly]="this.upStockRecCnt">
+                        </div> <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-2 form-group">
+                        <div class=""><label for="exampleInputEmail1" class="form-label">Other Food item <br> अन्य खाद्य
+                                पदार्थ </label>
+                        </div>
+                    </div> -->
+                    <!-- <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Block <br> अंचल </label>
+                        </div>
+                        <div class="col-md-3 form-group"> <span class="colon">:</span>
+                            <label for="" class="form-label ">{{blockCode}}-{{blockName}} </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Cluster <br> समूह </label>
+                        </div>
+                        <div class="col-md-3 form-group"> <span class="colon">:</span>
+                            <label for="" class="form-label "> {{clusterCode}}-{{clusterName}} </label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">School <br> विद्यालय </label>
+                        </div>
+                        <div class="col-md-3 form-group"> <span class="colon">:</span>
+                            <label for="" class="form-label ">{{schoolUdise}}-{{schoolName}}</label>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Rice Stock <br> चावल का भंडार </label>
+                        </div>
+                        <div class="col-md-3 form-group"> <span class="colon">:</span>
+                            <div class="input-group mb-3"> <span class="input-group-text" id="basic-addon1">K.G</span>
+                                <input type="text" class="form-control" aria-describedby="basic-addon1" formControlName="riceStock" (keypress)="customValidators.onlyNumbersWithDecimal($event)" autocomplete="off" maxlength="7" [readonly]="this.upStockRecCnt">
+                            </div> <span class="mandatory">*</span>
+                        </div>
+                    </div> -->
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class=""><label   class="form-label">Other Food item <br> अन्य खाद्य पदार्थ </label>
+                            </div>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <div  class="input-group mb-3">
+                                <span  id="basic-addon1"class="input-group-text">₹</span>
+                                <input  type="text" aria-describedby="basic-addon1" class="form-control" formControlName="otherFoodItemprice" (keypress)="customValidators.onlyNumbersWithDecimal($event)" autocomplete="off" maxlength="7" [readonly]="this.upStockRecCnt">
+                            </div>
+                        </div>
+                    </div>
+                <!-- </div> -->
+            </div>
+            <div>
+                <button class="btn btn-success me-2" [disabled]="this.upStockRecCnt">Submit / जमा करें</button>
+                <!-- <button type="reset" [disabled]="this.upStockRecCnt" class="btn btn-danger">Reset /
+                    पुनर्स्थापित </button> -->
+                    <ng-container *ngIf="this.upStockRecCnt == 0 || this.upStockRecCnt == null">
+                        <button type="reset"  class="btn btn-danger">Reset /
+                            पुनर्स्थापित </button>
+                    </ng-container>
+                    
+                   
+            </div>
+        </ng-container>
+    </form>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+        {{ "You don't have the permission to access this page !!" }}
+    </div>
+</div>

@@ -1,0 +1,145 @@
+<div class="pageHeading">
+    <div>
+        <h3 class="pageName">Teacher Service Status / शिक्षक सेवा की स्थिति</h3>
+        <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+    </div>
+    <div class="tabArea">
+
+    </div>
+</div>
+
+
+<div class="mt-5 pt-4">
+    <div class="row">
+        <div class="col-sm-6">
+            <div class="update__service">
+                <h5>Current Posting Details / वर्तमान पोस्टिंग विवरण</h5> 
+                <div class="table-responsive">
+                    <table class="table  table-bordered">
+                        <tbody>
+                            <tr>
+                                <th scope="row">Teacher Name / शिक्षक का नाम :</th>
+                                <td>{{teacherName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Teacher Id / शिक्षक आईडी :</th>
+                                <td> {{ (teacherCode) ?  teacherCode :(teacherLoginCode) ? teacherLoginCode :'--'  }}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">District Name / जिला :</th>
+                                <td>{{districtName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Block Name / प्रखण्ड :</th>
+                                <td>{{blockName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Cluster Name / संकुल :</th>
+                                <td>{{clusterName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">School Name / विद्यालय का नाम :</th>
+                                <td>{{schoolName}}</td>
+                            </tr>
+                            <tr>
+                                <th scope="row">Teacher Title / शिक्षक शीर्षक :</th>
+                                <td>{{teacherTitle}}</td>
+                            </tr>
+                            <tr>
+                                <!-- 0 - default 1 - resign, 2 - retirement, 3 - suspension,4 - death, 5 - depute -->
+                                <th scope="row">Current Status / वर्तमान स्थिति :</th>
+                                <td *ngIf="lastServiceStatus == 0">Default</td>
+                                <td *ngIf="lastServiceStatus == 1">Resigned</td>
+                                <td *ngIf="lastServiceStatus == 2">Retired</td>
+                                <td *ngIf="lastServiceStatus == 3">Suspended</td>
+                                <td *ngIf="lastServiceStatus == 4">Death</td>
+                                <td *ngIf="lastServiceStatus == 5">Deputed</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-sm-6">
+            <div class="update__service">
+                <h5>Official Use Only / केवल आधिकारिक उपयोग</h5>
+                <div class="update__service__inner">
+                    <form [formGroup]="updateServiceForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+                        <div class="row">
+
+                            <div class="col-md-3 form-group3">
+                                <label for="exampleInputEmail1" class="form-label">Update Service / अद्यतन सेवा
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" id="selService" name="selService"
+                                    formControlName="scService">
+                                    <!-- 0 - default 1 - resign, 2 - retirement, 3 - suspension,4 - death, 5 - depute -->                                    
+                                    <option value="">--Select--</option>
+                                    <option value="4">Death</option>
+                                    <!-- <option value="5">Depute</option> -->
+                                    <option value="1">Resign</option>
+                                    <option value="2">Retirement</option>
+                                    <option value="3">Suspension</option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group3">
+                                <label for="exampleInputEmail1" class="form-label">Letter No. / पत्र संख्या </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="letterNo" [maxlength]="40">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group3">
+                                <label for="exampleInputEmail1" class="form-label">Upload Document / दस्तावेज़ अपलोड
+                                    करें
+                                    <a data-toggle="tooltip" class="tool" data-placement="top"
+                                        title="Upload scan copy of first and last page of Service Book">
+                                        <i class="bi bi-question-circle-fill text-dark" aria-hidden="true"></i>
+                                    </a>
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <span class="colon">:</span>
+                                <input type="file" class="form-control" formControlName="fileUpload" name="fileUpload"
+                                    #teacherImage (change)="handleFileInputTeacher($event)" >
+                                <small class="text-danger"> &nbsp; (upload only pdf,jpeg,jpg,png file upto 5
+                                    MB)</small><br />
+                                <small class="text-danger">(केवल 5 एमबी तक की पीडीएफ, जेपीईजी, जेपीजी, पीएनजी फाइल अपलोड
+                                    करें)</small>
+                                <span class="mandatory" style="top: 10% !important;">*</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-3 form-group3">
+                                <label for="exampleInputEmail1" class="form-label">Remarks / टिप्पणी
+                                </label>
+                            </div>
+                            <div class="col-md-6 form-group">
+                                <span class="colon">:</span>
+                                <textarea cols="3" class="form-control" formControlName="remark" [maxlength]="200"></textarea>
+                                <span class="mandatory">*</span>
+                                <small>Maximum <span class="text-danger">(200)</span> Characters</small> / <small>अधिकतम
+                                    <span class="text-danger">(200)</span> वर्ण</small>
+                            </div>
+                        </div>
+                        <hr>
+                        <div>
+                            <button class="btn btn-success me-2">Update / अद्यतन करें</button>
+                            <a routerLink="../../../viewServices" class="btn btn-danger me-2">Cancel / रद्द करें</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

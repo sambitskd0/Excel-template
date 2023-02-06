@@ -1,0 +1,301 @@
+<!-- <div class="tab-content" id="main_form"> -->
+    <div class="tab-pane step4-content" role="tabpanel" id="step4">
+        <h5 class="text-center top-space">Physical Equipments / भौतिक सुविधाएँ एवं उपकरण </h5>
+       
+            <div class="formpatch">
+
+                <h5>Does the school have the following facilities (Secondary/Higher Secondary Sections) / क्या विद्यालय
+                    में निम्नलिखित सुविधाएं हैं (माध्यमिक/उच्च माध्यमिक अनुभाग)</h5>
+                <div class="row">
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Separate room for Assistant Head Teacher/Vice Principal/Head of the
+                            School/Head Teacher/ Principal ?<br>सहायक प्रधान शिक्षक/वाइस प्रिंसिपल/विद्यालय
+                            प्रमुख/प्रधान शिक्षक/प्राचार्य के लिए अलग कमरा?</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isRoomAvailForPrincipal==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Separate common room for girls <br> लड़कियों के लिए अलग कॉमन
+                            रूम</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isGirlsCommonRoomAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Staffroom for teachers <br> शिक्षकों के लिए स्टाफ रूम</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isStaffRoomAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Co-curricular activity room/arts and crafts room <br> सह पाठयक्रम
+                            गतिविधि कक्ष/कला और शिल्प कक्ष</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isCocurricularRoomAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Staff quarters (including residential quarters for Head
+                            Teacher/Principal
+                            and Asst. Head Teacher/Vice Principal)<br> स्टाफ क्वार्टर (प्रधान शिक्षक / प्रधानाचार्य और
+                            सहायक प्रधान शिक्षक / उप प्रधानाचार्य के लिए आवासीय क्वार्टर सहित)</label>
+
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isStaffQuarterAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Integrated science laboratory (integrated laboratory is the one in
+                            which
+                            Physics, Chemistry and Biology practical are held) for Secondary sections only <br> केवल
+                            माध्यमिक वर्गों के लिए एकीकृत विज्ञान प्रयोगशाला (एकीकृत प्रयोगशाला वह है जिसमें भौतिकी,
+                            रसायन विज्ञान और जीव विज्ञान का व्यावहारिक आयोजन किया जाता है)।</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.issciencelaboratoryAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Separate room for Library <br> पुस्तकालय के लिए अलग कमरा</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isSeparateLibraryRoomAvail==1)?'Yes':'No'}}</label>
+                        
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Computer room <br> कंप्यूटर कक्ष</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span> 
+                        <label class="form-label fw-bold">{{(this.isComputerRoomAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Tinkering Lab <br>फेरबदल प्रयोगशाला</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isTinkeringLabAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                    <div class="col-xxl-5 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                        <label class="form-label">Sanitary Pad vending Machine (for Co-ed and girls schools) <br>
+                            साफ़-सुथरा गत्ता वेंडिंग मशीन (सह-शिक्षा और बालिका विद्यालयों के लिए) </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(this.isSanitaryPadVendingAvail==1)?'Yes':'No'}}</label>
+                    </div>
+                </div>
+            </div>
+            <div class="formpatch">
+                <h5>Does the school have the following laboratories? (For Higher Secondary sections only) / क्या
+                    विद्यालय में निम्नलिखित प्रयोगशालाएँ हैं? (केवल उच्च माध्यमिक वर्गों के लिए)</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th>Laboratory / प्रयोगशालाओं</th>
+                                <th>Separate Room Available</th>
+                                <th>Present Condition </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>Physics / भौतिक विज्ञान</td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForPhysics==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForPhysics == 1 else emptyTab">
+                                    {{
+                                        (this.isLaboratoryAvailForPhysics==1)?'Not Applicable': 
+                                        (this.isLaboratoryAvailForPhysics==2)?'Fully equipped':
+                                        (this.isLaboratoryAvailForPhysics==3)?'Partially equipped':
+                                        (this.isLaboratoryAvailForPhysics==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Chemistry / रसायन शास्त्र </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForChemistry==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForChemistry == 1 else emptyTab">
+                                    {{
+                                        (this.chemistryLabCondition==1)?'Not Applicable': 
+                                        (this.chemistryLabCondition==2)?'Fully equipped':
+                                        (this.chemistryLabCondition==3)?'Partially equipped':
+                                        (this.chemistryLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Biology / जीवविज्ञान </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForBiology==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForBiology == 1 else emptyTab">
+                                    {{
+                                        (this.biologyLabCondition==1)?'Not Applicable': 
+                                        (this.biologyLabCondition==2)?'Fully equipped':
+                                        (this.biologyLabCondition==3)?'Partially equipped':
+                                        (this.biologyLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Mathematics / गणित </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForMathematics==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForMathematics == 1 else emptyTab">
+                                    {{
+                                        (this.biologyLabCondition==1)?'Not Applicable': 
+                                        (this.biologyLabCondition==2)?'Fully equipped':
+                                        (this.biologyLabCondition==3)?'Partially equipped':
+                                        (this.biologyLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Language / भाषा </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForLanguage==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForLanguage == 1 else emptyTab">
+                                    {{
+                                        (this.languageLabCondition==1)?'Not Applicable': 
+                                        (this.languageLabCondition==2)?'Fully equipped':
+                                        (this.languageLabCondition==3)?'Partially equipped':
+                                        (this.languageLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Geography / भूगोल </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForGeography==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForGeography == 1 else emptyTab">
+                                    {{
+                                        (this.languageLabCondition==1)?'Not Applicable': 
+                                        (this.languageLabCondition==2)?'Fully equipped':
+                                        (this.languageLabCondition==3)?'Partially equipped':
+                                        (this.languageLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Home Science / गृह विज्ञान </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForHomescience==1)?'Yes':'No'}}
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForHomescience == 1 else emptyTab">
+                                    <select class="form-select" formControlName="homescienceLabCondition">
+                                        {{
+                                            (this.languageLabCondition==1)?'Not Applicable': 
+                                            (this.languageLabCondition==2)?'Fully equipped':
+                                            (this.languageLabCondition==3)?'Partially equipped':
+                                            (this.languageLabCondition==4)?'Not equipped':'--'
+                                          }} 
+                                    </select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>Psychology / मनोविज्ञान </td>
+                                <td>
+                                    {{(this.isLaboratoryAvailForPsychology==1)?'Yes':'No'}}
+                                   
+                                </td>
+                                <td *ngIf="isLaboratoryAvailForPsychology == 1 else emptyTab">
+                                    {{
+                                        (this.psychologyLabCondition==1)?'Not Applicable': 
+                                        (this.psychologyLabCondition==2)?'Fully equipped':
+                                        (this.psychologyLabCondition==3)?'Partially equipped':
+                                        (this.psychologyLabCondition==4)?'Not equipped':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div class="formpatch">
+                <h5>Does the school have the following equipment(s) / क्या विद्यालय में निम्नलिखित उपकरण हैं</h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th>Equipment/Facility / उपकरण / सुविधा</th>
+                                <th>Availability / उपलब्धता</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td style="text-align: left">Audio/Visual/Public Address System / श्रव्य/दृश्य/सार्वजनिक
+                                    पता प्रणाली</td>
+                                <td>
+                                    {{
+                                        (this.isAudioSystemAvail==1)?'Yes': 
+                                        (this.isAudioSystemAvail==2)?'No':
+                                        (this.isAudioSystemAvail==3)?'Yes, but not functional':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Science Kit* / विज्ञान किट*</td>
+                                <td>
+                                    {{
+                                        (this.isScienceKitAvail==1)?'Yes': 
+                                        (this.isScienceKitAvail==2)?'No':
+                                        (this.isScienceKitAvail==3)?'Yes, but not functional':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Math Kit** / गणित किट**</td>
+                                <td>
+                                    {{
+                                        (this.isMathKitAvail==1)?'Yes': 
+                                        (this.isMathKitAvail==2)?'No':
+                                        (this.isMathKitAvail==3)?'Yes, but not functional':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="text-align: left">Biometric device / बायोमेट्रिक उपकरण</td>
+                                <td>
+                                    {{
+                                        (this.isBiometricDeviceAvail==1)?'Yes': 
+                                        (this.isBiometricDeviceAvail==2)?'No':
+                                        (this.isBiometricDeviceAvail==3)?'Yes, but not functional':'--'
+                                      }} 
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <div role="alert" class="alert alert-danger"> Note: * Availability of general items, chemicals, glassware,
+                microscope, electroscope, multimeter, resistance boxes, kerosene burner, electricity and magnetism kit,
+                optics kit, spring balance etc. <br> नोट: * सामान्य वस्तुओं, रसायनों, कांच के बर्तन, माइक्रोस्कोप,
+                इलेक्ट्रोस्कोप, मल्टीमीटर, प्रतिरोध बक्से, केरोसिन बर्नर, बिजली और चुंबकत्व किट, प्रकाशिकी किट, वसंत
+                संतुलन आदि की उपलब्धता। </div>
+            <div role="alert" class="alert alert-danger">Note: ** Availability of cubes, cutouts of various shapes, an
+                innovative geo-board, abacus, Trigonometric Circle Board, Pythagoras Theorem Square, algebraic tiles
+                etc.
+                <br> नोट: ** क्यूब्स की उपलब्धता, विभिन्न आकृतियों के कटआउट, एक अभिनव भू-बोर्ड, अबेकस, त्रिकोणमितीय
+                सर्कल बोर्ड, पाइथागोरस प्रमेय स्क्वायर, बीजीय टाइल्स आदि।
+            </div>
+       
+    </div>
+<!-- </div> -->
+<ng-template #emptyTab>
+    <td></td>
+    <td></td>
+</ng-template>

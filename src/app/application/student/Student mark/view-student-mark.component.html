@@ -1,0 +1,353 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">Student Mark / छात्र का प्राप्तांक</h3>
+         <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+      </div>
+      <div class="tabArea">
+         <a routerLink="./../addStudentMark" class="neuro addLink" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+         <a routerLink="./../viewStudentMark" class="neuro viewLink active" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View / देखे</a>
+         <a routerLink="./../markReportCard" class="neuro viewLink"><i class="bi bi-eye me-2"></i>Report Card /
+            प्रतिवेदन पत्रक</a>
+      </div>
+   </div>
+   <div class="top-space">
+      <ng-container *ngIf="show">
+         <div class="search-container">
+            <div class="search-sec" id="searchPanel" style="display: block;">
+               <div class="searchPanel">
+                  <form [formGroup]="studentMarkSearchForm" (ngSubmit)="onSearch()">
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष </label></div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" aria-label="Default select example"
+                                 formControlName="searchAcademicYear">
+                                 <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">District <br>जिला</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <!-- <label for="" class="form-label fw-bold">{{ districtName ? districtName : "--" }}</label> -->
+                              <select class="form-select" formControlName="searchDistrictId" autocomplete="off"
+                                 (change)="getBlock($any($event.target).value)">
+                                 <option value="" *ngIf="scDisrtictSelect == true">--- Select ---</option>
+                                 <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                                 <option *ngFor="let districtItem of searchDistrictData"
+                                    [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{
+                                    districtItem.districtName }}</option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Block <br>खंड</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" formControlName="searchBlockId" autocomplete="off"
+                                 (change)="getCluster($any($event.target).value)">
+                                 <option value="" *ngIf="scBlockSelect == true">--- Select ---</option>
+                                 <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                                 <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">{{
+                                    blockItem.blockCode }} - {{ blockItem.blockName }} </option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="exampleInputEmail1" class="form-label">Cluster <br>संकुल</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" formControlName="searchClusterId" autocomplete="off"
+                                 (change)="getSchool($any($event.target).value)">
+                                 <option value="" *ngIf="scClusterSelect == true">--- Select ---</option>
+                                 <option value="" *ngIf="scClusterLoading == true">Loading...</option>
+                                 <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{
+                                    clusterItem.clusterCode }} - {{ clusterItem.clusterName }} </option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" formControlName="searchSchoolId" autocomplete="off"
+                                 (change)="getSchoolWiseClasses($any($event.target).value)">
+                                 <option value="" *ngIf="scSchoolSelect == true">--- Select ---</option>
+                                 <option value="" *ngIf="scSchoolLoading == true">Loading...</option>
+                                 <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">{{
+                                    schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}</option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                        <div class="col-lg-1"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class=""><label class="form-label">Exam Type <br>परीक्षा का प्रकार </label></div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" formControlName="examType"
+                                 (change)="examTypeChange($any($event.target).value)">
+                                 <option selected value="">--Select--</option>
+                                 <option [value]="examType?.anxtValue" *ngFor="let examType of examTypeData">{{examType?.anxtName }}</option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-2 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Class <br>वर्ग</label>
+                           </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" aria-label="Default select example" formControlName="classId"
+                                 (change)="classChange($any($event.target).value)">
+                                 <option selected value="" *ngIf="classLoad === false">---Select---</option>
+                                 <option selected value="" *ngIf="classLoad === true">Loading...</option>
+                                 <option *ngFor="let cls of classData" [value]="cls.classId">{{ cls.class }}</option>
+                              </select>
+                              <span class="mandatory">*</span>
+                           </div>
+                        </div>
+                        <div class="col-lg-1 form-group"></div>
+                        <div class="col-lg-2 form-group">
+                           <div class=""><label class="form-label">Section <br>भाग </label></div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <select class="form-select" aria-label="Default select example"
+                                 formControlName="sectionId">
+                                 <option selected value="" *ngIf="sectionLoad === false">---Select---</option>
+                                 <option selected value="" *ngIf="sectionLoad === true">Loading...</option>
+                                 <option *ngFor="let item of sectionData" [value]="item.anxtValue">{{ item.anxtName }}
+                                 </option>
+                              </select>
+                           </div>
+                        </div>
+                        <div class="col-lg-1 form-group"></div>
+                     </div>
+                     <div class="row">
+                        <div class="col-lg-6 ">
+                           <ng-container *ngIf="classId == 11 || classId == 12">
+                              <div class="row">
+                                 <div class="col-lg-4 form-group">
+                                    <label for="" class="form-label">Stream <br>धाराएँ</label>
+                                 </div>
+                                 <div class="col-lg-6 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Stream" formControlName="streamId"
+                                       (change)="streamChange($any($event.target).value)">
+                                       <option selected value="" *ngIf="streamLoad === false">---Select---</option>
+                                       <option selected value="" *ngIf="streamLoad === true">Loading...</option>
+                                       <option [value]="item?.anxtValue" *ngFor="let item of streamData">{{
+                                          item?.anxtName }}</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                 </div>
+                              </div>
+                           </ng-container>
+                        </div>
+                        <div class="col-lg-6 ">
+                           <ng-container *ngIf="(streamId == 3 && classId == 11) || classId == 12">
+                              <div class="row">
+                                 <div class="col-lg-4 form-group">
+                                    <label for="" class="form-label">Group <br>समूह</label>
+                                 </div>
+                                 <div class="col-lg-6 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                       formControlName="groupId">
+                                       <option selected value="" *ngIf="groupLoad === false"> ---Select---</option>
+                                       <option selected value="" *ngIf="groupLoad === true">Loading...</option>
+                                       <option [value]="item?.anxtValue" *ngFor="let item of groupData">{{
+                                          item?.anxtName }}</option>
+                                    </select>
+                                    <span class="mandatory">*</span>
+                                 </div>
+                              </div>
+                           </ng-container>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class=""><button class="btn btn-default btn-purple"> Search / खोज <i
+                                 class="bi bi-search"></i></button></div>
+                     </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+         data-original-title="Click me">Search Panel / खोज पट्टिका</button>
+   </div>
+   <div class="clearfix"></div>
+   <div class="row mt-3" [hidden]="resultListData?.length === 0">
+      <div class="col-lg-12">
+         <div class="page__rightarea">
+            <div class="page__util">
+               <div class="util">
+                  <a title="Excel" class="excel" (click)="downLoadMarkList()"><i
+                        class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+               </div>
+            </div>
+         </div>
+         <ng-container *ngIf="emptyResult === false">
+            <div id="viewTable">
+               <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+               </mat-progress-bar>
+               <div class="table-responsive">
+               <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                  #exporter="matTableExporter">
+
+                  <ng-container matColumnDef="chkAll">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" width="40px"
+                        style="display:none">
+                        <div class="checkbox check__box">
+                           <div class="form-group me-0">
+                              <label>
+                                 <span></span>
+                              </label>
+                           </div>
+                        </div>
+                     </th>
+                     <td mat-cell *matCellDef="let element" style="display:none">
+                     </td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="slNo">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        #
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Student Code">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Student Code / छात्र का कोड
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.studentCode }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Student Name">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Student Name / छात्र का नाम
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.studentName }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Father Name">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Father Name / पिता का नाम
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.fatherName }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Mother Name">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Mother Name / माता का नाम   
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.motherName }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Class">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Class / वर्ग
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.className }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Total Mark">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Total Mark / कुल अंक
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.totalMark }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Secured Mark">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                        Secured Mark  / सुरक्षित अंक
+                     </th>
+                     <td mat-cell *matCellDef="let element">{{ element?.securedMark }}</td>
+                  </ng-container>
+
+                  <ng-container matColumnDef="Action">
+                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                        Action / गतिविधि
+                     </th>
+                     <td mat-cell *matCellDef="let element" class="noPrint">
+                        <a title="Edit" routerLink="./../editStudentMark/{{ element?.stdMarkId }}"
+                           class="edit-btn me-2"><i class="bi bi-pencil-square "></i></a>
+                     </td>
+                  </ng-container>
+
+                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                  <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+               </table>
+            </div>
+               <table>
+                  <tr *ngIf="!dataSource.data.length">
+                     <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                        No Records Found!
+                     </td>
+                  </tr>
+               </table>
+
+               <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                  [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                  showFirstLastButtons class="noPrint">
+               </mat-paginator>
+
+            </div>
+         </ng-container>
+      </div>
+   </div>
+   <ng-container *ngIf="noFilter === true">
+      <div class="alert alert-info text-center fw-bold" role="alert">
+         {{ "Please select drop-down lists to view the records." }}
+      </div>
+   </ng-container>
+   <ng-container *ngIf="emptyResult===true">
+      <div class="alert alert-info text-center fw-bold" role="alert">
+         {{ "No record found" }}
+      </div>
+   </ng-container>
+</div>

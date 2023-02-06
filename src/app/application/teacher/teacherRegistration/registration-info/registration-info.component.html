@@ -1,0 +1,713 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">View Teacher Registration / शिक्षक पंजीकरण देखें
+      </h3>
+      <!-- <span class="indicator">( * ) Indicates Mandatory</span> -->
+    </div>
+    <div class="tabArea">
+      <!-- <a routerLink="./../vieweducation" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View</a> -->
+      <a routerLink="./../../../addTeacher" class="neuro addLink" routerLinkActive="active" *ngIf="(loginUserType != 1) "><i
+          class="bi bi-plus-lg me-2"></i>New Teacher Registration / नया शिक्षक पंजीकरण</a>
+      <a routerLink="./../../" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View /
+        Updation / देखें / अद्यतन करें</a>
+    </div>
+  </div>
+
+  <div class="formpatch pt-4">
+    <app-header [registrationInfoRoute]="['./']" [educationalInfoRoute]="['../../educationalInfo/', encId]"
+      [professionalInfoRoute]="['../../professionalInfo/', encId]" [otherInfoRoute]="['../../otherInfo/', encId]"
+      [trainingAndLanguageInfoRoute]="['../../trainingAndLanguageInfo/', encId]"></app-header>
+    <h5> Registration Information / पंजीकरण की जानकारी</h5>
+
+    <!--changes-->
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> First Name</label><br>पहला नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{(prefix) ? prefix :''}}</label>&nbsp;
+        <label for="" class="form-label fw-bold">{{(firstName) ? firstName :'--'}}</label>
+
+      </div>
+      <div class="col-lg-1"></div>
+      <ng-container *ngIf="middleName != ''">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label"> Middle Name</label><br>मध्य नाम
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(middleName) ? middleName :'--'}}</label>
+        </div>
+      </ng-container>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Last Name</label><br>पहला नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{(lastName) ? lastName :'--'}}</label>
+
+      </div>
+    </div>
+    <!--changes end-->
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Teacher Name </label><br>शिक्षक का नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          teacherName ? teacherName : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Gender</label><br>लिंग
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+
+        <label for="" class="form-label fw-bold">{{
+          gender ? gender : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Date of Birth</label><br>जन्म तिथि
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          DOB ? (DOB | date: "dd-MMM-yyyy") : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Social Category</label><br>सामाजिक श्रेणी
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          socialCategory ? socialCategory : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Religion</label><br>धर्म
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          religion ? religion : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Mobile Number <span>(+91)</span></label><br>मोबाइल संख्या
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          mobile ? (mobile | mobilePan: maskMobilePan) : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Aadhaar Number</label><br>आधार संख्या
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          aadhaarNo ? (aadhaarNo | mask: showMask) : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Type of Teacher</label><br>शिक्षक का प्रकार
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          teacherTitle ? teacherTitle : "--"
+          }}</label>
+      </div>
+    </div>
+    <!-- changes -->
+    <ng-container *ngIf="(teacherTitleId == 13) || (teacherTitleId == 18)">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label"> Block Teacher Type </label><br>ब्लॉक शिक्षक प्रकार
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(blockTeacherType) ? blockTeacherType :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+    </ng-container>
+    <!-- changes end -->
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Nature of Appointment</label><br>नियुक्ति की प्रकृति
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          natureOfAppointmt ? natureOfAppointmt : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Date of joining in service</label><br>सेवा में शामिल होने की तिथि
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          serviceJoiningDt ? (serviceJoiningDt | date: "dd-MMM-yyyy") : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Appointed Subject</label><br>नियुक्ति का विषय
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          appointedSubject ? appointedSubject : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Image</label><br>फोटो 
+     </div>
+     <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <img *ngIf="imageUrlTeacher && isimageUrlTeacher "  [src]="imageUrlTeacher" style="width: auto; height: 100px;">
+     </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+         <label for="exampleInputEmail1" class="form-label"> District of First Joining</label><br>प्रथम ज्वाइनिंग का जिला
+      </div>
+      <div class="col-lg-3 form-group">
+         <span class="colon">:</span>
+         <label for="" class="form-label fw-bold" >{{(jfDistrictCode) ? jfDistrictCode :'--'}}</label>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+  <div class="formpatch">
+    <h5> Posting Details / नियुक्ति का विवरण</h5>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> District</label><br>जिला
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          scDistrictId ? scDistrictId : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Block</label><br>प्रखण्ड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          scBlockId ? scBlockId : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Cluster</label><br>संकुल
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          scClusterId ? scClusterId : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> School</label><br>विद्यालय
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          schoolId ? schoolId : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Appointment for level</label><br>नियुक्ति का स्तर
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          appointmentType ? appointmentType : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Appointing Authority</label><br>नियुक्ति प्राधिकार
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          appointingAuth ? appointingAuth : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Date of Joining of the Current school</label><br>वर्तमान विद्यालय में नियुक्ति की तिथि
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+
+        <label for="" class="form-label fw-bold">{{
+          joiningCurrentSchoolDt
+          ? (joiningCurrentSchoolDt | date: "dd-MMM-yyyy")
+          : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          CFMS Code
+          <button type="button" class="tooltip__btn" data-toggle="tooltip" data-placement="top"
+            title="Please fill CFMS code for Contract (Para/others) teachers">
+            <i class="bi bi-question-circle-fill"></i>
+          </button>
+        </label><br>CFMS कोड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          CFMScode ? CFMScode : "--"
+          }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="formpatch">
+    <h5> Personal Information / व्यक्तिगत जानकारी</h5>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> PAN Number</label><br>PAN संख्या
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          panNo ? (panNo | mobilePan: maskMobilePan) : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Image</label><br>फोटो
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <img *ngIf="imageUrlTeacher && isimageUrlTeacher" [src]="imageUrlTeacher" style="width: auto; height: 100px" />
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Father Name</label><br>पिता का नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          fatherName ? fatherName : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Mother Name</label><br>माता का नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          motherName ? motherName : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Marital Status</label><br>वैवाहिक स्थिति
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          maritalStatus ? maritalStatus : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Email ID</label><br>ई मेल आई डी
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          teacherEmail ? teacherEmail : "--"
+          }}</label>
+      </div>
+    </div>
+    <!--changes-->
+    <ng-container *ngIf="maritalStatusId === 2">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label"> Spouse Name</label><br>जीवनसाथी का नाम
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(spouseName) ? spouseName :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+    </ng-container>
+    <!--changes end-->
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"> Blood Group</label><br>ब्लड ग्रुप
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          bloodGroup ? bloodGroup : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">
+          Appointment Category
+          <button type="button" class="tooltip__btn" data-toggle="tooltip" data-placement="top"
+            title="Caste mentioned during recruitment">
+            <i class="bi bi-question-circle-fill"></i>
+          </button>
+        </label><br>नियुक्ति श्रेणी
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          casteRecruitmt ? casteRecruitmt : "--"
+          }}</label>
+      </div>
+    </div>
+    <!--changes-->
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Whether Disabled ? </label><br>विकलांग है या नहीं?
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{(disabilityStatus == 1) ? 'Yes' :'No'}}</label>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    <ng-container *ngIf="disabilityStatus == 1">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Disability (if any)</label><br>विकलांगता (यदि कोई हो)
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(disability) ? disability :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">% of disability (if any)</label><br>विकलांगता का% (यदि कोई
+          हो)
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{disabilityPer ? disabilityPer :0}}%</label>
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Whether Awarded ? </label><br>क्या कभी पुरस्कृत किये गए हैं ?
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{(awardStatus == 1) ? 'Yes' :'No'}}</label>
+      </div>
+      <ng-container *ngIf="awardStatus == 1">
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Type of Award Received</label><br>प्राप्त पुरस्कार के
+          प्रकार
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(awardType) ? awardType :'--'}}</label>
+        </div>
+      </ng-container>
+    </div>
+    <!--changes end-->
+
+  </div>
+  <div class="formpatch">
+    <h5>Permanent Address / स्थायी पता</h5>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">House Number/Name</label><br>मकान संख्या / नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pHouseName ? pHouseName : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Street/Mohalla/Sector
+        </label><br>गली/मोहल्ला/सेक्टर
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pStreet ? pStreet : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Panchayat/Post Office</label><br>पंचायत/डाकघर
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pPanchayat ? pPanchayat : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Village/Area/Town</label><br>गांव/क्षेत्र/कस्बा
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pVillage ? pVillage : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="pState === 1">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Block</label><br>प्रखण्ड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pBlockId ? pBlockId : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">District </label><br>जिला
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pDistrictId ? pDistrictId : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="pState === 2">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Block</label><br>प्रखण्ड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pBlockOther ? pBlockOther : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">District </label><br>जिला
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pDistrictOther ? pDistrictOther : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">PIN Code</label><br>पिन कोड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pPIN ? pPIN : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">State</label><br>राज्य
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          pState === 1 ? "Bihar" : "Others"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+  <div class="formpatch">
+    <div class="d-flex">
+      <h5>Correspondance Address / पत्राचार का पता </h5>
+      <div class="check__box">
+        <!-- <div class="form-group checkbox me-0 ms-3">
+            <input type="checkbox" id="same">
+            <label for="same">Same as Permanent Address</label>
+          </div> -->
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">House Number/Name</label><br>मकान संख्या / नाम
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cHouseName ? cHouseName : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Street/Mohalla/Sector
+        </label><br>गली/मोहल्ला/सेक्टर
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cStreet ? cStreet : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Panchayat/Post Office</label><br>पंचायत/डाकघर
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cPanchayat ? cPanchayat : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Village/Area/Town</label><br>गांव/क्षेत्र/कस्बा
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cVillage ? cVillage : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="cState === 1">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Block</label><br>प्रखण्ड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cBlockId ? cBlockId : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">District </label><br>जिला
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cDistrictId ? cDistrictId : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row" *ngIf="cState === 2">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">Block</label><br>प्रखण्ड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cBlockOther ? cBlockOther : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">District </label><br>जिला
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cDistrictOther ? cDistrictOther : "--"
+          }}</label>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">PIN Code</label><br>पिन कोड
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cPIN ? cPIN : "--"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label">State</label><br>राज्य
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label for="" class="form-label fw-bold">{{
+          cState === 1 ? "Bihar" : "Others"
+          }}</label>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+  </div>
+
+  <div>
+    <!-- <a class="btn btn-success me-2">Save as Draft</a> -->
+    <!-- <a class="btn btn-danger me-2">Reset</a> -->
+    <a [routerLink]="['../../educationalInfo/', encId]" class="btn btn-purple">Next / अगला</a>
+  </div>
+</div>

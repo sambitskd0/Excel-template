@@ -1,0 +1,129 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Reconstitution & Bank Details/पुनर्गठन और बैंक विवरण प्रबंधित करें </h3>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro editLink active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit Reconstitution & Bank Details/पुनर्गठन और बैंक विवरण संपादित करें
+                  </a>
+            <a routerLink="../../viewCommitteeBankDetails" class="neuro addLink" ><i
+                    class="bi bi-eye me-2"></i>View Reconstitution & Bank Details /पुनर्गठन और बैंक विवरण देखें</a>
+        </div>
+    </div>
+
+    <div class="clearfix"></div>
+    <ng-container *ngIf="permissionDiv == true">
+        <form [formGroup]="editReconBankDetails" (ngSubmit)="onSubmit()">
+            <div class="formpatch mt-3">
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="committeeType" class="form-label">Committee Type <br>समिति का प्रकार</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default Member Type" formControlName="committeeType">
+                            <option value="" selected>--Select--</option>
+                            <option *ngFor="let item of committeeTypeData" value="{{item.anxtValue}}">{{item.anxtName}}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <h5>Reconstitution Detail/पुनर्गठन का विवरण
+                </h5>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="reconstitutionDate" class="form-label">Date of Reconstitution<br>पुनर्गठन की तिथि
+
+                        </label></div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="hidden" class="form-control"  formControlName="reconstitutionDatestr" >
+                        <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY'}" id="reconstitutionDate" aria-describedby="emailHelp" formControlName="reconstitutionDate" autocomplete="off" readonly>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="committeeExpireDate" class="form-label">Committee will expire
+                            On<br>समिति की समय सीमा समाप्त हो जाएगी
+                        </label></div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="hidden" class="form-control"  formControlName="committeeExpireDatestr" >
+                        <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" [minDate]="minDate" id="committeeExpireDate" aria-describedby="emailHelp" formControlName="committeeExpireDate" autocomplete="off" readonly >
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="formpatch mt-2">
+                <h5>Bank Detail/बैंक डिटेल</h5>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="accHolderName" class="form-label">Account Holder Name/खाताधारक का नाम
+                        </label></div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control"  aria-describedby="Name" formControlName="accHolderName"  autocomplete="off" maxlength="50" (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="bankName" class="form-label">Bank Name<br>बैंक का नाम </label></div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example" width="220px" id="bank_select" formControlName="bankName" (change)="bankChange($any($event.target).value)">
+                            <option value="" selected>--Select--</option>
+                            <option *ngFor="let item of bankData" value="{{item.bankId}}">{{item.bankName}}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <ng-container *ngIf="bankName == 22">
+                    <div class="row hide">
+                        <div class="col-md-2 form-group"><label  class="form-label">If Other Bank Name
+                            </label></div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <input type="text" class="form-control"  aria-describedby="Name" formControlName="otherbankName" autocomplete="off" maxlength="50" (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                            <span class="mandatory">*</span>
+                        </div>
+                    </div>
+                </ng-container>
+                
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="bankAccNo" class="form-label">Account No.<br>खाता नं. </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control"  aria-describedby="Name" formControlName="bankAccNo" autocomplete="off" minlength="11"  maxlength="18" (keypress)="customValidator.onlyNumber($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="bankIFSC" class="form-label">IFSC Code<br>आईएफएससी कोड </label></div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control"  aria-describedby="Name" formControlName="bankIFSC" autocomplete="off" maxlength="50" (keypress)="customValidator.alphaNumericWithCommaSpace($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="branchName" class="form-label">Branch Name<br>शाखा का नाम </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control"  aria-describedby="Name" formControlName="branchName" autocomplete="off" maxlength="50" (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Update / अपडेट करें</button>
+                <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+            </div>
+        </form>
+    </ng-container>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+    {{ "You don't have the permission to access this page !!" }}
+    </div>
+</div>
+

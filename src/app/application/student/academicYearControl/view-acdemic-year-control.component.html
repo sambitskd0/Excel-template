@@ -1,0 +1,47 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Academic Year Control / शैक्षणिक वर्ष नियंत्रण
+            </h3>
+
+        </div>
+        <div class="tabArea">
+            <!-- <a routerLink="" class="neuro addLink" routerLinkActive="active" ><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+            </a> -->
+            <a class="neuro viewLink active" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/देखें
+            </a>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="acdemicYearcheck" (ngSubmit)="onSubmit()">
+            <div class="row formpatch">
+                <div class="col-lg-3 form-group ">
+                    <label for="currentAcademic" class="form-label">Current Academic Year
+                        ({{this.academicYear}})<br>वर्तमान शैक्षणिक वर्ष
+                    </label>
+                </div>
+                <div class="col-lg-5 form-group pt-2">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input name="academicVal" value="1" id="radio1" type="radio" formControlName="academicVal">
+                            <label for="radio1">Yes</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input name="academicVal" value="2" id="radio2" type="radio" formControlName="academicVal">
+                            <label for="radio2">No</label>
+                        </div>
+                        <span class="mandatory" style="right: unset;">*</span>
+                    </div>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success me-2">Submit/जमा करें
+                </button>
+                <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+                </button>
+            </div>
+        </form>
+</div>

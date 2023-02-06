@@ -1,0 +1,821 @@
+<div>
+  <div class="pageHeading">
+     <div>
+        <h3 class="pageName">Mid session transfer / मध्य सत्र स्थानांतरण</h3>
+        <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+     </div>
+     <div class="tabArea">
+        <a routerLink="./../midSession" class="neuro addLink" routerLinkActive="active"  *ngIf="adminPrivilege">
+          <i class="bi bi-plus-lg me-2"></i>Mid session transfer / मध्य सत्र स्थानांतरण
+        </a>
+        <a routerLink="./../toSchool" class="neuro addLink" routerLinkActive="active">
+        <i class="bi bi-plus-lg me-2"></i>Student transfer to my school / मेरे स्कूल में छात्र का स्थानांतरण
+        </a>
+        <a routerLink="./../dropOut" class="neuro addLink" routerLinkActive="active">
+        <i class="bi bi-plus-lg me-2"></i>Transfer certificate for dropout / ख़ारिज किया हुआ के लिए स्थानांतरण प्रमाणपत्र
+        </a>
+        <!-- <a routerLink="./../lastSession" class="neuro addLink" routerLinkActive="active">
+         <i class="bi bi-plus-lg me-2"></i>Last session transfer
+       </a> -->
+        <!-- <a routerLink="./../viewstudentassessment" class="neuro viewLink" routerLinkActive="active" >
+           <i class="bi bi-eye me-2"></i>View
+           </a> -->
+        <div class="float-end d-inline-block"></div>
+     </div>
+  </div>
+  <form [formGroup]="searchForm" (ngSubmit)="onSearch()" autocomplete="off">
+  <div class="top-space">
+     <ng-container *ngIf="show">
+        <div class="search-container">
+           <div class="search-sec"  >
+              <div class="searchPanel">
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label  class="form-label">District </label>
+                          <br>जिला
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select class="form-select" formControlName="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                             <option value="" *ngIf="scDisrtictSelect == true">--- Select ---</option>
+                             <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                             <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{ districtItem.districtName }}</option>
+                          </select>
+                          <span class="mandatory">*</span>
+                       </div>
+                    </div>
+                    <div class="col-lg-1">  
+                       <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true"> 
+                    </div>
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label  class="form-label">Block </label><br>प्रखण्ड
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select class="form-select" formControlName="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                             <option value="" *ngIf="scBlockSelect == true">--- Select ---</option>
+                             <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                             <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">{{ blockItem.blockCode }} - {{ blockItem.blockName }}  </option>
+                          </select>
+                          <span class="mandatory">*</span>
+                       </div>
+                    </div>
+                    <div class="col-lg-1">
+                       <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true">
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label  class="form-label">Cluster </label><br>संकुल
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select class="form-select" formControlName="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                             <option value="" *ngIf="scClusterSelect == true">--- Select ---</option>
+                             <option value="" *ngIf="scClusterLoading == true">Loading...</option>
+                             <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }} </option>
+                          </select>
+                          <span class="mandatory">*</span>
+                       </div>
+                    </div>
+                    <div class="col-lg-1">
+                       <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true">
+                    </div>
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label   class="form-label">School </label><br>विद्यालय
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select class="form-select" formControlName="searchSchoolId" autocomplete="off" (change)="getSchoolWiseClasses($any($event.target).value)">
+                             <option value="" *ngIf="scSchoolSelect == true">--- Select ---</option>
+                             <option value="" *ngIf="scSchoolLoading == true">Loading...</option>
+                             <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">{{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}</option>
+                          </select>
+                          <span class="mandatory">*</span>
+                       </div>
+                    </div>
+                    <div class="col-lg-1">
+                       <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true">
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label class="form-label">Class</label>
+                          <br>वर्ग
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select formControlName="classId" class="form-select" (click)="classControlChange($any($event.target).value)">
+                             <option value="" *ngIf="classChanged==false">--- Select ---</option>
+                             <option value="" *ngIf="classChanged==true">Loading...</option>
+                             <option *ngFor="let cls of classList" [value]="cls.classId">
+                             {{ cls.class }}
+                             </option>
+                          </select>
+                          <span class="mandatory">*</span>
+                       </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                       <div class=""><label  class="form-label">Section</label><br>भाग</div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select formControlName="section" class="form-select">
+                             <option value="" *ngIf="sectionChanged==false">--- Select ---</option>
+                             <option value="" *ngIf="sectionChanged==true">Loading...</option>
+                             <option *ngFor="let item of sectionList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                          </select>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-6 form-group">
+                       <ng-container *ngIf="classId == 11 || classId == 12">
+                          <div id="11" class="row">
+                             <div class="col-lg-4 form-group">
+                                <label class="form-label">Stream</label>
+                                <br>धाराएँ
+                             </div>
+                             <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" formControlName="stream" (click)="streamControlChange($any($event.target).value)">
+                                   <option value="" *ngIf="streamChanged==false">--- Select ---</option>
+                                   <option value="" *ngIf="streamChanged==true">Loading...</option>
+                                   <option *ngFor="let item of streamList" [value]="item.anxtValue"> {{ item.anxtName }}
+                                   </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                             </div>
+                          </div>
+                       </ng-container>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                       <ng-container *ngIf="classId > 10 && stream == 3">
+                          <div id="science" class="row">
+                             <div class="col-lg-4 form-group">
+                                <label class="form-label">Group</label><br>समूह
+                             </div>
+                             <div class="col-lg-6 form-group">
+                                <span class="colon">:</span>
+                                <select formControlName="group" class="form-select">
+                                   <option value="" *ngIf="groupChanged==false">--- Select ---</option>
+                                   <option value="" *ngIf="groupChanged==true">Loading...</option>
+                                   <option *ngFor="let item of groupList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                             </div>
+                          </div>
+                       </ng-container>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label class="form-label">Certificate No.</label><br>प्रमाणपत्र संख्या
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <input type="text" class="form-control" formControlName="certificateNo">
+                       </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="row">
+                       <div  class=""><button  class="btn btn-default btn-purple"> Search / खोजें <i class="bi bi-search"></i></button></div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+           <button class="searchopen" (click)="toggle()" id="hide"   data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज पट्टिका</button> 
+        </div>
+     </ng-container>
+  </div>
+  </form>
+  <div class="clearfix"></div>
+  <div class="row mt-3" [hidden]="resultListData?.length === 0">
+     <div class="col-lg-12">
+        <div class="page__rightarea">
+           <div class="page__util">
+              <div class="util">
+               <a title="Excel" class="excel" (click)="downloadToSchoolList()"><i class="bi bi-file-earmark-excel"></i></a>
+               <a title="Print" class="print"(click)="printPage()"><i class="bi bi-printer"></i></a>
+              </div>
+           </div>
+        </div>
+        <ng-container *ngIf="emptyResult === false">
+           <form [formGroup]="viewTableForm">
+              <div class="table-responsive" id="viewTable">
+                 <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+                 <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                 #exporter="matTableExporter">
+                 <ng-container matColumnDef="chkAll">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" width="40px" style="display:none">
+                       <div class="checkbox check__box">
+                          <div class="form-group me-0">
+                             <label>
+                             <input type="checkbox" class="check" formControlName="checkAll">
+                             <span></span>
+                             </label>
+                          </div>
+                       </div>
+                    </th>
+                    <td mat-cell *matCellDef="let element" style="display:none">
+                       <div class="checkbox check__box">
+                          <div class="form-group me-0">
+                             <label>
+                             <!-- <input type="checkbox" class="check" id="checkRecord" [checked]="element?.isChecked"
+                             [value]="element?.studentId"> -->
+                             <span></span>
+                             </label>
+                          </div>
+                       </div>
+                    </td>
+                 </ng-container>
+                 <ng-container matColumnDef="slNo">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       #
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Student Code">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Student Code / छात्र कोड
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.studentCode || "--" }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Name / नाम
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.studentName || "--" }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Father Name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Father Name / पिता का नाम
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.fatherName || "--" }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Mother Name">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Mother Name / माता का नाम
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.motherName || "--" }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="DOB">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       DOB / जन्म तिथि
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.dob | date:'dd-MMM-yyyy' }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Gender">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Gender / लिंग
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.genderName || "--" }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Class">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Class / वर्ग
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.className || '--' }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Section">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Section / भाग
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.sectionName || "--" }} </td>
+                 </ng-container>
+                 <ng-container matColumnDef="Certificate No">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                       Certificate No. / प्रमाणपत्र संख्या
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.certificateNo || "--" }} </td>
+                 </ng-container>
+                 <ng-container matColumnDef="Transfer Date">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                     Transfer Date / स्थानांतरण की तिथि
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.createdOn| date:'dd-MMM-yyyy' }}</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Transferred From">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                     Transferred From / स्कूल से स्थानांतरण
+                    </th>
+                    <td mat-cell *matCellDef="let element">{{ element?.fromSchoolName }} ({{ element?.fromSchoolCode }})</td>
+                 </ng-container>
+                 <ng-container matColumnDef="Action">
+                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint"> Action / गतिविधि </th>
+                    <td mat-cell *matCellDef="let element" class="noPrint">                    
+                       <a *ngIf="element?.enrollmentStatus==0" title="View" class="btn btn-primary" routerLink="./../../info/newEnrollment/{{ element?.customEncId }}">New Enrollment</a>
+                       <a *ngIf="element?.enrollmentStatus==1" title="View" class="btn btn-primary">Already Enrolled</a>
+                    </td>
+                 </ng-container>
+                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                 </table>
+                 <table>
+                    <tr *ngIf="!dataSource.data.length">
+                       <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                          No Records Found!
+                       </td>
+                    </tr>
+                 </table>
+                 <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                 [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                class="noPrint" showFirstLastButtons>
+                 </mat-paginator>
+              </div>
+           </form>
+        </ng-container>
+     </div>
+  </div>
+  <ng-container *ngIf="noFilter === true">
+     <div class="alert alert-info text-center fw-bold" role="alert">
+        {{ "Please filter the search pannel, then the data will load......" }}
+     </div>
+  </ng-container>
+  <ng-container *ngIf="emptyResult===true">
+     <div class="alert alert-info text-center fw-bold" role="alert"  >
+        {{ "No record found" }}
+     </div>
+  </ng-container>
+</div>
+<!-- Modal -->
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">View Mid session transfer</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Student Name</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Anirudha Shaw</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Admission Number</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 098765</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Admission Date</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong>12/09/2013</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Father Name</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Debasis Shaw</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Mother Name:</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Kunita Devi</strong></label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Date of Birth</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 14/06/2002</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Category</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> NA</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Gender</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Male</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Address :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> NKT market sector-133/09</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Panchayat/Ward/Village:</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Khairput</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">School Name :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Utkramit unchh Madhyamik vidyalaya</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Whether Minority (Y/N):</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> No</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Whether Divyang (Y/N) :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> No</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Aadhar Number:</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 325614789562</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Contact Number/Mobile Number :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 8954214762</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Annual Income (>1.5 Lakhs) (Y/N)</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Yes</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Bank Account Number :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 4521369871023</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Class:</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 7th</strong> </label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">School :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Evg School</strong> </label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Previous Marks:</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> 76%</strong></label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for="" class="form-label">Stream (in case of classes XI & XII) :</label>
+                 </div>
+              </div>
+              <div class="col-lg-3">
+                 <div class="">
+                    <label for=""><span>:</span> <strong> Science</strong> </label>
+                 </div>
+              </div>
+              <!-- <div class="col-lg-3">
+                 <div class="">
+                     <label for="" class="form-label">Previous Marks:</label>
+                   </div>
+                 </div>
+                 <div class="col-lg-3">
+                 <div class="">
+                     <input type="text" class="form-control"  aria-describedby="emailHelp">
+                   </div>
+                 </div>  -->
+           </div>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+           <!-- <button type="button" class="btn btn-primary">Save changes</button> -->
+        </div>
+     </div>
+  </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Transfer certificate for Dropout</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+           <div >
+              <div  class="text-center">
+                 <table width="100%" >
+                    <tbody>
+                       <tr>
+                          <td width="110"><span id="htmlCertNo">Certificate No.</span></td>
+                          <td width="2">:</td>
+                          <td width="350"><strong>20130807905/2021-22/12 </strong></td>
+                          <input type="hidden" id="hdnShsowCertNo" value="20130807905/2021-22/12">
+                          <td width="170"><span id="htmlCertIssueDt">Certificate Issue Date</span></td>
+                          <td width="2">:</td>
+                          <td><strong>12/Apr/2022
+                             <input type="hidden" id="hdnShowCurDate" value="12/Apr/2022"></strong>
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <input type="hidden" name="txtCertNo" id="txtCertNo" class="form__field" value="">
+              <input type="hidden" id="hdnSchoolName" value="BASIC SCHOOL BOKARO THERMAL">
+              <input type="hidden" id="hdnUdiseCode" value="20130807905">
+              <h3><u><strong><span id="htmlschlTransCertDiv">School Transfer Certificate</span></strong></u></h3>
+              <div >
+                 <table width="100%">
+                    <tbody>
+                       <tr>
+                          <td style="width: 140px;">1. <span id="htmlStudName">Student Name</span></td>
+                          <td style="width: 2px;">:</td>
+                          <td style="width: 348px;"><strong>Amit Kumar
+                             <input type="hidden" id="hdnShowStudName" value="Amit Kumar"> </strong>
+                          </td>
+                          <td>2. <span id="htmlStudId">Student ID</span></td>
+                          <td>:</td>
+                          <td><strong>202020130007084 <input type="hidden" id="hdnShowStudId" value="202020130007084"></strong></td>
+                       </tr>
+                       <tr>
+                          <td>3. <span id="htmlFatherName">Father's Name</span></td>
+                          <td>:</td>
+                          <td><strong>Ratan Bhuiya <input type="hidden" id="hdnFatherId" value="Ratan Bhuiya"></strong></td>
+                          <td>4. <span id="htmlDob">Date of Birth</span></td>
+                          <td style="width: 2px;">:</td>
+                          <td><strong>01-Jan-2014</strong></td>
+                          <input type="hidden" id="hdnShowDob" value="01-Jan-2014">
+                       </tr>
+                       <tr>
+                          <td>5. <span id="htmlMotherName">Mother's Name</span></td>
+                          <td style="width: 2px;">:</td>
+                          <td><strong>Gudiya Devi</strong></td>
+                          <input type="hidden" id="hdnShowMotherNm" value="Gudiya Devi">
+                          <td>6. <span id="htmlAdharNo">Aadhaar Number</span></td>
+                          <td>:</td>
+                          <td><strong>********2149</strong></td>
+                          <input type="hidden" id="hdnShowAdharNo" value="********2149">
+                       </tr>
+                    </tbody>
+                 </table>
+                 <table width="100%" >
+                    <tbody>
+                       <tr>
+                          <td style="width: 140px;">7. <span id="htmlAddress">Address</span></td>
+                          <td style="width: 2px;">:</td>
+                          <td colspan="7"><input type="text" name="txtAddress" id="txtAddress" maxlength="100" size="70"></td>
+                       </tr>
+                    </tbody>
+                 </table>
+                 <table width="100%" >
+                    <tbody>
+                       <tr>
+                          <td width="152">8. <span id="htmlDoa">Date of Admission</span></td>
+                          <td width="2">:</td>
+                          <td width="118"><strong>15-Sep-2020 <input type="hidden" id="hdnShowDoa" value="15-Sep-2020"></strong></td>
+                          <td width="161">9. <span id="htmlYoA">Year of Admission</span></td>
+                          <td width="2">:</td>
+                          <td width="50"><strong>2020 <input type="hidden" id="hdnShowYoa" value="2020"></strong></td>
+                          <td width="135">10. <span id="htmlAdmNo">Admission No.</span></td>
+                          <td width="2">:</td>
+                          <td><strong>01</strong></td>
+                          <input type="hidden" id="hdnShowAdm" value="01">
+                       </tr>
+                    </tbody>
+                 </table>
+                 <table width="100%">
+                    <tbody>
+                       <tr>
+                          <td width="176">11. <span id="htmlSchlLvDt">School Leaving Date</span></td>
+                          <td width="2">:</td>
+                          <td width="105">
+                             <strong>04/Jan/2022  <input type="hidden" id="hdnShowLvDate" value="04/Jan/2022"></strong>
+                          </td>
+                          <td width="348">12. <span id="htmlClsStud">Class in which the student was last studying</span> </td>
+                          <td width="2">:</td>
+                          <td><strong>Class 2 <input type="hidden" id="hdnShowClsName" value="Class 2"></strong></td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <input type="hidden" id="hdnStudentName" value="Amit Kumar">
+              <input type="hidden" id="hdnStudentId" value="202020130007084">
+              <input type="hidden" id="hdnAdhar" value="537717332149">
+              <input type="hidden" id="hdnDob" value="2014-01-01">
+              <input type="hidden" id="hdnFatherName" value="Ratan Bhuiya">
+              <input type="hidden" id="hdnMotherName" value="Gudiya Devi">
+              <input type="hidden" id="hdnDOA" value="2020-09-15">
+              <input type="hidden" id="hdnYear" value="2020-09-15">
+              <input type="hidden" id="hdnAdmNo" value="01">
+              <input type="hidden" id="hdnClassId" value="4">
+              <p style="margin-top: 0px;">
+                 13.&nbsp;<span id="htmlStudPass">In case of student leaving at year end, whether student passed to higher class</span>
+              </p>
+              <p>
+                 <input type="radio" id="txtYes1" class="txtYes" name="txtYes" value="Yes" checked="" >
+                 <label for="txtYes1"><span class="htmlYes">Yes</span></label>&nbsp;&nbsp;
+                 <input type="radio" id="txtYes2" name="txtYes" value="No" class="txtYes">
+                 <label for="txtYes2"><span class="htmlNo">No</span></label>&nbsp;&nbsp;
+                 <input type="radio" id="txtYes3" name="txtYes" value="Not Applicable" class="txtYes" >
+                 <label for="txtYes3"><span id="htmlNotApp">Not Applicable</span></label>
+              </p>
+              <div>
+                 <table width="100%">
+                    <tbody>
+                       <tr>
+                          <td >14. <span id="htmlMidYear">In case the student leaving school in the middle of the year</span></td>
+                          <td>:</td>
+                          <td colspan="7"> <input type="radio" id="txtBlank1" name="txtBlank" class="txtBlank" value="Yes" disabled="" >
+                             <label for="txtBlank1"><span class="htmlYes">Yes</span></label>&nbsp;&nbsp;
+                             <input type="radio" id="txtBlank2" name="txtBlank" class="txtBlank" value="No" disabled="">
+                             <label for="txtBlank2"><span class="htmlNo">No</span></label>&nbsp;&nbsp;
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <div  class="content-table">
+                 <table >
+                    <tbody>
+                       <tr>
+                          <td>
+                             <strong><span id="htmlSchlLevDt">School Leaving Date</span></strong>:<input type="date" name="txtLvDate" id="txtLvDate" placeholder="dd/mm/yyyy" disabled="">
+                          </td>
+                          <td>
+                             <strong><span id="htmlSchlDays">No. of Schooling Days</span></strong>:<input type="text" name="txtNoOfSchlDay" id="txtNoOfSchlDay" maxlength="5" onkeypress="return isNumberKey(event);" disabled="">
+                          </td>
+                          <td>
+                             <strong><span id="htmlNoAttend">No. of Attendance</span></strong>:<input type="text" name="txtNoAttendance" id="txtNoAttendance" maxlength="5" onkeypress="return isNumberKey(event);" disabled="">
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <div>
+                 <table width="100%"   cellpadding="3" cellspacing="0">
+                    <tbody>
+                       <tr >
+                          <td>15. <span id="htmlStudChar">Student Character</span></td>
+                          <td>:</td>
+                          <td><input type="text" name="txtCharacter" id="txtCharacter" maxlength="50" size="50" onkeypress="return isOnlyCharacter(event);"></td>
+                       </tr>
+                       <tr>
+                          <td>16. <span id="htmlReason">Reason for leaving the school</span></td>
+                          <td>:</td>
+                          <td><input type="text" name="txtReason" id="txtReason" maxlength="100" size="50" onkeypress="return isOnlyCharacter(event);"></td>
+                       </tr>
+                       <tr>
+                          <td>17. <span id="htmlDuesClear">All the dues of school cleared</span></td>
+                          <td >:</td>
+                          <td>
+                             <input type="radio" id="txtAllDues1" name="txtAllDues" value="Yes" checked="">
+                             <label for="txtAllDues1"><span class="htmlYes">Yes</span></label>&nbsp;&nbsp;
+                             <input type="radio" id="txtAllDues2" name="txtAllDues" value="No">
+                             <label for="txtAllDues2"><span class="htmlNo">No</span></label>&nbsp;&nbsp;
+                          </td>
+                       </tr>
+                    </tbody>
+                 </table>
+              </div>
+              <div>
+                 <p>( 303749 ) </p>
+                 <input type="hidden" id="hdnHeadMaster" value="303749">
+                 <input type="hidden" id="hdnShowHeadMaster" value="303749">
+                 <p><span id="htmlHeadName">Headmaster/Acting Headmaster</span></p>
+              </div>
+              <div class="clearfix"></div>
+              <p>This is a system generated certificate and does not require any signature</p>
+              <span class="center"><a href="javascript:void(0);" class="btn btn-primary">Generate</a></span>
+           </div>
+        </div>
+        <div class="modal-footer">
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+     </div>
+  </div>
+</div>

@@ -1,0 +1,230 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">View Grant Info / अनुदान जानकारी देखें </h3> 
+      </div>
+   
+      <div class="tabArea">
+          <a routerLink="./../addGrantInfo"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a>
+          <a routerLink="./../viewGrantInfo" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखें </a> 
+  </div>
+  </div>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <div class="search-container">
+        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+          <div class="searchPanel">
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label class="form-label">Academic Year <br> शैक्षणिक वर्ष</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchAcademicYear"
+                name="searchAcademicYear">
+                <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+              </select>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                <label class="form-label">District <br> जिला</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchDistrictId"
+                  name="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                  <option value="" *ngIf="scDisrtictSelect == true">
+                    --- Select ---
+                  </option>
+                  <option value="" *ngIf="scDisrtictLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                    {{ districtItem.districtCode }} -
+                    {{ districtItem.districtName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+              </div>
+              <div class="col-lg-2 form-group">
+                <label class="form-label">Block/ULB <br> प्रखण्ड/यूएलबी</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchBlockId"
+                  name="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                  <option value="" *ngIf="scBlockSelect == true">
+                    --- Select ---
+                  </option>
+                  <option value="" *ngIf="scBlockLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                    {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+              </div>
+              <div class="col-lg-2 form-group">
+                <label class="form-label">Cluster <br> संकुल</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchClusterId"
+                  name="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                  <option value="" *ngIf="scClusterSelect == true">
+                    --- Select ---
+                  </option>
+                  <option value="" *ngIf="scClusterLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                    {{ clusterItem.clusterCode }} -
+                    {{ clusterItem.clusterName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true" alt="dsd">
+              </div>
+              <div class="col-lg-2 form-group">
+                <label class="form-label">School Name <br> विद्यालय का नाम</label>
+              </div>
+              <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchSchoolId"
+                  name="searchSchoolId" autocomplete="off">
+                  <option value="" *ngIf="scSchoolSelect == true">
+                    --- Select ---
+                  </option>
+                  <option value="" *ngIf="scSchoolLoading == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                    {{ schoolItem.schoolUdiseCode }} -
+                    {{ schoolItem.schoolName }}
+                  </option>
+                </select>
+              </div>
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true" alt="dsd">
+              </div>
+              <div class="col-lg-2">
+                <button class="btn btn-default btn-purple">
+                  Search / खोज करें <i class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+      Search Panel / पैनेल खोजें
+    </button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="mt-4" [hidden]="GrantInfoData?.length === 0">
+    <div class="page__rightarea">
+      <div class="page__util">
+        <div class="util">
+          <div class="util">
+            <a title="Excel" class="excel" (click)="downloadGrantInfoList()"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="table-responsive" id="viewTable" >
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+      <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+        #exporter="matTableExporter" [hiddenColumns]="[11]">
+       
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl No.# / क्र.सं.
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="GrantType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Grant Type / अनुदान प्रकार
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.grantName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="BankName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Bank Name / बैंक का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.bankname }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="otherBankName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+               Other Bank Name / अन्य बैंक का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.otherBankName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="BankAccountNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Bank Account No. / बैंक खाता नम्बर।
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.bankAccount }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="IFSC Code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                IFSC Code / आईएफएससी कोड
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.ifscCode }}
+              </td>
+              </ng-container>
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                Action / क्रियाएँ
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                <a title="Edit" [routerLink]="['./../editGrantInfo/', element?.encId]" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square text-primary"></i></a>
+                <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteGrantInfo(element?.encId,element?.grantTypeId,element?.schoolId)"><i
+                    class="bi bi-trash"></i></a>
+              </td>
+            </ng-container>
+          
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+       
+      </table>
+
+      <table>
+        <tr *ngIf="!dataSource.data.length">
+          <td style="text-align: center" [attr.colspan]="viewGrantInfo.length" class="mt-2">
+            No Records Found!
+          </td>
+        </tr>
+      </table>
+      <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found." }}
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin">
+    {{ "Please Search to find Grant Info" }}
+  </div>
+</div>

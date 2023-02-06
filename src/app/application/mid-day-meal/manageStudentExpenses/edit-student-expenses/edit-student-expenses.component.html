@@ -1,0 +1,96 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Student Expenses / छात्र व्यय</h3>
+            <span class="indicator">( * ) Indicator Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+            <a routerLink="../../viewStudentExpenses" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें</a>
+        </div>
+    </div>
+    <form [formGroup]="MDMStudentExpencesEditForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space">
+            <form action=""></form>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label   class="form-label">Student Type <br>छात्र प्रकार</label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input name="studentType" [value]="1" id="radio5" type="radio" checked=""
+                                    formControlName="studentType">
+                                <label for="radio5">Primary / प्राथमिक </label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input name="studentType" [value]="2" id="radio6" type="radio"
+                                    formControlName="studentType">
+                                <label for="radio6">Upper Primary / उच्च प्राथमिक</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class=""><label class="form-label">Rice Consumption (Per Unit) <br>चावल की खपत (प्रति यूनिट)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div _ngcontent-iap-c32="" class="input-group mb-3"><span _ngcontent-iap-c32="" id="basic-addon1"
+                            class="input-group-text">Grams</span>
+                        <input _ngcontent-iap-c32="" type="text" aria-describedby="basic-addon1" class="form-control"
+                            formControlName="riceConsumption" maxlength="6" (keypress)="
+                        customValidators.onlyNumbersWithDecimal($event)
+                      ">
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class=""><label class="form-label">Fund Allocated (Per Unit) <br> आवंटित फंड (प्रति यूनिट) </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div _ngcontent-bsi-c32="" class="input-group mb-3"><span _ngcontent-bsi-c32="" id="basic-addon1"
+                            class="input-group-text">₹</span>
+                        <input _ngcontent-bsi-c32="" type="text" aria-describedby="basic-addon1" class="form-control"
+                            formControlName="fundAllocated" maxlength="6" (keypress)="
+                        customValidators.onlyNumbersWithDecimal($event)
+                      ">
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class=""><label class="form-label">Calorie (Per Unit) <br> कैलोरी (प्रति यूनिट) </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div _ngcontent-bsi-c32="" class="input-group mb-3"><span _ngcontent-bsi-c32="" id="basic-addon1"
+                            class="input-group-text">Cal</span>
+                        <input _ngcontent-bsi-c32="" type="text" aria-describedby="basic-addon1" class="form-control"
+                            formControlName="calories" maxlength="6" (keypress)="customValidators.onlyNumber($event)">
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-success me-2">Update / अद्यतन</button>
+            <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,129 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab d-flex justify-content-end">
+
+    </div>
+    <div class="heading__tab mt-2">
+      <div>
+        <h3 class="pageName">Stock In List / सूची में स्टॉक</h3>
+      </div>
+    </div>
+    <div class="tabArea">
+      <a class="neuro addLink disabled active" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View / देखें</a>
+      <a routerLink="../../viewStockIn" class="neuro addLink disabled" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View Stock In / स्टॉक में देखें</a>
+    </div>
+  </div>
+  <div class="top-space">
+
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="mt-4">
+    <div class="page__rightarea">
+      <div class="page__util">
+        <div class="util">
+          <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+          <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-bordered">
+        <thead class="bg-lightpurple">
+          <tr>
+            <th scope="col" width="15px">SI#/क्र.सं</th>
+            <th scope="col">Asset Type / संपत्ति का प्रकार
+            </th>
+            <th scope="col">Asset Name / संपत्ति का नाम
+            </th>
+            <th scope="col">Asset Item Name / संपत्ति का नाम
+            </th>
+            <th scope="col">Quantity / मात्रा
+            </th>
+            <th scope="col">Unit / इकाई
+            </th>
+            <th scope="col">Unit Price / यूनिट की कीमत
+            </th>
+            <th scope="col">Total Amount / कुल राशि</th>
+            <th scope="col">End Of Life(In Years) / जीवन का अंत (वर्षों में)</th>
+            <th scope="col">View Item Code / आइटम कोड देखें</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let assetStock of assetList; let i= index">
+            <td scope="row">{{i+1}}</td>
+            <td>{{(assetTypeData[assetStock.assetType]) ?
+              assetTypeData[assetStock.assetType] :'--'}}</td>
+            <td>{{(assetNameData[assetStock.assetName]) ?
+              assetNameData[assetStock.assetName] :'--'}}</td>
+            <td>{{(assetStock.assetItemName) ? assetStock.assetItemName
+              +'-'+assetStock.assetItemCode :'--'}}</td>
+            <td>{{(assetStock.quantity) ? assetStock.quantity :'--'}}</td>
+            <td>{{(assetStock.unit) ? assetStock.unit :'--'}}</td>
+            <td>{{(assetStock.unitPrice) ? (assetStock.unitPrice |
+              currency:'INR') :'--'}}</td>
+            <td>{{(assetStock.amount) ? (assetStock.amount | currency:'INR')
+              :'--'}}</td>
+            <td>{{(assetStock.eol) ? assetStock.eol :'--'}}</td>
+            <td><button type="button" class="btn btn-purple"
+                data-bs-toggle="modal" data-bs-target="#viewCodeList"
+                (click)="viewCodeModal(assetStock?.assetItemId,assetStock?.quantity,assetStock?.stockInId)">View
+                Code</button></td>
+          </tr>
+          <tr>
+            <td colspan="7" style="text-align: right;font-weight: 600;">Invoice
+              Total Amount</td>
+            <td style="font-weight: 600;">{{(totalAmount) ? (totalAmount |
+              currency:'INR') :'0'| currency:'INR'}}
+            </td>
+            <td></td>
+            <td colspan="2"></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+
+  </div>
+
+
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="viewCodeList" tabindex="-1"
+  aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asset Item Code</h5>
+        <button type="button" #closebuttonCode class="btn-close"
+          data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <table class="table table-striped table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th style="width:10%;">Sl no. / क्रम#</th>
+                <th>Asset Item Name / एसेट आइटम का नाम</th>
+                <th>Asset Item Code / एसेट आइटम कोड</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let assetItem of resultListData; let i= index">
+                <td scope="row">{{i+1}}</td>
+                <td>{{(assetItem.assetItemName) ?
+                  assetItem.assetItemName+'-'+assetItem.assetCode :'--'}}</td>
+                <td>{{(assetItem.assetItemCode) ? assetItem.assetItemCode
+                  :'--'}}</td>
+              </tr>
+
+            </tbody>
+          </table>
+        </div>
+
+      </div>
+
+    </div>
+  </div>
+</div>

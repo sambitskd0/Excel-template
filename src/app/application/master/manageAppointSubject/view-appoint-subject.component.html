@@ -1,0 +1,120 @@
+<div>
+    <div class="pageHeading">
+      <div><h3 class="pageName">View Appoint Subject/नियुक्त विषय जोड़ें</h3></div>
+      <div class="tabArea">
+        <a routerLink="./../addAppointSubject"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+        <a routerLink="./../viewAppointSubject" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a> 
+      </div>
+    </div>
+    <div class="searchPanel top-space">
+        <form [formGroup]="appointSubjectSearchform" (ngSubmit)="onSearch()" autocomplete="off">
+            <div class="row">
+                <div class="col-lg-2 form-group mb-0">
+                <label for="inputSubject" class="form-label">Subject<br>विषय</label>
+                </div>
+                <div class="col-lg-3 form-group mb-0">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="subjectName" minlength="3" maxlength="30" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" autocomplete="off">
+                </div>
+                
+                <div class="col-lg-1">
+                    <button class="btn btn-default btn-purple"> Search/खोज <i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+        <div class="page__rightarea">
+            <div class="page__util">
+              <div class="util">
+                <a title="Excel" class="excel" (click)="downloadAppSubjectList()"><i class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+              </div>
+            </div>
+            </div>
+        <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+            <table  class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter" >
+            <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl.No /क्र.सं.
+
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Subject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+               Subject/विषय
+                </th>
+                <td mat-cell *matCellDef="let element">{{(element?.subjectName) ? element?.subjectName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Description">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Description/विवरण 
+
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.description.length > 60 ? (element?.description | slice:0:60):element?.description }}
+                  <small style="font-style: italic;" *ngIf="element?.description.length > 60"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.description)">View More</a></small>
+                 </td> 
+                <td mat-cell *matCellDef="let element">{{(element?.description) ? element?.description :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="CreatedOn">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+              CreatedOn/पर बनाया गया
+                </th>
+                <td mat-cell *matCellDef="let element">{{(element?.createdOn) ? (element?.createdOn|date:'dd-MMM-yyyy') :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                 Action/
+                 क्रिया
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                   <a title="Edit" [routerLink]="['./../editAppointSubject/', element?.encId]" class="edit-btn me-2"><i
+                       class="bi bi-pencil-square text-primary"></i></a>
+                   <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteAppointSubject(element?.encId)"><i
+                       class="bi bi-trash"></i></a>
+                 </td>
+              </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+              </table>
+              <table>
+                <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                    No Records Found!
+                  </td>
+                </tr>
+              </table>
+              <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                      [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                       class="noPrint" showFirstLastButtons>
+                    </mat-paginator>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+          {{ "No record found." }}
+        </div>
+      </div>
+       <!-- View Description Modal -->
+ <div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description/विवरण 
+        </h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

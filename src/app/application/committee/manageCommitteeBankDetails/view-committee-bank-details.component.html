@@ -1,0 +1,169 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Reconstitution & Bank Details/पुनर्गठन और बैंक विवरण प्रबंधित करें </h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addCommitteeBankDetails" class="neuro addLink" routerLinkActive="active"
+        *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add Reconstitution & Bank Details/पुनर्गठन और बैंक विवरण जोड़ें </a>
+      <a routerLink="./../viewCommitteeBankDetails" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View Reconstitution & Bank Details/पुनर्गठन और बैंक विवरण देखें</a>
+    </div>
+  </div>
+  <ng-container *ngIf="permissionDiv == true">
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <form (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+          <div class="search-container">
+            <div class="search-sec" id="searchPanel" style="display: block;">
+              <div class="searchPanel">
+                <div class="row">
+                  <div class="form-group col-lg-2">
+                    <label for="exampleInputEmail1" class="form-label me-3">Commitee
+                      Type<br>समिति का प्रकार</label>
+                  </div>
+                  <div class="form-group col-lg-3">
+                    <span class="colon">:</span>
+                    <select class="form-select" [(ngModel)]="committeeType" name="committeeType">
+                      <option value="" selected>--Select--</option>
+                      <option value="{{item.anxtValue}}" *ngFor="let item of
+                          committeeTypeData">
+                        {{item.anxtName}}</option>
+                    </select>
+                  </div>
+                  <div class="col-lg-1"> </div>
+
+                  <div class="col-lg-2">
+                    <button class="btn btn-default btn-purple"> Search/खोज
+                      <i class="bi bi-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </form>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+        data-original-title="Click me">Search
+        Panel/खोज पैनल
+      </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4">
+      <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+        <div class="page__rightarea">
+          <div class="page__util">
+            <div class="util">
+              <div class="util">
+                <a title="Excel" class="excel" (click)="downloadCommitteeBankingList()"><i
+                    class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive" id="viewTable">
+
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No / क्र.सं.
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Committee_Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Committee Type / समिति का प्रकार
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.anxtName) ?
+                element?.anxtName :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Date_Of_Reconstitution">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Date of Reconstitution / पुनर्गठन की तिथि
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.dateOfReconstitution) ?
+                (element?.dateOfReconstitution|date:'dd-MMM-yyyy') :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Date_Of_Expire">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Date of Expired / समाप्त होने की तारीख तिथि
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.committeeExpDate) ?
+                (element?.committeeExpDate|date:'dd-MMM-yyyy') :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Account_Holder_Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Account Holder Name / खाताधारक का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.accounttHolderName) ? element?.accounttHolderName :'--'
+                }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Bank_Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Bank Name / बैंक का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.bankName == "") ? element?.otherBankName :
+                element?.bankName }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Account_No">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Account No / खाता नं.
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.accountNo) ? element?.accountNo :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="IFSC_Code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                IFSC Code / आईएफएससी कोड
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.IFSCCode) ? element?.IFSCCode :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Branch_Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Branch Name / शाखा का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.branchName) ? element?.branchName :'--' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                Action / क्रिया
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                <a title="Edit"  *ngIf="element?.editEnable==0" [routerLink]="['./../editCommitteeBankDetails/', element?.encId]"
+                  class="edit-btn me-2"><i class="bi bi-pencil-square text-primary"></i></a>
+                <!-- <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                                    (click)="deleteMemeber(element?.encId)"><i class="bi bi-trash"></i></a> -->
+                  <a *ngIf="element?.editEnable==1" class="badge badge-danger bg-danger me-2">Expired</a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length"
+                class="mt-2 text-danger">
+                No Records Found!
+              </td>
+            </tr>
+          </table>
+          <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint"
+            showFirstLastButtons>
+          </mat-paginator>
+
+        </div>
+      </div>
+      <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </div>
+    </div>
+  </ng-container>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+    {{ "You don't have the permission to access this page !!" }}
+  </div>
+</div>

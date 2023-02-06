@@ -1,0 +1,92 @@
+<form [formGroup]="EditSelfRequest" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Manage Self Training Request</h3>
+        </div>
+        <!-- <div class="tab__section">
+                    <a routerLink="./../selfTrainingrequest"  class="tablink" routerLinkActive="active">Self Training Request</a>
+                    <a routerLink="./../pickTeachertraining"  class="tablink" routerLinkActive="active">Select Teacher for Training</a>
+                    <a routerLink="./../addBatchManagement"  class="tablink" routerLinkActive="active">Manage Training Batch</a>
+                   
+                </div> -->
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory</span>
+      <div class="tabArea">
+        <a routerLink="../../edit/{{ idselfTrainingRequest }}" class="neuro addLink active" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Edit Self Training Request</a>
+        <a routerLink="../../view" class="neuro addLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View
+          Self Training Requests</a>
+      </div>
+    </div>
+
+    <div class="formpatch top-space">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Academic Year </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="hidden" class="form-control" formControlName="idselfTrainingRequest" id="memberName"
+            aria-describedby="teacherTraningid" />
+            <select class="form-select" aria-label="Default select example" formControlName="academicYear" tabindex="1">
+              <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                {{ this.years }}
+              </option>
+            </select>
+        </div>
+      </div>
+      <div _ngcontent-rlb-c91="" class="row">
+        <div _ngcontent-rlb-c91="" class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Subject</label>
+        </div>
+        <div _ngcontent-rlb-c91="" class="col-md-4 form-group">
+          <span _ngcontent-rlb-c91="" class="colon">:</span>
+          <select formControlName="trainingSubject" (change)="getTrainingName($any($event.target).value)"
+            aria-label="Default select example" class="form-select">
+            <option value="">--Select--</option>
+
+            <option *ngFor="let subject of res" [value]="subject.subjectId">
+              {{ subject.subject }}
+            </option>
+          </select>
+          <span _ngcontent-rlb-c91="" class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Name</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingName" aria-label="Default select example" class="form-select">
+            <option value="">-- Select --</option>
+
+            <option *ngFor="let train of trainingNames" [value]="train.trainingId">
+              {{ train.trainingName }}
+            </option>
+          </select>
+          <span _ngcontent-rlb-c91="" class="mandatory">*</span>
+        </div>
+        <div class="col-lg-1 form-group">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj.trainingLoads == true" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Description </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <textarea class="form-control" cols="4" rows="3" formControlName="description" [maxlength]="500"></textarea>
+          <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2">Submit</button>
+  </div>
+</form>

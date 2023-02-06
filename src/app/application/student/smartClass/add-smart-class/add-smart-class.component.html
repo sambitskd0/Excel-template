@@ -1,0 +1,157 @@
+
+<div>
+    <div class="pageHeading">
+    <div>
+        <h3 class="pageName">Smart Class Configuration  / स्मार्ट क्लास कॉन्फ़िगरेशन</h3>
+        <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+    </div>
+      <div class="tabArea">
+         <a routerLink="./../addSmartClass"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+         <a routerLink="./../viewSmartClass" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे </a>
+      </div>
+    </div>
+    <div *ngIf="permissionForAdd ===true">
+    <form [formGroup] ="smartClassForm" (ngSubmit)="submitSmartClass()"> 
+    <div class="formpatch top-space"> 
+       
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                 <label for="" class="form-label">Class <br>वर्ग </label>
+            </div>
+            <div class="col-lg-4 form-group">
+              <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="classId" (change)="classChange($any($event.target).value)"  (change)="getSubjects()" >
+                        <option selected value="">---Select Class---</option>
+                        <option *ngFor="let item of classData" [value]="item.classId">
+                            {{ item.class }}
+                        </option> 
+                    </select>
+                    <span class="mandatory">*</span>
+            </div>
+        </div>
+        <ng-container *ngIf="classId == 11 || classId == 12">
+        <div class="row hide" > 
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Stream <br>धाराएँ </label>
+            </div>
+            <div class="col-lg-4 form-group">
+              <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="streamId" (change)="streamChange($any($event.target).value)"  (change)="getSubjects()">
+                        <option selected value="">---Select Stream---</option>
+                        <option *ngFor="let item of streamData" [value]="item.anxtValue">
+                            {{ item.anxtName }}
+                        </option> 
+                      </select>
+                      <span class="mandatory">*</span>
+            </div>
+        </div>
+        </ng-container>
+        <ng-container *ngIf="streamId == 3">
+        <div class="row group"> 
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Group <br>समूह</label>
+            </div>
+            <div class="col-lg-4 form-group">
+              <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example"  formControlName="groupId" (change)="getSubjects()">
+                        <option selected value="">---Select Group---</option>
+                        <option *ngFor="let item of groupData" [value]="item.anxtValue">
+                            {{ item.anxtName }}
+                        </option> 
+                      </select>
+                      <span class="mandatory">*</span>
+            </div>
+        </div>
+        </ng-container>
+        <!-- <div class="row">
+            <div class="col-md-2 form-group">
+                <div class="">
+                    <label for="" class="form-label">Section <br>भाग </label>
+                </div>
+            </div>
+            <div class="col-md-4 form-group">
+                <div class="">
+                 <span class="colon">:</span>
+                 <select class="form-select" aria-label="Default select example" formControlName="sectionId">
+                    <option selected value="">--Select--</option>
+                        <option *ngFor="let item of sectionData" [value]="item.anxtValue">
+                            {{ item.anxtName }}
+                        </option> 
+                  </select>
+                </div>
+             </div>
+        </div> -->
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <div class="">
+                    <label for="" class="form-label">Class Type <br>वर्ग का प्रकार </label>
+                </div>
+            </div>
+                <div class="col-lg-4 form-group">
+                   <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example"formControlName="classTypeId">
+                        <option selected value="">--Select--</option>
+                        <option *ngFor="let item of classTypeData" [value]="item.anxtValue">
+                            {{ item.anxtName }}
+                        </option>   
+                      </select> 
+                     <span class="mandatory">*</span>
+                   </div>
+                </div>
+             
+        </div>
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <div class="">
+                    <label for="" class="form-label">Subject <br>विषय </label>
+                </div>
+            </div>
+               
+                <div class="col-lg-4 form-group">
+                   <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="subjectId">
+                        <option selected value="" *ngIf="subjectLoad === false">
+                            ---Select---
+                          </option>
+                          <option selected value="" *ngIf="subjectLoad === true">
+                            Loading...
+                          </option>
+                          <option
+                            [value]="item?.subjectId"
+                            ng-reflect-value="1"
+                            *ngFor="let item of classWiseSubjects"
+                          >
+                            {{ item?.subject }}
+                          </option>
+                      </select>
+                     <span class="mandatory">*</span>
+                   </div>
+                </div>
+              
+        </div>    
+    </div>
+    <div>
+        <button  class="btn btn-success me-2">Submit / जमा करें</button>
+       <button class="btn btn-danger" type="reset">Reset / पुनर्स्थापित</button>
+   </div>
+  </form>
+</div>
+  <ng-container *ngIf="permissionForAdd ===false">
+    <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+       {{ "You don't have permission to add kindly contact the administrator..." }}
+   </div>
+ </ng-container>
+ <ng-container *ngIf="permissionForAdd ===true &&  noSmartClassProvisionForSchool===true">
+    <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+       {{ "You don't haveProvission to add smart class..." }}
+   </div>
+ </ng-container>
+</div>
+  
+  
+  
+  
+  
+  

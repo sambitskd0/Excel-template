@@ -1,0 +1,248 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">School Verification Report / विद्यालय सत्यापन रिपोर्ट
+            </h3>
+
+        </div>
+
+        <div class="tabArea">
+            <a class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखे</a>
+            <a routerLink="../" class="neuro viewLink"><i class="bi bi-list me-2"></i>All Report / सभी रिपोर्ट </a>
+        </div>
+
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block;">
+                    <div class="searchPanel">
+                        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                            <div class="row">
+                                <div class="col-lg-2 form-group">
+                                    <label for="" class="form-label">District</label>
+                                    <br>ज़िला
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value);" #district>
+                                        <option value="" *ngIf="scDisrtictSelect == true">
+                                            --Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} -
+                                            {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-lg-1">
+                                    <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+                                </div>
+
+                                <div class="col-lg-2 form-group">
+                                    <label for="" class="form-label">Block </label>
+                                    <br>प्रखण्ड
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                            [(ngModel)]="scBlockId" name="scBlockId" autocomplete="off"
+                                            (change)="getCluster($any($event.target).value);" #block>
+                                            <option value="" *ngIf="scBlockSelect == true">
+                                                --Select / चुनें--
+                                            </option>
+                                            <option value="" *ngIf="scBlockLoading == true">
+                                                Loading...
+                                            </option>
+                                            <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                                                {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                            </option>
+                                        </select>
+                                </div>
+                                <div class="col-lg-1">
+                                    <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2 form-group">
+                                    <label for="" class="form-label">Cluster</label>
+                                    <br>संकुल
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="scClusterId" name="scClusterId" autocomplete="off" #cluster
+                                    >
+                                    <option value="" *ngIf="scClusterSelect == true">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="scClusterLoading == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                        {{ clusterItem.clusterCode }} -
+                                        {{ clusterItem.clusterName }}
+                                    </option>
+                                </select>
+                                </div>
+
+                            <div class="col-lg-1">
+                                    <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true" alt="dsd">
+                                </div>
+
+                                <!-- <div class="col-lg-2 form-group">
+                                        <label for="" class="form-label">State Specific Type/Category</label>
+                                        <br>राज्य विशिष्ट प्रकार/श्रेणी
+                                    </div>
+                                    <div class="col-lg-3 form-group"> 
+                                        <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example">
+                                        <option selected>--Select--</option>
+                                        
+                                    </select>
+                                    </div>
+                                    <div class="col-lg-1"></div> -->
+                                <div class="col-lg-2 form-group">
+                                    <label class="form-label">Management </label>
+                                    <a data-toggle="tooltip" data-placement="bottom"
+                                        title="GO-Government, GA-Govt. Aided, PV-Private, CG-Central Govt./PSU, OT-Others"
+                                        class="tool text-dark ms-1">
+                                        <i class="bi bi-question-circle-fill "></i>
+                                    </a>
+                                    <br>प्रबंधन
+
+                                </div>
+                                <div class="col-lg-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                            [(ngModel)]="selManagement" name="selManagement">
+                                            <option value="" *ngIf="schoolManagementChanged==false">--Select / चुनें--</option>
+                                            <option value="" *ngIf="schoolManagementChanged==true">Loading...</option>
+                                            <option *ngFor="let sclManage of schoolManagement"
+                                                [value]="sclManage.anxtValue">
+                                                {{ sclManage.anxtName }}
+                                            </option>
+                                        </select>
+                                    <span class="mandatory">*</span>
+                                    <span class="minimum-text text-primary">Code - Details of Management - Type</span>
+                                </div>
+                                <div class="col-lg-1">
+                                    <img src="assets/img/loading.gif" *ngIf="schoolManagementChanged==true" alt="dsd">
+                                </div>
+                                <div class="col-lg-3 form-group"><button class="btn btn-default btn-purple"> Search / खोज <i
+                                            class="bi bi-search"></i></button></div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+            data-original-title="Click me">Search Panel / खोज पैनल</button>
+
+    </div>
+    <div class="clearfix"></div>
+    <ng-container *ngIf="isInitAdmin == true">
+        <div class="row mt-4" *ngIf="resultListDataLength != 0">
+            <div class="col-lg-12">
+                <div class="page__rightarea">
+                    <div class="p-2">
+                        <button type="button" class="btn btn-success " (click)="exportSchoolVerifyDetailReport()"> <i class="bi bi-file-earmark-excel"></i> Export detailed Report</button>
+                    </div>
+                    <div class="page__util">
+                        <div class="util">
+                            <a (click)="goBack(pageLevel)" *ngIf="sessionPageLvl != pageLevel" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+                            <a title="Excel" class="excel" (click)="excelDownload()"><i class="bi bi-file-earmark-excel"></i></a>
+                            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" id="viewTable">
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col" rowspan="2">#</th>
+                                <ng-container *ngIf="pageLevel == 0">
+                                    <th rowspan="2" class="text-center">District / जिला</th>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 1">
+                                    <th rowspan="2" class="text-center">District / जिला</th>
+                                    <th rowspan="2" class="text-center">Block / प्रखण्ड</th>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 2">
+                                    <th rowspan="2" class="text-center">District / जिला</th>
+                                    <th rowspan="2" class="text-center">Block / प्रखण्ड</th>
+                                    <th rowspan="2" class="text-center">Cluster / संकुल</th>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 3 ">
+                                    <th rowspan="2" class="text-center">District / जिला</th>
+                                    <th rowspan="2" class="text-center">Block / प्रखण्ड</th>
+                                    <th rowspan="2" class="text-center">Cluster / संकुल</th>
+                                </ng-container>
+                                <th scope="col" rowspan="2">Total No. of School / विद्यालय की कुल संख्या</th>
+                                <th scope="col" rowspan="2">Total No. of Not Verified School / सत्यापित नहीं विद्यालय की कुल
+                                    संख्या</th>
+                                <th scope="col" rowspan="2">Total No. of Verified School / सत्यापित विद्यालय की कुल संख्या
+                                </th>
+                                <th scope="col" colspan="2">Verified By / के द्वारा सत्यापित</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">DPO / बीपीओ</th>
+                                <th scope="col">BEEO / बीईईओ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let item of resultListData;index as i">
+                                <td>{{i + 1}}</td>
+                                <ng-container *ngIf="pageLevel == 0">
+                                    <td><a href="javascript:void(0)" (click)="drillDown(item?.districtId,'','','',getBackData?.selManagement)" class="text-primary">{{item?.district}}</a></td>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 1">
+                                    <td>{{item?.district}}</td>
+                                    <td><a href="javascript:void(0)" (click)="drillDown(item?.districtId,item?.blockId,'','',getBackData?.selManagement)" class="text-primary">{{item?.block}}</a></td>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 2">
+                                    <td>{{item?.district}}</td>
+                                    <td>{{item?.block}}</td>
+                                    <td><a href="javascript:void(0)" (click)="drillDown(item?.districtId,item?.blockId,item?.clusterId,'',getBackData?.selManagement)" class="text-primary">{{item?.cluster}}</a></td>
+                                </ng-container>
+                                <ng-container *ngIf="pageLevel == 3 ">
+                                    <td>{{item?.district}}</td>
+                                    <td>{{item?.block}}</td>
+                                    <td>{{item?.cluster}}</td>
+                                </ng-container>
+                                <td>{{item?.totalSchool}}</td>
+                                <td>{{item?.totalNotVerifiedSchool}}</td>
+                                <td>{{item?.totalVerifiedSchool}}</td>
+                                <td>{{item?.totalPendingAtDPO}}</td>
+                                <td>{{item?.totalPendingAtBEO}}</td>
+                            </tr>
+                            <tr>
+                                <td class="text-center" [attr.colspan]="colSpanTotal" *ngIf="pageLevel != 3"><b>Total</b></td>
+                                <td *ngIf="pageLevel != 3"><b>{{sumTotalSchool}}</b></td>
+                                <td *ngIf="pageLevel != 3"><b>{{totalNotVerifiedSchool}}</b></td>
+                                <td *ngIf="pageLevel != 3"><b>{{totalVerifiedSchool}}</b></td>
+                                <td *ngIf="pageLevel != 3"><b>{{totalPendingAtDPO}}</b></td>
+                                <td *ngIf="pageLevel != 3"><b>{{totalPendingAtBEO}}</b></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </ng-container>
+     <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+   <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{ "Please for School Verification Report" }}
+    </div>
+</div>

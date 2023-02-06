@@ -1,0 +1,413 @@
+<div class="tab-pane step4-content" role="tabpanel" id="step4">
+    <h5 class="text-center top-space">Physical  Equipments /  भौतिक सुविधाएँ एवं उपकरण </h5>
+    <form [formGroup]="physicalEquipmentsInfoForm" (ngSubmit)="onSubmit()" autocomplete="off">
+    <div class="formpatch">
+        <input type="hidden" formControlName="encId"> 
+        <input type="hidden" formControlName="academicYear" class="form-control">
+        <h5>Does the school have the following facilities (Secondary/Higher Secondary Sections) /  क्या विद्यालय में निम्नलिखित सुविधाएं हैं (माध्यमिक/उच्च माध्यमिक अनुभाग)</h5>
+        <div class="row">
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Separate room for Assistant Head Teacher/Vice Principal/Head of the
+                    School/Head Teacher/ Principal ?<br>सहायक प्रधान शिक्षक/वाइस प्रिंसिपल/विद्यालय प्रमुख/प्रधान शिक्षक/प्राचार्य के लिए अलग कमरा?</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isRoomAvailForPrincipal">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Separate common room for girls <br> लड़कियों के लिए अलग कॉमन रूम</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isGirlsCommonRoomAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+            <label class="form-label">Staffroom for teachers  <br> शिक्षकों के लिए स्टाफ रूम</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select"  formControlName="isStaffRoomAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Co-curricular activity room/arts and crafts room   <br> सह पाठयक्रम गतिविधि कक्ष/कला और शिल्प कक्ष</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isCocurricularRoomAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Staff quarters (including residential quarters for Head Teacher/Principal
+                and Asst. Head Teacher/Vice Principal)<br> स्टाफ क्वार्टर (प्रधान शिक्षक / प्रधानाचार्य और सहायक प्रधान शिक्षक / उप प्रधानाचार्य के लिए आवासीय क्वार्टर सहित)</label>
+                
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select"  formControlName="isStaffQuarterAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Integrated science laboratory (integrated laboratory is the one in which
+                    Physics, Chemistry and Biology practical are held) for Secondary sections only <br> केवल माध्यमिक वर्गों के लिए एकीकृत विज्ञान प्रयोगशाला (एकीकृत प्रयोगशाला वह है जिसमें भौतिकी, रसायन विज्ञान और जीव विज्ञान का व्यावहारिक आयोजन किया जाता है)।</label>
+                    
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select"  formControlName="issciencelaboratoryAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Separate room for Library <br> पुस्तकालय के लिए अलग कमरा</label> 
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select"  formControlName="isSeparateLibraryRoomAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+            <label class="form-label">Computer room <br> कंप्यूटर कक्ष</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isComputerRoomAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span> 
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Tinkering Lab <br>फेरबदल प्रयोगशाला</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isTinkeringLabAvail">
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-5 col-xl-8 col-lg-8 col-md-12 col-sm-12 form-group">
+                <label class="form-label">Sanitary Pad vending Machine (for Co-ed and girls schools) <br> साफ़-सुथरा गत्ता वेंडिंग मशीन (सह-शिक्षा और बालिका विद्यालयों के लिए) </label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="isSanitaryPadVendingAvail" >
+                    <option value="">--Select--</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+    </div>
+    <div class="formpatch">
+        <h5>Does the school have the following laboratories? (For Higher Secondary sections only) /  क्या विद्यालय में निम्नलिखित प्रयोगशालाएँ हैं? (केवल उच्च माध्यमिक वर्गों के लिए)</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="bg-lightpurple">
+                    <tr>
+                        <th>Laboratory /  प्रयोगशालाओं</th>
+                        <th>Separate Room Available</th>
+                        <th>Present Condition </th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td>Physics / भौतिक विज्ञान</td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForPhysics" (change)="isLabAvailForPhysics($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td> 
+                        <td *ngIf="isLaboratoryAvailForPhysics == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="physicsLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Chemistry / रसायन शास्त्र </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForChemistry"  (change)="isLabAvailForChemistry($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForChemistry == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="chemistryLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                </tr>
+                    <tr>
+                        <td>Biology / जीवविज्ञान </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForBiology" (change)="isLabAvailForBiology($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForBiology == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="biologyLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Mathematics / गणित </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForMathematics" (change)="isLabAvailForMathematics($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForMathematics == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="mathematicsLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Language / भाषा </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForLanguage" (change)="isLabAvailForLanguage($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForLanguage == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="languageLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Geography / भूगोल </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForGeography" (change)="isLabAvailForGeography($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForGeography == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="geographyLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Home Science / गृह विज्ञान </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForHomescience" (change)="isLabAvailForHomescience($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForHomescience == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="homescienceLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td>Psychology / मनोविज्ञान </td>
+                        <td>
+                            <select class="form-select" formControlName="isLaboratoryAvailForPsychology" (change)="isLabAvailForPsychology($any($event.target).value)">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                            </select>
+                        </td>
+                        <td *ngIf="isLaboratoryAvailForPsychology == 1 else emptyTab">
+                             <div class="position-relative">
+                            <select class="form-select" formControlName="psychologyLabCondition" >
+                                <option value="">--Select--</option>
+                                <option value="1">Not Applicable</option>
+                                <option value="2">Fully equipped</option>
+                                <option value="3">Partially equipped</option>
+                                <option value="4">Not equipped</option>
+                            </select>
+                             <span class="mandatory">*</span>
+                             </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="formpatch">
+        <h5>Does the school have the following equipment(s) /  क्या विद्यालय में निम्नलिखित उपकरण हैं</h5>
+        <div class="table-responsive">
+            <table class="table table-bordered">
+                <thead class="bg-lightpurple">
+                    <tr>
+                        <th>Equipment/Facility / उपकरण / सुविधा</th>
+                        <th>Availability  /  उपलब्धता</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td style="text-align: left">Audio/Visual/Public Address System  / श्रव्य/दृश्य/सार्वजनिक पता प्रणाली</td>
+                        <td>
+                            <select class="form-select" formControlName="isAudioSystemAvail">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                                <option value="3">Yes, but not functional</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left">Science Kit* / विज्ञान किट*</td>
+                        <td>
+                            <select class="form-select" formControlName="isScienceKitAvail">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                                <option value="3">Yes, but not functional</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left">Math Kit** / गणित किट**</td>
+                        <td>
+                            <select class="form-select" formControlName="isMathKitAvail">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                                <option value="3">Yes, but not functional</option>
+                            </select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td style="text-align: left">Biometric device / बायोमेट्रिक उपकरण</td>
+                        <td>
+                            <select class="form-select" formControlName="isBiometricDeviceAvail">
+                                <option value="">--Select--</option>
+                                <option value="1">Yes</option>
+                                <option value="2">No</option>
+                                <option value="3">Yes, but not functional</option>
+                            </select>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div role="alert" class="alert alert-danger"> Note: * Availability of general items, chemicals, glassware,
+        microscope, electroscope, multimeter, resistance boxes, kerosene burner, electricity and magnetism kit,
+        optics kit, spring balance etc.  <br> नोट: * सामान्य वस्तुओं, रसायनों, कांच के बर्तन, माइक्रोस्कोप, इलेक्ट्रोस्कोप, मल्टीमीटर, प्रतिरोध बक्से, केरोसिन बर्नर, बिजली और चुंबकत्व किट, प्रकाशिकी किट, वसंत संतुलन आदि की उपलब्धता। </div>
+    <div role="alert" class="alert alert-danger">Note: ** Availability of cubes, cutouts of various shapes, an
+        innovative geo-board, abacus, Trigonometric Circle Board, Pythagoras Theorem Square, algebraic tiles etc.
+        <br> नोट: ** क्यूब्स की उपलब्धता, विभिन्न आकृतियों के कटआउट, एक अभिनव भू-बोर्ड, अबेकस, त्रिकोणमितीय सर्कल बोर्ड, पाइथागोरस प्रमेय स्क्वायर, बीजीय टाइल्स आदि।
+    </div>
+    <div> 
+        <!-- <a routerLink="./../../physicalInfo/{{encId}}" class="btn btn-purple me-2">Previous / पिछला</a> -->
+        <button type="button" (click)="pageChangeWarningHandler('./../../physicalInfo/')" class="btn btn-purple me-2">
+            Previous / पिछला
+          </button>
+        <button class="btn btn-success me-2"  *ngIf="draftStatus === 1">Save as Draft / प्रारूप के रूप में सहेजें</button>
+        <button class="btn btn-success me-2" *ngIf="draftStatus === 2">Update</button>
+        <button class="btn btn-danger me-2" type="reset" *ngIf="draftStatus === 1">Reset / पुनर्स्थापित</button>
+        <!-- <a  routerLink="./../../CADIniInfo/{{encId}}"class="btn btn-purple">Next / अगला</a> -->
+        <button type="button" (click)="pageChangeWarningHandler('./../../CADIniInfo/')" class="btn btn-purple me-2">
+            Next / अगला
+          </button>
+    
+    </div>
+    </form>
+</div>
+<ng-template #emptyTab>
+    <td></td>
+    <td></td>
+  </ng-template>

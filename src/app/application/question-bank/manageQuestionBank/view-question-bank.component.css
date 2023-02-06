@@ -1,0 +1,41 @@
+.questions-bg {
+  background: #f1f1f1;
+  padding: 10px 10px;
+  border: 1px solid #dddddd;
+  margin-bottom: 10px;
+  margin-top: 10px;
+}
+
+.ques-mark {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.questionBankImg {
+  width: 150px;
+  height: 100px;
+}
+
+/* .optionText {
+    margin-top: 5px;
+  } */
+.answer {
+  background-color: green;
+}
+th,
+td {
+  text-transform: capitalize;
+}
+
+.mat-option:last-child:before {
+  content: "All";
+  float: left;
+  text-transform: none;
+  top: 4px;
+  position: relative;
+}
+.mat-option:last-child .mat-option-text {
+  display: none;
+  position: relative;
+}

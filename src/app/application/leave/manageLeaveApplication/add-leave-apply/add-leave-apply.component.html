@@ -1,0 +1,245 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Apply Leave/अवकाश लागू करें
+            </h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addLeaveApply" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Apply Leave/अवकाश लागू करें
+            </a>
+            <a routerLink="./../viewLeaveApply" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>Check Leave Status/अवकाश की स्थिति की जाँच करें
+            </a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="leaveApplyForm" (ngSubmit)="onSubmit();">
+            <div class="row">
+                <div class="col-md-9">
+                    <div class="row" *ngIf="ifHMLogin == false">
+                        <div class="col-lg-2 form-group">
+                            <label for="" class="form-label"> </label>
+                        </div>
+                        <div class="col-lg-4 form-group">
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" [value]="1" formControlName="radioSelfOther"
+                                    id="radio77" type="radio" checked (click)="loadTchList(1);">
+                                <label class="form-check-label" for="radio77">Self</label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <input class="form-check-input" [value]="2" formControlName="radioSelfOther"
+                                    id="radio78" type="radio" (click)="loadTchList(2);">
+                                <label class="form-check-label" for="radio78">Other</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class=""><label for="" class="form-label">Name of Person<br>व्यक्ति का नाम
+                                </label></div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="teacherId" (change)="getLeaveBalance();">
+                                    <option value="" *ngIf="leaveModeChanged == false" selected>--Select--</option>
+                                    <option value="" *ngIf="leaveModeChanged == true">Loading...</option>
+                                    <option *ngFor="let item of teacherList" [value]="item.tId">{{ item.teacherName }}
+                                    </option>
+
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <img src="assets/img/loading.gif" *ngIf="personLoading==true" alt="dsd">
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="" class="form-label">Leave Type<br>अवकाश के प्रकार
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="leaveTypeId" (change)="getLeaveBalance();">
+                                    <option value="" *ngIf="leaveTypeChanged == false">--Select--</option>
+                                    <option value="" *ngIf="leaveTypeChanged == true">Loading...</option>
+                                    <option *ngFor="let item of lvtype" [value]="item.anxtValue">{{ item.anxtName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-md-1">
+                            <img src="assets/img/loading.gif" *ngIf="leaveTypeLoading==true" alt="dsd">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="" class="form-label">Leave From<br>कब से अवकाश
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <!-- <input type="date" class="form-control" formControlName="leaveFromDate" (blur)="calculateDays();" (change)="calculateDays();"/> -->
+                                <input class="form-control" formControlName="leaveFromDate"
+                                    #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker bsDatepicker
+                                    #dateRef [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY' }" />
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <select class="form-select" aria-label="Default select example"
+                                    (blur)="calculateDays();" (change)="calculateDays();"
+                                    formControlName="leaveFromDtType">
+                                    <option value="1" selected>Full Day</option>
+                                    <option value="2">Morning</option>
+                                    <option value="3">Afternoon</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="" class="form-label">Leave To<br>कब तक अवकाश
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+
+                                <input class="form-control" formControlName="leaveToDate" #datepickerYMD="bsDatepicker"
+                                    placeholder="DD-MMM-YYYY" bsDatepicker bsDatepicker #dateRef
+                                    [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY' }" />
+
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <select class="form-select" aria-label="Default select example"
+                                    (blur)="calculateDays();" (change)="calculateDays();"
+                                    formControlName="leaveToDtType">
+                                    <option value="1" selected>Full Day</option>
+                                    <option value="2">Morning</option>
+                                    <option value="3">Afternoon</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="" class="form-label">No. of Days Applied<br>अवकाश आवेदन के लिए दिनों की
+                                    संख्या
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" [readonly]="true" [(ngModel)]="noOfDaysApplied"
+                                    formControlName="noOfDaysApplied" [maxlength]="3" />
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="lvDocument" class="form-label">Upload Document<br>दस्तावेज़ अपलोड करें
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="file" class="form-control" formControlName="lvDocument"
+                                    (change)="handleFileInputTeacher($event)" />
+                                <span class="minimum-text text-danger">(.jpeg, .jpg, .png and .pdf files upto 2 MB
+                                    only)</span>
+                            </div>
+                            <span *ngIf="lvdocRequired==true" class="mandatory">*</span>
+                        </div>
+                        <div class="col-lg-1"><button type="button" class="btn btn-outline-danger" (click)="clearFile()"
+                                *ngIf="showClear" title="Clear File"><i class="bi bi-x-lg"></i></button></div>
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class=""><label for="lvReason" class="form-label">Reason<br>कारण
+                                </label></div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <textarea class="form-control" formControlName="lvReason" rows="3"></textarea>
+                                <span class="minimum-text">Maximum <span class="text-danger">(500) </span>
+                                    Characters</span>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2 form-group"></div>
+                        <div class="col-lg-5 form-group">
+                            <button class="btn btn-success me-2">Submit/जमा करें
+                            </button>
+                            <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+                            </button>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="col-md-3">
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th colspan="4">Current Year Balance</th>
+                                <th scope="col" rowspan="2">Life time Balance</th>
+                            </tr>
+                            <tr>
+                                <th scope="col">Entitled</th>
+                                <th scope="col">Applied</th>
+                                <th scope="col">Granted</th>
+                                <th scope="col">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>{{leaveEntitled}}</td>
+                                <td>{{leaveApplied}}</td>
+                                <td>{{leaveGranted}}</td>
+                                <td>{{leaveBalance}}</td>
+                                <td>{{lifeTimeBalance}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

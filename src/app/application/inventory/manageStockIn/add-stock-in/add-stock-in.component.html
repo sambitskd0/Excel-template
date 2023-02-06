@@ -1,0 +1,249 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName">Stock In / स्टॉक में
+            </h3>
+         </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+      </span>
+      <div class="tabArea">
+         <a routerLink="../addStockIn" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add / जोड़ें
+         </a>
+         <a routerLink="../viewStockIn" class="neuro addLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View / देखें 
+         </a>
+      </div>
+   </div>
+   <form [formGroup]="stockIn" (ngSubmit)="validateSubmitStock();">
+      <div class="top-space formpatch">
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Approval By<br>द्वारा अनुमोदन
+                  </label>
+               </div>
+            </div>
+            <div class="col-lg-3 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select class="form-select" aria-label="Default select example" formControlName="approvalBy"
+                     autocomplete="off">
+                     <option value="">-- Select Type --</option>
+                     <option value="1">School Management Committee(SMC) </option>
+                     <option value="2">School Management Development Committee(SMDC)</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Invoice No.<br>चालान नं.
+                  </label>
+               </div>
+            </div>
+            <div class="col-lg-3 form-group">
+               <div class=""><span class="colon">:</span>
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                     formControlName="invoiceNo" maxlength="20" autocomplete="off" (keypress)="customValidators.keyPressDotSlashComma($event)">
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Invoice Date<br>चालान दिनांक
+                  </label>
+               </div>
+            </div>
+            <div class="col-lg-3 form-group">
+               <div class=""><span class="colon">:</span>
+                  <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                     bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" id="exampleInputEmail1"
+                     aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="invoiceDate" autocomplete="off"
+                     readonly>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Upload Invoice<br>चालान अपलोड करें
+                  </label>
+               </div>
+
+            </div>
+            <div class="col-lg-3 form-group">
+               <div class=""><span class="colon">:</span>
+                  <input type="file" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                     formControlName="invoiceImage" (change)="onFileChange($event)">
+                  <span class="mandatory">*</span>
+               </div>
+               <span class="minimum-text text-danger"> (Only JPEG, JPG, PNG,PDF file supported & Maximum size is
+                  2MB)</span>
+            </div>
+         </div>
+         <div class="row mt-4">
+            <div class="table-responsive">
+               <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                     <tr>
+                        <th scope="col" width="15px">SI#/क्र.सं
+                        </th>
+                        <th scope="col">Asset Type / संपत्ति का प्रकार <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Asset Name / संपत्ति का नाम <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Asset Item Name / संपत्ति वस्तु का नाम <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Quantity / मात्रा <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Is Code Available / क्या कोड उपलब्ध है ? <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Unit/इकाई <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Unit Price/यूनिट की कीमत <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">Amount/राशि <span class="text-danger">*</span>
+                        </th>
+                        <th scope="col">End Of Life(In Years)/जीवन का अंत (वर्षों में)</th>
+                        <th scope="col">Status/स्थिति
+                        </th>
+                     </tr>
+                  </thead>
+                  <tbody formArrayName="stockInArray">
+                     <tr *ngFor="let item of stockInInfo().controls; index as i" [formGroupName]="i">
+                        <td>{{ i + 1 }}</td>
+                        <td>
+                           <select class="form-select" aria-label="Default select example" width="100%"
+                              formControlName="assetType" autocomplete="off"
+                              (change)="filterAssetName($any($event.target).value, i)">
+                              <option value="" *ngIf="assetTypeChanged==false">-- Select --</option>
+                              <option value="" *ngIf="assetTypeChanged==true">Loading...</option>
+                              <option *ngFor="let item of asType" value="{{item.anxtValue}}">
+                                 {{item.anxtName}}
+                              </option>
+                           </select>
+                        </td>
+                        <td>
+                           <select class="form-select" aria-label="Default select example" width="100%"
+                              formControlName="assetName" autocomplete="off"
+                              (change)="getUnit($any($event.target).value, i)"
+                              (change)="filterAssetItem($any($event.target).value, i);">
+                              <option value="" *ngIf="assetNameChanged==false">-- Select --</option>
+                              <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                              <option *ngFor="let assetItem of assetFilterData[i]" [value]="assetItem.assetCatId">
+                                 {{ assetItem.assetName }}
+                              </option>
+                           </select>
+                        </td>
+                        <td>
+                           <select class="form-select" aria-label="Default select example" width="100%"
+                              formControlName="assetItemName" autocomplete="off" >
+                              <option value="" *ngIf="assetItemNameChanged==false">-- Select --</option>
+                              <option value="" *ngIf="assetItemNameChanged==true">Loading...</option>
+                              <option *ngFor="let assetItemN of assetItemData[i]" [value]="assetItemN.assetItemId +'-'+ assetItemN.assetItemCode">
+                                 {{ assetItemN.assetItemName +' - '+ assetItemN.assetItemCode }}
+                              </option>
+                           </select>
+                        </td>
+                        <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                              autocomplete="off" formControlName="quantity" #quantity
+                              (change)="unitAmount(quantity,unitPrice,i)" [maxLength]="4"
+                              (blur)="greaterThanZero($any($event.target).value);" (keypress)="customValidators.keyPressNumbers($event)"></td> <!-- codeAvailableChange(i)-->
+                        <td>
+
+                           <select class="form-select" aria-label="Default select example" width="100%"
+                              formControlName="codeAvailable" autocomplete="off" > <!-- (change)="codeAvailableChange(i)"-->
+                              <option value="">-- Select --</option>
+                              <option value="1">Yes</option>
+                              <option value="2">No</option>
+
+                           </select>
+                           <ng-container *ngIf="codeChange">
+                              <a class="badge badge-primary bg-primary text-white" data-bs-toggle="modal"
+                                 data-bs-target="#viewCode" style="cursor: pointer;">View Code</a>
+                           </ng-container>
+                        </td>
+                        <!-- {{unitEach[i]}} -->
+                        <td>
+                           <select class="form-select" aria-label="Default select example" width="100%"
+                              formControlName="unit" autocomplete="off">
+                              <option value="0" *ngIf="unitChanged==false">-- Select --</option>
+                              <option value="" *ngIf="unitChanged==true">Loading...</option>
+                              <option *ngFor="let units of incUnit" value="{{units.anxtValue}}">
+                                 {{units.anxtName}}
+                              </option>
+                           </select>
+                        </td>
+                        <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control" (keypress)="customValidators.keyPressNumbersDecimal($event)"
+                              formControlName="unitPrice" autocomplete="off" #unitPrice
+                              (change)="unitAmount(quantity,unitPrice,i)" maxlength="10"></td>
+                        <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                              formControlName="amount" autocomplete="off" readonly></td>
+                        <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                              formControlName="eol" (keypress)="customValidators.keyPressNumbers($event)"
+                              [maxLength]="2" autocomplete="off"></td>
+                        <td width="120">
+                           <button type="button" class="btn btn-success btn-sm me-2" (click)="addRow(i)"><i
+                                 class="bi bi-plus-lg"></i></button>
+                           <button type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)"><i
+                                 class="bi bi-dash-lg"></i></button>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td colspan="6" style="text-align: right;font-weight: 600;">Invoice Total Amount</td>
+                        <td style="font-weight: 600;">{{(invoiceAmount) ? (invoiceAmount | currency:'INR') :'0'|
+                           currency:'INR'}}</td>
+                        <td colspan="2"></td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+
+      </div>
+      <div>
+         <button class="btn btn-success me-2">Submit/जमा करें
+         </button>
+         <button type="button" class="btn btn-danger" (click)="resetForm()">Reset/पुनर्स्थापित 
+         </button>
+      </div>
+   </form>
+</div>
+<!-- View Code Modal-->
+<div class="modal fade" id="viewCode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-md">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Asset Item Codes</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body p-4">
+            <table class="table table-striped  table-bordered">
+               <thead class="bg-lightpurple">
+                  <tr>
+                     <th style="width: 100px;">Sl no./ क्रम#</th>
+                     <th>Asset Item Name / एसेट आइटम का नाम</th>
+                     <th>Asset Item Code / एसेट आइटम कोड</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr *ngFor="let item of counter(+this.qtyFrCode);let i= index">
+                     <td>{{i+1}} </td>
+                     <td>{{this.modalAssetItemName}}{{i+1}}</td>
+                     <td>{{this.assetItemName.assetItemCode}}</td>
+                  </tr>
+
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+</div>

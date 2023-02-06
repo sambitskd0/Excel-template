@@ -1,0 +1,17 @@
+.bg-green{
+    color: #fff;
+    padding: 5px;
+    background-color: rgb(45 90 45);
+}
+.form-label {
+    font-weight: 400!important;
+  }
+  .mandatory {
+    color: rgb(239 75 55);
+    text-decoration: none;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: 14%;
+    font-size: 0.8em;
+}

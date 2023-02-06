@@ -1,0 +1,147 @@
+<div>
+    <div class="pageHeading">
+      <div><h3 class="pageName">View Nagar Nigam/नगर निगम देखें</h3></div>
+     
+      <div class="tabArea">
+        <a routerLink="./../addNagarNigam"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+        <a routerLink="./../viewNagarNigam" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a> 
+      </div>
+     
+    
+    </div>
+    <div class="searchPanel top-space">
+        <form [formGroup]="nagarNigamSearchform" (ngSubmit)="onSearch()">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Type<br>प्रकार </label>
+        </div>
+        <div class="col-lg-3 form-group">
+           <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="nagarType">
+                <option selected value="">--Select Type--</option>
+                <option value="1">Municipality</option>
+              <option value="2">Panchayat</option>
+            </select>
+        </div>  
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">District<br>जिला</label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <select class="form-select" aria-label="Default select example" formControlName="districtId">
+          <option selected value="" *ngIf="filterChanged === false">--Select District--</option>
+          <option selected value="" *ngIf="filterChanged === true">Loading...</option>
+            <option *ngFor="let item of allDistrict" [value]="item.districtId">
+            {{ item.districtCode }} - {{ item.districtName }}
+          </option>
+          </select>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label">Name<br>नाम </label>
+    </div>
+    <div class="col-lg-3 form-group mb-0">
+      <span class="colon">:</span>
+        <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="panchayatName" autocomplete="off"  minlength="2" maxlength="40"
+        (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+    </div>
+    <div class="col-lg-1"></div>
+      <div class="col-lg-3">
+        <button class="btn btn-default btn-purple"> Search/खोज <i class="bi bi-search"></i></button>
+    </div>
+      </div>
+      </form>
+    </div>
+      <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="page__rightarea">
+          <div class="page__util">
+              <div class="util">
+                <div class="util">
+                  <a title="Excel" class="excel" (click)="downloadNagarNigamList()"><i class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                </div>
+              </div>
+          </div>
+          </div>
+        <div class="col-lg-12">
+          <div >
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+    
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter">
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl.No /क्र.सं.
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="district">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  District/जिला
+                </th>
+                <td mat-cell *matCellDef="let element">{{(element?.districtName) ? element?.districtName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                   Block/प्रखण्ड
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.blockName) ? element?.blockName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="type">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Type/प्रकार
+                </th>
+                <td mat-cell *matCellDef="let element">{{element?.nagarType === 2 ?'Panchayat':'Municipality' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="muncipality_panchayatName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  ULB/ Panchayat Name/नगर पालिका/पंचायत का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ (element?.panchayatName) ? element?.panchayatName :'--' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="muncipality_panchayatCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                ULB/ Panchayat Code/नगर पालिका/पंचायत कोड
+                </th>
+                <td mat-cell *matCellDef="let element"  style="text-align:right;">{{ (element?.panchayatCode) ? element?.panchayatCode :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                  Action/क्रिया
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                   <a title="Edit" [routerLink]="['./../editNagarNigam/', element?.encId]" class="edit-btn me-2"><i
+                       class="bi bi-pencil-square text-primary"></i></a>
+                   <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteNagarnigam(element?.encId)"><i
+                       class="bi bi-trash"></i></a>
+                 </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+                 </table>
+                 <table>
+                  <tr *ngIf="!dataSource.data.length">
+                    <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                      No Records Found!
+                    </td>
+                  </tr>
+                </table>
+        
+                <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                  [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                   class="noPrint" showFirstLastButtons>
+                </mat-paginator>
+          </div>
+          </div>
+        </div>
+      </div>
+      <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+      </div>
+    </div>
+

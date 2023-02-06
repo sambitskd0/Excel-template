@@ -1,0 +1,135 @@
+<form [formGroup]="CreateTraining" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Manage Training</h3>
+        </div>
+        <div class="tab__section">
+          <a routerLink="./../viewTrainingType" class="tablink active" routerLinkActive="active">Training
+          </a>
+          <a routerLink="../../viewAssesmentQuestion" class="tablink" routerLinkActive="active">Training Assessment
+            Question</a>
+        </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory</span>
+      <div class="tabArea">
+        <a routerLink="../../editTrainingType/{{teacherTraningid}}" class="neuro addLink active" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Edit Training
+        </a>
+        <a routerLink="../../viewTrainingType" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View Training
+        </a>
+      </div>
+    </div>
+
+    <div class="formpatch top-space">
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Academic Year</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="hidden" class="form-control" formControlName="teacherTraningid"
+            aria-describedby="teacherTraningid" />
+            <select class="form-select" aria-label="Default select example" formControlName="academicYear" tabindex="1">
+              <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                {{ this.years }}
+              </option>
+            </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Subject</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingSubject" aria-label="Default select example" class="form-select">
+            <option *ngIf="trainingSubjectChanged == false" value="">
+              --Select--
+            </option>
+
+            <option *ngFor="let subject of res" [value]="subject.subjectId">
+              {{ subject.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Name</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" formControlName="trainingName" maxlength="50"
+            aria-describedby="Name" />
+          <span class="mandatory">*</span>
+          <small>Maximum <span class="text-danger">(50)</span> Characters</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Type
+          </label>
+        </div>
+        <div class="col-md-4 form-group colon-top">
+          <span class="colon">:</span>
+          <div class="radiobuttons">
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="1" formControlName="trainingType" id="radio1" type="radio" checked />
+              <label for="radio1">Module</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="2" formControlName="trainingType" id="radio2" type="radio" checked />
+              <label for="radio2">Session</label>
+            </div>
+          </div>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Description</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <textarea class="form-control" cols="4" rows="3" formControlName="description" maxlength="400"></textarea>
+          <small>Maximum <span class="text-danger">(400)</span> Characters</small>
+        </div>
+        
+      </div>
+      <!-- <div class="row">
+            <div class="col-md-3 form-group"><label for="exampleInputEmail1" class="form-label">Last Date of Training</label></div>
+            <div class="col-md-4 form-group">
+                <span class="colon">:</span>
+                <input type="date" class="form-control" formControlName="lastDateTraining" (change)="checkTrainingDate($any($event.target).value)"  aria-describedby="Name">
+                <span class="mandatory">*</span>
+            </div>
+        </div> -->
+
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <label for="exampleInputEmail1" class="form-label">Mode of Training</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingMode" aria-label="Default select example" class="form-select">
+            <option *ngIf="trainingModeChanged == false" selected="">
+              --Select--
+            </option>
+            <option value="1">Online</option>
+            <option value="2">Offline</option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2">Update</button>
+    <!-- <a class="btn btn-danger">Reset</a> -->
+  </div>
+</form>

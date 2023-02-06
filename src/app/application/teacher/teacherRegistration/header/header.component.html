@@ -1,0 +1,21 @@
+<div class="regi__info">
+  <a [routerLink]="registrationInfoRoute" class="neuro addLink d-inline-block" routerLinkActive="active">Registration
+    Info<br>
+    पंजीकरण का विवरण</a>
+  <a [routerLink]="educationalInfoRoute" class="neuro viewLink" routerLinkActive="active">Educational Info<br> शैक्षिक
+    विवरण </a>
+  <a [routerLink]="professionalInfoRoute" class="neuro viewLink" routerLinkActive="active">Professional Info<br>
+    व्यावसायिक विवरण</a>
+  <a [routerLink]="otherInfoRoute" class="neuro viewLink" routerLinkActive="active">Other Info<br> अन्य जानकारियाँ
+    अद्यतन करें</a>
+  <a [routerLink]="draftStatus ? trainingAndLanguageInfoRoute : []" class="neuro viewLink" [routerLinkActive]="
+      draftStatus ? 'active' : trainingAndLanguageInfoRouteActive
+    ">Training & Language Info<br>
+    प्रशिक्षण और भाषा का विवरण </a>
+
+</div>
+<div class="row mt-3">
+  <button class="searchopen text-center" style="margin: auto; width: 40%">
+    {{ "Name : " + teacherName + ' , '+ "Title : " + teacherTitle}}
+  </button>
+</div>

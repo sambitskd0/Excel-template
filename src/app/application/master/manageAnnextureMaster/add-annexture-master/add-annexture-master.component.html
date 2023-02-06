@@ -1,0 +1,59 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Add Annexture Data</h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addAnnextureMaster" class="neuro addLink" routerLinkActive="active"><i
+                    class="bi bi-plus-lg me-2"></i>Add</a>
+            <a routerLink="./../viewAnnextureMaster" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="addAnnextureDataForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="annextureType" class="form-label">Annexture Type</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input appAutoFocus type="text" class="form-control" id="annextureType" aria-describedby="emailHelp"
+                        formControlName="annextureType" autocomplete="off" maxlength="25"  (keypress)="customValidator.keyPressAlphSlashUnderscore($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="annextureName" class="form-label">Annexture Name</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="annextureName" aria-describedby="emailHelp"
+                        formControlName="annextureName" autocomplete="off" maxlength="25"  (keypress)="customValidator.keyPressAlphSlashUnderscore($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <!-- <div class="col-lg-1"></div> -->
+             <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="annextureValue" class="form-label">Annexture Value</label>
+                </div>
+              <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input  type="text" class="form-control" id="annextureValue" aria-describedby="emailHelp"
+                        formControlName="annextureValue" autocomplete="off" maxlength="5"  (keypress)="customValidator.onlyNumber($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>  
+            <div class="row formpatch">
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Submit</button>
+                <button type="reset" class="btn btn-danger">Reset</button>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,231 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div> 
+        <h3 class="pageName">Opening Stock / ओपनिंग स्टॉक</h3>
+      </div>
+    </div>
+    <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य</span>
+    <div class="tabArea">
+      <a routerLink="./../addOpeningStock" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+      <a routerLink="./../viewOpeningStock" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View/देखें </a>
+    </div>
+  </div>
+  <form [formGroup]="openingStockForm" (ngSubmit)="onSearch()">
+    <div class="search-container">
+      <div class="searchPanel">
+        <div class="row">
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Asset Type<br>संपत्ति का प्रकार
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" width="100%" formControlName="assetType"
+                (change)="filterAssetName($any($event.target).value)">
+                <option value="">--Select--</option>
+                <option *ngFor="let item of asType" value="{{item.anxtValue}}">
+                  {{item.anxtName}}
+               </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Asset Name<br>संपत्ति का नाम
+              </label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" width="100%" formControlName="assetName">
+                <option value="" *ngIf="assetNameChanged==false">--- Select ---</option>
+                <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                <option *ngFor="let assetItem of assetFilterData" [value]="assetItem.assetCatId">
+                  {{ assetItem.assetName }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-2">
+            <button class="btn btn-default btn-purple"> Search/खोज करें
+              <i class="bi bi-search"></i></button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="row mt-3" [hidden]="resultListData?.length === 0">
+      <div class="top-space">
+        <div class="page__rightarea">
+          <div class="page__util">
+            <div class="util">
+
+              <a title="Excel" class="excel" (click)="downloadOpeningStockList()"><i
+                  class="bi bi-file-earmark-excel"></i></a>
+              <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+            </div>
+          </div>
+        </div>
+        <div class="table-responsive" id="viewTable">
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+          </mat-progress-bar>
+
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter">
+
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No/क्र.सं
+
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="assetType">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Type/संपत्ति का प्रकार
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element.assetType && element.assetType === 1) ? 'MDM'
+                :(element.assetType && element.assetType === 2) ? 'Inventory':(element.assetType && element.assetType
+                === 3) ? 'Sports':(element.assetType && element.assetType === 4) ? 'ICT/Smart Class':'--'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="assetName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Name/संपत्ति का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.assetName) ? element?.assetName :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="assetItemName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Item Name/संपत्ति का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.assetItemName) ?  element?.assetItemName +'-'+element?.assetItemCode :'--'}}</td>
+            </ng-container>
+            <ng-container matColumnDef="quantity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Quantity/मात्रा </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.quantity) ? element?.quantity :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="unit">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Unit/इकाई
+              </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.unit) ? element?.unit :'--' }}</td>
+            </ng-container>
+            <!-- <ng-container matColumnDef="eol">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                End Of Life (In Years)//जीवन का अंत (वर्षों में)
+              </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.eol) ? element?.eol :'--' }}</td>
+            </ng-container> -->
+            <ng-container matColumnDef="prevAssetItemCode">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Item Code
+              </th>
+              <td mat-cell *matCellDef="let element">
+                <a class="btn btn-purple" style="cursor: pointer;" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#addCodeModal" (click)="addCodeModal(element?.assetItemId,element?.quantity,element?.encId)">{{(element?.codeUpdateFlag != 1) ? 'Add Item Code' : 'View Item Code' }} </a>
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                Action/क्रिया 
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                <!-- <a title="Edit" [routerLink]="['./../editOpeningStock/', element?.encId]" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square text-primary"></i></a> -->
+                <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                  (click)="deleteOpeningStock(element?.encId,element?.assetItemId)"><i class="bi bi-trash"></i></a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                No Records Found!
+              </td>
+            </tr>
+          </table>
+
+          <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
+
+
+
+      </div>
+    </div>
+  </form>
+
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found." }}
+  </div>
+</div>
+
+<!-- modal -->    
+<div class="modal fade" id="addCodeModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asset Item Code</h5>
+        <button type="button" #closebuttonCode class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div> 
+      <form [formGroup]="assetItemCodeForm" (ngSubmit)="validateSubmitAssetCode()" enctype="multipart/form-data">  
+        <!-- <input type="hidden" formControlName="teacherIdModal"> -->
+        <div class="modal-body p-4">
+          <div class="row">
+            <table class="table table-striped  table-bordered">
+              <thead class="bg-lightpurple">
+                 <tr>
+                    <th style="width: 100px;">Sl no./ क्रम#</th>
+                    <th>Asset Item Name / एसेट आइटम का नाम</th>
+                    <th>Asset Item Code(New) / एसेट आइटम कोड (नया)</th>
+                    <th>Asset Item Code(Previous) / एसेट आइटम कोड (पिछला) <span class="text-danger">*</span></th>
+                    <th>End Of Life (In Years)/ जीवन का अंत (वर्षों में)</th>
+                 </tr>
+              </thead>
+              <tbody formArrayName="assetItemCodeArray">
+                <tr *ngFor="let item of assetItemCodeInfo().controls; index as i" [formGroupName]="i">
+                  <td>{{i+1}}</td>
+                  <td>
+                    {{item?.get('assetItemName')?.value}}
+                  </td>
+                  <td>
+                    <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                    formControlName="stockId">
+                    <input type="hidden" aria-describedby="emailHelp" class="form-control"
+                    formControlName="openingStockId">
+                    <label>{{(item?.get('assetItemCode')?.value) ? item?.get('assetItemCode')?.value : 'NA'}}</label>
+                  </td>
+                  <td>
+                    <input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="prevAssetItemCode" (keypress)="customValidators.alphaNumericValidator($event,'slash','hyphen','space')"
+                                    (keypress)="customValidators.firstCharValidator($event)"  [maxLength]="30">
+                  </td>
+                  <td>
+                    <input type="text" aria-describedby="emailHelp" class="form-control"
+                                    formControlName="eol" (keypress)="customValidators.keyPressNumbers($event)"
+                                    (blur)="checkEndofLife($any($event.target).value);" [maxLength]="2">
+                  </td>
+                </tr>
+
+              </tbody>
+           </table>
+          </div>
+          <div>
+            <button class="btn btn-success me-2" *ngIf="this.codeFg !=1">Submit</button>               
+            
+          </div>
+        </div>
+      </form>   
+    </div>
+  </div>
+</div>

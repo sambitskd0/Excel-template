@@ -1,0 +1,1000 @@
+<div class="tab-pane active step3-content" role="tabpanel" id="step3">
+  <h5 class="text-center mb-3 top-space">Physical Facilities and Equipments / भौतिक सुविधाएं और उपकरण </h5>
+      <div class="row">
+          <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+              <label class="form-label"> Status of the school building <br>विद्यालय भवन की स्थिति</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ schoolBuildingStatus|| '--' }} </label>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Type of the school building / विद्यालय भवन का प्रकार</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th rowspan="2" width="250px">Total Number of building blocks of the school /
+                              विद्यालय के सक्रिय भवन खंड की कुल संख्या</th>
+                          <th colspan="6"> Out of the total number of building blocks, number of / भवन खंड की
+                              कुल संख्या में से, की संख्या </th>
+                      </tr>
+                      <tr>
+                          <th>Pucca Building / पक्का भवन</th>
+                          <th>Partially pucca (building with pucca walls and floor without concrete roof) /
+                              आंशिक रूप से पक्का (पक्की दीवारों के साथ भवन और बिना कंक्रीट की छत के फर्श)
+                          </th>
+                          <th>Kuchcha building / कच्चा बिल्डिंग</th>
+                          <th>Tent / तंबू</th>
+                          <th>Dilapidated Building / जर्जर भवन</th>
+                          <th>Building Under Construction / निर्माणाधीन भवन</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                            {{totalNoOfBuilding || '--'}}
+                          </td>
+                          <td>
+                            {{puccaBuilding || '--'}}
+                          </td>
+                          <td>
+                            {{PartiallyPuccaBuilding || '--'}}
+                          </td>
+                          <td>
+                            {{kuchchaBuilding || '--'}}
+                          </td>
+                          <td>
+                            {{tent || '--'}}
+                          </td>
+                          <td>
+                            {{dilapidatedBuliding || '--'}}
+                          </td>
+                          <td>
+                            {{buildingUnderConstruction || '--'}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Type of boundary wall <br>चारदीवारी का प्रकार</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ typeOfBoundaryWall  || '--' }}</label>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Details of classrooms available in the schools (For classes Pre Primary to XII ) / विद्यालयों
+              में उपलब्ध कक्षाओं का विवरण (पूर्व प्राथमिक से बारहवीं कक्षा के लिए)
+          </h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th>No. of Classrooms used for instructional purposes / शिक्षण उद्देश्यों के लिए
+                              उपयोग की जाने वाली कक्षाओं की संख्या </th>
+                          <th>No. of classrooms under construction / निर्माणाधीन कक्षाओं की संख्या</th>
+                          <th>Total Classrooms in dilapidated condition / जर्जर हालत में कुल कक्षाएं</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                            {{classRoomForInstructional || '--'}}
+                          </td>
+                          <td>
+                            {{classRoomUnderConstruction || '--'}}
+                          <td>
+                            {{classRoomUnderdilapidated || '--'}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Out of the Total Classrooms used for instructional purposes, the details by stage/level /
+              निर्देशात्मक उद्देश्यों के लिए उपयोग की जाने वाली कुल कक्षाओं में से, चरण/स्तर के अनुसार विवरण {{highestClass}} {{classForPrimary}}
+          </h5>
+          <div class="row">
+              <ng-container *ngIf="lowestClass<1">
+                  <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label"> Pre-Primary <br> पूर्व प्राथमिक</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ classForPreprimary  || '--' }}</label>
+
+                  </div>
+                  <div class="col-md-1"></div>
+              </div>
+              </ng-container>
+              <ng-container *ngIf="highestClass>=5">
+                  <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Primary <br>प्राथमिक</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ classForPrimary  || '--' }}</label>
+                  </div>
+                  <div class="col-md-1"></div>
+              </div>
+              </ng-container>
+              <ng-container *ngIf="highestClass>=8">
+                  <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Upper-Primary <br>ऊपरी प्राथमिक</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ classUpperprimary  || '--' }}</label>
+                  </div>
+                  <div class="col-md-1"></div>
+              </div>
+              </ng-container>
+              <ng-container *ngIf="highestClass>=10">
+                  <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Secondary <br> माध्यमिक</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ classForSecondary  || '--' }}</label>
+                      <div class="col-md-1"></div>
+                  </div>
+              </div>
+              </ng-container>
+              <ng-container *ngIf="highestClass>=12" >
+                  <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Higher-Secondary <br> उच्च माध्यमिक</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ classHighersecondary  || '--' }}</label>
+                  </div>
+                  <div class="col-md-1"></div>
+              </div>
+              </ng-container>
+              <div class="row">
+              <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Currently Not in Use <br> वर्तमान में उपयोग में नहीं है
+                  </label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ classCurrentlyNotInUse  || '--' }}</label>
+              </div>
+              </div>
+              <div class="row">
+                  <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Total Number of Classrooms used for instructional Purposes
+                          <br>शिक्षण उद्देश्यों के लिए उपयोग की जाने वाली कक्षाओं की कुल संख्या
+                      </label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ totClassForInstructional  || '--' }}</label>
+                  </div>
+              </div>
+          </div>
+         
+      </div>
+      <div class="formpatch">
+          <h5>Classrooms by condition / शर्त के अनुसार कक्षाएं</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th rowspan="2">Type of Classrooms / कक्षाओं का प्रकार</th>
+                          <th colspan="3">No. Classrooms by condition / सं. शर्त के अनुसार कक्षाएं </th>
+                      </tr>
+                      <tr>
+                          <th>Good condition / अच्छी हालत</th>
+                          <th>Need minor repair / मामूली मरम्मत की जरूरत है</th>
+                          <th>Need major repair / बड़ी मरम्मत की जरूरत है</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Pucca / पक्का भवन </td>
+                          <td>
+                            {{puccaClassGoodCondition || '--'}} 
+                          </td>
+                          <td>
+                            {{puccaClassMinorRepair || '--'}} 
+                          </td>
+                          <td>
+                            {{puccaClassMajorRepair || '--'}} 
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Partially pucca / आंशिक रूप से पक्का</td>
+                          <td>
+                            {{partiallyPuccaClassGoodCondition || '--'}} 
+                          </td>
+                          <td>
+                            {{partiallyPuccaClassMinorRepair || '--'}} 
+                          </td>
+                          <td>
+                            {{partiallyPuccaClassMajorRepair || '--'}} 
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Kuchcha / कच्चा </td>
+                          <td>
+                            {{kuchchaClassGoodCondition || '--'}} 
+                          </td>
+                          <td>
+                            {{kuchchaClassMinorRepair || '--'}}
+                          </td>
+                          <td>
+                            {{kuchchaClassMajorRepair || '--'}} 
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>Tent / तंबू </td>
+                          <td>
+                            {{tentClassGoodCondition || '--'}}
+                          </td>
+                          <td>
+                            {{tentClassMinorRepair || '--'}}
+                          </td>
+                          <td>
+                            {{tentClassMajorRepair || '--'}}
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Total number of rooms other than classrooms available in the
+                      school <br> विद्यालय में उपलब्ध कक्षाओं के अलावा अन्य कमरों की कुल संख्या
+                  </label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ roomOtherThenClass  || '--' }}</label>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Does the school have toilet? <br> क्या स्कूल में शौचालय है?
+                  </label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ (isSchoolHaveToilet == 1)?'Yes':'No' }}</label>
+              </div>
+          </div>
+      </div>
+      <ng-container *ngIf="isSchoolHaveToilet == 1">
+          <div class="formpatch">
+              <h5>Details of Toilets / शौचालयों का विवरण</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th height="17" rowspan="2">Sl#/ क्रमांक#</th>
+                              <th rowspan="2">Description / विवरण</th>
+                              <th colspan="2"> Boys / लड़के</th>
+                              <th colspan="2">Girls / लड़कियाँ</th>
+                              <th colspan="2">Total / कुल</th>
+                          </tr>
+                          <tr>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>1</td>
+                              <td>Number of toilet seats available excluding CWSN friendly toilets /
+                                  सीडब्ल्यूएसएन अनुकूल शौचालयों को छोड़कर उपलब्ध शौचालय सीटों की संख्या</td>
+                              <td>
+                                {{ totalToiletForBoysExcludCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalToiletForBoysExcludCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalToiletForGirlsExcludCwsn  || '--' }}                                
+                              </td>
+                              <td>
+                                {{ functionalToiletForGirlsExcludCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalNoOfToiletExcludCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalFunctionalToiletExcludCwsn  || '--' }}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>2</td>
+                              <td>Number of CWSN friendly toilet seats / सीडब्ल्यूएसएन अनुकूल शौचालय सीटों की
+                                  संख्या</td>
+                              <td>
+                                {{ totalToiletForBoysOnCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalToiletForBoysOnCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalToiletForGirlsOnCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalToiletForGirlsOnCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalNoOfToiletOnCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalFunctionalToiletOnCwsn  || '--' }}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>3</td>
+                              <td>Total number of toilet seats including CWSN friendly toilets / अनुकूल
+                                  शौचालयों सहित शौचालय सीटों की कुल संख्या</td>
+                              <td>
+                                {{ totalToiletForBoysIncludeCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalToiletForBoysIncludeCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalToiletForGirlsIncludeCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalToiletForGirlsIncludeCwsn  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalNoOfToiletIncludeCwsn  || '--' }}
+                               </td>
+                              <td>
+                                {{ totalFunctionalToiletIncludeCwsn  || '--' }}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <!-- </ng-container> -->
+          <div class="formpatch">
+              <h5>Details of urinals / मूत्रालयों का विवरण</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th rowspan="2">Sl# / क्रमांक#</th>
+                              <th rowspan="2">Description / विवरण</th>
+                              <th colspan="2"> Boys / लड़के</th>
+                              <th colspan="2">Girls / लड़कियाँ</th>
+                              <th colspan="2">Total / कुल</th>
+                          </tr>
+                          <tr>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                              <th>Total / कुल</th>
+                              <th>Functional / कार्यात्मक</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>1</td>
+                              <td>Total number of Urinals available / उपलब्ध मूत्रालयों की कुल संख्या</td>
+                              <td>
+                                {{ totalUrinalsForBoys  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalUrinalsForBoys  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalUrinalsForGirls  || '--' }}
+                              </td>
+                              <td>
+                                {{ functionalUrinalsForGirls  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalNoOfUrinals  || '--' }}
+                              </td>
+                              <td>
+                                {{ totalFunctionalUrinals  || '--' }}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-md-4 form-group">
+                  <label class="form-label">Out of the total number of functional toilets, how many have
+                      running water available in the toilet for flushing and cleaning?
+                      <br>कार्यात्मक शौचालयों की कुल संख्या में से कितने शौचालय में फ्लशिंग और सफाई के लिए
+                      बहता पानी उपलब्ध है?</label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label"> {{ watterAvailInFunctionalTiletsForBoys  || '--' }} (Boys)</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <label class="form-label"> {{ watterAvailInFunctionalTiletsForGirls  || '--' }} (Girls)</label>  
+              </div>
+              <div class="col-md-2"></div>
+              <div class="col-md-4 form-group">
+                  <label class="form-label">Out of the total number of functional urinals, how many have
+                      running water available in the urinal for flushing and cleaning? <br>कार्यात्मक
+                      मूत्रालयों की कुल संख्या में से कितने में निस्तब्धता और सफाई के लिए मूत्रालय में बहता
+                      पानी उपलब्ध है?</label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label">{{ watterAvailInFunctionalUrinalsForBoys  || '--' }}</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <label class="form-label">{{ watterAvailInFunctionalUrinalsForGirls  || '--' }}</label> 
+              </div>
+          </div>
+          <div class="alert alert-danger" role="alert">
+              Note: ♦ Definition of functional toilet: water available in the toilet, minimal odor (no foul
+              smell),
+              unbroken seat, regularly cleaned,dry, with working drainage system, accessible to users,
+              closable door
+              <br>नोट: ♦ कार्यात्मक शौचालय की परिभाषा: शौचालय में उपलब्ध पानी, न्यूनतम गंध (कोई दुर्गंध नहीं),
+              अखंड सीट, नियमित रूप से साफ, सूखा, काम करने वाली जल निकासी प्रणाली के साथ, उपयोगकर्ताओं के लिए
+              सुलभ, बंद दरवाजा
+          </div>
+          <div class="row">
+              <div class="col-md-4 form-group">
+                  <label class="form-label">Is hand washing facility with soap available near toilets/urinals
+                      block?
+                      <br>क्या शौचालय/मूत्रालय खंड के पास साबुन से हाथ धोने की सुविधा उपलब्ध है?
+                  </label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label">{{ (isHandWashingAvailAtToilet == 1)?'Yes':(isHandWashingAvailAtToilet == 2)?'No':'--' }}</label>  
+              </div>
+              <div class="col-md-5"> </div>
+              <div class="col-md-4 form-group">
+                  <label class="form-label">Whether incinerator is available in/ attached to girls toilet?
+                      <br>क्या भस्मक लड़कियों के शौचालय में / संलग्न उपलब्ध है?
+                  </label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label">{{ (isIncineratorAvail == 1)?'Yes':(isIncineratorAvail == 2)?'No':'--' }}</label> 
+              </div>
+              <div class="col-md-5"> </div>
+          </div>
+      </ng-container>
+      <div class="row">
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether drinking water is available in the school premises? <br>क्या
+                  विद्यालय परिसर में पीने का पानी उपलब्ध है?</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isDrinkingWaterAvail == 1)?'Yes':'No' }}</label>
+          </div>
+          <ng-container *ngIf="isDrinkingWaterAvail==1">
+              <label class="col-md-12 form-label mb-1">(b) Main Source of Drinking Water <br>पीने के पानी का
+                  मुख्य स्रोत
+              </label>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <!-- <th>Main Source of drinking water</th>
+                              <th>No. of Units</th>
+                              <th>No. of Functional Units</th> -->
+                              <th>Source / स्रोत
+                              </th>
+                              <th>Availability (1-Yes, 2-No) / उपलब्धता (1-हाँ, 2-नहीं)
+                              </th>
+                              <th>Functional (1-Yes, 2-No) / कार्यात्मक (1-हाँ, 2-नहीं)
+                              </th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <!-- <td>Hand Pumps</td>
+                              <td><input type="text" class="form-control" formControlName="totalHandPumpAvail"
+                                      #totalHandPumpAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="totalToFunctionalValidation(totalHandPumpAvail,functionalHandPumpAvail)">
+                              </td>
+                              <td><input type="text" class="form-control"
+                                      formControlName="functionalHandPumpAvail" #functionalHandPumpAvail
+                                      (keypress)="customValidators.keyPressNumbers($event)" maxlength="3"
+                                      autocomplete="off"
+                                      (blur)="WaterCategoryValid(totalHandPumpAvail,functionalHandPumpAvail)">
+                              </td> -->
+                              <td>Hand Pumps / हैंडपंप
+                              </td>
+                              <td>
+                                {{ (isHandPumpAvail == 1)?'Yes':(isHandPumpAvail == 2)?'No':'--' }} 
+                              </td>
+                              <ng-container *ngIf="isHandPumpAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isHandPumpFunctional == 1)?'Yes':(isHandPumpFunctional == 2)?'No':'--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Protected Well / अच्छी तरह से संरक्षित
+                              </td>
+                              <td>
+                                {{ (isProtectedWellAvail == 1)?'Yes':(isProtectedWellAvail == 2)?'No':'--' }}  
+                              </td>
+                              <ng-container *ngIf="isProtectedWellAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isProtectedWellFunctional == 1)?'Yes':(isProtectedWellFunctional == 2)?'No':'--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Unprotected Well / असुरक्षित कुएं
+                              </td>
+                              <td>
+                                {{ (isUnProtectedWellAvail == 1)?'Yes':(isUnProtectedWellAvail == 2)?'No':'--' }}  
+                              </td>
+                              <ng-container *ngIf="isUnProtectedWellAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isUnProtectedWellFunctional == 1)?'Yes':(isUnProtectedWellFunctional == 2)?'No':'--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Tap water / नल का पानी
+                              </td>
+                              <td>
+                                {{ (isTapWaterAvail == 1)?'Yes':(isTapWaterAvail == 2)?'No':'--' }}  
+                              </td>
+                              <ng-container *ngIf="isTapWaterAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isTapWaterFunctional == 1)?'Yes':(isTapWaterFunctional == 2)?'No':'--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Packaged/Bottled Water / बोतलबंद पानी
+                              </td>
+                              <td>
+                                {{ (isBottledWaterAvail == 1)?'Yes':(isBottledWaterAvail == 2)?'No':'--' }}  
+                              </td>
+                              <ng-container *ngIf="isBottledWaterAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isBottledWaterFunctional == 1)?'Yes':(isBottledWaterFunctional == 2)?'No':'--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Others / अन्य
+                              </td>
+                              <td>
+                                {{ (isOtherWaterAvail == 1)?'Yes':(isOtherWaterAvail == 2)?'No':'--' }}  
+                              </td>
+                              <ng-container *ngIf="isOtherWaterAvail == 1 else emptyTab">
+                                  <td>
+                                    {{ (isOtherWaterFunctional == 1)?'Yes':(isOtherWaterFunctional == 2)?'No':'--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </ng-container>
+          <div class="clearfix">
+          </div>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether water purifier/RO is available in the school? <br>क्या
+                  विद्यालय में वाटर जल शोधक उपलब्ध है?</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isPurifierAvail == 1)?'Yes':(isPurifierAvail == 2)?'No':(isPurifierAvail == 3)?'Yes, but not functional':'--' }} </label>              
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether water quality is tested from water testing lab? <br>क्या वाटर
+                  टेस्टिंग लैब से पानी की गुणवत्ता की जांच की जाती है? </label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isWaterQualityTested == 1)?'Yes':(isWaterQualityTested == 2)?'No':'--' }} </label>
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Does the school have provision for rain water harvesting?</label>
+              <br>क्या विद्यालय में वर्षा जल संचयन की व्यवस्था है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isRainWaterHarvestingAvail == 1)?'Yes':(isRainWaterHarvestingAvail == 2)?'No':(isRainWaterHarvestingAvail == 3)?'Yes, but not functional':'--' }} </label>  
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether hand washing facility with soap available for washing hands
+                  before and
+                  after meal?</label>
+              <br>क्या भोजन से पहले और बाद में हाथ धोने के लिए साबुन से हाथ धोने की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isHandWashingAvail == 1)?'Yes':(isHandWashingAvail == 2)?'No':'--' }} </label>              
+          </div>
+          <div class="col-xxl-5"> </div>
+          <ng-container *ngIf="isHandWashingAvail == 1">
+              <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If Yes, Number of wash points</label>
+                  <br>यदि हाँ, तो धुलाई बिंदु की संख्या
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ noOfWashPoints || '--' }} </label>  
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether electricity connection is available in the school?</label>
+              <br>क्या विद्यालय में बिजली कनेक्शन उपलब्ध है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isElectricityAvail == 1)?'Yes':(isElectricityAvail == 2)?'No':(isElectricityAvail == 3)?'Yes, but not functional':'--' }} </label>  
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+              <label class="form-label">Whether solar panel is available in school ?</label>
+              <br>क्या विद्यालय में सौर पैनल उपलब्ध है ?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isSolarPanelAvail == 1)?'Yes':(isSolarPanelAvail == 2)?'No':(isSolarPanelAvail == 3)?'Yes, but not functional':'--' }} </label>                
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Whether the school have Library facility/Book Bank/Reading Corner? / क्या विद्यालय में पुस्तकालय
+              की सुविधा/बुक बैंक/पढ़ने का कोना है ?</h5>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th></th>
+                          <th>Available / उपलब्ध </th>
+                          <th>Total numbers of books / पुस्तकों की कुल संख्या </th>
+                          <th>Total number of books from NCERT,NBT or any other Government publisher /
+                              <br>एनसीईआरटी, एनबीटी या किसी अन्य सरकारी प्रकाशक से पुस्तकों की कुल संख्या
+                          </th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>Library / पुस्तकालय </td>
+                          <td>
+                            {{ (isLibraryAvail == 1)?'Yes':(isLibraryAvail == 2)?'No':'--' }} 
+                          </td>
+                          <ng-container *ngIf="isLibraryAvail == 1 else emptyTab">
+                              <td>
+                                {{ totalBookInLibrary || '--' }}
+                              </td>
+                              <td>
+                                {{ bookFromGovtPublisherInLibrary || '--' }}
+                              </td>
+                          </ng-container>
+                      </tr>
+                      <tr>
+                          <td>Book Bank / बुक बैंक</td>
+                          <td>
+                            {{ (isBookBankAvail == 1)?'Yes':(isBookBankAvail == 2)?'No':'--' }} 
+                          </td>
+                          <ng-container *ngIf="isBookBankAvail == 1 else emptyTab">
+                              <td>
+                                {{ totalBookInBookBank || '--' }}
+                              </td>
+                              <td>
+                                {{ bookFromGovtPublisherInBookbank || '--' }}
+                              </td>
+                          </ng-container>
+                      </tr>
+                      <tr>
+                          <td>Reading Corner / पढ़ने का कोना</td>
+                          <td>
+                            {{ (isReadingCornerAvail == 1)?'Yes':(isReadingCornerAvail == 2)?'No':'--' }} 
+                          </td>
+                          <ng-container *ngIf="isReadingCornerAvail == 1 else emptyTab">
+                              <td>
+                                {{ totalBookInReadingCorner || '--' }}
+                              </td>
+                              <td></td>
+                          </ng-container>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Does the school have a full-time librarian?</label>
+              <br>क्या विद्यालय में पूर्णकालिक पुस्तकालयाध्यक्ष है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isLibrarianAvail == 1)?'Yes':(isLibrarianAvail == 2)?'No':'--' }} </label>              
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Does the school subscribe to newspapers/magazines?</label>
+              <br>क्या विद्यालय समाचार पत्रों/पत्रिकाओं की सदस्यता लेता है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isNewspaperAvail == 1)?'Yes':(isNewspaperAvail == 2)?'No':'--' }} </label>  
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether land is available for expansion of school facilities <br>क्या
+                  विद्यालय सुविधाओं के विस्तार के लिए भूमि उपलब्ध है</label>
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (islandExpansionAvil == 1)?'Yes':(islandExpansionAvil == 2)?'No':'--' }} </label> 
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether Playground facility is available?</label>
+              <br>क्या खेल के मैदान की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isPlaygroundAvail == 1)?'Yes':(isPlaygroundAvail == 2)?'No':'--' }} </label> 
+          </div>
+          <div class="col-xxl-5"> </div>
+          <div class="clearfix"></div>
+          <ng-container *ngIf="isPlaygroundAvail == 2 ">
+              <div class="col-lg-4 col-md-12 form-group">
+                  <label class="form-label">If No, Whether school has made adequate arrangements for children
+                      to play
+                      outdoor games and other physical activities in an adjoining playground/municipal park
+                      etc.</label>
+                  <br>यदि नहीं, तो क्या विद्यालय ने बच्चों के लिए खेल के मैदान/नगरपालिका पार्क आदि में बाहरी
+                  खेल और अन्य शारीरिक गतिविधियों के लिए पर्याप्त व्यवस्था की है।
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ (isAdjoiningPlaygroundAvail == 1)?'Yes':(isAdjoiningPlaygroundAvail == 2)?'No':'--' }} </label> 
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether Medical check-up of students was conducted in last academic
+                  year</label>
+              <br>क्या पिछले शैक्षणिक वर्ष में छात्रों का मेडिकल चेक-अप किया गया था?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isMedicalCheckupConducted == 1)?'Yes':(isMedicalCheckupConducted == 2)?'No':'--' }} </label>               
+          </div>
+          <div class="col-xxl-5"> </div>
+          <ng-container *ngIf="isMedicalCheckupConducted == 1 ">
+              <div class="col-lg-4 col-md-12 form-group">
+                  <label class="form-label">If Yes, Total number of Medical check-ups conducted in the school
+                      during last
+                      academic year</label>
+                  <br>यदि हां, तो पिछले शैक्षणिक वर्ष के दौरान स्कूल में आयोजित चिकित्सा जांच की कुल संख्या
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ noOfMedicalCheckupConducted || '--' }} </label>  
+              </div>
+              <div class="col-xxl-5"> </div>
+          </ng-container>
+      </div>
+      <div class="row">
+          <label class="col-md-12 form-label mb-2">Health check-up parameters carried out / स्वास्थ्य जांच के
+              मापदंड पूरे किए गए :</label>
+          <div class="table-responsive">
+              <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                      <tr>
+                          <th>Height / कद</th>
+                          <th>Weight / वज़न</th>
+                          <th>Eyes / आँखें</th>
+                          <th>Dental / चिकित्सकीय</th>
+                          <th>Throat / गला</th>
+                      </tr>
+                  </thead>
+                  <tbody>
+                      <tr>
+                          <td>
+                             {{ (isHeightParameterAvail == 1)?'Yes':(isHeightParameterAvail == 2)?'No':'--' }}                              
+                          </td>
+                          <td>
+                             {{ (isWeightParameterAvail == 1)?'Yes':(isWeightParameterAvail == 2)?'No':'--' }} 
+                          </td>
+                          <td>
+                             {{ (isEyesParameterAvail == 1)?'Yes':(isEyesParameterAvail == 2)?'No':'--' }} 
+                          </td>
+                          <td>
+                             {{ (isDentalParameterAvail == 1)?'Yes':(isDentalParameterAvail == 2)?'No':'--' }} 
+                          </td>
+                          <td>
+                             {{ (isThroatParameterAvail == 1)?'Yes':(isThroatParameterAvail == 2)?'No':'--' }} 
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">De-worming tablets given to children?</label>
+              <br>बच्चों को दी कृमिनाशक गोली ?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isDewormingTabletGiven == 1)?'Complete (two doses)':(isDewormingTabletGiven == 2)?'Partially (one dose)':(isDewormingTabletGiven == 3)?'Not given':'--' }} </label>
+          </div>
+        
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether school maintains Annual health records?</label>
+              <br>क्या विद्यालय वार्षिक स्वास्थ्य रिकॉर्ड रखता है?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isAnnualHealthRecordMaintained == 1)?'Yes':(isAnnualHealthRecordMaintained == 2)?'No':'--' }} </label>
+          </div>
+          
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Is thermal scanner available in the school?</label>
+              <br>क्या विद्यालय में तापीय स्कैनर उपलब्ध है?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isTharmalScannerAvail == 1)?'Yes':(isTharmalScannerAvail == 2)?'No':'--' }} </label>
+          </div>
+         
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Is First Aid facility available?</label>
+              <br>क्या प्राथमिक उपचार की सुविधा उपलब्ध है?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isFirstAidKitAvail == 1)?'Yes':(isFirstAidKitAvail == 2)?'No':'--' }} </label>
+          </div>
+          
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Is life saving/essential medicines available?</label>
+              <br>क्या जीवन रक्षक/आवश्यक दवाएं उपलब्ध हैं?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isLifeSavingMedicineAvail == 1)?'Yes':(isLifeSavingMedicineAvail == 2)?'No':'--' }} </label>
+          </div>
+         
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Iron and Folic acid tablets given to children as per guidelines of
+                  WCD</label>
+              <br>डब्ल्यूसीडी के दिशा-निर्देशों के अनुसार बच्चों को दी गई आयरन और फोलिक एसिड की गोलियां
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isIronAndFolicTabletsGiven == 1)?'Yes':(isIronAndFolicTabletsGiven == 2)?'No':'--' }} </label>
+          </div>
+        
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether ramp for disabled children to access school building exists
+                  ?</label>
+              <br>क्या विकलांग बच्चों के लिए विद्यालय भवन तक पहुँचने के लिए रैंप मौजूद है?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isRampAvail == 1)?'Yes':(isRampAvail == 2)?'No':'--' }} </label>
+          </div>
+         
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether Hand-rails for ramp is available ?</label>
+              <br>क्या रैंप के लिए हैंड-रेल उपलब्ध हैं?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isHandRailsForRampAvail == 1)?'Yes':(isHandRailsForRampAvail == 2)?'No':'--' }} </label>
+          </div>
+        
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether School has special educator ?</label>
+              <br>क्या विद्यालय में विशेष शिक्षक है ?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isSpecialEducatorAvail == 1)?'Dedicated':(isSpecialEducatorAvail == 2)?'At cluster level':'--' }} </label>
+          </div>
+
+          <div class="col-lg-4 col-md-12 form-group">
+              <label class="form-label">Whether Kitchen Garden is available in school?</label>
+              <br>क्या विद्यालय में शाक वाटिका उपलब्ध है?
+          </div>
+          <div class="col-lg-8 col-md-12 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isKitchenGardenAvail == 1)?'Yes':(isKitchenGardenAvail == 2)?'No':'--' }} </label>
+          </div>
+      </div>
+      <div class="formpatch">
+          <h5>Does the school have dustbins for collection of waste? / क्या विद्यालय में कूड़ा उठाने के लिए
+              कूड़ेदान हैं?</h5>
+          <div class="row">
+              <div class="col-lg-2 col-md-12 form-group">
+                  <label class="form-label">Each Class Room</label>
+                  <br>प्रत्येक कक्षा कक्ष
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ (isEachClassRoomDustbinAvail == 1)?'Yes and all':(isEachClassRoomDustbinAvail == 2)?'No':(isEachClassRoomDustbinAvail == 3)?'Yes but some':'--' }} </label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-lg-2 col-md-12 form-group">
+                  <label class="form-label">Toilet</label>
+                  <br>शौचालय
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ (isToiletDustbinAvail == 1)?'Yes':(isToiletDustbinAvail == 2)?'No':'--' }} </label>
+              </div>
+              <div class="col-lg-2 col-md-12 form-group">
+                  <label class="form-label">Kitchen</label>
+                  <br>रसोईघर
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ (isKitchenDustbinAvail == 1)?'Yes':(isKitchenDustbinAvail == 2)?'No':'--' }} </label>
+              </div>
+          </div>
+      </div>
+      <div class="col-md-5"> </div>
+      <div class="row">
+          <div class="col-md-4 form-group">
+              <label class="form-label">Does the school have furniture for students?</label>
+              <br>क्या विद्यालय में छात्रों के लिए फर्नीचर है?
+          </div>
+          <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold">{{ (isFurnitureAvail == 1)?'Yes for all':(isFurnitureAvail == 2)?'Partial':(isFurnitureAvail == 3)?'No Furniture Available':'--' }} </label>
+          </div>
+      </div>
+      <ng-container *ngIf="isFurnitureAvail == 1 || isFurnitureAvail == 2">
+          <div class="row">
+              <div class="col-md-4 form-group">
+                  <label class="form-label">If 1-Yes for all or 2-Partial then, No. of students for whom
+                      furniture is
+                      available ?</label>
+                  <br>यदि सभी के लिए 1-हां या 2-आंशिक तो, उन छात्रों की संख्या जिनके लिए फर्नीचर उपलब्ध है?
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold"> {{ noOfFurnitureAvail || '--' }}</label>
+              </div>
+          </div>
+      </ng-container>
+</div>
+
+<ng-template #emptyTab>
+  <td></td>
+  <td></td>
+</ng-template>

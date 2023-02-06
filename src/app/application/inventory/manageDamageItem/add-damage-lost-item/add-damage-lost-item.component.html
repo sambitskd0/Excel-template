@@ -1,0 +1,259 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Damage /Lost Item / क्षति / खोया आइटम
+        </h3>
+      </div>
+    </div>
+    <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+    </span>
+    <div class="tabArea">
+      <a routerLink="../addDamageItem" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें 
+      </a>
+      <a routerLink="../viewDamageItem" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें 
+      </a>
+    </div>
+  </div>
+  <form [formGroup]="damageItemForm" (ngSubmit)="validateSubmitStock();">
+    <div class="top-space formpatch">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">Date<br>तिथि 
+            </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class=""><span class="colon">:</span>
+            <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" id="exampleInputEmail1" aria-describedby="emailHelp"
+              [maxDate]="maxDate" formControlName="damageDate" readonly>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+      <div class="row mt-4">
+        <div class="table-responsive">
+          <table class="table  table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th scope="col" width="15px">SI# / क्र.सं 
+                </th>
+                <th scope="col">Asset Type / संपत्ति का प्रकार <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Asset Name / संपत्ति का नाम <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Asset Item Name / संपत्ति वस्तु का नाम <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Unit / इकाई <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Is Code Available / क्या कोड उपलब्ध है ? <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Available Stock/
+                  मौजूदा भंडार <span class="text-danger">*</span></th>
+                <th scope="col">Quantity / मात्रा <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Reason of Damage / नुकसान की वजह <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Remark / टिप्पणी <span class="text-danger">*</span>
+                </th>
+                <th scope="col">Actions / क्रियाएँ 
+                </th>
+              </tr>
+            </thead>
+            <tbody formArrayName="damageItemArray">
+              <tr *ngFor="let item of damageLostInfo().controls; index as i" [formGroupName]="i">
+                <td>{{ i + 1 }}</td>
+                <td><select class="form-select" aria-label="Default select example" width="100%"
+                    formControlName="assetType" (change)="filterAssetName($any($event.target).value, i)"
+                    autocomplete="off">
+                    <option value="" *ngIf="assetTypeChanged==false">-- Select --</option>
+                    <option value="" *ngIf="assetTypeChanged==true">Loading...</option>
+                    <option *ngFor="let item of asType" value="{{item.anxtValue}}">
+                      {{item.anxtName}}
+                    </option>
+                  </select></td>
+                <td><select class="form-select" aria-label="Default select example" width="100%"
+                    formControlName="assetName" (change)="getUnit($any($event.target).value, i)"
+                    (change)="filterAssetItem($any($event.target).value, i);" autocomplete="off">
+                    <option value="" *ngIf="assetNameChanged==false">-- Select --</option>
+                    <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                    <option *ngFor="let assetItem of assetFilterData[i]" [value]="assetItem.assetCatId">
+                      {{ assetItem.assetName }}
+                    </option>
+                  </select></td>
+                <td>
+                  <select class="form-select" aria-label="Default select example" width="100%"
+                    formControlName="assetItemName" autocomplete="off"
+                    (change)="getTotalStock($any($event.target).value, i);">
+                    <option value="" *ngIf="assetNameChanged==false">-- Select --</option>
+                    <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                    <option *ngFor="let assetItemN of assetItemData[i]"
+                      [value]="assetItemN.assetItemId +'-'+ assetItemN.assetItemCode">
+                      {{ assetItemN.assetItemName +' - '+ assetItemN.assetItemCode }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <select class="form-select" aria-label="Default select example" width="100%" formControlName="unit"
+                    autocomplete="off">
+                    <option value="" *ngIf="unitChanged==false">-- Select --</option>
+                    <option value="" *ngIf="unitChanged==true">Loading...</option>
+                    <option *ngFor="let units of incUnit" value="{{units.anxtValue}}">
+                      {{units.anxtName}}
+                    </option>
+                  </select>
+                  <input type="hidden" formControlName="chackedItemFromModal">
+                  <input type="hidden" formControlName="chackedItemCode">
+                </td>
+                <td>
+
+                  <select class="form-select" aria-label="Default select example" width="100%"
+                    formControlName="codeAvailable" autocomplete="off" (change)="codeAvailableChange(i)">
+                    <option value="">-- Select --</option>
+                    <option value="1">Yes</option>
+                    <option value="2">No</option>
+
+                  </select>
+                  <ng-container *ngIf="codeChangeArr[i]">
+                    <a class="badge badge-primary bg-primary text-white" data-bs-toggle="modal"
+                      data-bs-target="#viewCode" style="cursor: pointer;"
+                      (click)="selectItemModal(i)">Select Item</a>
+                  </ng-container>
+                </td>
+                <!-- <td><label *ngIf="totalStockValue?.length && unitData[this.unitEach[i]]?.length">{{(totalStockValue[i]
+                    === 'NA') ? totalStockValue[i] : totalStockValue[i] +' '+unitData[this.unitEach[i]]}}</label></td>
+                <td> -->
+                  <td><label *ngIf="totalStockValue?.length">{{(totalStockValue[i]
+                    === 'NA') ? totalStockValue[i] : totalStockValue[i]}}</label></td>
+                <td>
+                  <ng-container *ngIf="codeChangeArr[i] ; else editQuantity">
+                    <input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control inputAsLabel"
+                    formControlName="quantity" autocomplete="off" [maxLength]="4"
+                    (blur)="greaterThanZero($any($event.target).value)" (keypress)="customValidators.keyPressNumbers($event)" readonly>
+                  </ng-container>
+                  <ng-template #editQuantity>
+                    <input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control"
+                    formControlName="quantity" autocomplete="off" [maxLength]="4"
+                    (blur)="greaterThanZero($any($event.target).value)" (keypress)="customValidators.keyPressNumbers($event)">
+                  </ng-template>
+                  </td>
+                <!-- (blur)="quantityCheckDamageItem(i);" -->
+                <td><select class="form-select" aria-label="Default select example" width="100%"
+                    formControlName="reasonDamage" autocomplete="off">
+                    <option value="" *ngIf="unitChanged==false">-- Select --</option>
+                    <option value="" *ngIf="unitChanged==true">Loading...</option>
+                    <option *ngFor="let damage of damageR" value="{{damage.anxtValue}}">
+                      {{damage.anxtName}}
+                    </option>
+                  </select></td>
+                <td><textarea cols="12" rows="2" style="width: 100%;" class="form-control" formControlName="remark"
+                    autocomplete="off"></textarea>
+                  <span class="minimum-text"> Maximum <span class="minimum-text text-danger">(300)</span>Characters
+                    allowed</span>
+                </td>
+                <td width="120">
+                  <button type="button" class="btn btn-success btn-sm me-2" (click)="addRow(i)"><i
+                      class="bi bi-plus-lg"></i></button>
+                  <button type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)"><i
+                      class="bi bi-dash-lg"></i></button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+    </div>
+
+    <div>
+      <button class="btn btn-success me-2">Submit/जमा करें
+      </button>
+      <button type="button" class="btn btn-danger" (click)="resetForm()">Reset/पुनर्स्थापित 
+      </button>
+    </div>
+  </form>
+  <!-- select item modal start -->
+  <div class="modal fade" id="viewCode" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Select Asset Item</h5>
+          <button type="button" #CheckItemModalClose class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <!-- <form [formGroup]="assetItemCodeForm" (ngSubmit)="validateSubmitAssetCode()" enctype="multipart/form-data">   -->
+        <!-- <input type="hidden" formControlName="teacherIdModal"> -->
+        <div class="modal-body p-4">
+          <form [formGroup]="damageItemModalForm" (ngSubmit)="onSubmitChk()">
+            <div class="row">
+              <table class="table table-striped  table-bordered">
+                <thead class="bg-lightpurple">
+                  <tr>
+                    <th>
+                      <div class="checkbox check__box">
+                        <div class="form-group me-0">
+                          <label>
+                            <input type="checkbox" class="check" formControlName="checkAll" [checked]="checkAll" [value]=checkAll (click)="checkUncheckAll(this.arrayIndex)">
+                            <span></span>
+                          </label>
+                        </div>
+                      </div>                      
+                      <input type="hidden" formControlName="index">
+                    </th>
+                    <th style="width: 100px;">Sl no. / क्रम#</th>
+                    <th>Asset Item Name / एसेट आइटम का नाम</th>
+                    <th>Asset Item Code / एसेट आइटम कोड </th>
+                    <th>Stock Entry Date / स्टॉक प्रविष्टि तिथि </th>
+                    <th>End Of Life (In Years) / जीवन का अंत (वर्षों में)</th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="checkRec">
+                  <!-- <tr  *ngFor="let item of itemCodeData; let i = index"> -->
+                  <!-- <input type="hidden" formControlName="index"> -->
+                  <tr *ngFor="let stdData of assetCodeChk().controls; let stdIndex=index">
+                    <ng-container [formGroupName]="stdIndex">
+                      <td>
+                        <div class="checkbox check__box">
+                          <div class="form-group me-0">
+                            <label>
+                              <input type="checkbox" class="check" [id]="stdData?.get('assetItemCode')?.value"
+                                formControlName="checkItem" [checked]="selectedCheckValue.includes(stdData?.get('assetItemCode')?.value)" [value]="stdData?.get('assetItemCode')?.value" (click)="singlecheckUncheck(stdIndex)">
+                              <span></span>
+                            </label>
+                          </div>
+                        </div>
+                      </td>
+                      <td>{{stdIndex+1}}
+                        <input type="hidden" formControlName="assetItemCode">
+                        <input type="hidden" formControlName="assetItemName">
+                        <input type="hidden" formControlName="createdOn">
+                        <input type="hidden" formControlName="eol">
+                      </td>
+                      <td>{{stdData?.get('assetItemName')?.value}}</td>
+                      <td>{{stdData?.get('assetItemCode')?.value}}   </td>
+                      <td>{{(stdData?.get('createdOn')?.value) ? (stdData?.get('createdOn')?.value | date:'dd-MMM-YYYY') :'--'}}</td>
+                      <td>{{stdData?.get('eol')?.value}}</td>
+                      <!--  <td>{{(item.assetItemName) ? item.assetItemName :'--'}}</td>
+                  <td>{{(item.assetItemCode) ? item.assetItemCode :'--'}}</td>
+                  <td>{{(item.createdOn) ? (item.createdOn | date:'dd-MMM-YYYY') :'--'}}</td>
+                  <td>{{(item.eol) ? item.eol :'--'}}</td> -->
+                    </ng-container>
+                  </tr>
+
+                </tbody>
+              </table>
+            </div>
+            <div>
+              <button class="btn btn-success me-2">Submit</button>
+
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- select item modal end -->
+</div>

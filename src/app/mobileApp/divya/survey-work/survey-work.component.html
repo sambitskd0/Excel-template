@@ -1,0 +1,805 @@
+<div class="screen-space mobApp">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- <div class="back-btn">
+      <a class="btn btn-purple"
+        ><i class="bi bi-arrow-return-left"></i> Back
+      </a>
+    </div> -->
+    <div class="indicator">( * ) Indicator Mandatory</div>
+  </div>
+  <div class="pageHeading">
+    <div class="d-flex justify-content-between">
+      <div>
+        <h3 class="pageName pt-2">Survey Work</h3>
+      </div>
+      <!-- <div><span class="indicator mt-2">( * ) Indicator Mandatory</span></div> -->
+    </div>
+  </div>
+  <form [formGroup]="surveyForm">
+    <div class="formpatch top-space pb-3">
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >1) Enter school name where survey is conducted ?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <strong>{{
+              (userDetails && userDetails["activityCenterName"]) || "--"
+            }}</strong>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >2) How many children with disabilities have been found in the
+              survey ? <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <div class="table-responsive rounded">
+            <table class="table table-bordered">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Disabilities</th>
+                  <th scope="col" class="w-30">No. Of Children</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td scope="row">1</td>
+                  <td>
+                    <label for="Blindness" class="form-label fw-normal"
+                      >Blindness</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        formControlName="blindness"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'blindness', 3)"
+                        id="blindness"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">2</td>
+                  <td>
+                    <label for="lowVision" class="form-label fw-normal"
+                      >Low-Vision</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'lowVision', 3)"
+                        formControlName="lowVision"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">3</td>
+                  <td>
+                    <label for="hearingImpairment" class="form-label fw-normal"
+                      >Hearing Impairment</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'hearingImpairment', 3)
+                        "
+                        formControlName="hearingImpairment"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">4</td>
+                  <td>
+                    <label for="speechLanguage" class="form-label fw-normal"
+                      >Speech and Language Disablity</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'speechLanguage', 3)"
+                        formControlName="speechLanguage"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">5</td>
+                  <td>
+                    <label
+                      for="Locomotor Disability"
+                      class="form-label fw-normal"
+                      >Locomotor Disability</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'locomotorDisability', 3)
+                        "
+                        formControlName="locomotorDisability"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">6</td>
+                  <td>
+                    <label for="Mental Illness" class="form-label fw-normal"
+                      >Mental Illness</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'mentalIllness', 3)"
+                        formControlName="mentalIllness"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">7</td>
+                  <td>
+                    <label
+                      for="Specific Learning Disablities"
+                      class="form-label fw-normal"
+                      >Specific Learning Disablities</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'specificLearning', 3)
+                        "
+                        formControlName="specificLearning"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">8</td>
+                  <td>
+                    <label for="Cerebral Palsy" class="form-label fw-normal"
+                      >Cerebral Palsy</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'cerebralPalsy', 3)"
+                        formControlName="cerebralPalsy"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">9</td>
+                  <td>
+                    <label
+                      for="AvailabilityRawMmaterials"
+                      class="form-label fw-normal"
+                      >Autism Spectrum Disorder</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'autismSpectrum', 3)"
+                        formControlName="autismSpectrum"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">10</td>
+                  <td>
+                    <label
+                      for="Multiple Disablities including deaf blindness"
+                      class="form-label fw-normal"
+                      >Multiple Disablities including deaf blindness</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'multipleDisablities', 3)
+                        "
+                        formControlName="multipleDisablities"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">11</td>
+                  <td>
+                    <label
+                      for="Leprosy Cured persons"
+                      class="form-label fw-normal"
+                      >Leprosy Cured persons</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'leprosy', 3)"
+                        formControlName="leprosy"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">12</td>
+                  <td>
+                    <label for="Dwarifism" class="form-label fw-normal"
+                      >Dwarifism</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'dwarifism', 3)"
+                        formControlName="dwarifism"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">13</td>
+                  <td>
+                    <label
+                      for="Intellectual Disablity"
+                      class="form-label fw-normal"
+                      >Intellectual Disablity</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'intellectual', 3)"
+                        formControlName="intellectual"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">14</td>
+                  <td>
+                    <label for="Muscular Dystrophy" class="form-label fw-normal"
+                      >Muscular Dystrophy</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'muscular', 3)"
+                        formControlName="muscular"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">15</td>
+                  <td>
+                    <label
+                      for="Chronic Nurological conditions"
+                      class="form-label fw-normal"
+                      >Chronic Nurological conditions</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'chronicNurological', 3)
+                        "
+                        formControlName="chronicNurological"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">16</td>
+                  <td>
+                    <label for="Multiple Sclerosis" class="form-label fw-normal"
+                      >Multiple Sclerosis</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="
+                          keyUpInputNumber($event, 'multipleSclerosis', 3)
+                        "
+                        formControlName="multipleSclerosis"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">17</td>
+                  <td>
+                    <label for="Thalassemia" class="form-label fw-normal"
+                      >Thalassemia</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'thalassemia', 3)"
+                        formControlName="thalassemia"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">18</td>
+                  <td>
+                    <label for="Hemophilia" class="form-label fw-normal"
+                      >Hemophilia</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'hemophilia', 3)"
+                        formControlName="hemophilia"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">19</td>
+                  <td>
+                    <label
+                      for="Sickle Cell disease"
+                      class="form-label fw-normal"
+                      >Sickle Cell disease</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'sickleCell', 3)"
+                        formControlName="sickleCell"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">20</td>
+                  <td>
+                    <label for="Acid Attack Victim" class="form-label fw-normal"
+                      >Acid Attack Victim</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'acidAttack', 3)"
+                        formControlName="acidAttack"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+                <tr>
+                  <td scope="row">21</td>
+                  <td>
+                    <label for="Parkinsons disease" class="form-label fw-normal"
+                      >Parkinson's disease</label
+                    >
+                  </td>
+                  <td>
+                    <strong>
+                      <input
+                        class="form-control"
+                        type="number"
+                        maxlength="3"
+                        (keyup)="keyUpInputNumber($event, 'parkinson', 3)"
+                        formControlName="parkinson"
+                      />
+                    </strong>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label fw-normal"
+              >3) Age-wise number of children identified in the survey
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <div class="table-responsive rounded">
+              <table class="table table-bordered">
+                <thead class="bg-lightpurple">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Age Group (In Years)</th>
+                    <th scope="col" class="w-25">No.</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td scope="row">1</td>
+                    <td>
+                      <label for="noOf0to3Yrs" class="form-label fw-normal"
+                        >0-3 Years</label
+                      >
+                    </td>
+                    <td>
+                      <strong>
+                        <input
+                          class="form-control"
+                          type="number"
+                          formControlName="noOf0to3Yrs"
+                          maxlength="3"
+                          (keyup)="keyUpInputNumber($event, 'noOf0to3Yrs', 3)"
+                        />
+                      </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td scope="row">2</td>
+                    <td>
+                      <label for="noOf3to6Yrs" class="form-label fw-normal"
+                        >3-6 Years</label
+                      >
+                    </td>
+                    <td>
+                      <strong>
+                        <input
+                          class="form-control"
+                          type="number"
+                          maxlength="3"
+                          (keyup)="keyUpInputNumber($event, 'noOf3to6Yrs', 3)"
+                          formControlName="noOf3to6Yrs"
+                        />
+                      </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td scope="row">3</td>
+                    <td>
+                      <label for="noOf6to14Yrs" class="form-label fw-normal"
+                        >6-14 Years</label
+                      >
+                    </td>
+                    <td>
+                      <strong>
+                        <input
+                          class="form-control"
+                          type="number"
+                          maxlength="3"
+                          (keyup)="keyUpInputNumber($event, 'noOf6to14Yrs', 3)"
+                          formControlName="noOf6to14Yrs"
+                        />
+                      </strong>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td scope="row">4</td>
+                    <td>
+                      <label for="noOf14to18Yrs" class="form-label fw-normal"
+                        >14-18 Years</label
+                      >
+                    </td>
+                    <td>
+                      <strong>
+                        <input
+                          class="form-control"
+                          type="number"
+                          maxlength="3"
+                          (keyup)="keyUpInputNumber($event, 'noOf14to18Yrs', 3)"
+                          formControlName="noOf14to18Yrs"
+                        />
+                      </strong>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="noOfCertificate" class="form-label"
+              >4) How many children with disabilities have been identified for
+              making certificates?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfCertificate', 3)"
+              formControlName="noOfCertificate"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfSurgery" class="form-label"
+              >5) How many disabled children have been identified for surgery?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfSurgery', 3)"
+              formControlName="noOfSurgery"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfAssistiveDevices" class="form-label"
+              >6) How many children with disabilities have been identified for
+              assistive devices?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfAssistiveDevices', 3)"
+              formControlName="noOfAssistiveDevices"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfEscortAllowance" class="form-label"
+              >7) How many children were identified for Escort Allowance?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfEscortAllowance', 3)"
+              formControlName="noOfEscortAllowance"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfTransportAllowance" class="form-label"
+              >8) How many children were identified for Transport Allowance?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfTransportAllowance', 3)"
+              formControlName="noOfTransportAllowance"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfReaderAllowance" class="form-label"
+              >12) How many children were marked for Reader Allowance?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfReaderAllowance', 3)"
+              formControlName="noOfReaderAllowance"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfSparshProgram" class="form-label"
+              >13) How many children have been identified for the Sparsh
+              program?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfSparshProgram', 3)"
+              formControlName="noOfSparshProgram"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfNRTraining" class="form-label"
+              >14) How many children have been identified for 90 days
+              non-residential training?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfNRTraining', 3)"
+              formControlName="noOfNRTraining"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-3 form-group">
+          <div class="">
+            <label for="noOfUnnamed" class="form-label"
+              >15) How many children with disabilities have been marked unnamed
+              so far?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              class="form-control"
+              type="number"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfUnnamed', 3)"
+              formControlName="noOfUnnamed"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success me-2" (click)="onSubmit()">Submit</button>
+      <button class="btn btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div>

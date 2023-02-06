@@ -1,0 +1,401 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit Notification School / Teacher / अधिसूचना स्कूल / शिक्षक संपादन करें
+            </h3><span class="indicator">( * ) Indicator
+                Mandatory/( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active"><i class="bi bi-plus-lg me-2"></i>Edit / संपादन करें
+            </a>            
+            <a routerLink="../../viewSchoolTeacherNotification" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View / देखें </a>
+        </div>
+    </div>
+<form [formGroup]="editSchoolTeacherNotifyForm" (ngSubmit)="submitSchoolTeacherNotification()">
+    <div class="formpatch top-space">
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label class="form-label">Notification Mode<br>अधिसूचना मोड </label>
+            </div>
+            <div class="col-md-3 form-group colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div class="rdio rdio-primary form-check-inline">
+                        <input  value="1" id="radio1" type="radio"  formControlName="notificationMode" (change)="notificationTypeChange($any($event.target).value)">
+                        <label for="radio1">Portal Inbox<br>पोर्टल इनबॉक्स</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline" [hidden]="true">
+                        <input  value="2" id="radio2" type="radio" formControlName="notificationMode" (change)="notificationTypeChange($any($event.target).value)">
+                        <label for="radio2">SMS<br>एसएमएस</label>
+                    </div>
+                </div>
+                <span class="mandatory">*</span>
+            </div>
+
+            <div class="col-md-7"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Category<br>श्रेणी</label>
+            </div>
+
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="category" (change)="notificationCategoryChange($any($event.target).value)" >
+                    <option value="" selected>--Select--</option>
+                    <option *ngFor="let item of notificationCatName" value="{{item.categoryId}}" >{{item.categoryName}}</option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerCategory==true" alt="category">
+              </div>
+              
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Component<br>अवयव</label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="component">
+                    <option value="" *ngIf="showCompName==true" selected>--Select--</option>
+                    <option *ngFor="let item of notificationCompName" value="{{item.categoryId}}">{{item.categoryName}}</option>
+                </select>
+            </div>
+
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerCompName==true" alt="component">
+              </div>
+    
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Content Type<br>सामग्री प्रकार</label>
+            </div>
+            <div class="col-md-3 form-group colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div class="rdio rdio-primary form-check-inline">
+                        <input  value="1" id="radio3" type="radio" formControlName="contentType" >
+                        <label for="radio3">English<br>अंग्रेज़ी</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                        <input  value="2" id="radio4" type="radio" formControlName="contentType" >
+                        <label for="radio4">Hindi<br>हिन्दी</label>
+                    </div>
+                </div>
+
+                <span class="mandatory">*</span>
+            </div>
+
+            <div class="col-md-7"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Subject<br>विषय</label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <textarea class="form-control" rows="2" formControlName="subject" maxlength="200" ></textarea>
+                <small class="text-danger">Maximum (200) Characters</small>
+                <span class="mandatory">*</span>
+            </div>
+
+            <div class="col-md-7"></div>
+        </div>
+         <!-- FOR NOTIFICATION MODE: SMS -->
+        <div id="sms">
+            <ng-container *ngIf="notificationModeSMS == true">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Notification Content<br>अधिसूचना सामग्री</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea class="form-control" rows="5" formControlName="notificationContent" maxlength="500" ></textarea>
+                    <small class="text-danger">Maximum (500) Characters</small>
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-md-7"></div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Types of Attachment<br>अनुलग्नक के प्रकार
+                    </label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div class="rdio rdio-primary form-check-inline nothing">
+                            <input  value="1" id="radio5" type="radio"  formControlName="typeOfAttachment" (change)="attachmentType($any($event.target).value)">
+                            <label for="radio5">Choose Nothing<br>कुछ भी नहीं चुनें</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline
+                            document">
+                            <input  value="2" id="radio6" type="radio" formControlName="typeOfAttachment" (change)="attachmentType($any($event.target).value)">
+                            <label for="radio6">Document<br>दस्तावेज़</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline url">
+                            <input  value="3" id="radio7" type="radio" formControlName="typeOfAttachment" (change)="attachmentType($any($event.target).value)">
+                            <label for="radio7">URL<br>यूआरएल</label>
+                        </div>
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-md-7"></div>
+            </div>
+                <ng-container *ngIf="doumentDivShow == true">
+                    <div class="row" id="document" >
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Upload Document<br>दस्तावेज़ अपलोड करें</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <input type="file" class="form-control" formControlName="uploadDocument" (change)="fileUploadHandler($event)">
+                            <span class="text-danger">(.pdf / .xls / .xlsx / .doc / .docx / .jpeg / .png / .jpg/ .gif with &lt; 2mb file only.)</span>
+                            <span class="mandatory">*</span>
+                        </div>
+                        <div class="col-md-2" *ngIf="showViewDocument">
+                            <a href="{{ documentURL }}" target="_blank"> <i class="bi bi-file-earmark"></i> Attached Document </a>
+                        </div>
+                        <div class="col-md-5"></div>
+                    </div>
+                </ng-container>
+                <ng-container *ngIf="linkDivShow == true">
+                    <div class="row hide" id="url" >
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Link<br>संपर्क</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <input type="text" class="form-control" formControlName="url" maxlength="50">
+                            <span class="mandatory">*</span>
+                        </div>
+                        <div class="col-md-7"></div>
+                    </div>
+                </ng-container>
+            </ng-container>
+        </div>
+         <!-- END FOR NOTIFICATION MODE: SMS -->
+
+        <!-- Start Of Notice Type -->
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label class="form-label">Notice Type<br>सूचना प्रकार</label>
+            </div>
+            <div class="col-md-3 form-group colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div class="rdio rdio-primary form-check-inline school">
+                        <input type="radio" id="radio8" formControlName="noticeType" value="2" (change)="noticeTypeChange($any($event.target).value)">
+                        <label for="radio8">School<br> विद्यालय
+                        </label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline teacher">
+                        <input type="radio"  id="radio9" formControlName="noticeType" value="1" (change)="noticeTypeChange($any($event.target).value)">
+                        <label for="radio9">Teacher<br>शिक्षक
+                        </label>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-7"></div>
+        </div>
+        <div class="row">
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">District<br>ज़िला</label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="district" (change)="getBlockByDistrictId($any($event.target).value)" >
+                    <option value="" selected  *ngIf="scDisrtictSelect == true">--select--</option>
+                    <option *ngFor="let item of currentDistData" value="{{item.districtId}}">{{item.districtCode}}-{{item.districtName}}</option>                   
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerDist==true" alt="district">
+              </div>
+    
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Block <br>प्रखंड </label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                
+                <ng-multiselect-dropdown
+                    [placeholder]   = "'--Select--'"
+                    [settings]      = "blockDropdown"
+                    [data]          = "allBlockByDistIdData"  
+                    (onSelect)      = "addBlockId($event, 1)" 
+                    (onSelectAll)   = "addBlockId($event, 2)" 
+                    (onDeSelect)    = "removeBlockId($event, 1)" 
+                    (onDeSelectAll) = "removeBlockId($event, 2)" 
+                    [disabled]      = "blockDisable"
+                    formControlName = "block">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerBlockByDistId==true" alt="block">
+              </div>
+    
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Cluster <br>समूह </label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <ng-multiselect-dropdown
+                    [placeholder]   = "'--Select--'"
+                    [settings]      = "clusterDropdown"
+                    [data]          = "allClusterByBlockIdData"    
+                    (onSelect)      = "addClusterId($event, 1)" 
+                    (onSelectAll)   = "addClusterId($event, 2)" 
+                    (onDeSelect)    = "removeClusterId($event, 1)" 
+                    (onDeSelectAll) = "removeClusterId($event, 2)"
+                    [disabled]      = "clusterDisable"                        
+                    formControlName = "cluster">
+                </ng-multiselect-dropdown>
+            </div>
+
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerClusterByBlockId==true" alt="cluster">
+            </div>
+    
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">Management<br>प्रबंधन </label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <ng-multiselect-dropdown
+                        [placeholder]   = "'--Select--'"
+                        [settings]      = "managementDropdown"
+                        [data]          = "schoolMgmtData"    
+                        (onSelect)      = "addManagementId($event, 1)" 
+                        (onSelectAll)   = "addManagementId($event, 2)" 
+                        (onDeSelect)    = "removeManagementId($event, 1)" 
+                        (onDeSelectAll) = "removeManagementId($event, 2)"                        
+                        formControlName = "management">
+                    </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerSchoolMgmt==true" alt="management">
+              </div>
+    
+            <div class="col-md-6"></div>
+
+            <div class="col-md-2 form-group">
+                <label class="form-label">School Category<br>विद्यालय श्रेणी </label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <ng-multiselect-dropdown
+                        [placeholder]   = "'--Select--'"
+                        [settings]      = "schoolCategoryDropdown"
+                        [data]          = "schoolCatData"    
+                        (onSelect)      = "addSchoolCategoryId($event, 1)" 
+                        (onSelectAll)   = "addSchoolCategoryId($event, 2)" 
+                        (onDeSelect)    = "removeSchoolCategoryId($event, 1)" 
+                        (onDeSelectAll) = "removeSchoolCategoryId($event, 2)"                        
+                        formControlName = "schoolCategory">
+                    </ng-multiselect-dropdown>
+            </div>
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerSchoolCatagory==true" alt="schoolCategory">
+              </div>
+    
+            <div class="col-md-6"></div>
+        </div>
+
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label class="form-label">School<br> विद्यालय</label>
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+
+                <ng-multiselect-dropdown
+                        [placeholder]   = "'--Select--'"
+                        [settings]      = "schoolDropdown"
+                        [data]          = "schoolNameData"    
+                        (onSelect)      = "addSchoolId($event, 1)" 
+                        (onSelectAll)   = "addSchoolId($event, 2)" 
+                        (onDeSelect)    = "removeSchoolId($event, 1)" 
+                        (onDeSelectAll) = "removeSchoolId($event, 2)"                        
+                        formControlName = "school">
+                    </ng-multiselect-dropdown>
+
+            </div>
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="showSpinnerSchoolName==true" alt="school">
+              </div>
+    
+            <div class="col-md-6"></div>
+        </div>
+        <!--  START OF NOTICE TYPE TEACHER -->
+        <ng-container *ngIf="teacherDivShow == true">
+            <div class="row" id="nature">
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Nature of Appointment<br>नियुक्ति की प्रकृति</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" formControlName="natureOfAppoint" (change)="getTeacherName()">
+                        <option value="0" selected>--Select--</option>
+                        <option *ngFor="let item of natureOfAppointDatas"  [value]="item.anxtValue">{{ item.anxtName }}</option>
+                    </select>
+                </div>
+    
+                <div class="col-md-7"></div>
+    
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Appointment Type<br>नियुक्ति  प्रकार</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="appointType" (change)="getTeacherName()">
+                        <option value="0" selected >--Select--</option>
+                        <option *ngFor="let item of appointTypeData"  [value]="item.anxtValue">{{ item.anxtName }}</option>
+                    </select>
+                </div>
+    
+                <div class="col-md-7"></div>
+    
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Teacher<br>शिक्षक</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <ng-multiselect-dropdown
+                        [placeholder]   = "'--Select--'"
+                        [settings]      = "teacherDropdown"
+                        [data]          = "teacherNameData"    
+                        (onSelect)      = "addTeachereId($event, 1)" 
+                        (onSelectAll)   = "addTeachereId($event, 2)" 
+                        (onDeSelect)    = "removeTeacherId($event, 1)" 
+                        (onDeSelectAll) = "removeTeacherId($event, 2)"                        
+                        formControlName = "teacher">
+                    </ng-multiselect-dropdown>
+
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="showSpinnerTeacherName==true" alt="teacher">
+                  </div>
+        
+                <div class="col-md-6"></div>
+            </div>
+        </ng-container>
+        <!-- END OF NOTICE TYPE TEACHER -->
+    </div>
+    <button type="submit" class="btn btn-success me-2">Update/अपडेट करें</button>
+    <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+</form>

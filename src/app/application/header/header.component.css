@@ -1,0 +1,146 @@
+header{
+    color: #fff;
+    background-color: #000;
+}
+#wrapper {
+    padding-left: 250px;
+}
+.navbar-header .hamIcon{
+    color: rgb(86 0 221);
+    font-size: 25px;
+    transform: scale(1);
+    display: inline-block;
+    margin: 0.25em 0.5em;
+    transition: all 0.2s cubic-bezier(0.36, 0.07, 0.57, 0.99);
+}
+.navbar-header .hamIcon:hover{
+    transform: scale(1.5);
+    -webkit-animation: times 1s cubic-bezier(0.36, 0.07, 0.57, 0.99) infinite;
+    animation: times 1s cubic-bezier(0.36, 0.07, 0.57, 0.99) infinite;
+}
+.logo{
+    text-align: center;
+    width: 230px;
+}
+.header-section .navbar-header{display: flex;
+   }
+    .navbar-brand{margin-right: 0;}
+
+    
+
+    ul.right-sider {
+        display: flex;
+        list-style-type: none;
+        align-items: center;
+        margin-bottom: 0rem;
+      }
+
+      ul.right-sider li a {
+        font-size: 2rem;
+        position: relative;
+        color: #fff;
+        display: inline-block;
+      }
+      ul.right-sider li a .badge {
+        font-size: .8rem;
+          position: absolute;
+          background: #ffd66b;
+          top: -5px;
+          right: -3px;
+          padding: 3px 5px;
+          color: #000;
+      }
+       .dropdown-menu.messages {
+        width: 300px;
+        max-height: 300px;
+        overflow: hidden;
+        overflow-y: auto;
+        right: 127px;
+        top: 100%;
+        padding: 10px 10px 10px 10px;
+        display: block;
+      }
+
+      .dropdown-menu.messages li {
+        color: #000;
+        border-bottom: 2px dotted #ddd;
+        margin-bottom: 0.8rem;
+      }
+      .dropdown-menu.messages li:last-child {
+        border-bottom: 0px dotted #ddd;
+      }
+      .dropdown-menu.messages li a span{
+        font-size: 1rem;
+        color: #000;
+      }
+
+      .dropdown-menu.messages li a {
+        text-decoration: none;
+        line-height: 1.2rem!important;
+      }
+
+      .dropdown-menu.messages li a .time {
+        color:#63409a;
+        font-weight: 500px;
+      }
+
+      .dropdown-menu.messages li a .desc {
+        margin-bottom: 0.8rem;
+        display: inline-block;
+        margin-top: 0.5rem;
+      }
+/* setting icon css */
+.setting-icons.dropdown-menu.messages {
+  width: 250px;
+  height: auto!important;
+  overflow: hidden;
+  overflow-y: auto;
+  right: 85px;
+  top: 100%;
+  padding: 10px 10px 10px 10px;
+  display: block;
+}
+
+.setting-icons.dropdown-menu.messages li:first-child {
+  margin-bottom: 0;
+}
+.setting-icons.dropdown-menu.messages li{
+  margin-bottom: 0.8rem;
+  /* padding-bottom: 10px; */
+}
+.setting-icons.dropdown-menu.messages li{
+  text-align: center;
+}
+/*  */
+      .user-profile a
+      {
+        background-color: #63409a;
+        color: #ffc500!important;
+        border-radius: 5px;
+        padding: 3px 3px;
+      }
+
+      .user-profile span{
+        font-size: 16px;
+        color:#000;
+      }
+
+      .user-profile span strong
+      {
+        color: #63409a;
+        display: block;
+        line-height: 15px;
+      }
+    
+    .notifyBtn{
+      font-size: 1rem !important;
+    }
+
+    @media only screen and (max-width: 1024px) {
+      .user-profile span strong {
+       
+        font-size: 12px;
+    }
+    }
+
+ 

@@ -1,0 +1,82 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+  <div class="modal-content">
+    <div class="modal-header">
+      <h5 class="modal-title" id="exampleModalLabel">
+        Teacher promotion details
+      </h5>
+      <button
+        type="button"
+        class="btn-close close"
+        data-bs-dismiss="modal"
+        aria-label="Close"
+      ></button>
+      <!-- <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button> -->
+    </div>
+    <div class="modal-body">
+      <div class="table-responsive" [hidden]="!promotionDetails">
+        <table class="table table-bordered poptable">
+          <thead>
+            <tr>
+              <th>
+                Academic Year<br />
+                शैक्षणिक वर्ष
+              </th>
+              <th>
+                Schoo<br />
+                विद्यालय
+              </th>
+              <th>
+                Teacher Name <br />
+                शिक्षक का नाम
+              </th>
+              <th>
+                Code <br />
+                कोड
+              </th>
+              <th>
+                Current Designation <br />
+                वर्तमान पदनाम
+              </th>
+              <th>
+                Promoted Designation <br />
+                पदोन्नत पदनाम
+              </th> 
+              <th>
+                Promoted On <br />
+                पदोन्नत
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of promotionDetails">
+              <td>{{ item?.academicYear || "--" }}</td>
+              <td>{{ item?.schoolUdiseCode + " - " + item?.schoolName }}</td>
+              <td>{{ item?.teacherName || "--" }}</td>
+              <td>{{ item?.teacherCode || "--" }}</td>
+              <td>{{ item?.oldTitle || "--" }}</td>
+              <td>{{ item?.promotedTitle || "--" }}</td>
+              <td>{{ item?.lastPromotedOn || "--" }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div
+        class="alert alert-info text-center text-uppercase fw-bold"
+        role="alert"
+        [hidden]="promotionDetails"
+      >
+        {{ "No details found." }}
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button
+        type="button"
+        class="btn btn-danger"
+        data-bs-dismiss="modal"
+        #closeModal
+      >
+        Close
+      </button>
+    </div>
+  </div>
+</div>

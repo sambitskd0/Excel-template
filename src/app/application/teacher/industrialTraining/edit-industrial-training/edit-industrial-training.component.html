@@ -1,0 +1,168 @@
+<form [formGroup]="industrialTraingForm" (submit)="onSubmit()">
+   <div>
+      <div class="pageHeading">
+         <div class="heading__tab">
+            <div>
+               <h3 class="pageName">Industrial Training / औद्योगिक प्रशिक्षण </h3>
+            </div>
+            <div class="tab__section">            
+               <a *ngIf="loginUserType != 2" routerLink="../../viewTrainingAgency"  class="tablink d-inline-block " routerLinkActive="active">Training Agency <br> प्रशिक्षण संस्था</a>
+               <a *ngIf="loginUserType != 2" routerLink="../../viewTrainingCategory"  class="tablink d-inline-block" routerLinkActive="active">Type of Training <br> प्रशिक्षण का तरीका</a>
+               <a routerLink="../../viewIndustrialTraining"  class="tablink d-inline-block active" routerLinkActive="active">Industrial Training <br> औद्योगिक प्रशिक्षण</a>
+            </div>
+         </div>
+         <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+         <div class="tabArea">
+          <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+            <a routerLink="../../viewIndustrialTraining"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+         </div>
+      </div>
+
+      <div class="formpatch top-space">
+         <div class="row">
+            <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Academic Year </label><br>शैक्षणिक वर्ष </div>
+            <div class="col-md-4 form-group">
+               <span class="colon">:</span>
+               <label for="exampleInputEmail1" class="form-label">{{(this.academicYear) ? this.academicYear :'--'}}</label>
+               <input type="hidden" formControlName="academicYear">
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label"> District<br>जिला
+                </label>
+            </div>
+            <div class="col-lg-4 form-group">
+                <span class="colon">:</span>
+                <select formControlName="districtId" class="form-select scDistrictId"
+                    (change)="getBlock($any($event.target).value)">
+                    <option value="" *ngIf="distLoading==true">Loading...</option>
+                    <option value="" *ngIf="disrtictChanged==false">All Districts</option>
+                    <option *ngFor="let item of districtData" [value]="item.districtId">
+                        {{ item.districtCode }} - {{ item.districtName }}
+                    </option>
+                </select>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1">
+                <img src="assets/img/loading.gif" *ngIf="distLoading==true" alt="Loading">
+            </div>
+        </div>
+        <div class="row">
+         <div class="col-lg-2 form-group">
+             <label for="" class="form-label"> Block<br>प्रखण्ड
+             </label>
+         </div>
+         <div class="col-lg-4 form-group">
+             <span class="colon">:</span>
+             <select formControlName="blockId" class="scBlockId form-select" (change)="getSchoolList();">
+                 <option value="" *ngIf="blockChanged==false">--- Select ---</option>
+                 <option value="" *ngIf="blockLoading==true">Loading...</option>
+                 <option *ngFor="let item of blockData" [value]="item.blockId">
+                     {{ item.blockCode }} - {{ item.blockName }}
+                 </option>
+             </select>
+             <!-- <span class="mandatory">*</span> -->
+         </div>
+     </div>
+
+         <!-- <div class="row">
+            <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Cluster</label><br>संकुल</div>
+            <div class="col-md-4 form-group">
+               <span class="colon">:</span>
+               <label for="exampleInputEmail1" class="form-label">{{(this.clusterName) ?  this.clusterName :'--'}} </label>
+               <input type="hidden" formControlName="clusterId">
+            </div>
+         </div> -->
+         <div class="row">
+            <div class="col-lg-2 form-group">
+                <label for="" class="form-label">School<br>विद्यालय</label>
+            </div>
+            <div class="col-lg-4 form-group">
+                <span class="colon">:</span>
+                <select formControlName="schoolId" class="form-select" (change)="getDetails();">
+                    <option value="" *ngIf="schoolChanged==true">--- Select ---</option>
+                    <option value="" *ngIf="schoolChanged==true">Loading...</option>
+                    <option *ngFor="let item of schoolData" [value]="item.schoolId">
+                        {{item.schoolUdiseCode}} - {{ item.schoolName }}
+                    </option>
+                </select>
+                <!-- <span class="mandatory">*</span> -->
+            </div>
+        </div>
+
+        <div class="row">
+         <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Agency Name </label><br>एजेंसी का नाम</div>
+         <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="agencyId" autofocus>
+               <option value="">--Select--</option>
+               <option *ngFor="let agency of this.agencyList" [value]="agency.agencyId">
+                 {{ agency.agencyName }}
+               </option>
+            </select>
+            <span class="mandatory">*</span>
+         </div>
+      </div>
+      <div class="row">
+         <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Date of Visit </label><br>यात्रा की तिथि</div>
+         <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <!-- <input type="date" class="form-control" placeholder="dd-mm-yyyy" aria-describedby="emailHelp" formControlName="dateOfVisit"> -->
+            <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,showClearButton: true, clearPosition: 'right'}" formControlName="dateOfVisit" [maxDate]="maxDate" autocomplete="off">
+            <span class="mandatory">*</span>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Type of Training </label><br>प्रशिक्षण का तरीका</div>
+         <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="trainingType">
+               <option  value="">--Select--</option>
+               <option *ngFor="let trainingType of this.trainingTypeList" [value]="trainingType.trainingId">
+                 {{ trainingType.trainingName }}
+               </option>
+            </select>
+            <span class="mandatory">*</span>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-md-2 form-group"><label for="exampleInputEmail1" class="form-label">Teachers attended training   </label><br>प्रशिक्षण में शामिल हुए शिक्षक</div>
+         <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <ng-multiselect-dropdown
+               [settings]="dropdownSettings"
+               [data]="teacherList"
+               formControlName="teachersAttenedTraining">
+            </ng-multiselect-dropdown>
+            <span class="mandatory">*</span>
+         </div>
+      </div>
+
+      <div class="row">
+         <div class="col-md-2 form-group"><label  class="form-label">Description </label><br>विवरण</div>
+         <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <textarea class="form-control" cols="4" rows="3" formControlName="description" [maxlength]="500"></textarea>
+            <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+         </div>
+      </div>
+
+
+
+      </div>
+
+
+
+   </div>
+   <div>
+      <button class="btn btn-success me-2">Update / अद्यतन करें</button>  
+      <a routerLink="../../viewIndustrialTraining" class="btn btn-danger me-2">Cancel / रद्द करें</a>       
+   </div>
+
+   
+</form>

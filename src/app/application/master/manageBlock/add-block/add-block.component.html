@@ -1,0 +1,81 @@
+<div>
+  <div class="pageHeading">
+      <div>
+          <h3 class="pageName">Add Block/प्रखण्ड जोड़ें
+          </h3>
+          <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+          </span>
+      </div>
+      <div class="tabArea">
+          <a routerLink="./../addBlock" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                  class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+              </a>
+          <a routerLink="./../viewBlock" class="neuro viewLink" routerLinkActive="active"><i
+                  class="bi bi-eye me-2"></i>View/देखें
+              </a>
+
+      </div>
+  </div>
+  <div class="top-space">
+      <form [formGroup]="blockForm" (ngSubmit)="onSubmit()">
+          <div class="row">
+              <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">District<br>जिला
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select  class="form-select" aria-label="Default select example"
+                      formControlName="districtId" autocomplete="off">
+                      <option value="" selected>--Select--</option>
+                      <option *ngFor="let item of allDistrict" [value]="item.districtId">
+                          {{ item.districtCode }} - {{ item.districtName }}
+                      </option>
+                  </select>
+                  <span class="mandatory">*</span>
+
+              </div>
+              <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="districtLoading==true" alt="dsd">
+                </div>
+          </div>
+          <div class="row">
+              <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Block Name<br>प्रखण्ड का नाम
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                      formControlName="blockName" autocomplete="off"
+                      (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" minlength="2" maxlength="25">
+
+                  <span class="mandatory">*</span>
+
+              </div>
+          </div>
+          <div class="row formpatch">
+              <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Block Code <br>प्रखण्ड का कोड
+                  </label>
+              </div>
+              <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+
+                  <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                      formControlName="blockCode" autocomplete="off"
+                      (keypress)="customValidators.keyPressNumbers($event)" minlength="6" maxlength="6">
+
+                  <span class="mandatory">*</span>
+
+              </div>
+          </div>
+          <div>
+              <button class="btn btn-success me-2">Submit/जमा करें
+              </button> 
+              <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+              </button>
+          </div>
+      </form>
+  </div>

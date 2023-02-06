@@ -1,0 +1,52 @@
+<div class="pageHeading">
+    <h3 class="pageName">Add Grant configuration / अनुदान विन्यास जोड़ें</h3>
+    <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+    <div class="tabArea">
+        <a  class="neuro addLink disabled active" routerLinkActive="active" *ngIf="plPrivilege=='admin'"><i
+                class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+        <a routerLink="../../viewGrantConfiguration" class="neuro viewLink" routerLinkActive="active"><i
+                class="bi bi-eye me-2"></i>View / देखें </a>
+
+    </div>
+</div>
+<form [formGroup]="editGrantConfigForm" (ngSubmit)="onSubmit()">
+    <div class="top-space">
+
+        <div class="row">
+            <div class="col-lg-2 form-group">
+                <label class="form-label">School Type <br>स्कूल का प्रकार</label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                <input  type="hidden" tabindex="0" class="form-control" formControlName="schoolType">
+                  <label  class="form-label">{{schoolTypeName}}</label> 
+            </div>
+            <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scCatLoading==true" alt="dsd">
+              </div>
+        </div>
+
+        <div class="row formpatch">
+            <div class="col-lg-2 form-group">
+                <label class="form-label">Grant Type <br>अनुदान प्रकार </label>
+            </div>
+            <div class="col-lg-3 form-group">
+                <span class="colon">:</span>
+                
+                <div class="check__box mb-3 class--checkbox" >
+                    <div class="form-group checkbox" *ngFor="let grantTypeData of grantTypeDatas ;let i=index;">
+                        <input  type="checkbox" [id]="grantTypeData.grantName" class="check" value="{{grantTypeData.grantTypeId}}" 
+                        (change)="changeGrantType($event) " [checked]="grantTypeArr.includes(grantTypeData.grantTypeId)">
+                        <label [for]="grantTypeData.grantName"> {{grantTypeData.grantName}}</label>
+                    </div>
+                </div>
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+
+        <div>
+            <button class="btn btn-success me-2">Update / अद्यतन</button>
+            <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करे</button>
+        </div>
+    </div>
+</form>

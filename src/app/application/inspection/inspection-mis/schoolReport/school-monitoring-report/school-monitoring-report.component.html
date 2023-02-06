@@ -1,0 +1,458 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">User Wise Inspection submited Indicator Report
+      </h3>
+
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../schoolmonitoringreport" class="neuro viewLink active" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View</a>
+    </div>
+
+
+  </div>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <div class="search-container">
+        <div class="search-sec" id="searchPanel" style="display: block;">
+          <div class="searchPanel">
+            <form [formGroup]="questSearchform" (ngSubmit)="filterRecord()">
+              <div class="row">
+                <div class="col-md-2 form-group3">
+                  <label for="" class="form-label">District
+                  </label>
+                </div>
+                <div class="col-md-3 form-group"> 
+                  <select formControlName="scDistrictId" class="form-select" (change)="getBlock($any($event.target).value)">
+                          <option value="" *ngIf="disrtictChanged==false">--- Select ---</option>
+                          <option value="" *ngIf="disrtictChanged==true">Loading...</option>
+                          <option *ngFor="let item of districtData" [value]="item.districtId">
+                                  {{ item.districtCode }} - {{ item.districtName }}
+                          </option>
+                  </select>
+                 
+              </div>
+              <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="disrtictChanged==true"
+                alt="dsd">
+              </div>
+                <div class="col-md-2 form-group">
+                  <label for="" class="form-label">Block </label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <select formControlName="scBlockId" class="form-select" (change)="getCluster($any($event.target).value);">
+                    <option value="" *ngIf="blockChanged==false">--- Select ---</option>
+                    <option value="" *ngIf="blockChanged==true">Loading...</option>
+                    <option  *ngFor="let item of blockData"  [value]="item.blockId">  
+                            {{ item.blockCode }} - {{ item.blockName }}
+                    </option>
+                </select>
+                </div>
+                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="blockChanged==true"
+                  alt="dsd">
+              </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 form-group3">
+                  <label for="" class="form-label">Cluster</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <select formControlName="scClusterId" class="form-select" (change)="getSchool($any($event.target).value);">
+                    <option value="" *ngIf="clusterChanged==false">--- Select ---</option>
+                    <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                    <option  *ngFor="let item of clusterData"  [value]="item.clusterId">  
+                            {{ item.clusterCode }} - {{ item.clusterName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="clusterChanged==true"
+                  alt="dsd">
+              </div>
+                <div class="col-md-2 form-group3">
+                  <label for="" class="form-label">Select School</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <select  formControlName="schoolId" class="form-select" aria-label="Default select example" >
+                    <option value="" *ngIf="scSchoolChanged==false">--- Select ---</option>
+                    <option value="" *ngIf="scSchoolChanged==true">Loading...</option>
+                    <option *ngFor="let school of getSchoolData" [value]="school.schoolId">
+                      {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="scSchoolChanged==true"
+                  alt="dsd">
+              </div>
+                <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Start Date </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input class="form-control"  formControlName="startDate" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-lg-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">End Date </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input class="form-control" formControlName="endDate" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+                </div>
+                <div class="col-md-1"></div>
+                <!-- <div class="col-md-12">
+                          <div><h5 class="text-center mt-3 mb-4 school--or">OR</h5></div>
+                      </div>    -->
+                <!-- <div class="col-lg-2 form-group">
+                          <label for="exampleInputEmail1" class="form-label">School Name or UDISE</label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" name="">
+                  </div>
+                  <div class="col-md-1"></div>
+                <div class="col-md-2 form-group3">
+                  <label for="" class="form-label">Select Designation</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-select" aria-label="Default select example">
+                    <option selected>--Select--</option>
+                    <option value="1">DEO</option>
+                    <option value="2">BEO</option>
+                    <option value="3">BRP</option>
+                    <option value="4">CRP</option>
+                  </select>
+                </div> 
+                <div class="col-md-1"></div>-->
+                <div class="col-md-2 form-group3"><button class="btn btn-default btn-purple"> Search <i
+                      class="bi bi-search"></i></button></div>
+              </div>
+            </form>
+          </div>
+        </div>
+
+      </div>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search
+      Panel</button>
+
+  </div>
+  <div class="clearfix"></div>
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+
+
+            <a routerLink="./../inspectionreport" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+            <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+
+          </div>
+        </div>
+      </div>
+      <div *ngIf="isResData === true">
+        <div class="table-responsive" >
+          <table class="table  table-bordered" datatable [dtOptions]="dtOptions">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th scope="col">#</th>
+                <th scope="col">School Name</th>
+                <th scope="col">District Name</th>
+                <th scope="col">Block Name</th>
+                <th scope="col">Cluster Name</th>
+                <th scope="col">Inspected Date</th>
+                <!--<th scope="col">Inspected Time</th>-->
+                <th scope="col">Monitored By</th>
+                <th scope="col">Designation</th>
+                <th scope="col">Action History</th>
+              </tr>
+
+            </thead>
+            <tbody *ngIf="isEmpty === false;">
+            
+              <tr *ngFor="let item of inspectioList">
+
+                <td>{{item.slNo}}</td>
+                <td>{{item.schoolUdiseCode}} - {{item.schoolName}}</td>
+                <td>{{item.districtCode}} - {{item.districtName}}</td>
+                <td>{{item.blockCode}} - {{item.blockName}}</td>
+                <td>{{item.clusterCode}} - {{item.clusterName}}</td>
+                <td>{{item.date}}</td>
+                <!--<td>{{item.time}}</td>-->
+                <td>{{item.vchfullName}}</td>
+                <td>{{item.vchDesignationName}}</td>
+                <td><a data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="TakeAction(item.encId)"
+                    class="btn btn-primary">Show Report</a></td>
+              </tr>
+            
+            
+            
+            </tbody>
+            <tbody *ngIf="isEmpty === true;">
+              <tr>No Record Found</tr>
+            </tbody>
+
+            
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">School Inspection</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-3 form-group3">
+            <label for="" class="form-label">UDISE</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.schoolUdiseCode}}</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <label for="" class="form-label">School Name</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.schoolName}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 form-group3">
+            <label for="" class="form-label">District</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.districtName}}</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <label for="" class="form-label">Block</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.blockName}}</label>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-3 form-group3">
+            <label for="" class="form-label">Cluster</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.clusterName}}</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <label for="" class="form-label">Monitored Date</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.date}}</label>
+          </div>
+        </div>
+        <div class="row">
+          
+          <div class="col-md-3 form-group">
+            <label for="" class="form-label">Monitored By</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.vchfullName}}</label>
+          </div>
+
+          <div class="col-md-3 form-group3">
+            <label for="" class="form-label">Designation</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <label for="" class="form-label">{{datas.vchDesignationName}}</label>
+          </div>
+        </div>
+       
+        <div *ngIf="datas.schoolOpenStatus == 1">
+          <h5 class="mt-3">Teacher Attendance</h5>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">Teacher Type</th>
+                      <th scope="col">Posted</th>
+                      <th scope="col">Present</th>
+                      <th scope="col">Absent</th>
+                      <th scope="col">Leave</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let tat of tatten">
+
+                      <td *ngIf="tat.teacherType == 1">Head Master</td>
+                      <td *ngIf="tat.teacherType == 2">Teacher</td>
+                      <td>{{tat.totalPosted}}</td>
+                      <td>{{tat.totalPresent}}</td>
+                      <td>{{tat.absent}}</td>
+                      <td>{{tat.authorizedLeave}}</td>
+
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <h5 class="mt-3">Absent Teacher List</h5>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">Name of Teacher</th>
+                      <th scope="col">Teacher Type</th>
+                      
+                      <th scope="col">Gender</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let abteac of absentTeacherList">
+                      <td>{{abteac.teacherName}}</td>
+                      <td *ngIf="abteac.teacherType == 1">Head Master</td>
+                      <td *ngIf="abteac.teacherType == 2">Teacher</td>
+                      
+                      <td *ngIf="abteac.teaherGender == 1">Male</td>
+                      <td *ngIf="abteac.teaherGender == 2">Female</td>
+                    </tr>
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div *ngFor="let stuAtten of studentAttendence">
+            <h5 class="mt-3">Student Attendance Class {{stuAtten.classGroupId}}</h5>
+            <div class="row">
+              <div class="col-lg-12">
+                <div class="table-responsive">
+                  <table class="table  table-bordered">
+                    <thead class="bg-lightpurple">
+                      <tr>
+                        <th scope="col" colspan="3" style="text-align: center;">Boys</th>
+                        <th scope="col" colspan="3" style="text-align: center;">Girls</th>
+                      </tr>
+                      <tr>
+                        <th rowspan="2" style="text-align: center;">Enrolled</th>
+                        <th colspan="2" style="text-align: center;">Present</th>
+                        <th rowspan="2" style="text-align: center;">Enrolled</th>
+                        <th colspan="2" style="text-align: center;">Present</th>
+                      </tr>
+                      <tr>
+                        <th>On Register</th>
+                        <th>Actual</th>
+                        <th>On Register</th>
+                        <th>Actual</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>{{stuAtten.totalEnrolledBoys}}</td>
+                        <td>{{stuAtten.attendanceOnRegisterBoys}}</td>
+                        <td>{{stuAtten.actualPresentBoys}}</td>
+                        <td>{{stuAtten.totalEnrolledGirls}}</td>
+                        <td>{{stuAtten.attendanceOnRegisterGirls}}</td>
+                        <td>{{stuAtten.actualPresentGirls}}</td>
+                      </tr>
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+          
+          <h5 class="mt-3">Indicators</h5>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">Indicators</th>
+                      <th scope="col">Observation</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr *ngFor="let quesList of questionList">
+                      <td>{{quesList.inspQuestion}}</td>
+                      <div *ngFor="let ans of answerList" [hidden]="quesList.questionId !== ans.questionId" >
+                      
+                      <td *ngIf="quesList.questionId === ans.questionId" >{{ans.answerText}}</td>
+                      
+                      </div>
+                      
+                    </tr>
+                    
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div *ngIf="datas.schoolOpenStatus == 2">
+          <h5 class="mt-3">School Report</h5>
+          <div class="row">
+            <div class="col-lg-12">
+              <div class="table-responsive">
+                <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col">School Status</th>
+                      <th scope="col">Reason</th>
+
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Close</td>
+                      <td>{{datas.schoolCloseReason}}</td>
+
+                    </tr>
+
+
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+          <div>
+          </div>
+          <!-- <div class="modal-footer">
+          <button type="button" class="btn btn-success" data-bs-dismiss="modal">Submit</button>
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+      </div> -->
+        </div>
+      </div>
+    </div>

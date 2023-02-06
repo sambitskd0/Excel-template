@@ -1,0 +1,84 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">View Class Tagging  / वर्ग टैगिंग देखें</h3>
+        </div>
+        <div class="tabArea">
+           
+            <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>View/ देखे</a>
+           
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <form [formGroup]="classTaggingSearchform" (ngSubmit)="loadClassTagging()">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block;">
+                    <div class="searchPanel">
+                        <div class="row">
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">School Type</label> <br>विद्यालय का प्रकार
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="schlTypeId">
+                                    <option  value="">--Select Category Name--</option>
+                                    <option *ngFor="let item of anextureTypedata" [value]="item.anxtValue">
+                                        {{ item.anxtName }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-lg-3">
+                                <button class="btn btn-default btn-purple"> Search / खोज <i class="bi bi-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </form>
+        </ng-container>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <!-- <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div> -->
+            <div class="table-responsive" *ngIf="isEmpty==false">
+                <table class="table  table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th scope="col" width="30px">#</th>
+
+                            <th scope="col">School Type / विद्यालय प्रकार</th>
+                            <th scope="col">Class Tagging / वर्ग टैगिंग </th>
+                            <th scope="col" *ngIf="adminPrivilege">Actions / गतिविधि</th>
+
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr  *ngFor="let classTagdata of classTaggingdata,let i = index"> 
+                            <td>{{i+1}}</td>
+                            <td>{{classTagdata.schooltypeName}}</td>
+                            <td>{{classTagdata.classNames}}</td>
+                            <td width="100px" *ngIf="adminPrivilege">
+                                <a routerLink="./../editClassTagging/{{classTagdata.encId}}" title="Edit" class="edit-btn me-2"><i
+                                        class="bi bi-pencil-square"></i></a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isEmpty">
+        {{ "No record found." }}
+      </div>
+</div>

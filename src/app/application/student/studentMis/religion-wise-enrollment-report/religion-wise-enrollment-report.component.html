@@ -1,0 +1,318 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName"> Religion wise Enrollment / धर्म के अनुसार नामांकन
+            </h3>
+
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="../religionWiseEnrollemntReport" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखे</a>
+            <a routerLink="../../mis" class="neuro viewLink"><i class="bi bi-eye me-2"></i>MIS</a>
+        </div>
+
+
+    </div>
+    <div class="searchPanel top-space">
+        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+            novalidate>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Academic Year </label><br>शैक्षणिक वर्ष
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" [(ngModel)]="academicYear" name="academicYear" id="academicYear"
+                        aria-label="Default select example" #academic>
+                        <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+                    </select>
+                </div>
+                <div class="col-lg-1"></div>
+
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">District </label><br>जिला
+                </div>
+                <div class="col-lg-3 form-group ">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="scDistrictId"
+                        name="scDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value);"
+                        #district>
+                        <option value="" *ngIf="scDisrtictSelect == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="scDisrtictLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                            {{ districtItem.districtCode }} -
+                            {{ districtItem.districtName }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Block</label><br>प्रखण्ड
+                </div>
+                <div class="col-lg-3 form-group ">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="scBlockId"
+                        name="scBlockId" autocomplete="off" (change)="getCluster($any($event.target).value);" #block>
+                        <option value="" *ngIf="scBlockSelect == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="scBlockLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                            {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-1"></div>
+
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Cluster </label><br>संकुल
+                </div>
+                <div class="col-lg-3 form-group ">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="scClusterId"
+                        name="scClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)" #cluster>
+                        <option value="" *ngIf="scClusterSelect == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="scClusterLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                            {{ clusterItem.clusterCode }} -
+                            {{ clusterItem.clusterName }}
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <div class="row">
+
+
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">School Name </label><br> विद्यालय का नाम
+                </div>
+                <div class="col-lg-3 form-group ">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="scSchoolId"
+                        name="scSchoolId" (change)="getSchCat($any($event.target).value)" autocomplete="off" #school>
+                        <option value="" *ngIf="scSchoolSelect == false">
+                            --Select / चुनें--
+                        </option>
+                        <option value="" *ngIf="scSchoolLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+                            {{ schoolItem.schoolUdiseCode }} -
+                            {{ schoolItem.schoolName }}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">School Category </label><br>विद्यालय की श्रेणी
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" [(ngModel)]="schoolCategoryType" (change)="getClass($any($event.target).value)" [disabled]="userProfile.userLevel == 1"
+                        name="schoolCategoryType" aria-label="Default select example" [disabled]="schCatHidden" #schoolCategory>
+                        <option value="" *ngIf="schCategogyLoading == false">--Select--</option>
+                        <option value="" *ngIf="schCategogyLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let schCat of schoolCategoryList" value="{{schCat.code}}">{{schCat.schlCatName}}
+                        </option>
+
+                    </select>
+                </div>
+
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Class</label><br>वर्ग
+                    </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" [(ngModel)]="className" name="className" aria-label="Default select example">
+                            <option value="" *ngIf="allClassLoading == false">--All Class--</option>
+                        <option value="" *ngIf="allClassLoading == true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let all of allClass" value="{{all}}">Class {{all}}
+                        </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                    <button class="btn btn-default btn-purple"> Search / खोजें <i class="bi bi-search"></i></button>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="row mt-4">
+        <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+
+                        <a title="Back" *ngIf="pageLevel != 4" (click)="
+                        goBack(
+                          district.value,
+                          block.value,
+                          cluster.value,
+                          school.value,
+                          schoolCategory.value,
+                          academic.value,
+                          pageLevel
+                        )
+                      " class="back"><i class="bi bi-skip-backward"></i></a>
+
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" id="viewTable">
+                <table class="table  table-bordered">
+                    <thead class="bg-lightpurple">
+                            <th scope="col" rowspan="2">#</th>
+                            <ng-container *ngIf="pageLevel == 0">
+                                <th scope="col" rowspan="2">District Name /<br> जिले का नाम</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 1">
+                                <th scope="col" rowspan="2">District Name /<br> जिले का नाम</th>
+                                <th scope="col" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 2">
+                                <th scope="col" rowspan="2">District Name /<br> जिले का नाम</th>
+                                <th scope="col" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+                                <th scope="col" rowspan="2">Cluster Name /<br> संकुल का नाम</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 3">
+                                <th scope="col" rowspan="2">District Name /<br> जिले का नाम</th>
+                                <th scope="col" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+                                <th scope="col" rowspan="2">Cluster Name /<br> संकुल का नाम</th>
+                                <th scope="col" rowspan="2">School Name /<br> विद्यालय का नाम</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 4">
+                                <th scope="col" rowspan="2">Class Name / वर्ग का नाम</th>
+                            </ng-container>
+                            
+                            <!-- <th scope="col" rowspan="2">Class Name/All Classes /<br> वर्ग का नाम / सभी वर्ग</th> -->
+                            <th scope="col" rowspan="2">Total Students /<br> कुल छात्र</th>
+                            <th scope="col" colspan="5" class="text-center">Religion / धर्म</th>
+                        
+                        
+                        <tr>
+                            <th scope="col">Hinduism / हिन्दू धर्म
+                            </th>
+                            <th scope="col">Islam / इस्लाम
+                            </th>
+                            <th scope="col">Sikhism / सिख धर्म
+                            </th>
+                            <th scope="col">Christianity / ईसाई धर्म
+                            </th>
+
+
+                            <th scope="col">Others / अन्य
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                        <tr *ngFor="let elem of resultListData; index as i;">
+                            <td>{{i + 1}}</td>
+                            <ng-container *ngIf="pageLevel == 0">
+                                <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,'','','',schoolCategory.value,academic.value,1)">{{elem.districtName}}</a></td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 1">
+                                <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+                                <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,elem?.blockId,'','',schoolCategory.value,academic.value,2)">{{elem.blockCode}} - {{elem.blockName}}</a></td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 2">
+                                <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+                                <td>{{elem.blockCode}} - {{elem.blockName}}</td>
+                                <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,elem?.blockId,elem?.clusterId,'',schoolCategory.value,academic.value,3)">{{elem.clusterCode}} - {{elem.clusterName}}</a></td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 3">
+                                <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+                                <td>{{elem.blockCode}} - {{elem.blockName}}</td>
+                                <td>{{elem.clusterCode}} - {{elem.clusterName}}</td>
+                                <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,elem?.blockId,elem?.clusterId,elem?.schoolId,elem?.schoolCategory,academic.value,4)">{{elem.schoolUdiseCode}} - {{elem.schoolName}}</a></td>
+                            </ng-container>
+
+                            <ng-container *ngIf="pageLevel == 4">
+                                <td>{{elem.anxtName}}</td>
+                            </ng-container>
+                            
+                            <!-- <td>All Classes</td> -->
+                            <td>{{ elem.allStudent ? elem.allStudent:0 }}</td>
+                            <td>{{ elem.hinduStudent ? elem.hinduStudent:0 }}</td>
+                            <td>{{ elem.islamStudent ? elem.islamStudent:0 }}</td>
+                            <td>{{ elem.sikhStudent ? elem.sikhStudent:0 }}</td>
+                            <td>{{ elem.christanStudent ? elem.christanStudent:0 }}</td>
+                            <td>{{ elem.othersStudent ? elem.othersStudent:0 }} </td>
+
+                        </tr>
+                        
+                        <tr>
+                            <ng-container *ngIf="pageLevel == 0">
+                                <td></td>
+                                <td> <strong>Total / कुल</strong> </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 1">
+                                <td></td>
+                                <td></td>
+                                <td> <strong>Total / कुल</strong> </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 2">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td> <strong>Total / कुल</strong> </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 3">
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td></td>
+                                <td> <strong>Total / कुल</strong> </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 4">
+                                <td></td>
+                                <td> <strong>Total / कुल</strong> </td>
+                            </ng-container>
+                            <td>{{allStuTotal}}</td>
+                            <td>{{allHinduStuTotal}}</td>
+                            <td>{{allIslamStuTotal}}</td>
+                            <td>{{allSikhStuTotal}}</td>
+                            <td>{{allChristianStuTotal}}</td>
+                            <td>{{allOthersStuTotal}} </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+            {{ "No record found..." }}
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+            {{
+            "Please Search to find Religion wise Enrollment Report"
+            }}
+        </div>
+    </div>
+</div>

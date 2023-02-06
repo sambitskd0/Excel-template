@@ -1,0 +1,366 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">District wise Enrollment By Class and Gender / वर्ग और लिंग के अनुसार जिलेवार नामांकन
+      </h3>
+
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="../genderWiseEnrollemntReport" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>Report</a>
+      <a routerLink="../../mis" class="neuro viewLink" ><i
+        class="bi bi-eye me-2"></i>MIS</a>
+    </div>
+    
+
+
+  </div>
+  <div class="searchPanel top-space">
+    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+      novalidate>
+      <div class="row">
+        <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label"> Academic Year</label><br>शैक्षणिक वर्ष
+        </div>
+
+        <div class="col-lg-3 form-group mb-0">
+          <span class="colon">:</span>
+          <select class="form-select" [(ngModel)]="academicYear" name="academicYear"
+            aria-label="Default select example">
+            <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+          </select>
+        </div>
+
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label">School Category</label><br>विद्यालय की श्रेणी
+        </div>
+        <div class="col-lg-3 form-group mb-0">
+          <span class="colon">:</span>
+          <select class="form-select" [(ngModel)]="schoolCategoryType" [disabled]="userProfile.userLevel == 1" name="schoolCategoryType"
+          aria-label="Default select example" #schoolCategory>
+            <option value="" *ngIf="schCategogyLoading == false">--Select--</option>
+            <option value="" *ngIf="schCategogyLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let schCat of schoolCategoryList" value="{{schCat.code}}">{{schCat.schlCatName}}</option>
+
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-2 form-group3">
+          <label for="" class="form-label">District
+          </label><br>जिला
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="scDistrictId" name="scDistrictId"
+            autocomplete="off" (change)="getBlock($any($event.target).value);" #district>
+            <option value="" *ngIf="scDisrtictSelect == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scDisrtictLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+              {{ districtItem.districtCode }} -
+              {{ districtItem.districtName }}
+            </option>
+          </select>
+
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="" class="form-label">Block </label><br>प्रखण्ड
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="scBlockId" name="scBlockId"
+            autocomplete="off" (change)="getCluster($any($event.target).value);" #block>
+            <option value="" *ngIf="scBlockSelect == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scBlockLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+              {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-2 form-group3">
+          <label for="" class="form-label">Cluster</label><br>संकुल
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="scClusterId" name="scClusterId"
+            autocomplete="off" (change)="getSchool($any($event.target).value)" #cluster>
+            <option value="" *ngIf="scClusterSelect == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scClusterLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+              {{ clusterItem.clusterCode }} -
+              {{ clusterItem.clusterName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="" class="form-label">School</label><br>विद्यालय
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="scSchoolId" name="scSchoolId"
+            autocomplete="off" #school>
+            <option value="" *ngIf="scSchoolSelect == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scSchoolLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+              {{ schoolItem.schoolUdiseCode }} -
+              {{ schoolItem.schoolName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-lg-2">
+          <button class="btn btn-default btn-purple mt-2"> Search / खोजें <i class="bi bi-search"></i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Back" (click)="
+                goBack(
+                  district.value,
+                  block.value,
+                  cluster.value,
+                  school.value,
+                  schoolCategory.value,
+                  pageLevel
+                )
+              " class="back"><i class="bi bi-skip-backward"></i></a>
+            <!-- <a title="Excel" (click)="excel(pageLevel)" class="excel"><i class="bi bi-file-earmark-excel"></i></a> -->
+            <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive" id="viewTable">
+        <table cellspacing="0" rules="all" class="table table-bordered border" *ngIf="pageLevel == 0">
+          <thead class="bg-lightpurple">
+            <tr>
+              <th align="center" colspan="1" rowspan="2">Sl No. /<br> क्रम सं</th>
+              <th align="center" colspan="1" rowspan="2">District Name /<br> जिले का नाम</th>
+              <ng-container *ngFor="let e of allClass; index as i">
+                <th align="center" colspan="3" rowspan="1">Class {{e}} /<br> वर्ग {{e}}</th>
+              </ng-container>
+              <th align="center" colspan="1" rowspan="2">Total /<br> कुल</th>
+            </tr>
+            
+            <tr>
+              <ng-container *ngFor="let e of allClass; index as i">
+              <th scope="col">B</th>
+              <th scope="col">G</th>
+              <th scope="col">T</th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elem of resultListData; index as i;">
+              <td>{{i + 1}}</td>
+              <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,'','','',schoolCategory.value,1)">{{elem.districtName}}</a></td>
+              <ng-container *ngFor="let e of allClass; index as ii">
+                <td>{{elem[ii+1 +'ClassBoys'] ? elem[ii+1 +'ClassBoys']:0}}</td>
+                <td>{{elem[ii+1 +'ClassGirls'] ? elem[ii+1 +'ClassGirls']:0}}</td>
+                <td>{{elem[ii+1 +'ClassTrans'] ? elem[ii+1 +'ClassTrans']:0}}</td>
+              </ng-container>
+              <td>{{elem.allSum}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td ><strong>Total / कुल</strong></td>
+              <ng-container *ngFor="let allC of allClass; index as ind">
+              <td ><strong>{{alltotal[allC+'ClassBoys']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassGirls']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassTrans']}}</strong></td>
+              </ng-container>
+              <td ><strong>{{allSum}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <table cellspacing="0" rules="all" class="table table-bordered border" *ngIf="pageLevel == 1">
+          <thead class="bg-lightpurple">
+            <tr>
+              <th align="center" colspan="1" rowspan="2">Sl No. /<br> क्रम सं</th>
+              <th align="center" colspan="1" rowspan="2">District Name /<br> जिले का नाम</th>
+              <th align="center" colspan="1" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+              <ng-container *ngFor="let e of allClass; index as i">
+                <th align="center" colspan="3" rowspan="1">Class {{e}} /<br> वर्ग {{e}}</th>
+              </ng-container>
+              <th align="center" colspan="1" rowspan="2">Total /<br> कुल</th>
+            </tr>
+            
+            <tr>
+              <ng-container *ngFor="let e of allClass; index as i">
+              <th scope="col">B</th>
+              <th scope="col">G</th>
+              <th scope="col">T</th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elem of resultListData; index as i;">
+              <td>{{i + 1}}</td>
+              <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+              <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,elem?.blockId,'','',schoolCategory.value,2)">{{elem.blockCode}} - {{elem.blockName}}</a></td>
+              <ng-container *ngFor="let e of allClass; index as ii">
+                <td>{{elem[ii+1 +'ClassBoys'] ? elem[ii+1 +'ClassBoys']:0}}</td>
+                <td>{{elem[ii+1 +'ClassGirls'] ? elem[ii+1 +'ClassGirls']:0}}</td>
+                <td>{{elem[ii+1 +'ClassTrans'] ? elem[ii+1 +'ClassTrans']:0}}</td>
+              </ng-container>
+              <td>{{elem.allSum}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td ><strong>Total / कुल</strong></td>
+              <ng-container *ngFor="let allC of allClass; index as ind">
+              <td ><strong>{{alltotal[allC+'ClassBoys']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassGirls']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassTrans']}}</strong></td>
+              </ng-container>
+              <td ><strong>{{allSum}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <table cellspacing="0" rules="all" class="table table-bordered border" *ngIf="pageLevel == 2">
+          <thead class="bg-lightpurple">
+            <tr>
+              <th align="center" colspan="1" rowspan="2">Sl No. /<br> क्रम सं</th>
+              <th align="center" colspan="1" rowspan="2">District Name /<br> जिले का नाम</th>
+              <th align="center" colspan="1" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+              <th align="center" colspan="1" rowspan="2">Cluster Name /<br> संकुल का नाम</th>
+              <ng-container *ngFor="let e of allClass; index as i">
+                <th align="center" colspan="3" rowspan="1">Class {{e}} /<br> वर्ग {{e}}</th>
+              </ng-container>
+              <th align="center" colspan="1" rowspan="2">Total /<br> कुल</th>
+            </tr>
+            
+            <tr>
+              <ng-container *ngFor="let e of allClass; index as i">
+              <th scope="col">B</th>
+              <th scope="col">G</th>
+              <th scope="col">T</th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elem of resultListData; index as i;">
+              <td>{{i + 1}}</td>
+              <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+              <td>{{elem.blockCode}} - {{elem.blockName}}</td>
+              <td><a href="javascript:void(0)" (click)="getDrillDownData(elem?.districtId,elem?.blockId,elem?.clusterId,'',schoolCategory.value,3)">{{elem.clusterCode}} - {{elem.clusterName}}</a></td>
+              <ng-container *ngFor="let e of allClass; index as ii">
+                <td>{{elem[ii+1 +'ClassBoys'] ? elem[ii+1 +'ClassBoys']:0}}</td>
+                <td>{{elem[ii+1 +'ClassGirls'] ? elem[ii+1 +'ClassGirls']:0}}</td>
+                <td>{{elem[ii+1 +'ClassTrans'] ? elem[ii+1 +'ClassTrans']:0}}</td>
+              </ng-container>
+              <td>{{elem.allSum}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td ><strong>Total / कुल</strong></td>
+              <ng-container *ngFor="let allC of allClass; index as ind">
+              <td ><strong>{{alltotal[allC+'ClassBoys']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassGirls']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassTrans']}}</strong></td>
+              </ng-container>
+              <td ><strong>{{allSum}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        <table cellspacing="0" rules="all" class="table table-bordered border" *ngIf="pageLevel == 3 || pageLevel == 4">
+          <thead class="bg-lightpurple">
+            <tr>
+              <th align="center" colspan="1" rowspan="2">Sl No. /<br> क्रम सं</th>
+              <th align="center" colspan="1" rowspan="2">District Name /<br> जिले का नाम</th>
+              <th align="center" colspan="1" rowspan="2">Block Name /<br> ब्लॉक का नाम</th>
+              <th align="center" colspan="1" rowspan="2">Cluster Name /<br> संकुल का नाम</th>
+              <th align="center" colspan="1" rowspan="2">School Name /<br> विद्यालय का नाम</th>
+              <ng-container *ngFor="let e of allClass; index as i">
+                <th align="center" colspan="3" rowspan="1">Class {{e}} /<br> वर्ग {{e}}</th>
+              </ng-container>
+              <th align="center" colspan="1" rowspan="2">Total /<br> कुल</th>
+            </tr>
+            
+            <tr>
+              <ng-container *ngFor="let e of allClass; index as i">
+              <th scope="col">B</th>
+              <th scope="col">G</th>
+              <th scope="col">T</th>
+              </ng-container>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let elem of resultListData; index as i;">
+              <td>{{i + 1}}</td>
+              <td>{{elem.districtCode}} - {{elem.districtName}}</td>
+              <td>{{elem.blockCode}} - {{elem.blockName}}</td>
+              <td>{{elem.clusterCode}} - {{elem.clusterName}}</td>
+              <td>{{elem.schoolUdiseCode}} - {{elem.schoolName}}</td>
+              <ng-container *ngFor="let e of allClass; index as ii">
+              <td>{{elem[ii+1 +'ClassBoys'] ? elem[ii+1 +'ClassBoys']:0}}</td>
+              <td>{{elem[ii+1 +'ClassGirls'] ? elem[ii+1 +'ClassGirls']:0}}</td>
+              <td>{{elem[ii+1 +'ClassTrans'] ? elem[ii+1 +'ClassTrans']:0}}</td>
+              </ng-container>
+              <td>{{elem.allSum}}</td>
+            </tr>
+            <tr>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td>&nbsp;</td>
+              <td ><strong>Total / कुल</strong></td>
+              <ng-container *ngFor="let allC of allClass; index as ind">
+              <td ><strong>{{alltotal[allC+'ClassBoys']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassGirls']}}</strong></td>
+              <td ><strong>{{alltotal[allC+'ClassTrans']}}</strong></td>
+              </ng-container>
+              <td ><strong>{{allSum}}</strong></td>
+            </tr>
+          </tbody>
+        </table>
+        
+      </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{
+        "Please Search to find gender wise enrollment Report"
+        }}
+    </div>
+  </div>
+</div>

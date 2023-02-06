@@ -1,0 +1,372 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Latitude and Longitude Updation of School</h3>
+        </div>
+        <div class="tabArea">
+            <!-- <a routerLink="./../autoUpdateRequest" class="neuro viewLink" ><i class="bi bi-eye me-2"
+                ></i>Auto Update Requests</a> -->
+            <a routerLink="./../viewNewRequest" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>New Requests</a>
+            <a routerLink="./../viewRejectRequest" class="neuro viewLink"><i class="bi bi-eye me-2"></i>Rejected
+                Requests</a>
+            <a routerLink="./../viewApprovedRequest" class="neuro viewLink"><i class="bi bi-eye me-2"></i>Approved
+                Requests</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+                    <div class="searchPanel">
+                        <div class="row">
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">District</label>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" [(ngModel)]="searchDistrictId" name="searchDistrictId"
+                                    autocomplete="off" (change)="getBlock($any($event.target).value)">
+                                    <option value="" *ngIf="disrtictChanged == false">--- Select ---</option>
+                                    <option value="" *ngIf="disrtictChanged == true">Loading...</option>
+                                    <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                                        {{ districtItem.districtCode }} - {{ districtItem.districtName }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <img src="assets/img/loading.gif" *ngIf="disrtictChanged==true">
+                            </div>
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">Block</label>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" [(ngModel)]="searchBlockId" name="searchBlockId"
+                                    autocomplete="off" (change)="getCluster($any($event.target).value)">
+                                    <option value="" *ngIf="blockChanged == false">--- Select ---</option>
+                                    <option value="" *ngIf="blockChanged == true">Loading...</option>
+                                    <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">{{
+                                        blockItem.blockCode }} - {{ blockItem.blockName }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <img src="assets/img/loading.gif" *ngIf="blockChanged==true">
+                            </div>
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">Cluster</label>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" [(ngModel)]="searchClusterId" name="searchClusterId">
+                                    <option value="" *ngIf="clusterChanged == false">--- Select ---</option>
+                                    <option value="" *ngIf="clusterChanged == true">Loading...</option>
+                                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{
+                                        clusterItem.clusterCode }} - {{ clusterItem.clusterName }}</option>
+                                </select>
+                            </div>
+                            <div class="col-md-1">
+                                <img src="assets/img/loading.gif" *ngIf="clusterChanged==true">
+                            </div>
+                            <div class="col-md-5"></div>
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">Start Date</label>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <input class="form-control" [(ngModel)]="startDate" name="startDate"
+                                    #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly placeholder="DD-MM-YYYY"
+                                    bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />   <span class="mandatory">*</span>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-lg-2 form-group">
+                                <label class="form-label">End Date</label>
+                            </div>
+                            <div class="col-lg-3 form-group">
+                                <span class="colon">:</span>
+                                <input class="form-control" [(ngModel)]="endDate" name="endDate"
+                                    #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly placeholder="DD-MM-YYYY"
+                                    bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />   <span class="mandatory">*</span>
+                            </div>
+
+                           
+
+
+                            <div class="col-lg-2">
+                                <button class="btn btn-default btn-purple">Search <i class="bi bi-search"></i></button>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+            data-original-title="Click me">Search Panel</button>
+    </div>
+    <div class="clearfix"></div>
+
+    <div>
+
+
+        <div class="mt-4" [hidden]="viewRequestData?.length === 0">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" id="viewTable">
+                <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+                <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                    #exporter="matTableExporter" [hiddenColumns]="[11]">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <ng-container matColumnDef="slNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Sl.No
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="requestToken">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Requested Token Id
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.requestTokenId) ?
+                                    element?.requestTokenId :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="requestedBy">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                    class="bg-lightpurple text-center">
+                                    Request By
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.vchfullName)
+                                    ? element?.vchfullName :'--' }}-{{(element?.vchDesignationName |titlecase) ?
+                                    element?.vchDesignationName :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="schoolName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    School Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.schoolUdiseCode)
+                                    ? element?.schoolUdiseCode :'--' }}-{{(element?.schoolName |titlecase) ?
+                                    element?.schoolName :'--' }}</td>
+                            </ng-container>
+
+
+                            <ng-container matColumnDef="districtName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    District Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.districtName |titlecase) ?
+                                    element?.districtName :'--' }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="blockName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Block Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.blockName |titlecase) ?
+                                    element?.blockName :'--' }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="clusterName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Cluster Name
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.clusterName |titlecase) ?
+                                    element?.clusterName :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="requestDates">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Requested Date
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.createdOn) ?
+                                    element?.createdOn :'--' }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="currentLat">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Current Latitude
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.previousLatitude) ?
+                                    element?.previousLatitude :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="currentLong">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Current Longitude
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.previousLongitude) ?
+                                    element?.previousLongitude :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="requestLat">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Requested Latitude
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.requestedLatitude) ?
+                                    element?.requestedLatitude :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="requestLong">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Requested Longitude
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.requestedLongitude) ?
+                                    element?.requestedLongitude :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="requestRemark">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Officer Remark
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{(element?.requestRemak) ?
+                                    element?.requestRemak :'--' }}</td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Action
+                                </th>
+                                <td mat-cell *matCellDef="let element"><a class="btn btn-danger btn-sm"
+                                        data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getRequestDataValues(element?.encId,element?.schoolUdiseCode,element?.schoolName,element?.requestedLatitude,element?.requestedLongitude,element?.previousLatitude,element?.previousLongitude,(element?.vchfullName)
+                                        ? element?.vchfullName :'--',(element?.vchDesignationName ) ?
+                                        element?.vchDesignationName :'--' )">Take
+                                        action</a></td>
+                            </ng-container>
+
+                        </tr>
+
+
+                    </thead>
+
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <table>
+                    <tr *ngIf="!dataSource.data.length">
+                        <td style="text-align: center" [attr.colspan]="viewRequestData.length" class="mt-2">
+                            No Records Found!
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" class="noPrint"
+                    aria-label="Select page" showFirstLastButtons>
+                </mat-paginator>
+            </div>
+
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold mt-4" role="alert"
+            *ngIf="isNorecordFoundNewReq">
+            {{ "No record found..." }}
+        </div>
+    </div>
+
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="filterSearched == false">
+        {{ "Please Search to find School Lists" }}
+    </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Update Request Status</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form name="form" class="form-horizontal" (ngSubmit)="updateRequestStatus()" #requestStatusform="ngForm"
+                novalidate>
+                <input type="hidden" [(ngModel)]="userId" name="userId">
+                <input type="hidden" [(ngModel)]="encId" name="encId">
+                <div class="modal-body">
+                    <div class="alert alert-info text-uppercase" role="alert">
+                        <div class="row">
+                            <div class="col-sm-3 form-group mb-0">
+                                <label for="" class="form-label">SchooL Name</label>
+                            </div>
+                            <div class="col-sm-8 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{(udiseCode)
+                                    ? udiseCode :'--' }}-{{(schoolName |titlecase) ?
+                                    schoolName :'--' }}</label>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 form-group mb-0">
+                                <label for="" class="form-label">Requested By</label>
+                            </div>
+                            <div class="col-sm-8 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">:
+                                    &nbsp;&nbsp;{{requestedName}}--{{requestedDesg}}</label>
+                            </div>
+
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 form-group mb-0">
+                                <label for="" class="form-label">Current Latitude</label>
+                            </div>
+                            <div class="col-sm-3 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{previousLat}}</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label for="" class="form-label">Current Longitude</label>
+                            </div>
+                            <div class="col-sm-2 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{previousLong}}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-3 form-group mb-0">
+                                <label for="" class="form-label">Requested Latitude</label>
+                            </div>
+                            <div class="col-sm-3 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{requestedLat}}</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label for="" class="form-label">Requested Longitude</label>
+                            </div>
+                            <div class="col-sm-2 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{requestedLong}}</label>
+                            </div>
+                        </div>
+
+
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Status</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <span class="colon">:</span>
+                            <select class="form-select" [(ngModel)]="requestStatus" name="requestStatus">
+                                <option value="">--Select--</option>
+                                <option value="1">Reject</option>
+                                <option value="2">Approved</option>
+                            </select>
+                            <span class="mandatory">*</span>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label class="form-label">Remarks</label>
+                        </div>
+                        <div class="col-md-10 form-group">
+                            <span class="colon">:</span>
+                            <textarea [(ngModel)]="requestRemark" name="requestRemark" class="form-control"
+                                id="requestRemark" rows="3"></textarea>
+                            <small>Maximum <span class="text-danger">(<span>300</span>)</span> Characters</small>
+                            <span class="mandatory">*</span>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="modal-footer">
+                    <button type="submit" class="btn btn-success">Submit</button>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>

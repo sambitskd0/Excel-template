@@ -1,0 +1,189 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">
+        View Service Description (History of Postings) / सेवा विवरण देखें
+        (तैनातियाँ का इतिहास)
+      </h3>
+      <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+    </div>
+    <div class="tabArea">
+      <a *ngIf="loginUserType == 1 && (this.verificationSts === 0 || this.verificationSts === 2 || this.changeReqStatus === 2)" [routerLink]="['../../addServiceInfo/', id]" class="neuro addLink active" routerLinkActive="active">
+        <i class="bi bi-plus-lg me-2"></i>{{
+        existingServiceInfo && existingServiceInfo?.length
+        ? "Edit / संपादन करें"
+        : "Add / जोड़ें"
+        }}
+      </a>
+      <a [routerLink]="['../../viewServiceInfo/', id]" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+    </div>
+  </div>
+  <div class="row mt-3">
+    <button class="searchopen text-center" style="margin: auto; width: 40%">
+      {{
+      "Name : " +
+      (teacherInfo?.teacherName || "--") +
+      " , " +
+      "Title : " +
+      (teacherInfo?.teacherTitle || "--")
+      }}
+    </button>
+  </div>
+  <ng-container *ngIf="schoolFillUpData">
+    <div class="formpatch top-space">
+      <div class="row mt-4">
+        <div class="col-lg-12">
+          <div >
+            <form [formGroup]="serviceInfoForm">
+              <div class="pb-1 d-flex justify-content-end">
+                <button class="btn btn-warning btn-sm" (click)="enableFields()"
+                  *ngIf="disableFields === true && loginUserType != 3 && (verificationStatus != 1)">
+                  Edit / संपादन करें
+                </button>
+                <button class="btn btn-primary btn-sm" (click)="enableFields()"
+                  *ngIf="disableFields === false && existingServiceInfo?.length">
+                  Cancel / रद्द करें
+                </button>
+              </div>
+<div class="table-responsive">
+  <table class="table table-bordered">
+    <thead class="bg-lightpurple">
+      <tr>
+        <th>
+          Sl# /<br />
+          क्र॰सं॰
+        </th>
+        <th scope="col">
+          Name of the School / <br />
+          विद्यालय का नाम
+          <span class="text-danger ms-2">*</span>
+        </th>
+        <th scope="col">
+          Designation /<br />
+          पद
+          <span class="text-danger ms-2">*</span>
+        </th>
+        <th scope="col">
+          From Service Period /<br />
+          सेवा अवधि से
+          <span class="text-danger ms-2">*</span>
+        </th>
+        <th scope="col">
+          To Service Period /<br />
+          सेवा अवधि तक
+          <!-- <span class="text-danger ms-2">*</span> -->
+        </th>
+        <th scope="col">
+          Subject(s) Taught /<br />
+          पढ़ाया जाने वाला विषय
+          <span class="text-danger ms-2">*</span>
+        </th>
+        <th *ngIf="disableFields === false && singleField === false">
+          Action /<br />
+          कार्रवाई करें
+        </th>
+      </tr>
+    </thead>
+    <tbody id="addmore-service" formArrayName="serviceInfoArray">
+      <tr class="service-data" *ngFor="let item of serviceInfo().controls; index as i" [formGroupName]="i">
+        <td>{{ i + 1 }}</td>
+        <td>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="nameOfSchool" (keypress)="
+              customValidators.alphaNumericValidator(
+                $event,
+                'comma',
+                'space',
+                'dot',
+                'hyphen'
+              )
+            " maxlength="100" tabindex="1" autofocus #schoolName />
+        </td>
+        <td>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="designation" (keypress)="
+              customValidators.alphaNumericValidator(
+                $event,
+                'comma',
+                'space',
+                'dot',
+                'hyphen'
+              )
+            " maxlength="100" tabindex="2" />
+        </td>
+        <td>
+          <!-- <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="fromServicePeriod" #fromServicePeriod (blur)="validateServiceDates()" /> -->
+          <input readonly class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY"
+            bsDatepicker [bsConfig]="{
+              dateInputFormat: 'DD-MMM-YYYY',
+              showClearButton: true,
+              clearPosition: 'right'
+            }" formControlName="fromServicePeriod" #fromServicePeriod autocomplete="off"
+            [maxDate]="maxDate" [minDate]="minDate" tabindex="3" />
+        </td>
+        <td>
+          <!-- <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="toServicePeriod" #toServicePeriod (blur)="validateServiceDates()" /> -->
+          <input readonly class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY"
+            bsDatepicker [bsConfig]="{
+              dateInputFormat: 'DD-MMM-YYYY',
+              showClearButton: true,
+              clearPosition: 'right'
+            }" formControlName="toServicePeriod" #toServicePeriod autocomplete="off" [maxDate]="maxDate"
+            [minDate]="minDate" tabindex="4" />
+        </td>
+        <td>
+          <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+            formControlName="subjectsTaught" (keypress)="
+              customValidators.alphaNumericValidator(
+                $event,
+                'comma',
+                'space',
+                'dot',
+                'hyphen'
+              )
+            " maxlength="100" tabindex="5" />
+        </td>
+        <td *ngIf="disableFields === false && singleField === false">
+          <button class="btn btn-danger btn-sm" (click)="removeRow(i)">
+            <i class="bi bi-dash-lg"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+             
+            </form>
+          </div>
+          <div class="pb-1 float-end">
+            <button class="btn btn-success me-2 btn-sm" (click)="addRow()"
+              *ngIf="disableFields === false && loginUserType != 3" tabindex="6">
+              Add more / अधिक जोड़ें
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success me-2" (click)="submitForm()" *ngIf="loginUserType != 3 && (verificationStatus != 1)" tabindex="7">
+        {{
+        this.existingServiceInfo && existingServiceInfo?.length
+        ? "Update / अद्यतन करें"
+        : "Submit / जमा करें"
+        }}
+      </button>
+      <button type="reset" class="btn btn-danger me-2" (click)="resetServiceForm()"
+        *ngIf="existingServiceInfo === undefined" tabindex="8">
+        Reset / पुनर्स्थापित करे
+      </button>
+    </div>
+  </ng-container>
+  <br />
+  <div class="alert alert-info text-center  fw-bold" role="alert"
+    *ngIf="!schoolFillUpData && loginUserType == 3">
+    {{ "Teacher is not updated the information" }}
+  </div>
+</div>

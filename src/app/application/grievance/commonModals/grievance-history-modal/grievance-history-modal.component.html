@@ -1,0 +1,178 @@
+<div class="modal-dialog modal-lg">
+    <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title" id="ActionHistoryLabel">Grievance Action History Details/शिकायत कार्रवाई इतिहास विवरण
+            </h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="popup-loader" *ngIf="showActionLoader"><img src="/assets/img/loading.gif" /> <br>Loading. Please wait...</div>
+        <div class="modal-body" *ngIf="showActionDetails" id="printModalView">
+            <ng-container *ngFor=" let actionDetails of grievanceActionDetails;let j = index">
+             
+                <h6 class="text-center">Current Status: {{ actionDetails.statusName }}</h6>
+                <h6 class="mb-4 text-center">
+                    <span *ngIf="actionDetails.grievanceStatus==1">Grievance is pending at ({{ actionDetails.vchDesignationName }})</span>
+                    <span *ngIf="actionDetails.grievanceStatus==2">Grievance is resolved at ({{ actionDetails.vchDesignationName }})</span>
+                    <span *ngIf="actionDetails.grievanceStatus==3">Grievance is inprocess at ({{ actionDetails.vchDesignationName }})</span>
+                    <span *ngIf="actionDetails.grievanceStatus==4">Grievance is onhold at ({{ actionDetails.vchDesignationName }})</span>
+                    <span *ngIf="actionDetails.grievanceStatus==5">Grievance is forwarded to ({{ actionDetails.vchDesignationName }})</span>
+                    <span *ngIf="actionDetails.grievanceStatus==6">Grievance is discarded at ({{ actionDetails.vchDesignationName }})</span>
+                </h6>
+
+                <h5>Complainer Information/शिकायतकर्ता की जानकारी
+                </h5>
+                <div class="row">
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Grievance No.<br>शिकायत नं.
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"><b>{{ showGrievanceActionTktNo }}</b></label>
+                    </div>
+                    <div class="col-lg-3 form-grou">
+                        <label class="form-label">Complain Date<br>शिकायत की तारीख
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data">{{ actionDetails.createdOn | date:'dd-MMM-yyyy' }}</label>
+                    </div>
+                    <div class="col-lg-3 form-grou">
+                        <label class="form-label">Complainer<br>शिकायतकर्ता
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{actionDetails.userCode}} - {{ actionDetails.userName }} </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Mobile No.<br>मोबाइल नं.
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ (actionDetails.userMobile) ? actionDetails.userMobile : "N/A" }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">District<br>जिला
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.districtName }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Block<br>प्रखण्ड
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.blockName }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">School<br>विद्यालय 
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.schoolName }} ({{ actionDetails.schoolUdiseCode }})</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Category<br>श्रेणी
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.grvncCatName }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Sub Category<br>उप श्रेणी
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.grvncSubCatName }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Subject<br>विषय
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.subjectName }}</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Attachment<br>संलग्नक
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> 
+                            <a href="{{ fileUrl + '/' +actionDetails.documentFile.replace('.', '~') }}" target="_blank" *ngIf="actionDetails.documentFile; else tokenNA"> View Attachment </a>
+                            <ng-template #tokenNA> N/A </ng-template>
+                        </label>  
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <label class="form-label">Grievance Details<br>शिकायत का विवरण
+                        </label>
+                    </div>
+                    <div class="col-lg-8 form-group colon-top">
+                        <span class="colon">:</span>
+                        <label class="label-data"> {{ actionDetails.grievanceDesc }}</label>
+                    </div>
+                </div>
+
+                <h5>Action History Details/क्रिया इतिहास विवरण
+                </h5>
+                <div class="table-responsive">
+                    <table class="table table-bordered poptable">
+                        <thead>
+                            <tr>
+                                <th>Sl No./क्र.सं.
+                                </th>
+                                <th>Action Date/क्रिया दिनांक
+                                </th>
+                                <th>Action Taken Description/की गई कार्रवाई विवरण
+                                </th>
+                                <th>Action Taken by/की गई कार्रवाई
+                                </th>
+                                <th>Action to be Taken by/की जाने वाली कार्रवाई
+                                </th>
+                                <th>Grievance Status/शिकायत की स्थिति
+                                </th>
+                                <th>Attachment/संलग्नक
+                                </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor=" let grievanceLog of grievanceLogDetails;let k = index">
+                                <td>{{ k+1 }}</td>
+                                <td>{{ grievanceLog.statusDate | date:'dd-MMM-yyyy' }}</td>
+                                <td>{{ (grievanceLog.grievanceStatus == 1) ? "Grievance Raised" : ((grievanceLog.remark)? grievanceLog.remark : "N/A" ) }}</td>
+                                <td>{{ (grievanceLog.grievanceStatus != 1) ? grievanceLog.actionTakenUser: '--' }}
+                                </td>
+                                <td>{{ (grievanceLog.grievanceStatus != 2 && grievanceLog.grievanceStatus != 6) ? grievanceLog.pendingAtUser: '--' }}
+                                </td>
+                                <td>
+                                    {{ grievanceLog.statusName }}<br>
+                                    <small *ngIf="grievanceLog.grievanceStatus == 3 || grievanceLog.grievanceStatus == 4">(Exp Date: {{ grievanceLog.expectedDate | date:'dd-MMM-yyyy' }})</small>
+                                </td>
+                                <td>
+                                    <a href="{{ fileUrl + '/' + grievanceLog.uploadDocument.replace('.', '~') }}" target="_blank" *ngIf="grievanceLog.uploadDocument; else logNA"> View Attachment </a>
+                                    <ng-template #logNA> N/A </ng-template>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </ng-container>
+        </div>
+        <div class="modal-footer">
+            <button type="button" class="btn btn-primary" (click) = "printModal()">Print/प्रिंट
+            </button>
+            <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close/बंद करें
+            </button>
+        </div>
+    </div>
+</div>

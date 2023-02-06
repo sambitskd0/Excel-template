@@ -1,0 +1,44 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Edit Expenditure Type / व्यय प्रकार संपादित करें</h3>
+        </div>
+        <div class="tabArea">
+            <a  class="neuro addLink disabled active" routerLinkActive="active"
+            *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+            <a routerLink="../../viewExpenditureType" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें</a>
+            <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+    </div>
+    
+        <div class="top-space">
+            <form [formGroup]="editExpenditureTypeForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                        <div class="col-lg-2 form-group">
+                        <label class="form-label">Expenditure Type <br>व्यय </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input   type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="expenditureName" maxlength="80"  (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row formpatch">
+                    <div class="col-lg-2 form-group">
+                        <label class="form-label">Description <br>विवरण </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <textarea cols="4" rows="4" class="form-control" id="exampleInputEmail1"
+                            aria-describedby="emailHelp" formControlName="description" maxlength="300"></textarea>
+                        <small>Maximum <span class="text-danger">(300)</span> Characters</small>
+                    </div>
+                </div>
+                <div>
+                    <button class="btn btn-success me-2">Update / अद्यतन</button>
+                    <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करे</button>
+                </div>          
+        </form>
+    </div>
+</div>

@@ -1,0 +1,27 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Update School Information</h3><span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addschoolotherinfo" class="neuro addLink active" routerLinkActive="active"><i
+                    class="bi bi-plus-lg me-2 " ></i>Add / जोड़ें</a>
+        </div>
+    </div>
+
+    <div class="regi__info top-space">
+        <a routerLink="./../../basicInfo/{{encId}}" class="neuro addLink step1 ">Step 1 / स्टेप 1</a>
+        <a routerLink="./../../otherInfo/{{encId}}" class="neuro viewLink step2">Step 2 / स्टेप 2</a>
+        <a routerLink="./../../physicalInfo/{{encId}}" class="neuro viewLink step3">Step 3 / स्टेप 3</a>
+        <a class="neuro viewLink step4 active">Step 4 / स्टेप 4</a>
+        <a  routerLink="./../../CADIniInfo/{{encId}}" class="neuro viewLink step3">Step 5 / स्टेप 5</a>
+    </div> 
+    <div class="step-container" *ngIf="dataLength==true">
+         <!-- Update -->
+         <app-update-pei *ngIf="enableEdit==true"></app-update-pei>
+         <!-- Update -->
+        <!-- View -->
+        <app-view-pei *ngIf="enableEdit==false"></app-view-pei>
+        <!-- View -->
+    </div>
+</div>

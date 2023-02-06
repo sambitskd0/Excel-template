@@ -1,0 +1,65 @@
+<div>
+    <div class="pageHeading">
+     <div class="heading__tab">
+       <h3 class="pageName">Manage Subject Tagging/विषय प्रबंधित करें</h3> 
+       <div class="tab__section">
+           <a routerLink="../../viewSubject" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Subject Master')">Subject Master/विषय का मास्टर</a>
+           <a routerLink="./../viewSubjectTagging" class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Tagging')">Tagging/ टैगिंग</a>
+       </div>
+       </div>
+    
+       <div class="tabArea">
+        <a routerLink="./../addSubjectTagging"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+         <a routerLink="./../viewSubjectTagging" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a> 
+   </div>
+   </div>
+     <div class="row top-space">
+       <div class="col-lg-12">
+         
+          <div> 
+         <div class="table-responsive" *ngIf="isNorecordFound==false">
+          <table class="table  table-bordered cell-border">
+             <thead class="bg-lightpurple">
+               <tr>
+                 <th scope="col" width="15px">SI#/क्र.सं.
+                </th>
+                 <th scope="col">Class Name/वर्ग का नाम
+                </th>
+                 <th scope="col">Compulsory Subject/अनिवार्य विषय
+                </th>
+                 <th scope="col">Optional Subject/वैकल्पिक विषय
+                </th> 
+                 <th scope="col">Stream / धारा</th>
+                 <th scope="col">Group / समूह</th>
+                 <th scope="col" *ngIf="adminPrivilege">Action/स्थिति 
+                </th>
+               </tr>
+             </thead>
+             <tbody>
+              <tr *ngFor="let post of subjectTaggingData; let i=index">
+                <td scope="row">{{i+1}}</td>
+                <td>{{post.className}}</td> 
+                <td>{{post.subject}}</td>
+                <td>{{post.opsubject}}</td>
+                <td>{{(post.streamName) ? post.streamName : '--'}}</td>
+                <td>{{(post.groupName) ? post.groupName :  '--'}}</td>
+                <td width="100px" *ngIf="adminPrivilege">
+                  <a routerLink="./../editSubjectTagging/{{ post.encId }}/{{ post.streamId }}/{{post.groupId}}" title="Edit" class="edit-btn me-2"><i
+                      class="bi bi-pencil-square"></i></a>
+                  <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteSubjectTagging(post.encId)"><i
+                        class="bi bi-trash"></i></a>
+                 </td>
+              </tr>
+             </tbody>
+           </table>
+         </div>
+       </div>
+     </div>
+     <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound==true">
+      {{ "No record found." }}
+    </div>
+   </div>
+
+
+
+

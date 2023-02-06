@@ -1,0 +1,56 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">View Service Description (History of Postings) / सेवा इतिहास(तैनातियाँ का इतिहास)</h3>
+
+        </div>
+        <div class="tabArea">            
+            <a *ngIf="loginUserType == 1 && (this.verificationStatus === 0 || this.verificationStatus === 2 || this.changeReqStatus === 2)" [routerLink]="['../../addServiceInfo/',this.teacherEncryptedId]" class="neuro addLink" routerLinkActive="active"><i
+                    class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+            <a [routerLink]="['../../viewServiceInfo/',this.teacherEncryptedId]" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="page__rightarea">
+                    <div class="page__util">
+                        <div class="util" *ngIf="(viewServiceData != null)">
+                            <!-- <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                            <a title="Print" class="print"><i class="bi bi-printer"></i></a>                             -->
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" *ngIf="(viewServiceData != null)">
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr >                                
+                                <th scope="col">Sl# /<br> क्र॰सं॰</th>
+                                <th scope="col">Name of the School /<br> विद्यालय का नाम </th>
+                                <th scope="col">Designation /<br> पद </th>
+                                <th scope="col">From Service Period /<br> सेवा अवधि से</th>
+                                <th scope="col">To Service Period /<br> सेवा अवधि तक</th>
+                                <th scope="col">Subject(s) Taught /<br> पढ़ाया जाने वाला विषय</th>                                
+                            </tr>
+                        </thead>
+                        <tbody id="addmore-service">
+                            <tr class="service-data" *ngFor="let serviceData of viewServiceData;let i = index">                               
+                                <td>{{i+1}}</td>
+                                <td>{{(serviceData?.schoolName) ? serviceData?.schoolName :'--'}}</td>
+                                <td>{{(serviceData?.designation) ? serviceData?.designation :'--'}}</td>
+                                <td>{{(serviceData?.fromServiceDate) ? (serviceData?.fromServiceDate | date: 'dd-MMM-yyyy' ) :'--'}}</td>
+                                <td>{{(serviceData?.toServiceDate) ? (serviceData?.toServiceDate | date: 'dd-MMM-yyyy') :'--'}}</td>
+                                <td>{{(serviceData?.subjectsTaught) ? serviceData?.subjectsTaught :'--'}}</td>                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="(viewServiceData === null)">
+                    {{ "No record found." }}
+                  </div>
+            </div>
+        </div>
+    </div>
+
+</div>

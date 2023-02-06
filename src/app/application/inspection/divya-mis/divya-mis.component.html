@@ -1,0 +1,104 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div><h3 class="pageName">Divya MIS</h3></div>
+    </div>
+  </div>
+  <div class="table-responsive mt-3" id="toPrint">
+    <table cellspacing="0" rules="all" class="table table-bordered border">
+      <thead class="bg-lightpurple">
+        <tr>
+          <th width="70px">Sl#</th>
+          <th>Visit</th>
+          <th width="120px">View</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        <tr>
+          <td>1</td>
+          <td>School</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtSchoolSurveyId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Kasturba Gandhi Balika Vidyalay (KGBV)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtKgbvId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Resource Center / Day Care Center</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtResourceCenterId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Artificial Limb Center </td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtArtificialLimbId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Survey Work (Official Works)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtSurveyWorkId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Camp (Official Works)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtCampId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Training (Official Works)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtTrainingId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>8</td>
+          <td>Home Based Education (Official Works)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtHomeBasedId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>9</td>
+          <td>Any Other (Official Works)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', rtAnyOtherId]">Details</a></td>
+        </tr>
+      </tbody>
+      <!-------------------------------- Officer  ------------------------------->
+      <tbody *ngIf="userProfile.officerType != 1">
+        <tr class="bg-lightpurple">
+          <th width="70px">Sl#</th>
+          <th>Inspection</th>
+          <th width="120px">View</th>
+        </tr>
+        <tr>
+          <td>1</td>
+          <td>School</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerSchoolSurveyId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>2</td>
+          <td>Kasturba Gandhi Balika Vidyalay (KGBV)</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerKgbvId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Resource Center / Day Care Center</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerResourceCenterId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>3</td>
+          <td>Artificial Limb Center</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerArtificialLimbId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>4</td>
+          <td>Training</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerTrainingId]">Details</a></td>
+        </tr>
+        <tr>
+          <td>5</td>
+          <td>Home Based Education</td>
+          <td><a class="btn btn-dark btn-sm" [routerLink]="['./../viewReports/', officerHomeBasedId]">Details</a></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

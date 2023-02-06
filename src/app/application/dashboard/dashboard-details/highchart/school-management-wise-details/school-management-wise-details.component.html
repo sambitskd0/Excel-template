@@ -1,0 +1,24 @@
+<!-- <div id="schoolmanagementwisedetails" style="width: 100%;height:100%;overflow: hidden;"></div> -->
+<div class="header-fixed-scroll management-school-table">
+            <table class="table table-bordered mb-0">
+                <thead>
+                  <tr>
+                    <th width="20px">Sl#</th>
+                    <th width="300px">Management Type</th>
+                    <th>No. of School</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let item of schoolMgtWiseType; let i=index;">
+                    <td>{{i+1}}</td>
+                    <td>{{item.mgtType}}</td>
+                    <td>
+                      <div class="d-flex justify-content-between align-items-center">
+                      <progress value={{item.noOfSchool}} max={{maxCount}}></progress>
+                        <div>{{item.noOfSchool}}</div>
+                      </div>
+                    </td>
+                  </tr>
+                </tbody>
+            </table> 
+          </div>

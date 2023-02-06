@@ -1,0 +1,350 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">Remedial Training / उपचारात्मक प्रशिक्षण</h3>
+         <span class="indicator">( * ) Indicates Mandatory / संकेतक अनिवार्य</span>
+      </div>
+      <div class="tabArea">
+         <a routerLink="./../addRemedialTraining"  class="neuro addLink active" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Identifying Under Performing Student / बेहतर प्रदर्शन नहींकरने वाले छात्र की पहचान</a> 
+         <a routerLink="./../viewRemedialTraining" class="neuro viewLink" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+         <div class="float-end d-inline-block">
+         </div>
+      </div>
+   </div>
+   <div class="top-space" *ngIf="permissionForAdd== true">
+      <ng-container *ngIf="show">
+         <div class="search-container">
+            <div class="search-sec">
+               <div class="searchPanel">
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class=""><label for="exampleInputEmail1" class="form-label">Academic Year <br>शैक्षणिक वर्ष  </label></div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="exampleInputEmail1" class="form-label fw-bold" 
+                              >  {{(academicYear) ? academicYear : '--'}}</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-1"></div>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label"
+                              >District <br>जिला</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label  fw-bold">
+                           {{(districtName) ? districtName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label"
+                              >Block <br>प्रखण्ड</label
+                              >
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold"
+                              >{{(blockName) ? blockName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                     <div class="col-lg-1"></div>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label"
+                              >Cluster <br>संकुल</label
+                              >
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold">
+                           {{(clusterName) ? clusterName : '--'}}
+                           </label>
+                        </div>
+                     </div>
+                  </div>
+                  <form  [formGroup] ="remedialTrainingSearchForm" (ngSubmit)="searchStudent()">
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="exampleInputEmail1" class="form-label"
+                              >School <br>विद्यालय</label
+                              >
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <label for="" class="form-label fw-bold"
+                              > {{(schoolUdiseCode) ? schoolUdiseCode : '--'}} - {{(schoolName) ? schoolName : '--'}}</label
+                              >
+                        </div>
+                     </div>
+                     <div class="col-lg-1"></div>
+                     <div class="col-lg-2 form-group">
+                       <div class=""><label  class="form-label">Catchup Class <br>कैचअप क्लास</label></div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <div class="radiobuttons pt-2">
+                              <div  class="rdio rdio-primary form-check-inline">
+                                <input formControlName="isCatchupClass" value="1" id="radio16" type="radio" (change)="isCatchupClassControl($any($event.target).value)" >
+                                <label  for="radio16">Yes</label>
+                              </div>
+                              <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="isCatchupClass" value="2" id="radio17" type="radio" (change)="isCatchupClassControl($any($event.target).value)" >
+                                <label  for="radio17">No</label>
+                              </div>
+                            </div>   <span class="mandatory">*</span>       
+                       </div>
+                    </div>
+                  </div>
+                  <div class="row">
+                    <ng-container *ngIf="this.isCatchupClass==2">
+                    <div class="col-lg-2 form-group">
+                       <div class=""><label  class="form-label">Exam Type <br>परीक्षा का प्रकार</label></div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <select class="form-select" aria-label="Default select example" formControlName="examType"  (change)="examTypeChange($any($event.target).value)">
+                            <option  value="">--Select--</option>
+                            <option [value]="examType?.anxtValue" *ngFor="let examType of examTypeData">{{examType?.anxtName }}</option>
+                          </select>
+                          <span  class="mandatory">*</span>
+                       </div>
+                    </div>
+                     <div class="col-lg-1 form-group"></div>
+                    </ng-container>
+                     <div class="col-lg-2 form-group">
+                        <div class="">
+                           <label for="" class="form-label">Class <br>वर्ग</label>
+                        </div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span>
+                           <select class="form-select" aria-label="Default select example" formControlName="classId"  (change)="classChange($any($event.target).value)" (change)="getSubjects()">
+                             <option selected value="" *ngIf="classLoad === false">
+                               ---Select---
+                             </option>
+                             <option selected value="" *ngIf="classLoad === true">
+                               Loading...
+                             </option>
+                             <option *ngFor="let item of classData" [value]="item.classId">
+                                {{ item.class }}
+                            </option>  
+                             </select>
+                           <span  class="mandatory">*</span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-6 ">
+                        <ng-container  *ngIf=" classId!==''&& (classId == 11 || classId == 12) ">
+                           <div id="11" class="row">
+                              <div class="col-lg-4 form-group">
+                                 <label for="" class="form-label">Stream <br>धाराएँ</label>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                 <span class="colon">:</span>
+                                 <select class="form-select" aria-label="Default select example" formControlName="streamId"  (change)="streamChange($any($event.target).value)" (change)="getSubjects()" >
+
+                                    <option selected value="" *ngIf="streamLoad === false">
+                                       ---Select---
+                                     </option>
+                                     <option selected value="" *ngIf="streamLoad === true">
+                                       Loading...
+                                     </option>
+                                     <option
+                                       [value]="item?.anxtValue"
+                                       *ngFor="let item of streamData"
+                                     >
+                                       {{ item?.anxtName }}
+                                     </option>
+                                 </select>
+                                 <span class="mandatory">*</span>
+                              </div>
+                           </div>
+                        </ng-container>
+                     </div>
+                     <div class="col-lg-6 ">
+                        <ng-container *ngIf="streamId == 3 && (classId == 11 || classId == 12)">
+                           <div id="science" class="row">
+                              <div class="col-lg-4 form-group">
+                                 <label for="" class="form-label">Group <br>समूह</label>
+                              </div>
+                              <div class="col-lg-6 form-group">
+                                 <span class="colon">:</span>
+                                 <select class="form-select" aria-label="Default select example" formControlName="groupId" (change)="getSubjects()" >
+                                    <option selected value="" *ngIf="groupLoad === false">
+                                   ---Select---
+                                 </option>
+                                 <option selected value="" *ngIf="groupLoad === true">
+                                   Loading...
+                                 </option>
+                                 <option
+                                   [value]="item?.anxtValue"
+                                   *ngFor="let item of groupData"
+                                 >
+                                   {{ item?.anxtName }}
+                                 </option>
+                                 </select>
+                                 <span class="mandatory">*</span>
+                              </div>
+                           </div>
+                        </ng-container>
+                     </div>
+                  </div>
+                  <div class="row">
+                     <div class="col-lg-2 form-group">
+                        <div class=""><label  class="form-label">Subject <br>विषय </label></div>
+                     </div>
+                     <div class="col-lg-3 form-group">
+                        <div class="">
+                           <span class="colon">:</span> 
+                           <select class="form-select" aria-label="Default select example" formControlName="subjectId">
+                             <option selected value="" *ngIf="subjectLoad === false">
+                                 ---Select---
+                               </option>
+                               <option selected value="" *ngIf="subjectLoad === true">
+                                 Loading...
+                               </option>
+                               <option
+                                 [value]="item?.subjectId"
+                                 ng-reflect-value="1"
+                                 *ngFor="let item of classWiseSubjects"
+                               >
+                                 {{ item?.subject }}
+                               </option>
+                           </select>
+                           <span  class="mandatory">*</span>
+                        </div>
+                     </div>
+                     <div class="col-lg-1 form-group"></div>
+                     <ng-container  *ngIf="this.isCatchupClass==2">
+                       <div class="col-lg-2 form-group">
+                          <div class=""><label  class="form-label">Grade <br>श्रेणी </label></div>
+                       </div>
+                       <div class="col-lg-3 form-group">
+                          <div class="">
+                             <span class="colon">:</span> 
+                             <select class="form-select" aria-label="Default select example" formControlName="grade">
+                                <option selected value="">--Select--</option>
+                                <option *ngFor="let item of gradeData" [value]="item.studentGradeId">
+                                {{ item.gradeName }}
+                                </option> 
+                             </select>
+                             <span  class="mandatory">*</span>
+                          </div>
+                       </div>
+                     </ng-container>
+                  </div>
+                  <div class="row">
+                     <div  class=""><button  class="btn btn-default btn-purple"> Search / खोज <i  class="bi bi-search"></i></button></div>
+                  </div>
+                  </form>
+               </div>
+            </div>
+         </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide"   data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज पट्टिका</button> 
+   </div>
+   <div class="clearfix"></div>
+    <div class="indicators-pannel">
+        <ul>
+         <li><span class="timeline-color light-purple-bg"></span>  <span class="ms-1 fw-bold">Aided</span></li>
+            <li><span class="timeline-color light-white-bg"></span> <span class="ms-1 fw-bold">Not Aided</span></li>
+           
+        </ul>
+    </div>
+   <div>
+   <ng-container  *ngIf="isStudentData === true && emptyResult===false  && permissionForAdd ===true">
+       <form [formGroup] ="remedialTrainingForm" (ngSubmit)="submitRemedialTraining()"> 
+   <div class="row mt-3">
+      <div class="col-lg-12">
+ 
+         <div class="table-responsive">
+            <table class="table  table-bordered">
+               <thead class="bg-lightpurple">
+                  <tr>
+                     <th scope="col">
+                       <div class="checkbox check__box">
+                          <div class="form-group me-0">
+                            <label>
+                             <input type="checkbox" class="check" formControlName="checkAll" [checked]="checkAll" [value]=checkAll (click)="checkUncheckAll()">
+                              <span></span>
+                            </label>
+                          </div>
+                        </div>      
+                     </th>
+                     <!-- <label ngClass="{{CheckAllBUttonHide==true?'disable':''}}">
+                             <input type="checkbox" class="check" formControlName="checkAll" (click)="checkUncheckAll()">
+                              <span></span>
+                              </label> -->
+                     <th scope="col">#</th>
+                     <th scope="col">Student Code / छात्र कोड</th>
+                     <th scope="col">Name  / नाम</th>
+                     <th scope="col">Gender / लिंग</th>
+                  </tr>
+               </thead>
+               <tbody formArrayName="studentRemedialArray">
+                  <tr  *ngFor="let item of studentRemedialInfo().controls; index as i"
+                  [formGroupName]="i">
+                     <td>
+                        <div class="checkbox check__box">
+                           <div class="form-group me-0">
+                              <label ngClass="{{remedialId[i]?'disable':''}}" >
+                               <input  type="checkbox" [id]="i" class="check"  formControlName="checkItem"  [checked]="item?.get('checkItem')?.value" (click)="singlecheckUncheck(i)"
+                               [disabled]="remedialId[i]">
+                               <!-- <input  type="checkbox" [id]="i" class="check" formControlName="checkItem" [checked]="selectedCheckValue.includes(item?.get('studentId')?.value)" [value]="item?.get('studentId')?.value"[disabled]="remedialId[i]"> -->
+                              <span></span>
+                              </label>
+                           </div>
+                        </div>
+                     </td>
+                     <td>{{i+1}}</td>
+                     <td> <input type="hidden" aria-describedby="emailHelp" class="form-control" formControlName="studentId" >
+                          <input type="text" aria-describedby="emailHelp" class="form-control" formControlName="studentCode" ></td>
+                     <td><input type="text" aria-describedby="emailHelp" class="form-control" formControlName="studentName"></td>
+                     <td><input type="text" aria-describedby="emailHelp" class="form-control" formControlName="gender"></td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+   </div>
+   <div> <button class="btn btn-success mt-3">Submit / जमा करे</button></div>
+       </form>
+    </ng-container>
+     <ng-container  *ngIf="isStudentData === false && emptyResult===true  && permissionForAdd ===true">
+        <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+           {{ "No Record Found" }}
+       </div>
+     </ng-container>
+        <ng-container *ngIf="isStudentData === false && emptyResult===false  && permissionForAdd ===true">
+           <div class="alert alert-info text-center fw-bold" role="alert">
+              {{ "Please select drop-down lists to view the records." }}
+           </div>
+        </ng-container>
+   </div>
+   <ng-container *ngIf="permissionForAdd ===false">
+     <div class="alert alert-info text-center text-uppercase fw-bold"  role="alert"  >
+        {{ "You don't have permission to add kindly contact the administrator..." }}
+    </div>
+  </ng-container>
+</div>

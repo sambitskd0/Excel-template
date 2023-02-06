@@ -1,0 +1,142 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Manage Subject Tagging/विषय प्रबंधित करें</h3>
+            <div class="tab__section">
+                <a routerLink="../../../../../viewSubject" class="tablink" *ngIf="this.tabs.includes('Subject Master')">Subject Master/विषय का मास्टर</a>
+                <a routerLink="../../../../viewSubjectTagging" class="tablink active" routerLinkActive="active" *ngIf="this.tabs.includes('Tagging')">Tagging/ टैगिंग</a>
+            </div>
+        </div>
+        <div class="tabArea">
+            <a  class="neuro addLink active" routerLinkActive="active" *ngIf="adminPrivilege"
+            ><i
+                    class="bi bi-pencil me-2"></i>Edit/संपादन करें</a>
+            <a routerLink="../../../../viewSubjectTagging" class="neuro viewLink"><i
+                    class="bi bi-eye me-2"></i>View/देखें</a>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="editSubjectTaggingForm" (ngSubmit)="onSubmit()">
+            <div class="top-space ">
+            <!-- <div class="row"> -->
+                <div class="row" > 
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Class<br>वर्ग </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select class="form-select"  formControlName="classId"  (change)="classChange($any($event.target).value)" >
+                        <option selected value="">---Select Class---</option>
+                        <option *ngFor="let item of classAnnextureData" [value]="item.anxtValue">
+                          {{item.anxtName}}</option>
+                      </select>
+                      <!-- <label for="" class="mt-1">{{streamName}}</label> -->
+                      <span class="mandatory">*</span>
+                    </div>
+                   
+                </div>
+                <!-- <div class="col-lg-2 form-group">
+                    <div class="">
+                        <label  class="form-label">Class<br>वर्ग 
+                        </label>
+                      </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="classId" (change)="classChange($any($event.target).value)">
+                            <option selected value="">--Select Class--</option>
+                            <option *ngFor="let item of classAnnextureData" [value]="item.anxtValue">
+                              {{ item.anxtName }}
+                          </option> 
+                        </select>
+                        <select class="form-select" formControlName="classId" (change)="classChange($any($event.target).value)">
+                            <option selected value="">--Select Class--</option>
+                            <option *ngFor="let item of classAnnextureData" [value]="item.anxtValue">{{ item.anxtName }}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div> -->
+            <!-- </div> -->
+           
+            <ng-container  *ngIf="classId == 11 || classId == 12" >
+                <div class="row hide" > 
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Stream </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select class="form-select"  formControlName="streamId"  (change)="streamChange($any($event.target).value)" >
+                        <option selected value="">---Select Stream---</option>
+                        <option *ngFor="let item of streamData" [value]="item.anxtValue">
+                          {{item.anxtName}}</option>
+                      </select>
+                      <!-- <label for="" class="mt-1">{{streamName}}</label> -->
+                      <span class="mandatory">*</span>
+                    </div>
+                   
+                </div>
+            </ng-container>
+        </div>
+            <ng-container *ngIf="streamId == 3">
+                    <div class="row group"> 
+                        <div class="col-lg-2 form-group">
+                            <label for="" class="form-label">Group </label>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                          <span class="colon">:</span>
+                          <select class="form-select"   formControlName="groupId">
+                            <option selected value="">---Select Group---</option>
+                            <option *ngFor="let item of groupData" [value]="item.anxtValue">
+                              {{ item.anxtName }}
+                          </option>  
+                          </select>
+                          <!-- <label for="" class="mt-1">{{groupName}}</label> -->
+                          <span class="mandatory">*</span>
+                        </div>
+                       
+                    </div>
+            </ng-container>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <div class="">
+                        <label  class="form-label">Compulsory Subject<br>अनिवार्य विषय </label>
+                        <span class="mandatory">*</span>
+                    </div>
+                    
+                </div>
+                <div class="col-lg-6 form-group">
+                    <span class="colon">:</span>
+                    <div class="check__box mb-3 tagging--check">
+                        <div class="form-group checkbox" *ngFor="let compsub of sujectsData; let i=index;">
+                            <input type="checkbox" [id]="compsub.subject" class="check" [checked]="subjectTaggingArray.includes(compsub.subjectId)"  [value]="compsub.subjectId" (click)="comSubCheckboxChange($event)">
+                            <label for="{{compsub.subject}}">{{compsub.subject}}</label>
+                          </div>
+                    </div>
+                   
+                </div>
+                <div class="row formpatch">
+                    <div class="col-lg-2 form-group">
+                        <div class="">
+                            <label  class="form-label">Optional Subject<br>वैकल्पिक विषय </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-6 form-group">
+                        <span class="colon">:</span>
+                        <div class="check__box mb-3 tagging--check">
+                            <div class="form-group checkbox" *ngFor="let optsub of sujectsData; let i=index;">
+                                <input type="checkbox" [id]="optsub.subject+i" class="check" [checked]="optsubjectTaggingArray.includes(optsub.subjectId)" [value]="optsub.subjectId"  (click)="opSubCheckboxChange($event)" >
+                                <label for="{{optsub.subject+i}}">{{optsub.subject}}</label>
+                              </div>
+                        </div>
+                        </div>
+                    </div>
+            </div> 
+                <div>
+                    <button class="btn btn-success me-2">Update/अद्यतन</button>
+                    <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+                </div> 
+        </form>
+    </div>

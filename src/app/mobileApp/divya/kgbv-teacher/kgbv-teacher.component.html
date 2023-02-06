@@ -1,0 +1,387 @@
+<div class="screen-space mobApp">
+   <div class="d-flex justify-content-between align-items-center">
+      <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+      <div class="indicator">( * ) Indicator Mandatory</div>
+   </div>
+   <div class="pageHeading">
+      <div class="d-flex justify-content-between">
+         <div><h3 class="pageName pt-2">KGBV - {{ centerName }}</h3></div> 
+            <!-- <div><span class="indicator mt-2">( * ) Indicator Mandatory</span></div> -->
+         </div>
+   </div>
+    <form  [formGroup]="kgbvTeacherForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="exampleInputEmail1" class="form-label">1) Type of CWSN Category <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="colon-top">
+                
+                <div class="radiobuttons">
+                   <div  class="rdio rdio-primary form-check-inline">
+                      <input  value="1" id="KGVBOptionhi" type="radio" (change)="cwsnCategoryChange($any($event.target).value)"
+                      formControlName="KGVBOption">
+                      <label for="KGVBOptionhi">HI</label>
+                   </div>
+                   <div class="rdio rdio-primary form-check-inline">
+                      <input  value="2" id="KGVBOptionvi" type="radio" (change)="cwsnCategoryChange($any($event.target).value)"
+                      formControlName="KGVBOption">
+                      <label  for="KGVBOptionvi">VI</label>
+                   </div>
+                   
+                </div>
+             </div>
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="TotalEnrolledCWSNGirls" class="form-label">2) Total Enrolled CWSN Girls <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" formControlName="totalCwsnGirls" maxlength="3" (keyup)="keyUpInputNumber($event,'totalCwsnGirls', 3)" (blur)="checkMaxLimitForAll()"/>
+             </div>
+             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="TotalPresent" class="form-label">3) Total Present <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" formControlName="presentCwsnGirls" maxlength="3" (keyup)="keyUpInputNumber($event,'presentCwsnGirls', 3)" (blur)="maxLimitChk('totalCwsnGirls','presentCwsnGirls',' No. of present CWSN Girls can not be greater than enrolled CWSN Girls.')"/>
+             </div>             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="CWSNGirlsHaveIEP" class="form-label">4) How many CWSN Girls have IEP ? <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" id=""  formControlName="noOfIEP" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfIEP', 3)" (blur)="maxLimitChk('totalCwsnGirls','noOfIEP',' No. of CWSN girls having IEP can not be greater than enrolled CWSN girls.')"/>
+             </div>             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="CWSNGirlsHaveAssistiveDevices" class="form-label">5) How many CWSN Girls have Assistive Devices ? <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" formControlName="noOfAssistiveDevices" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfAssistiveDevices', 3)" (blur)="maxLimitChk('totalCwsnGirls','noOfAssistiveDevices',' No. of CWSN girls having assistive devices can not be greater than enrolled CWSN Girls.')"/>
+             </div>             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+             <div class="">
+                <label for="CWSNGirlsHaveEducationalDevices" class="form-label">6) How many CWSN Girls have Educational Devices ? <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" formControlName="noOfEducationalDevices" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfEducationalDevices', 3)" (blur)="maxLimitChk('totalCwsnGirls','noOfEducationalDevices',' No. of CWSN girls having educational devices can not be greater than enrolled CWSN girls.')"/>
+             </div>             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 form-group">
+             <div class="">
+                <label for="CWSNGirlsGivenIndividualTLM" class="form-label">7) How many CWSN Girls were given Individual TLM ? <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+             <div class="">                
+                <input type="number" class="form-control" formControlName="noOfTLM" maxlength="3" (keyup)="keyUpInputNumber($event,'noOfTLM', 3)" (blur)="maxLimitChk('totalCwsnGirls','noOfTLM',' No. of CWSN Girls were given individual TLM can not be greater than enrolled CWSN girls.')"/>
+             </div>             
+          </div>
+       </div>
+       <div class="row">
+          <div class="col-md-3 form-group">
+             <div class="">
+                <label for="Aid&AppliancesInKGBV" class="form-label">8) What are the different devices which would help in the following ? <span class="mandatory"> *</span></label>
+             </div>
+          </div>
+          <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+            <div class="table-responsive rounded" *ngIf="showHi == true">
+               <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                     <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Appliances Name For HI</th>
+                        <th scope="col" class="w-25">No.</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td scope="row">1</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Hearing Aid</label>
+                        </td>
+                        <td>
+                          <strong>
+                             <input class="form-control" type="number" id="" formControlName="hearingAid" maxlength="3" (keyup)="keyUpInputNumber($event,'hearingAid', 3)" />
+                          </strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">2</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Word book</label >
+                        </td>
+                        <td>
+                           <strong>
+                             <input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'wordBook', 3)"                        formControlName="wordBook" />
+                          </strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">3</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Articulation Book</label >
+                        </td>
+                        <td>
+                           <strong>
+                             <input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'articulationBook', 3)"
+                              formControlName="articulationBook" />
+                          </strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">4</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Story Book</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'storyBook', 3)"
+                              formControlName="storyBook" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">5</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Puzzle</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'puzzle', 3)"
+                              formControlName="puzzle" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">6</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Mirror</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'mirror', 3)"
+                              formControlName="mirror" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">7</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Group Hearing Aid</label>
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'groupHearingAid', 3)"
+                              formControlName="groupHearingAid" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">8</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Speech Trainer Machine</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'speechTrainerMachine', 3)"
+                              formControlName="speechTrainerMachine" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">9</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Extra battery for hearing aid</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'extraBattery', 3)"
+                              formControlName="extraBattery" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">10</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">TLM</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'TLMHI', 3)"
+                              formControlName="TLMHI" /></strong>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+            <div class="table-responsive rounded" *ngIf="showHi == false">
+               <table class="table table-bordered">
+                  <thead class="bg-lightpurple">
+                     <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Appliances Name for VI</th>
+                        <th scope="col" class="w-25">No.</th>
+                     </tr>
+                  </thead>
+                  <tbody>
+                     <tr>
+                        <td scope="row">1</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Brailler</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'brailler', 3)"
+                              formControlName="brailler" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">2</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Braille Slate</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'brailleSlate', 3)"
+                              formControlName="brailleSlate" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">3</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Abacus</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'abacus', 3)"
+                              formControlName="abacus" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">4</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Teller Frame</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'tellerFrame', 3)"
+                              formControlName="tellerFrame" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">5</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Stick (White Cane)</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'stick', 3)"
+                              formControlName="stick" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">6</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Sound Ball</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'soundBall', 3)"
+                              formControlName="soundBall" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">7</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Chess</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'chess', 3)"
+                              formControlName="chess" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">8</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Geometry Kit</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'geometryKit', 3)"
+                              formControlName="geometryKit" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">9</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Tactile Map</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'tactileMap', 3)"
+                              formControlName="tactileMap" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">10</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Tactile Globe</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'tactileGlobe', 3)"
+                              formControlName="tactileGlobe" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">11</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Braille Paper</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'braillePaper', 3)"
+                              formControlName="braillePaper" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">12</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">Braille Books</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'brailleBooks', 3)"
+                              formControlName="brailleBooks" /></strong>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td scope="row">13</td>
+                        <td>
+                           <label for="AvailabilityRawMmaterials" class="form-label fw-normal">TLM</label >
+                        </td>
+                        <td>
+                           <strong><input class="form-control" type="number"  maxlength="3"  (keyup)="keyUpInputNumber($event,'TLMVI', 3)"
+                              formControlName="TLMVI" /></strong>
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+            </div>
+         </div>
+       </div>
+    </div>
+    <div>
+       <button type="submit" class="btn btn-success me-2">Submit</button>
+       <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+   </form>
+ </div>

@@ -1,0 +1,385 @@
+<section id="content-wrapper" class="inner-content">
+   <div class="pageLayer">
+      <!-- <div class="pageHeading">
+            <div>
+               <h3 class="pageName mb-3">My Profile</h3>
+            </div>
+         </div>
+         <div class="tabArea">
+         </div>  -->
+      <div class="profile-section">
+         <div class="pageHeading">
+            <div>
+               <h3 class="pageName">My Profile</h3>
+            </div>
+         </div>
+         <div class="tabArea">
+         </div>
+         <div class="profile-cont">
+            <div class="row">
+               <div class="col-lg-8 col-md-12">
+                  <div class="profile-details">
+                     <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Name
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-8 col-sm-12 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(name)?name:'--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Gender
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-8 col-sm-12 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(gender == 1) ? 'Male' : (gender == 2) ?
+                                 'Female' : (gender == 3) ? 'Transgender' : '--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Mobile Number
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-8 col-sm-12 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for=""
+                                 class="form-label fw-bold">{{(contactMobileNumber)?contactMobileNumber:'--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group">
+                           <div class="">
+                              <label for="" class="form-label">Email Id
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-8 col-sm-12 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(contactEmailId)?contactEmailId:'--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="row">
+                        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group">
+                           <div class="">
+                              <label for="" class="form-label">DOB
+                              </label>
+                           </div>
+                        </div>
+                        <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-8 col-sm-12 form-group">
+                           <div class="">
+                              <span class="colon">:</span>
+                              <label for="" class="form-label fw-bold">{{(dob)? (dob |
+                                 date:'dd-MMM-yyyy'):'--'}}</label>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-4">
+                  <div class="profile-image">
+                     <img *ngIf="!isimageUrlUser" src="./assets/img/user-icon2.webp">
+                     <img *ngIf="isimageUrlUser" [src]="imageUrlTeacher" style="width: auto; height: 100px;">
+                  </div>
+               </div>
+            </div>
+            <div class="profile-details profile--info">
+               <h5>Office Information</h5>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Level of User
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(levelOfUser == 1) ? 'School' : (levelOfUser == 2) ?
+                           'cluster' : (levelOfUser == 3) ? 'Block' : (levelOfUser == 4) ? 'District' : (levelOfUser ==
+                           5) ? 'State' : '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Designation
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(designation)?designation:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Sub-Designation
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(subDesignation)?subDesignation:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="officeDistrictShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">District
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(officeDistrict)?officeDistrict:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="officeBlockShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Block
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(officeBlock)?officeBlock:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="officeClusterShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Cluster
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(officeCluster)?officeCluster:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Officer Extn /Phone No.
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for=""
+                           class="form-label fw-bold">{{(officeMobileNumber)?officeMobileNumber:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <!-- <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Email Id
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(officeEmailId)?officeEmailId:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Address
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(officeAddress)?officeAddress:'--'}}</label>
+                     </div>
+                  </div>
+               </div> -->
+               <h5>Contact Information</h5>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">District
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactDistrict)?contactDistrict:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Located Type
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label class="form-label fw-bold">{{(locatedType == 1) ? 'Urban Area' : (locatedType == 2) ?
+                           'Rural Area' : '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="contactBlockShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Block
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactBlock) ? contactBlock : '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="contactPanchayatShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Panchayat
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactPanchayat) ? contactPanchayat :
+                           '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="contactVillageShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Village
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactVillage) ? contactVillage : '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="contactMuncipalityShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Muncipality
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactMuncipality) ? contactMuncipality :
+                           '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row" *ngIf="contactWardShown">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Ward
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-9 col-xl-9 col-lg-9 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactWard) ? contactWard : '--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <!-- <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Mobile Number
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for=""
+                           class="form-label fw-bold">{{(contactMobileNumber)?contactMobileNumber:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Email Id
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactEmailId)?contactEmailId:'--'}}</label>
+                     </div>
+                  </div>
+               </div> -->
+               <div class="row">
+                  <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-3 col-sm-12 form-group">
+                     <div class="">
+                        <label for="" class="form-label">Address
+                        </label>
+                     </div>
+                  </div>
+                  <div class="col-xxl-10 col-xl-10 col-lg-10 col-md-9 col-sm-12 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="" class="form-label fw-bold">{{(contactAddress)?contactAddress:'--'}}</label>
+                     </div>
+                  </div>
+               </div>
+
+            </div>
+         </div>
+      </div>
+   </div>
+</section>

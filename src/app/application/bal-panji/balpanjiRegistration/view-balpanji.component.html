@@ -1,0 +1,699 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">View Balpanji / बालपञ्जी देखें </h3>
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="./../addBalpanji" class="neuro addLink"
+                *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add /
+                जोड़ें</a>
+            <a routerLink="./../viewBalpanji" class="neuro viewLink"
+                routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें </a>
+        </div>
+
+    </div>
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display:
+                    block;">
+                    <div class="searchPanel">
+                        <!-- <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate> -->
+                        <form [formGroup]="searchForm" (submit)="onSearch()">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">District <br> जिला
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <select class="form-select scDistrictId"
+                                        formControlName="scDistrictId"
+                                        aria-label="Default select example"
+                                        (change)="getBlock($any($event.target).value)"
+                                        #district>
+                                        <option value=""
+                                            *ngIf="scDisrtictChanged==false">---
+                                            Select ---
+                                        </option>
+                                        <option value=""
+                                            *ngIf="scDisrtictChanged==true">Loading...</option>
+                                        <option *ngFor="let item of
+                                            districtData"
+                                            [value]="item.districtId">
+                                            {{ item.districtCode }} - {{
+                                            item.districtName }}
+                                        </option>
+                                    </select> -->
+                                    <select class="form-select" aria-label="Default select example" formControlName="scDistrictId"
+                                    autocomplete="off"  #district (change)="getBlock($any($event.target).value)"  >
+                                    <option value="" *ngIf="scDisrtictSelect == true">
+                                      -- Select --
+                                    </option>
+                                    <option value="" *ngIf="scDisrtictLoading == true">
+                                      Loading...
+                                    </option>
+                                    <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                                      {{ districtItem.districtCode }} -
+                                      {{ districtItem.districtName }}
+                                    </option>
+                                  </select>
+                                </div>
+                                <div class="col-md-1"><img
+                                        src="assets/img/loading.gif"
+                                        *ngIf="scDisrtictChanged==true"
+                                        alt="dsd"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label"> Block <br>प्रखण्ड
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <select [(ngModel)]=scBlockId
+                                        class="form-select scBlockId"
+                                        formControlName="scBlockId"
+                                        aria-label="Default
+                                        select example"
+                                        (change)="getPanchayat(district.value,$any($event.target).value)"
+                                        #block
+                                        (change)="getVillage(district.value,$any($event.target).value)">
+                                        <option value=""
+                                            *ngIf="scBlockChanged==false">---
+                                            Select ---</option>
+                                        <option value=""
+                                            *ngIf="scBlockChanged==true">Loading...</option>
+                                        <option *ngFor="let item of blockData"
+                                            [value]="item.blockId">
+                                            {{ item.blockCode }} - {{
+                                            item.blockName }}
+                                        </option>
+                                    </select> -->
+                                    <select class="form-select" aria-label="Default select example"  formControlName="scBlockId"
+                                        autocomplete="off" (change)="getPanchayat(district.value,$any($event.target).value)" (change)="getVillage(district.value,$any($event.target).value)">
+                                        <option value="" *ngIf="scBlockSelect == true">
+                                        -- Select --
+                                        </option>
+                                        <option value="" *ngIf="scBlockLoading == true">
+                                        Loading...
+                                        </option>
+                                        <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-1"><img
+                                        src="assets/img/loading.gif"
+                                        *ngIf="scBlockChanged==true"
+                                        alt="dsd">
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+
+                                    <label class="form-label">Gram Panchayat
+                                        <br>ग्राम पंचायत </label>
+
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]=scPanId
+                                        class="form-select scPanId"
+                                        formControlName="scPanId">
+                                        <option value=""
+                                            *ngIf="scPanChanged==false"> ---
+                                            Select --- </option>
+                                        <option value=""
+                                            *ngIf="scPanChanged==true">Loading...</option>
+                                        <option *ngFor="let item of panData"
+                                            [value]="item.nagarId">
+                                            {{ item.panchayatCode }} - {{
+                                            item.panchayatName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-1"><img
+                                        src="assets/img/loading.gif"
+                                        *ngIf="scPanChanged==true"
+                                        alt="dsd">
+                                </div>
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label"> Village <br>गांव
+                                    </label>
+                                </div>
+
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scVillageId"
+                                        aria-label="Default select example"
+                                        [(ngModel)]=scVillageId
+                                        formControlName="scVillageId">
+                                        <option value=""
+                                            *ngIf="scVillageChanged==false">---
+                                            Select ---</option>
+                                        <option value=""
+                                            *ngIf="scVillageChanged==true">Loading...</option>
+                                        <option *ngFor="let item of villageData"
+                                            [value]="item.villageId">
+                                            {{ item.villageCode }} - {{
+                                            item.villageName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-1"><img
+                                        src="assets/img/loading.gif"
+                                        *ngIf="scVillageChanged==true"
+                                        alt="dsd"></div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Thana No. <br>थाना
+                                        न.</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input type="text" [(ngModel)]=thanaNo
+                                        formControlName="thanaNo" maxlength="10"
+                                        class="form-control">
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Udise Code Of
+                                        School <br>स्कूल का रोग कोड</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input type="text" [(ngModel)]=diseCode
+                                        formControlName="diseCode"
+                                        class="form-control diseCode" [readonly]="this.readOnly">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">From Survey Date
+                                        <br>सर्वेक्षण तिथि से</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <input type="date" [(ngModel)]=fromSurveyDate name="fromSurveyDate"class="form-control"> -->
+                                    <input class="form-control"
+                                        #datepickerYMD="bsDatepicker"
+                                        placeholder="DD-MMM-YYYY"
+                                        [(ngModel)]=fromSurveyDate bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right' }" readonly
+                                        id="fromSurveyDate"
+                                        aria-describedby="emailHelp"
+                                        formControlName="fromSurveyDate"
+                                        class="form-control">
+
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+
+                                    <label class="form-label">To Survey Date
+                                        <br>सर्वेक्षण करने की तिथि</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <!-- <input type="date" [(ngModel)]=toSurveyDate name="toSurveyDate" class="form-control"> -->
+                                    <input class="form-control"
+                                        [(ngModel)]=toSurveyDate
+                                        #datepickerYMD="bsDatepicker"
+                                        placeholder="DD-MMM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right'}" readonly
+                                        id="toSurveyDate"
+                                        aria-describedby="emailHelp"
+                                        formControlName="toSurveyDate"
+                                        class="form-control">
+
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-lg-2">
+                                    <button class="btn btn-default btn-purple">
+                                        Search / खोज<i class="bi bi-search"></i></button>
+                                </div>
+                            </div>
+                        </form>
+
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide"
+            data-toggle="tooltip" data-original-title="Click me"><i
+                class="bi bi-caret-down-fill"></i><i class="bi
+                bi-caret-up-fill"></i>Search
+            Panel / खोज पैनल</button>
+    </div>
+    <div class="clearfix"></div>
+
+    <div class="mt-4" [hidden]="balpanjiListData?.length === 0">
+        <div class="page__rightarea">
+            <div class="page__util">
+                <div class="util">
+                    <a title="Excel" class="excel" (click)="excel()"><i
+                            class="bi bi-file-earmark-excel"></i></a>
+                    <a title="Print" class="print" (click)="printMe()"><i
+                            class="bi bi-printer"></i></a>
+
+
+                </div>
+            </div>
+        </div>
+        <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource"
+                matSort matTableExporter
+                #exporter="matTableExporter" [hiddenColumns]="[3]">
+                <thead class="bg-lightpurple">
+                    <tr>
+                        <ng-container matColumnDef="slNo">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple">
+                                Sl.No / क्रमांक
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{
+                                element?.slNo }}</td>
+                        </ng-container>
+                        <!-- <ng-container matColumnDef="ApplicantNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Applicant No. / आवेदक संख्या
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.bId) ? element?.bId :'--' }}  <a (click)="getModalBalpanji(element?.bId)" href="" class="text-primary float-end" data-bs-toggle="modal"
+                                data-bs-target="#exampleModal"><i class="bi bi-eye-fill" style="color:#63409A ; right:0;"></i></a></td>
+                          </ng-container> -->
+                        <ng-container matColumnDef="studentName">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple">
+                                Student Name / छात्र का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.studentName)
+                                ? element?.studentName :'--' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="mobileNo">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple">
+                                Mobile No. / मोबाइल नंबर
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.mobileNumber)
+                                ? element?.mobileNumber :'--' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="motherName">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple">
+                                Mother Name / माँ का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.motherName)
+                                ? element?.motherName :'--' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="fatherName">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple">
+                                Father Name / पिता का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.fatherName)
+                                ? element?.fatherName :'--' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="ViewDetails">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple noPrint">
+                                View Details
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="text-center noPrint" > <a
+                                    (click)="getModalBalpanji(element?.bId)"
+                                    href="" class="text-primary"
+                                    data-bs-toggle="modal"
+                                    data-bs-target="#exampleModal">
+                                    <i class="bi
+                                        bi-eye-fill text-center" style="color:#63409A ;
+                                        right:0;"></i></a></td>
+                        </ng-container>
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef
+                                mat-sort-header class="bg-lightpurple noprint">
+                                action / क्रियाएँ
+                            </th>
+                            <td mat-cell *matCellDef="let element"
+                                class="noprint"> <a
+                                    routerLink="./../editBalpanji/{{element.encId}}"
+                                    href="javascript:void(0);" title="Edit"
+                                    class="edit-btn me-2">
+                                    <i class="bi bi-pencil-square"></i>
+
+                                </a>
+                                <a title="Delete" href="javascript:void(0);"
+                                    (click)="delete(element.bId)" class="me-2">
+                                    <i class="bi bi-trash text-danger"></i>
+                                </a></td>
+                        </ng-container>
+
+
+                    </tr>
+                </thead>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+
+            <table>
+                <tr *ngIf="!dataSource.data.length">
+                    <td style="text-align: center"
+                        [attr.colspan]="balpanjiListData.length" class="mt-2">
+                        No Records Found!
+                    </td>
+                </tr>
+            </table>
+            <mat-paginator #paginator [length]="totalRows"
+                [pageIndex]="currentPage" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions"
+                (page)="onPageChange($event)" class="noPrint"
+                aria-label="Select page" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold"
+        role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold"
+        role="alert" *ngIf="isInitAdmin">
+        {{ "Please Search to find Balpanji Application Lists" }}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1"
+    aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">View Details |
+                    Applicantion / विवरण देखें</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                    aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-md-4 form-group">
+                        <label class="form-label">House Hold No. in Ward <br>
+                            हाउस होल्ड नं. वार्ड में</label>
+                    </div>
+                    <div class="col-md-8 form-group colon-top colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{householdWard || "--"}}</b></label>
+                    </div>
+
+
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Name of Boys/Girls <br>
+                            बालक/बालिकाएँ का नाम</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{studentName || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Mobile Number <br> मोबाइल नंबर</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{mobileNumber || "--"}}</b></label>
+                    </div>
+
+
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Mother Name <br>माँ का नाम</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"> <b>{{motherName || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group ">
+
+                        <label class="form-label">Father Name <br>पिता का नाम</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{fatherName || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Guardian Name in case of Child
+                            Not Staying
+                            with Parents <br>बच्चे के माता-पिता के साथ नहीं रहने
+                            की स्थिति में अभिभावक का नाम</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{guardianName || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Business of
+                            Mother/Father/Guardian <br>माता/पिता/अभिभावक का
+                            व्यवसाय</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{bussCode || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">DOB of Boys/Girls <br>लड़कों/लड़कियों
+                            की जन्मतिथि</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{studentDob | date: "dd-MMM-yyyy" || "--"}}</b></label>
+                    </div>
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Age on 1st April 2014 (in Full
+                            Year) <br>1 अप्रैल 2014 को आयु (पूर्ण वर्ष में)</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{ageOnApril || "-"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label"> Religion <br>धर्म </label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{codeOfReligion || "-"}}</b></label>
+                    </div>
+                    <!-- <div class="col-md-4 form-group">
+
+                        <label class="form-label">Caste <br>जाति </label>
+
+                    </div> -->
+
+                    <!-- <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{caste}}</b></label>
+                    </div> -->
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Social Category Caste <br>सामाजिक
+                            श्रेणी जाति</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{socialCategory || "--"}}</b></label>
+                    </div>
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Is Child Enrollment in School
+                            ? <br>क्या स्कूल में बच्चे का नामांकन है?</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{isChildEnrollment || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">If Nominated then Name of
+                            School &
+                            Types <br>यदि नामांकित है तो स्कूल का नाम और प्रकार</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{nominatedSchool || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Enrollment of Block of School
+                            <br> स्कूल के ब्लॉक का नामांकन</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{enrollmentBlock || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">In Which Class He/She Read
+                            <br>वह किस वर्ग में पढ़ता है</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{classEnrolled || "--"}}</b></label>
+                    </div>
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">If Not Enrolled In Any School
+                            Till Date Then Clear Reason <br>यदि आज तक किसी स्कूल में
+                            दाखिला नहीं लिया है तो स्पष्ट कारण का कोड</label>
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{notEnrolledReason || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label"> Study Leave Reason <br>अध्ययन
+                            की संहिता छुट्टी का कारण</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{studyLeaveReason || "--"}}</b></label>
+                    </div>
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Till which Class did Study &
+                            Leave your
+                            Studies ? <br>किस कक्षा तक पढ़ाई की और अपनी पढ़ाई
+                            छोड़ दी?</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{classLeft || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Name of School which Left <br>विद्यालय
+                            का नाम जो छोड़ दिया </label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{schoolLeft || "--"}}</b></label>
+                    </div>
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">What do you do when you leave
+                            your studies
+                            ? <br>जब आप अपनी पढ़ाई छोड़ते हैं तो आप क्या करते
+                            हैं ?</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{doingClassLeave || "--"}}</b></label>
+                    </div>
+
+                    <div class="col-md-4 form-group">
+
+                        <label class="form-label">Type of Disability <br>विकलांगता
+                            का प्रकार</label>
+
+                    </div>
+
+                    <div class="col-md-8 form-group colon-top">
+
+                        <span class="colon">:</span>
+                        <label class="data-label"><b>{{disablity || "--"}}</b></label>
+                    </div>
+
+
+
+                </div>
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-danger"
+                    data-bs-dismiss="modal">Close / बंद </button>
+
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,1049 @@
+<div class="screen-space mobApp">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+    <div class="indicator">( * ) Indicator Mandatory</div>
+  </div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">
+        Resource Center / Day Care Center - {{ centerName }}
+      </h3>
+      <!-- <span class="indicator">( * ) Indicator Mandatory</span>  -->
+    </div>
+  </div>
+  <form [formGroup]="resourceCenterForm">
+    <div class="formpatch top-space">
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >1) Registered CWSN in the current financial year till the date
+                of visit
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnVi"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnVi', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnVi',
+                        'noOfRegisteredCwsnVi',
+                        'VI'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnVi
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnHi"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnHi', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnHi',
+                        'noOfRegisteredCwsnHi',
+                        'HI'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnHi
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnOh"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnOh', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnOh',
+                        'noOfRegisteredCwsnOh',
+                        'OH'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnOh
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnSi"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnSi', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnSi',
+                        'noOfRegisteredCwsnSi',
+                        'SI'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnSi
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnId"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnId', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnId',
+                        'noOfRegisteredCwsnId',
+                        'ID'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnId
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnCp"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnCp', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnCp',
+                        'noOfRegisteredCwsnCp',
+                        'CP'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnCp
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnOthers"
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfRegisteredCwsnOthers', 3)
+                    "
+                    (blur)="
+                      checkFromTotalElement(
+                        'noOfPresentCwsnOthers',
+                        'noOfRegisteredCwsnOthers',
+                        'OTHERS'
+                      )
+                    "
+                    (blur)="
+                      totalRegisteredCwsn(
+                        noOfRegisteredCwsnVi,
+                        noOfRegisteredCwsnHi,
+                        noOfRegisteredCwsnOh,
+                        noOfRegisteredCwsnSi,
+                        noOfRegisteredCwsnId,
+                        noOfRegisteredCwsnCp,
+                        noOfRegisteredCwsnOthers
+                      )
+                    "
+                    #noOfRegisteredCwsnOthers
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total </label
+                  ><span class="mandatory">*</span>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfRegisteredCwsnTotal"
+                    readonly
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">
+                2) Present CWSN at the time of visit</label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnVi"
+                    #noOfPresentCwsnVi
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnVi', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnVi',
+                        'noOfPresentCwsnVi',
+                        'Total Registered CWSN VI',
+                        'Present CWSN VI'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnHi"
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnHi', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnHi',
+                        'noOfPresentCwsnHi',
+                        'Total Registered CWSN HI',
+                        'Present CWSN HI'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnHi
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnOh"
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnOh', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnOh',
+                        'noOfPresentCwsnOh',
+                        'Total Registered CWSN OH',
+                        'Present CWSN OH'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnOh
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnSi"
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnSi', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnSi',
+                        'noOfPresentCwsnSi',
+                        'Total Registered CWSN SI',
+                        'Present CWSN SI'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnSi
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnId"
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnId', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnId',
+                        'noOfPresentCwsnId',
+                        'Total Registered CWSN ID',
+                        'Present CWSN ID'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnId
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnCp"
+                    (keyup)="keyUpInputNumber($event, 'noOfPresentCwsnCp', 3)"
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnCp',
+                        'noOfPresentCwsnCp',
+                        'Total Registered CWSN CP',
+                        'Present CWSN CP'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnCp
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPresentCwsnOthers"
+                    (keyup)="
+                      keyUpInputNumber($event, 'noOfPresentCwsnOthers', 3)
+                    "
+                    maxlength="3"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfRegisteredCwsnOthers',
+                        'noOfPresentCwsnOthers',
+                        'Total Registered CWSN OTHERS',
+                        'Present CWSN OTHERS'
+                      )
+                    "
+                    (blur)="
+                      presentRegisteredCwsn(
+                        noOfPresentCwsnVi,
+                        noOfPresentCwsnHi,
+                        noOfPresentCwsnOh,
+                        noOfPresentCwsnSi,
+                        noOfPresentCwsnId,
+                        noOfPresentCwsnCp,
+                        noOfPresentCwsnOthers
+                      )
+                    "
+                    #noOfPresentCwsnOthers
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total </label
+                  ><span class="mandatory">*</span>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="noOfPresentCwsnTotal"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >3) No. of IEP/ITP prepared ? </label
+            ><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="noOfIEPOrITPPrepared"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfIEPOrITPPrepared', 3)"
+              (blur)="
+                maxLimitChk(
+                  'noOfIEPOrITPPrepared',
+                  'noOfIEPOrITPUpdated',
+                  'IEP/ITP prepared',
+                  'No. of IEP/ITP updated'
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >4) No. of IEP/ITP updated ? </label
+            ><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="noOfIEPOrITPUpdated"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'noOfIEPOrITPUpdated', 3)"
+              (blur)="
+                maxLimitChk(
+                  'noOfIEPOrITPPrepared',
+                  'noOfIEPOrITPUpdated',
+                  'IEP/ITP prepared',
+                  'No. of IEP/ITP updated'
+                )
+              "
+            />
+          </div>
+        </div>
+      </div>
+
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-12 col-12">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >5) Status of RT (Resource Teacher) and RP (Rehab.
+                Professionals) <span class="mandatory">*</span></label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-5 col-md-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >RT/BRP(IE) – No. of posted</label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-3 form-group">
+                <div class="pb-1">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPostedRT"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'noOfPostedRT', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfPostedRT',
+                        'noOfnoOfPresentRT',
+                        'No. of  RT/BRP(IE) posted',
+                        'No. of RT/BRP(IE) present'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-5 col-md-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >No. of present</label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-3 form-group">
+                <div class="pb-1">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfnoOfPresentRT"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'noOfnoOfPresentRT', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfPostedRT',
+                        'noOfnoOfPresentRT',
+                        'No. of RT/BRP(IE) posted',
+                        'No. of RT/BRP(IE) present'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-5 col-md-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >R.P. – No. of Posted</label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-3 form-group">
+                <div class="pb-1">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfPostedRP"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'noOfPostedRP', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfPostedRP',
+                        'noOfnoOfPresentRP',
+                        'No. of  RP posted',
+                        'No. of RP present'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-5 col-md-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >No. of present</label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-3 form-group">
+                <div class="pb-1">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="noOfnoOfPresentRP"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'noOfnoOfPresentRP', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'noOfPostedRP',
+                        'noOfnoOfPresentRP',
+                        'No. of  RP posted',
+                        'No. of RP present'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >6) Sufficient Furniture for Staff and Parents ? </label
+            ><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <div class="radiobuttons">
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="1"
+                  id="radio31"
+                  type="radio"
+                  formControlName="sufficientFurniture"
+                />
+                <label for="radio31">Yes</label>
+              </div>
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="2"
+                  id="radio41"
+                  type="radio"
+                  formControlName="sufficientFurniture"
+                />
+                <label for="radio41">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >7) Electricity? </label
+            ><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <div class="radiobuttons">
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="1"
+                  id="radio13"
+                  type="radio"
+                  formControlName="electricity"
+                />
+                <label for="radio13">Yes</label>
+              </div>
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="2"
+                  id="radio14"
+                  type="radio"
+                  formControlName="electricity"
+                />
+                <label for="radio14">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >8) Light/Fan ? </label
+            ><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <div class="radiobuttons">
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="1"
+                  id="radio32"
+                  type="radio"
+                  formControlName="lightFan"
+                />
+                <label for="radio32">Yes</label>
+              </div>
+              <div class="rdio rdio-primary form-check-inline">
+                <input
+                  value="2"
+                  id="radio42"
+                  type="radio"
+                  formControlName="lightFan"
+                />
+                <label for="radio42">No</label>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >9) Water Facility ? </label
+              ><span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-3 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <div class="radiobuttons">
+                <div class="rdio rdio-primary form-check-inline">
+                  <input
+                    value="1"
+                    id="radio33"
+                    type="radio"
+                    formControlName="waterFacility"
+                  />
+                  <label for="radio33">Yes</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                  <input
+                    value="2"
+                    id="radio43"
+                    type="radio"
+                    formControlName="waterFacility"
+                  />
+                  <label for="radio43">No</label>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label"
+                  >10) Sufficient Equipments for CWSN ? </label
+                ><span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                  <div class="rdio rdio-primary form-check-inline">
+                    <input
+                      value="1"
+                      id="radio34"
+                      type="radio"
+                      formControlName="sufficientEquipments"
+                    />
+                    <label for="radio34">Yes</label>
+                  </div>
+                  <div class="rdio rdio-primary form-check-inline">
+                    <input
+                      value="2"
+                      id="radio44"
+                      type="radio"
+                      formControlName="sufficientEquipments"
+                    />
+                    <label for="radio44">No</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >11) Cleanliness status
+                  </label>
+                  <span class="mandatory">*</span>
+                </div>
+              </div>
+              <div class="col-md-3 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <div class="radiobuttons">
+                    <div class="rdio rdio-primary form-check-inline">
+                      <input
+                        value="1"
+                        id="radio3"
+                        type="radio"
+                        formControlName="cleanlinessStatus"
+                      />
+                      <label for="radio3">Poor</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                      <input
+                        value="2"
+                        id="radio4"
+                        type="radio"
+                        formControlName="cleanlinessStatus"
+                      />
+                      <label for="radio4">Satisfactory</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                      <input
+                        value="3"
+                        id="radio5"
+                        type="radio"
+                        formControlName="cleanlinessStatus"
+                      />
+                      <label for="radio5">Good</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                      <input
+                        value="4"
+                        id="radio6"
+                        type="radio"
+                        formControlName="cleanlinessStatus"
+                      />
+                      <label for="radio6">Excellent</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success me-2" (click)="onSubmit()">Submit</button>
+      <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div>

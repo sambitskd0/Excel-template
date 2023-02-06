@@ -1,0 +1,217 @@
+<div>
+    <div class="pageHeading">
+        <div><h3 class="pageName">View Training & Language / प्रशिक्षण और भाषा की सूचना देखें</h3>
+        </div>
+        <div class="tabArea">
+           
+        </div>
+    </div>
+    <div class="formpatch pt-4">
+        <div class="regi__info">
+            <a [routerLink]="['../../viewRegistrationInfo/',teacherId]" class="neuro addLink"  >Registration Info<br> पंजीकरण
+                का विवरण</a>
+            <a [routerLink]="['../../viewEducationalInfo/',teacherId]" class="neuro viewLink"  >Educational Info<br>
+                शैक्षिक विवरण</a>
+            <a [routerLink]="['../../viewProfessionalInfo/', teacherId]" class="neuro viewLink"  >Professional Info<br>
+                व्यावसायिक विवरण</a>
+            <a [routerLink]="['../../viewOtherInfo/', teacherId]" class="neuro viewLink"  >Other Info<br> अन्य जानकारियाँ अद्यतन करें</a>
+            <a [routerLink]="['./']" class="neuro viewLink"  routerLinkActive="active">Training & Language Info<br> प्रशिक्षण और भाषा का विवरण</a>
+            </div>       
+        <div class="formpatch top-space">
+            <h5>In-Service Training Details (Last Academic Year) / सेवाकालीन प्रशिक्षण विवरण (अंतिम शैक्षणिक वर्ष)</h5>
+            <div class="row">
+                <div class="table-responsive">
+                <table  class="table  table-bordered" *ngIf="!trainingDataEmpty">
+                    <thead class="bg-lightpurple">
+                      <tr>
+                        <th scope="col" width="15px">SI# / क्रमांक.</th>
+                        <th scope="col">Place of Training / प्रशिक्षण का स्थान</th>
+                        <th scope="col">Name of Training / प्रशिक्षण का नाम</th>
+                        <th scope="col">Training Needed/Received / प्रशिक्षण की आवश्यकता / प्राप्त हुआ</th>
+                        <th scope="col">No. of Days Trained / प्रशिक्षण के कुल दिन</th>                        
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr *ngFor="let trainingList of tariningDatas; let i = index">
+                          <td scope="row" class="fw-bold">{{i+1}}</td>
+                          <td class="fw-bold">{{(trainingList.placeOfTraining)? plcTraing[trainingList.placeOfTraining] :'--'}}</td>
+                          <td class="fw-bold">{{(trainingList.nameOfTraining)? trainingList.nameOfTraining :'--'}}</td>
+                          <td class="fw-bold">{{(trainingList.trainingRecved && trainingList.trainingRecved === 1) ? 'Yes':(trainingList.trainingRecved && trainingList.trainingRecved === 2) ?'No':'--'}}</td>
+                          <td class="fw-bold">{{(trainingList.numberOfDaysTrained)? trainingList.numberOfDaysTrained :'--'}}</td>                          
+                        </tr> 
+                              
+                    </tbody>
+                  </table>
+                </div>
+            </div>
+            <!-- <div class="row">
+               
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Place of Training</label><br>प्रशिक्षण का स्थान
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.trainingPlace) ? tariningDatas.trainingPlace :'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Name of Training</label><br>प्रशिक्षण का नाम
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{( tariningDatas && tariningDatas.nameOfTraining) ? tariningDatas.nameOfTraining :'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> No. of Days Trained</label><br>प्रशिक्षण के कुल दिन
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.numberOfDaysTrained) ? tariningDatas.numberOfDaysTrained :'--'}}</label>
+                </div>
+            </div> -->
+            <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="trainingDataEmpty">
+                {{ "No record found" }}
+              </div>
+        </div>
+        <div class="" *ngIf="!trainingDataEmpty">
+            <div class="row">
+                <!-- <h5>Secondary</h5> -->
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Passed TET?</label><br>टीईटी पास किया है?
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub?.tetStatus && trainningSub?.tetStatus === 1) ? 'Yes' :(trainningSub?.tetStatus && trainningSub?.tetStatus === 2)?'No':'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+            </div>
+            <div class="passedtet" *ngIf="trainningSub?.tetStatus === 1">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Exam Passed</label><br>पास परीक्षा
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub && trainningSub.examPassed) ? exmPass[trainningSub.examPassed] :'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Year of Passing</label><br>उत्तीर्ण होने का वर्ष
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub && trainningSub.yearOfPassing) ? trainningSub.yearOfPassing :'--'}}</label>
+                </div>
+                
+                 
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Roll No.</label><br>पंजीक्रम
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub && trainningSub.rollNo) ? trainningSub.rollNo :'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Marks Obtained</label><br>प्राप्तांक
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub && trainningSub.marksObtained) ? trainningSub.marksObtained :'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Subjects</label><br>विषय 
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub && trainningSub.subject) ? trainningSub.subject :'--'}}</label>
+                </div>
+            </div>
+        </div>
+        </div>
+        <div class="formpatch" *ngIf="!trainingDataEmpty">
+            <div class="row">
+                <!-- <h5>Secondary</h5> -->
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Have you ever worked or are working as BRP/CRCC?</label><br>क्या आपने कभी BRP/CRCC के रूप में काम किया है या काम कर रहे हैं? 
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub?.brpCrccStatus && trainningSub?.brpCrccStatus == 1) ? 'Yes' :(trainningSub?.brpCrccStatus == 0) ?'No':'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+            </div>
+            <div class="brpcecc" *ngIf="trainningSub?.brpCrccStatus === 1">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> BRP</label><br>बीआरपी
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(trainningSub?.brp == 1) ? 'Worked' : (trainningSub?.brp == 2) ? 'Working' : (trainningSub?.brp == 3)?'Never':'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> CRCC</label><br>सीआरसीसी
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span> 
+                    <label for="" class="form-label fw-bold" >{{(trainningSub?.crcc == 1) ? 'Worked' : (trainningSub?.crcc == 2) ? 'Working' : (trainningSub?.crcc == 3)?'Never':'--'}}</label>
+                </div>
+            </div>
+        </div>
+        
+        </div>
+       
+        <!-- <div class="formpatch">
+            <h5>Language</h5>
+            <div class="">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label"> Language (as per Schedule VIII) Studied upto</label><br>किस वर्ग तक भाषा (अनुसूची VIII के अनुसार) की पढ़ाई की है ?
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.languageUpto) ? tariningDatas.languageUpto :'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Languages in which the teacher is having working knowledge?</label><br>वे भाषाएँ जिनमें शिक्षक को कार्य का ज्ञान है?
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.languageHavingKnowlede) ? tariningDatas.languageHavingKnowlede :'--'}}</label>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Language 1</label><br>भाषा 1
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.language1) ? tariningDatas.language1 :'--'}}</label>
+                </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Language 2</label><br>भाषा 2
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label fw-bold" >{{(tariningDatas && tariningDatas.language2) ? tariningDatas.language2 :'--'}}</label>
+                </div>
+            </div>
+           </div>
+        </div> -->
+        
+        </div>
+        <br>
+
+        
+        <a [routerLink]="['../../viewOtherInfo/',teacherId]" class="btn btn-success me-2">Previous  / पिछला</a>       
+    </div>

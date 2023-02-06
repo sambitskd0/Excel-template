@@ -1,0 +1,374 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Teacher Raw Data Report / शिक्षक कच्चे डेटा रिपोर्ट
+            </h3>
+
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="../teacherRawReport" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखे </a>
+            <a routerLink="../" class="neuro viewLink"><i class="bi bi-list me-2"></i>All Report / सभी रिपोर्ट </a>
+        </div>
+
+
+    </div>
+    <div class="top-space">
+        <div class="search-container">
+            <div class="search-sec" id="searchPanel" style="display: block;">
+                <div class="searchPanel">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                        <div class="row">
+                            <div class="col-md-2 form-group3">
+                                <label for="" class="form-label">District
+                                </label><br>जिला
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off"
+                                    (change)="getBlock($any($event.target).value);" #district>
+                                    <option value="" *ngIf="scDisrtictSelect == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="scDisrtictLoading == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                                        {{ districtItem.districtCode }} -
+                                        {{ districtItem.districtName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">Block </label><br>प्रखण्ड
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example" [(ngModel)]="scBlockId"
+                                    name="scBlockId" autocomplete="off"
+                                    (change)="getCluster($any($event.target).value);" #block>
+                                    <option value="" *ngIf="scBlockSelect == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="scBlockLoading == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-group3">
+                                <label for="" class="form-label">Cluster</label><br>संकुल
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="scClusterId" name="scClusterId" autocomplete="off"
+                                    (change)="getSchool($any($event.target).value);">
+                                    <option value="" *ngIf="scClusterSelect == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="scClusterLoading == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                        {{ clusterItem.clusterCode }} -
+                                        {{ clusterItem.clusterName }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">School</label><br>विद्यालय
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example" [(ngModel)]="scSchoolId"
+                                    name="scSchoolId" autocomplete="off">
+                                    <option value="" *ngIf="scSchoolSelect == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="scSchoolLoading == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+                                        {{ schoolItem.schoolUdiseCode }} -
+                                        {{ schoolItem.schoolName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="row">
+
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">Nature of Appointment <br> नियुक्ति की प्रकृति</label>
+                              </div>
+                              <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example" [(ngModel)]="searchNatureOfAppointmt"
+                                  name="searchNatureOfAppointmt">
+                                  <option value="" *ngIf="teacherAppointmentChanged==false">-- Select --</option>
+                                  <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                                  <option *ngFor="let app of teacherAppointment" [value]="app.anxtValue">
+                                    {{ app.anxtName }}
+                                  </option>
+                                </select>
+                              </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group3">
+                                <label for="" class="form-label">Appointment Type</label><br>नियुक्ति का प्रकार
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example" [(ngModel)]="appointmtType"
+                                name="appointmtType">
+                                <option value="" *ngIf="teacherAppointmentTypeChanged==false">-- Select --</option>
+                                <option value="" *ngIf="teacherAppointmentTypeChanged==true">Loading...</option>
+                                <option *ngFor="let appType of teacherAppointmentType" [value]="appType.anxtValue">
+                                  {{ appType.anxtName }}
+                                </option>
+                              </select>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="row">
+                            <div class="mb-3 mt-3"><button class="btn btn-default btn-purple"> Search / खोजें <i
+                                        class="bi bi-search"></i></button></div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+        <button class="searchopen" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज
+            पट्टिका</button>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4 noprint" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="p-2">
+                    <button type="button" class="btn btn-success "
+                      (click)="exportTeacherReport()">
+                      <i class="bi bi-file-earmark-excel"></i> Export detailed Report
+                    </button>
+                  </div>
+                <div class="page__util">
+                    <div class="util">
+                        <!-- <a title="Excel" (click)="excel()" class="excel"><i class="bi bi-file-earmark-excel"></i></a> -->
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div class="table-responsive" id="viewTable">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+                    <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                        #exporter="matTableExporter">
+                        <ng-container matColumnDef="slNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                slNo / क्रम#
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TeacherCode">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Teacher Code / शिक्षक आईडी
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.teacherCode  ?  element?.teacherCode : '--'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="TeacherName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Teacher Name / शिक्षक का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.teacherName ? element?.teacherName : '--' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Gender">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Gender / लिंग
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.gender ? element?.gender : '--'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="DOB">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                DOB / जन्मतिथि
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.DOB ? element?.DOB : '--' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="MobileNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Mobile No / मोबाइल संख्या
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.mobile ? element?.mobile : '--'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="AadharNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Aadhar No / आधार संख्या
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.aadhaarNo ? element?.aadhaarNo : '--' }}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="District">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                District / जिला
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.district  ? element?.district : '--'}}</td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Block">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Block / प्रखण्ड
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.block ? element?.block  : '--'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="Cluster">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Cluster / संकुल
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.cluster  ? element?.cluster : '--'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="SchoolName">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                School Name / विद्यालय का नाम
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.school  ? element?.school : '--'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="NatureOfAppointment">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Nature Of Appointment / नियुक्ति की प्रकृति
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.natureOfApp ? element?.natureOfApp : '--'}}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="DOJinService">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                DOJ in Service / सेवा में शामिल होने की तिथि
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.serviceJoiningDt ? element?.serviceJoiningDt : '--' }}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="DOJinCurrentSchool">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                DOJ in Current School / वर्तमान विद्यालय में शामिल होने की तिथि
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.joiningCurrentSchoolDt ? element?.joiningCurrentSchoolDt : '--' }}</td>
+                        </ng-container>
+
+
+                        <ng-container matColumnDef="TeacherTitle">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Teacher Title / शिक्षक शीर्षक
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.teacherTitle  ? element?.teacherTitle : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="AppointmentType">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Appointment Type / नियुक्ति का प्रकार
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.appType  ? element?.appType : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="AppointedSubject">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Appointed Subject / नियुक्ति का विषय
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.subject  ? element?.subject : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="BloodGroup">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Blood Group / रक्त समूह
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.bloodGrp  ? element?.bloodGrp : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Email">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Email / ईमेल आईडी
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.teacherEmail ? element?.teacherEmail : '--' }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="SocialCategory">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Social Category / सामाजिक श्रेणी
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.teacherSocialCat  ? element?.teacherSocialCat : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="CasteRecruitment">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Caste Recruitment / जाति भर्ती
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.casteRec  ? element?.casteRec : '--'}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="Disability">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Disability / विकलांगता
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ (element?.disabilityStatus == 1) ?
+                                element?.disability : "NA"}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="DisabilityPer">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                % Disability / विकलांगता का %
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ (element?.disabilityStatus == 1) ?
+                                element?.disabilityPer : "NA"}}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="ComputerTraining">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Computer Training / कंप्यूटर प्रशिक्षण
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.computerTraining  ?  element?.computerTraining  :  '--'}}</td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 noPrint">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                        [pageSizeOptions]="getPageSizeOptions" (page)="onPageChange($event)" class="noPrint"
+                        aria-label="Select page" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+            <ng-template #showEmptyAlert> </ng-template>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{ "Please Search for teacher raw report" }}
+    </div>
+</div>

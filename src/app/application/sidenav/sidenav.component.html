@@ -1,0 +1,28 @@
+<aside id="sidebar-wrapper" >
+   <ul class="sidebar-nav" >
+
+      <ng-container *ngFor="let glMenu of menus">
+         <ng-container  *ngIf="pageNamepm == glMenu.gl_path">
+            <li >
+               <span class="parent-menu"> <i class="bi bi-gear me-2"></i>{{ glMenu.gl_name }}</span>
+            </li>
+            <li *ngFor="let plMenu of glMenu.pl_links" >
+               <a [routerLink]="['./' + plMenu.pl_path]">
+                  <svg class="me-2" xmlns="http://www.w3.org/2000/svg" width="21" height="16" viewBox="0 0 21 16">
+                     <g id="Group_146" data-name="Group 146" transform="translate(-24 -488)">
+                        <path id="Polygon_9" data-name="Polygon 9" d="M6,0l6,11H0Z" transform="translate(45 492) rotate(90)" fill="#916acf"/>
+                        <path id="Polygon_10" data-name="Polygon 10" d="M5,0l5,9H0Z" transform="translate(24 498) rotate(-90)" fill="#916acf"/>
+                     </g>
+                  </svg>
+                  {{ plMenu.pl_name }}
+               </a>
+            </li>
+         </ng-container>        
+
+      </ng-container>      
+
+   </ul>
+</aside>
+
+
+ 

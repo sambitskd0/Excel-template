@@ -1,0 +1,2701 @@
+ 
+<div class="" id="main_form">
+       <div class="tab-pane step2-content" role="tabpanel" id="step2">
+          <h5 class="text-center mt-3 mb-3">Other Information / अन्य
+             सूचना
+          </h5>
+          <!-- section 1 start  -->
+          <div class="formpatch ">
+             <div class="row">
+                <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Lowest Class in the
+                      School <br>स्कूल में सबसे निचली
+                      कक्षा</label>
+                </div>
+                <div class="col-xxl-2 col-xl-3 col-lg-8 col-md-12 col-sm-12  form-group ">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">Class -
+                      {{lowestClass}} </label>
+                </div>
+                <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Highest Class in the
+                      School <br>स्कूल में सबसे ऊंची कक्षा
+                   </label>
+                </div>
+                <div class="col-xxl-2 col-xl-3 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">Class -
+                      {{highestClass}}</label>
+                </div>
+                <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Whether pre-primary
+                      section (other than Anganwadi) attached
+                      to School ? </label>
+                   <br>क्या पूर्व -प्राथमिक सेक्शन (आंगनवाड़ी के
+                   अलावा) विद्यालय से जुड़ा है?
+                </div>
+                <div class="col-xxl-2 col-xl-3 col-lg-5 col-md-12 col-sm-12 form-group">
+                    <span class="colon">:</span>
+                    <label class="form-label fw-bold">{{(isPrePrimaryAttached==1)?'Yes':'No'}}</label>
+                </div>
+                <div class="col-md-2"></div>
+             </div>
+             <div *ngIf="highestClass >= 12 && lowestClass <= 11">
+                <label class="col-md-12 form-label mb-1"> Streams
+                   Available in the School (in case of
+                   Schools
+                   with Higher Secondary Sections) </label>
+                <br>विद्यालय में उपलब्ध धाराएं (उच्च माध्यमिक वर्गों
+                वाले विद्यालयों के मामले में
+                <div class="table-responsive">
+                   <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                         <tr>
+                            <th>Arts / कला </th>
+                            <th>Science / विज्ञान</th>
+                            <th>Commerce / व्यापार</th>
+                            <th>Vocational / व्यावसायिक</th>
+                            <th>Other Streams / अन्य धाराएँ</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr>
+                            <td>
+                                 <label class="form-label">{{(streamAvailForArts==1)?'Yes':(streamAvailForArts==2)?'No':'NA'}}</label>
+                            </td>
+                            <td>
+                                 <label class="form-label">{{(streamAvailForScience==1)?'Yes':(streamAvailForScience==2)?'No':'NA'}}</label>
+                            
+                            </td>
+                            <td>
+                                 <label class="form-label">{{(streamAvailForCommerce==1)?'Yes':(streamAvailForCommerce==2)?'No':'NA'}}</label>
+                              
+                            </td>
+                            <td>
+                                 <label class="form-label">{{(streamAvailForVocational==1)?'Yes':(streamAvailForVocational==2)?'No':'NA'}}</label>
+                              
+                            </td>
+                            <td>
+                               <label class="form-label">{{(streamAvailForOther==1)?'Yes':(streamAvailForOther==2)?'No':'NA'}}</label>
+                               
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+             <label class="col-md-12 form-label mb-1">Number of
+                section by class (if the class is stand
+                alone, it has no section then enter 1)
+                <br>वर्ग द्वारा अनुभाग की संख्या (यदि वर्ग अकेले खड़ा
+                है, तो इसमें कोई अनुभाग नहीं है तो 1 दर्ज
+                करें):
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th>Classes / कक्षाओं</th>
+                         <th *ngIf="highestClass >= 1 && lowestClass <= 1">I</th>
+                         <th *ngIf="highestClass >= 2 && lowestClass <= 2">II</th>
+                         <th *ngIf="highestClass >= 3 && lowestClass <= 3">III</th>
+                         <th *ngIf="highestClass >= 4 && lowestClass <= 4">IV</th>
+                         <th *ngIf="highestClass >= 5 && lowestClass <= 5">V</th>
+                         <th *ngIf="highestClass >= 6 && lowestClass <= 6">VI</th>
+                         <th *ngIf="highestClass >= 7 && lowestClass <= 7">VII</th>
+                         <th *ngIf="highestClass >= 8 && lowestClass <= 8">VIII</th>
+                         <th *ngIf="highestClass >= 9 && lowestClass <= 9">IX</th>
+                         <th *ngIf="highestClass >= 10 && lowestClass <= 10">X</th>
+                         <th *ngIf="highestClass >= 11 && lowestClass <= 11">XI</th>
+                         <th *ngIf="highestClass >= 12 && lowestClass <= 12">XII</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <td>Number of Sections / अनुभागों की
+                            संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(noOfSecCls1)? noOfSecCls1:'--'}} </td>
+                         <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(noOfSecCls2)? noOfSecCls2:'--'}} </td>
+                         <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(noOfSecCls3)? noOfSecCls3:'--'}} </td>
+                         <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(noOfSecCls4)? noOfSecCls4:'--'}} </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(noOfSecCls5)? noOfSecCls5:'--'}} </td>
+                         <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(noOfSecCls6)? noOfSecCls6:'--'}} </td>
+                         <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(noOfSecCls7)? noOfSecCls7:'--'}} </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(noOfSecCls8)? noOfSecCls8:'--'}} </td>
+                         <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(noOfSecCls9)? noOfSecCls9:'--'}} </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(noOfSecCls10)? noOfSecCls10:'--'}} </td>
+                         <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(noOfSecCls11)? noOfSecCls11:'--'}} </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(noOfSecCls12)? noOfSecCls12:'--'}} </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+          </div>
+          <!-- section 1 end  -->
+          <!-- section-2 start -->
+          <div class="formpatch">
+             <div class="row">
+                <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Year of Establishment
+                      of school <br> विद्यालय की स्थापना का
+                      वर्ष
+                   </label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(yearOfEstd)? yearOfEstd:'--'}}</label>
+                </div>
+               
+             </div>
+             <ng-container *ngIf="govtSchool==true">
+                <h5>Year of Recognition of School (Only for Govt. Aided
+                   and Private Unaided School) / विद्यालय
+                   की मान्यता का वर्ष
+                </h5>
+                <div class="row">
+                   <ng-container *ngIf="highestClass >= 5 && lowestClass <= 1">
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <label class="form-label">Primary <br>प्राथमिक</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(recogYearOfP)? recogYearOfP:'--'}}</label>
+                      </div>
+                      <div class="col-lg-1"></div>
+                   </ng-container>
+                   <ng-container *ngIf="highestClass >= 8 && lowestClass <= 6">
+                      <div class="col-lg-2 col-md-12  form-group">
+                         <label class="form-label">Upper Primary <br>माध्यमिक</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12  form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(recogYearOfUP)? recogYearOfUP:'--'}}</label>
+                      </div>
+                      <div class="col-lg-1"></div>
+                   </ng-container>
+                   <ng-container *ngIf="highestClass >= 10 && lowestClass <= 9">
+                      <div class="col-lg-2 col-md-12  form-group">
+                         <label class="form-label">Secondary <br>उच्च
+                            प्राथमिक</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12  form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(recogYearOfS)? recogYearOfS:'--'}}</label>
+                      </div>
+                      <div class="col-lg-1"></div>
+                   </ng-container>
+                   <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                      <div class="col-lg-2 col-md-12  form-group">
+                         <label class="form-label">Higher Secondary <br>उच्च
+                            माध्यमिक</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12  form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(recogYearOfHS)? recogYearOfHS:'--'}}</label>
+                      </div>
+                      <div class="col-lg-1"></div>
+                   </ng-container>
+                </div>
+             </ng-container>
+          </div>
+          <div class="formpatch" *ngIf="highestClass >= 6">
+             <h5>Year of up-gradation of the School (if applicable) /
+                विद्यालय के उन्नयन का वर्ष (यदि लागू
+                हो)
+             </h5>
+             <div class="row">
+             <ng-container *ngIf="highestClass >= 8 && lowestClass<= 5">
+               
+                   <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group ">
+                      <label class="form-label">Primary to Upper
+                         Primary <br>प्राथमिक से उच्च प्राथमिक</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(yearOfUpgradePtoUP)? yearOfUpgradePtoUP:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+                
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 10 && lowestClass<= 8">
+               
+                   <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group ">
+                      <label class="form-label">Upper Primary to
+                         Secondary <br>उच्च प्राथमिक से
+                         माध्यमिक</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(yearOfUpgradeUPtoS)? yearOfUpgradeUPtoS:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+               
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 12 && lowestClass<= 10">
+               
+                   <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group ">
+                      <label class="form-label">Secondary to Higher
+                         Secondary <br>माध्यमिक से उच्चतर
+                         माध्यमिक</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(yearOfUpgradeStoHS)? yearOfUpgradeStoHS:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+              
+             </ng-container>
+             </div>
+          </div>
+          <!-- section-2 end -->
+          <!-- section-3 start -->
+          <div class="formpatch">
+             <div class="row">
+                <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Is this a special
+                      school for CWSN? <br>क्या यह CWSN के लिए एक
+                      विशेष विद्यालय है?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSpecialschCWSN==1)?'Yes':'No'}}</label>
+                </div>
+                <div class="col-lg-1"> </div>
+                <ng-container *ngIf="isSpecialschCWSN==1">
+                   <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Type of Special School
+                         <br>विशेष विद्यालय का प्रकार</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold"> {{ specialSchTypeName }} </label>
+                     
+                   </div>
+                   <div class="col-lg-1"></div>
+                </ng-container>
+                <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Is this a shift
+                      school? <br>क्या यह शिफ्ट विद्यालय है?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12  form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isShiftsch==1)?'Yes':'No'}}</label>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Does the school run
+                      any skill training centre after school
+                      hours? <br>क्या विद्यालय समय के बाद विद्यालय
+                      कोई कौशल प्रशिक्षण केंद्र चलाता है?
+                   </label>
+                </div>
+                <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(runSkillTrainingCenter==1)?'Yes':'No'}}</label>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12  form-group">
+                   <label class="form-label">Is this a residential
+                      school? <br>क्या यह आवासीय विद्यालय
+                      है?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isResidentalsch==1)?'Yes':'No'}}</label>
+                </div>
+                <ng-container *ngIf="isResidentalsch == 1">
+                 
+                      <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                         <label class="form-label">Residential
+                            Category <br>आवासीय श्रेणी</label>
+                      </div>
+                      <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold"> {{ residentialCategoryName }} </label>
+                         <span class="mandatory">*</span>
+                      </div>
+                  
+                   <ng-container *ngIf="residentialCategory==1 || residentialCategory==2">
+                     
+                         <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                            <label class="form-label"> a) Type of
+                               residential school <br>क) आवासीय
+                               विद्यालय
+                               का प्रकार</label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-5 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-bold"> {{ residentalSchTypeName }} </label>
+                            
+                         </div>
+                         <div class="col-lg-4"></div>
+                         <ng-container *ngIf="residentalSchType == 5
+                       || residentalSchType == 9">
+                            <label class="col-md-12 form-label
+                          mb-1">In case of 6-KGBV/ 11- Netaji
+                               Subhas
+                               Residential school mention Total
+                               Available Seats:<br>6-केजीबीवी / 11-
+                               नेताजी
+                               सुभाष आवासीय विद्यालय के मामले में
+                               कुल उपलब्ध सीटों का उल्लेख करें:
+                            </label>
+                            <div class="table-responsive">
+                               <table class="table table-bordered">
+                                  <thead class="bg-lightpurple">
+                                     <tr>
+                                        <th>Classes</th>
+                                        <th>Class 6</th>
+                                        <th>Class 7</th>
+                                        <th>Class 8</th>
+                                        <th>Class 9</th>
+                                        <th>Class 10</th>
+                                        <th>Class 11</th>
+                                        <th>Class 12</th>
+                                     </tr>
+                                  </thead>
+                                  <tbody>
+                                     <tr>
+                                        <td>Boys</td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls6Boys)? residSchSeatsCls6Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls7Boys)? residSchSeatsCls7Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls8Boys)? residSchSeatsCls8Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls9Boys)? residSchSeatsCls9Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls10Boys)? residSchSeatsCls10Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls11Boys)? residSchSeatsCls11Boys:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls12Boys)? residSchSeatsCls12Boys:'--'}}</label>
+                                        </td>
+                                     </tr>
+                                     <tr>
+                                        <td>Girls</td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls6Girls)? residSchSeatsCls6Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls7Girls)? residSchSeatsCls7Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls8Girls)? residSchSeatsCls8Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls9Girls)? residSchSeatsCls9Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls10Girls)? residSchSeatsCls10Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls11Girls)? residSchSeatsCls11Girls:'--'}}</label>
+                                        </td>
+                                        <td>
+                                               <label class="form-label">{{(residSchSeatsCls12Girls)? residSchSeatsCls12Girls:'--'}}</label>
+                                        </td>
+                                     </tr>
+                                  </tbody>
+                               </table>
+                            </div>
+                         </ng-container>
+                     
+                   </ng-container>
+                   <div class="row">
+                      <ng-container *ngIf="residentialCategory ==3">
+                         <div class="col-md-6 form-group">
+                            <label class="form-label" for="demo-text-input">b) If
+                               3-Non-Residential, Is
+                               there any hostel where most of
+                               the students of this school
+                               stay? <br> ख)
+                               यदि 3-गैर-आवासीय, क्या कोई
+                               छात्रावास है जहां इस विद्यालय के
+                               अधिकांश
+                               छात्र रहते हैं?</label>
+                         </div>
+                         <div class="col-md-3 form-group
+                          colon-top">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-bold">{{(isHostle==1)?'Yes':(isHostle==2)?'No':'--'}}</label>
+                         </div>
+                         <div class="col-md-3 form-group"> </div>
+                         <ng-container *ngIf="isHostle == '1'">
+                            <div class="col-md-2 form-group">
+                               <label class="form-label"> If
+                                  1-YES then Type of hostel
+                                  <br> यदि 1-हाँ
+                                  तो छात्रावास का प्रकार</label>
+                            </div>
+                            <div class="col-md-3 form-group">
+                               <span class="colon">:</span>
+                               <label class="form-label fw-bold">{{(hostleTypeName)? hostleTypeName:'--'}}</label>
+                            </div>
+                         </ng-container>
+                      </ng-container>
+                      <div class="col-md-12 form-group">
+                         <label class="form-label"> c)
+                            Whether boarding facilities
+                            are available
+                            for the following stage /
+                            level <br> ग) क्या
+                            निम्नलिखित चरण/स्तर के
+                            लिए बोर्डिंग सुविधाएं उपलब्ध
+                            हैं</label>
+                      </div>
+                      <div class="row" *ngIf="highestClass >= 5 && lowestClass <= 1">
+                         <div class="col-md-2 form-group">
+                            <label class="form-label">(i)
+                               Primary</label>
+                         </div>
+                         <div class="col-md-2 form-group
+                             colon-top">
+                            <span class="colon">:</span>
+                            <label class="form-label">{{(boardingU==1)?'Yes':(boardingU==2)?'No':'--'}}</label>
+                         </div>
+                         <ng-container *ngIf="boardingU=='1'">
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Boys:  {{(boardingUBoys)? boardingUBoys:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Girls:  {{(boardingUGirls)? boardingUGirls:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Transgender:  {{(boardingUTrans)? boardingUTrans:'--'}}</label>
+                            </div>
+                            <div class="col-md-1"></div>
+                         </ng-container>
+                      </div>
+                      <div class="row" *ngIf="highestClass >= 8 && lowestClass <= 6">
+                         <div class="col-md-2 form-group">
+                            <label class="form-label">(ii)
+                               Upper Primary</label>
+                         </div>
+                         <div class="col-md-2 form-group
+                             colon-top">
+                            <span class="colon">:</span>
+                            <label class="form-label">{{(boardingUP==1)?'Yes':(boardingUP==2)?'No':'--'}}</label>
+                         </div>
+                         <ng-container *ngIf="boardingUP=='1'">
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Boys:  {{(boardingUPBoys)? boardingUPBoys:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Girls:  {{(boardingUPGirls)? boardingUPGirls:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Transgender:  {{(boardingUPTrans)? boardingUPTrans:'--'}}</label>
+                            </div>
+                            <div class="col-md-1"></div>
+                         </ng-container>
+                      </div>
+                      <div class="row" *ngIf="highestClass >= 10 && lowestClass <= 9">
+                         <div class="col-md-2 form-group">
+                            <label class="form-label">(iii)
+                               Secondary</label>
+                         </div>
+                         <div class="col-md-2 form-group
+                             colon-top">
+                            <span class="colon">:</span>
+                            <label class="form-label">{{(boardingS==1)?'Yes':(boardingS==2)?'No':'--'}}</label>
+                         </div>
+                         <ng-container *ngIf="boardingS=='1'">
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Boys:  {{(boardingSBoys)? boardingSBoys:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Girls:  {{(boardingSGirls)? boardingSGirls:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Transgender:  {{(boardingSTrans)? boardingSTrans:'--'}}</label>
+                            </div>
+                            <!--New add-->
+                            <div class="col-md-1"></div>
+                         </ng-container>
+                      </div>
+                      <div class="row" *ngIf="highestClass >= 12 && lowestClass <= 11">
+                         <div class="col-md-2 form-group">
+                            <label class="form-label">(iv)
+                               Higher Secondary</label>
+                         </div>
+                         <div class="col-md-2 form-group
+                             colon-top">
+                            <span class="colon">:</span>
+                            <label class="form-label">{{(boardingHS==1)?'Yes':(boardingHS==2)?'No':'--'}}</label>
+                         </div>
+                         <ng-container *ngIf="boardingHS=='1'">
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Boys:  {{(boardingHSBoys)? boardingHSBoys:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Girls:  {{(boardingHSGirls)? boardingHSGirls:'--'}}</label>
+                            </div>
+                            <div class="col-md-2 form-group">
+                                 <label class="form-label">Transgender:  {{(boardingHSTrans)? boardingHSTrans:'--'}}</label>
+                            </div>
+                            <div class="col-md-1"></div>
+                         </ng-container>
+                      </div>
+                   </div>
+                </ng-container>
+               
+                   <div class="col-xxl-2 col-xl-6 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Is this a
+                         minority-managed school? <br>क्या यह
+                         अल्पसंख्यक-प्रबंधित स्कूल है?</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-3 col-lg-7 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isMinorityManagedSch==1)?'Yes':(isMinorityManagedSch==2)?'No':'--'}}</label>
+                   </div>
+               
+                <ng-container *ngIf="isMinorityManagedSch == 1">
+                   <div class="row">
+                      <div class="col-md-2 form-group">
+                         <label class="form-label">Type of
+                            Minority Community managing the
+                            school
+                            <br>विद्यालय का प्रबंधन करने वाले
+                            अल्पसंख्यक समुदाय का प्रकार</label>
+                      </div>
+                      <div class="col-md-3 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label">{{(minorityTypeName)? minorityTypeName:'--'}}</label>
+                      </div>
+                   </div>
+                </ng-container>
+                <div class="col-md-1"></div>
+             </div>
+          </div>
+          <!-- section-3 end -->
+          <!-- section-4 start -->
+          <div class="formpatch">
+             <div class="row">
+                <!-- Affiliation Board of school / विद्यालय का संबद्धता बोर्ड start  -->
+                <div class="formpatch" *ngIf="highestClass >= 10">
+                   <h5>Affiliation Board of school / विद्यालय का
+                      संबद्धता बोर्ड
+                   </h5>
+                   <ng-container *ngIf="highestClass >= 10  && lowestClass <= 9">
+                      <div class="row">
+                         <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                            <label class="form-label"> (a) Secondary
+                               sections <br>(ए) माध्यमिक खंड</label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-4 col-lg-7 col-md-12 col-sm-12  form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-fold">{{(afSCSecName)? afSCSecName:'--'}}</label>
+                           
+                         </div>
+                         <div class="col-lg-1"></div>
+                         <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12  form-group">
+                            <label class="form-label"> Affiliation
+                               Number <br>संबद्धता संख्या </label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-fold">{{(afNum)? afNum:'--'}}</label>
+                         </div>
+                      </div>
+                      <div class="row">
+                         <ng-container *ngIf="afSCSec == '5'">
+                            <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                               <label class="form-label"> If
+                                  others, then name of the board
+                                  <br>यदि अन्य
+                                  हैं, तो
+                                  बोर्ड का नाम</label>
+                            </div>
+                            <div class="col-xxl-3 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                               <span class="colon">:</span>
+                               <label class="form-label fw-fold">{{(afSCOthBoard)? afSCOthBoard:'--'}}</label>
+                            </div>
+                         </ng-container>
+                      </div>
+                   </ng-container>
+                   <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                      <div class="row">
+                         <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">(b) Higher
+                               Secondary Sections <br>(बी) उच्चतर
+                               माध्यमिक
+                               अनुभाग</label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-fold">{{(afHSSecName)? afHSSecName:'--'}}</label>
+
+                         </div>
+                         <div class="col-lg-1"></div>
+                         <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Affiliation
+                               Number <br>संबद्धता संख्या</label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-fold">{{(afHSNum)? afHSNum:'--'}}</label>
+                         </div>
+                      </div>
+                      <div class="row">
+                         <ng-container *ngIf="afHSSec == '5'">
+                            <div class="col-lg-2 col-md-12 form-group">
+                               <label class="form-label">If others,
+                                  then name of the board <br>यदि
+                                  अन्य
+                                  हैं, तो
+                                  बोर्ड का नाम</label>
+                            </div>
+                            <div class="col-lg-3 col-md-12  form-group">
+                               <span class="colon">:</span>
+                               <label class="form-label fw-fold">{{(afHSOthBoard)? afHSOthBoard:'--'}}</label>
+                            </div>
+                         </ng-container>
+
+                      </div>
+                   </ng-container>
+                </div>
+                <!-- Affiliation Board of school / विद्यालय का संबद्धता बोर्ड end  -->
+                <!-- Are majority of the pupils taught through their mother tongue at the primary level  -->
+                
+                <div class="formpatch">
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">Are majority
+                            of the pupils taught through their
+                            mother
+                            tongue at the primary level ? <br>क्या
+                            प्राथमिक स्तर पर अधिकांश
+                            विद्यार्थियों को उनकी मातृभाषा के
+                            माध्यम से पढ़ाया जाता है?</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-fold">{{(isTaughtMotherTongue==1)?'Yes':(isTaughtMotherTongue==2)?'No':'--'}}</label>
+                      </div>
+                   </div>
+                   <!-- medium Of Instructions and language taught hide -->
+                   <!-- (onSelect)="meduimValueCheck($event)" (onDeSelect)="deSelectMeduimValueCheck($event)"-->
+                   <!-- <div class="row">
+                      <div class="col-md-4 form-group">
+                         <label class="form-label">Medium of
+                            instruction (s) in the school <br>विद्यालय
+                            में शिक्षा का माध्यम</label>
+                      </div>
+                      <div class="col-md-3 form-group ">
+                         <span class="colon">:</span>
+                         <ng-multiselect-dropdown formControlName="mediumOfInstructions"
+                            [settings]="dropdownSettings" [data]="mediumOfInstructionsData"
+                            [placeholder]="'--Select--'">
+                            
+                         </ng-multiselect-dropdown>
+                         <span class="mandatory">*</span>
+                      </div>
+                   </div>
+                   <div class="row" *ngIf="other_Medium == true">
+                      <div class="col-md-4 form-group">
+                         <label class="form-label">If other
+                            Medium, please specify <br>यदि अन्य
+                            माध्यम,
+                            कृपया निर्दिष्ट करें
+                         </label>
+                      </div>
+                      <div class="col-md-3 form-group">
+                         <span class="colon">:</span>
+                         <input type="text" formControlName="mediumOfInstructionsOth" class="form-control"
+                            maxlength="20">
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-md-4 form-group">
+                         <label class="form-label">Language(s)
+                            taught as a subject (mention up to
+                            three
+                            languages)</label>
+                      </div>
+                      <div class="col-md-3 form-group">
+                         <span class="colon">:</span>
+                         <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="languagesTaughtData"
+                            [placeholder]="'--Select--'" formControlName="languagesTaught">
+                         </ng-multiselect-dropdown>
+                         <span class="mandatory">*</span>
+                      </div>
+                   </div>
+                   <div class="row" *ngIf="other_Language == true">
+                      <div class="col-md-4 form-group">
+                         <label class="form-label">If other
+                            languages, please specify <br>यदि
+                            अन्य भाषाएं
+                            हैं, तो कृपया निर्दिष्ट करें</label>
+                      </div>
+                      <div class="col-md-3 form-group">
+                         <span class="colon">:</span>
+                         <input type="text" formControlName="otherLanguagesTaught" class="form-control"
+                            maxlength="100">
+                      </div>
+                   </div> -->
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">Classes in
+                            which Language(s) are taught<br>कक्षाएं
+                            जिनमें
+                            भाषाएं सिखाई जाती हैं
+                         </label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-fold">{{(languagesTaughtClas)? languagesTaughtClas:'--'}}</label>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label ">Students taking the language <br>भाषा का चयन करने वाले
+                            छात्र
+                         </label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <span class="colon">:</span>
+                           <label class="form-label fw-fold">Boys:  {{(stdTLangBoys)? stdTLangBoys:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                          <label class="form-label fw-fold">Girls:  {{(stdTLangGirl)? stdTLangGirl:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                          <label class="form-label fw-fold">Transgender:  {{(stdTLangTrans)? stdTLangTrans:'--'}}</label>
+                      </div>
+                   </div>
+
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">Does the
+                            school offer any pre-vocational
+                            course(s) at
+                            Upper-Primary stage? <br>क्या
+                            विद्यालय उच्च-प्राथमिक स्तर पर कोई
+                            पूर्व-व्यावसायिक पाठ्यक्रम प्रदान
+                            करता है)?</label>
+                      </div>
+                      <div class="col-lg-8 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-fold">{{(isPreVocUP==1)?'Yes':(isPreVocUP==2)?'No':'--'}}</label>
+                      </div>
+                   </div>
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">Does the
+                            school provide educational and
+                            vocational
+                            guidance/ counseling to students</label>
+                         <br>क्या स्कूल छात्रों को शैक्षिक और
+                         व्यावसायिक पाठ्यक्रम प्रदान करता है?
+                      </div>
+                      <div class="col-lg-8 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-fold">{{(isProvVocEdu==1)?'Yes':(isProvVocEdu==2)?'No':'--'}}</label>
+                      </div>
+                   </div>
+                </div>
+                <!-- section-4 end  -->
+             </div>
+          </div>
+          <!-- section-4 end -->
+          <!-- section-5 start  -->
+          <div class="formpatch">
+             <label>
+                <h5>Distance of the school (in km.) from the nearest
+                   Govt./Aided school / निकटतम
+                   सरकारी/सहायता
+                   प्राप्त विद्यालय से विद्यालय की दूरी (किमी में॰)
+                </h5>
+                <div class="row">
+                   <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">From Primary
+                         school/section <br>प्राथमिक
+                         विद्यालय/अनुभाग
+                         से</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-4 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-fold">{{(distSchPM)? distSchPM:'--'}}</label>
+                   </div>
+                   <div class="col-xl-1"></div>
+                   <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">From Upper Primary
+                         school/section <br>माध्यमिक
+                         विद्यालय/अनुभाग
+                         से</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-4 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-fold">{{(distSchUP)? distSchUP:'--'}}</label>
+                   </div>
+                   <div class="col-xl-1"></div>
+                   <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">From Secondary
+                         school/section <br>उच्च प्राथमिक
+                         विद्यालय/अनुभाग से</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-4 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-fold">{{(distSchSC)? distSchSC:'--'}}</label>
+                   </div>
+                   <div class="col-xl-1"></div>
+                   <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">From Higher
+                         Secondary school/junior college <br>उच्च
+                         माध्यमिक
+                         विद्यालय//जूनियर महाविद्यालय से</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-4 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-fold">{{(distSchHS)? distSchHS:'--'}}</label>
+                   </div>
+                </div>
+             </label>
+             <p class="text-danger">(‘Distance’ is defined as
+                ‘walking distance after discounting for all
+                natural and man-made barriers on the way to the
+                school’ like highways, train lines, etc)
+                <br>* दूरी' को 'विद्यालय के रास्ते में सभी
+                प्राकृतिक और मानव निर्मित बाधाओं जैसे
+                राजमार्गों,
+                ट्रेन लाइनों, आदि के लिए छूट के बाद पैदल दूरी'
+                के रूप में परिभाषित किया गया है।
+             </p>
+             <div class="row">
+                <div class="col-lg-4 col-md-12 form-group">
+                   <label class="form-label" for="demo-text-input">
+                      Whether the school approachable by
+                      all-weather roads? <br>क्या विद्यालय सभी
+                      मौसम सड़कों के द्वारा पहुँचा जा सकता है?
+                   </label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group ">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-fold">{{(isSchApprochRoad==1)?'Yes':(isSchApprochRoad==2)?'No':'--'}}</label>
+                </div>
+                <div class="col-md-5"></div>
+             </div>
+          </div>
+          <div class="formpatch">
+             <h5>Number of instructional days (previous academic
+                year) / शिक्षण दिनों की संख्या (पिछले
+                शैक्षणिक वर्ष)
+             </h5>
+             <div class="row">
+               <ng-container *ngIf="highestClass >= 5 && lowestClass <= 1">
+                <div class="col-lg-2 col-md-12  form-group">
+                   <label class="form-label"> Primary <br>प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(numInsDayPM)? numInsDayPM:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+               </ng-container>
+            
+             <ng-container *ngIf="highestClass >= 8 && lowestClass <= 6">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Upper Primary <br>उच्च
+                      प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12  form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(numInsDayUP)? numInsDayUP:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 10 && lowestClass <= 9">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Secondary <br>माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(numInsDaySC)? numInsDaySC:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label">Higher Secondary <br>उच्च
+                      माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(numInsDayHS)? numInsDayHS:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+          </div>
+          <div class="formpatch">
+             <h5>Average school hours for children (per day) - Number
+                of hours children stay in school /
+                बच्चों के लिए औसत विद्यालय घंटे (प्रति दिन) - बच्चों
+                के स्कूल में रहने की संख्या
+                <a data-toggle="tooltip" class="tool text-dark" data-placement="top"
+                   title="Treat 40 minutes as 0.4 hours"> <i class="bi bi-question-circle-fill"></i></a>
+             </h5>
+             <div class="row">
+             <ng-container *ngIf="highestClass >= 5 && lowestClass <= 1">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Primary <br>प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgChHrPM)? avgChHrPM:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 8 && lowestClass <= 6">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Upper Primary <br>उच्च
+                      प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgChHrUP)? avgChHrUP:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 10 && lowestClass <= 9">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Secondary <br>माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgChHrSC)? avgChHrSC:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label">Higher Secondary <br>उच्च
+                      माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgChHrHS)? avgChHrHS:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+            </div>
+          </div>
+          <div class="formpatch">
+             <h5>Average working hours for Teachers (per day) -
+                Number of hours teachers stay in school /
+                शिक्षकों के लिए औसत काम के घंटे (प्रति दिन) -
+                शिक्षकों के विद्यालय में रहने की संख्या
+                <a data-toggle="tooltip" class="tool text-dark" data-placement="top"
+                   title="Treat 40 minutes as 0.4 hours"> <i class="bi bi-question-circle-fill"></i></a>
+             </h5>
+             <div class="row">
+             <ng-container *ngIf="highestClass >= 5 && lowestClass <= 1">
+                <div class="col-lg-2 col-md-12  form-group">
+                   <label class="form-label"> Primary <br>प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgTHrPM)? avgTHrPM:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 8 && lowestClass <= 6">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label">Upper Primary <br>उच्च
+                      प्राथमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgTHrUP)? avgTHrUP:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+             <ng-container *ngIf="highestClass >= 10 && lowestClass <= 9">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label"> Secondary <br>माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgTHrSC)? avgTHrSC:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+
+             <ng-container *ngIf="highestClass >= 12 && lowestClass <= 11">
+                <div class="col-lg-2 col-md-12 form-group">
+                   <label class="form-label">Higher Secondary <br>उच्च
+                      माध्यमिक</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-fold">{{(avgTHrHS)? avgTHrHS:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </ng-container>
+            </div>
+          </div>
+          <!-- section-5 end  -->
+          <!-- section-6 start  -->
+          <div class="formpatch">
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Is Continuous and
+                      Comprehensive Evaluation (CCE) being
+                      implemented in school? <br>क्या स्कूलों में
+                      सतत और व्यापक मूल्यांकन (सीसीई) लागू
+                      किया जा रहा है? </label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-fold">{{(isCCESch==1)?'Yes':(isCCESch==2)?'No':'--'}}</label>
+                </div>
+             </div>
+             <div class="row">
+                <div class="table-responsive">
+                   <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                         <tr>
+                            <th>Stage / levels / स्टेज / स्तर</th>
+                            <th>Is CCE being implemented? / क्या
+                               सीसीई लागू किया जा रहा है?
+                            </th>
+                            <th> Number of Assessments made
+                               during the year / वर्ष के दौरान
+                               किए गए आकलनों की संख्या
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <td>Primary / प्राथमिक</td>
+                            <td>
+                            <label class="form-label">{{(isCCEPM==1)?'Yes':(isCCEPM==2)?'No':'--'}}</label>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="this.isCCEPM==1" >
+                                    <label class="form-label">{{(isCCENumAssPM)? isCCENumAssPM:'--'}}</label>
+                                </ng-container>
+                            </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <td>Upper Primary / उच्च प्राथमिक</td>
+                            <td>
+                            <label class="form-label">{{(isCCEUP==1)?'Yes':(isCCEUP==2)?'No':'--'}}</label>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="this.isCCEUP==1" >
+                                    <label class="form-label">{{(isCCENumAssUP)? isCCENumAssUP:'--'}}</label>
+                                </ng-container>
+                            </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <td>Secondary / माध्यमिक</td>
+                            <td>
+                            <label class="form-label">{{(isCCESC==1)?'Yes':(isCCESC==2)?'No':'--'}}</label>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="this.isCCESC==1" >
+                                    <label class="form-label">{{(isCCENumAssSC)? isCCENumAssSC:'--'}}</label>
+                                </ng-container>
+                            </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <td>Higher Secondary / उच्च माध्यमिक</td>
+                            <td>
+                            <label class="form-label">{{(isCCEHS==1)?'Yes':(isCCEHS==2)?'No':'--'}}</label>
+                            </td>
+                            <td>
+                                <ng-container *ngIf="this.isCCEHS==1" >
+                                    <label class="form-label">{{(isCCENumAssHS)? isCCENumAssHS:'--'}}</label>
+                                </ng-container>
+                            </td>
+                         </tr>
+                      </tbody>
+
+                   </table>
+                </div>
+                <div class="col-xxl-2 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">a) Are cumulative
+                      records of pupil being maintained? <br>क)
+                      क्या विद्यार्थियों का संचयी रिकॉर्ड रखा जा
+                      रहा है?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isCumMaint==1)?'Yes':(isCumMaint==2)?'No':'--'}}</label>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="col-xxl-2 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">b) Are cumulative
+                      records of pupil being shared with parents?
+                      <br> क्या छात्र के संचयी रिकॉर्ड माता-पिता
+                      के साथ साझा किए जा रहे हैं?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isCumShared==1)?'Yes':(isCumShared==2)?'No':'--'}}</label>
+                </div>
+                <div class="col-lg-1"> </div>
+                <div class="col-xxl-2 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">c) Assessment items
+                      are being prepared by? <br>b) मूल्यांकन मद
+                      किसके द्वारा तैयार किए जा रहे हैं?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(assetItemPrepBy==1)?'Yes':(assetItemPrepBy==2)?'No':'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-xxl-2 col-xl-6 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">When does the academic
+                      session start? Give the month (e.g. May
+                      should be written as 05-May) <br>शैक्षणिक
+                      सत्र कब शुरू होता है? माह दें (उदाहरण के
+                      लिए मई को 05-मई लिखा जाना चाहिए) </label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(acSesStartMonth==1)?'1-January':(acSesStartMonth==2)?'2-February':(acSesStartMonth==3)?'3-March':(acSesStartMonth==4)?'4-April':(acSesStartMonth==5)?'5-May':(acSesStartMonth==6)?'6-June':(acSesStartMonth==7)?'7-July':(acSesStartMonth==8)?'8-August':(acSesStartMonth==9)?'9-September':(acSesStartMonth==10)?'10-October':(acSesStartMonth==11)?'11-November':(acSesStartMonth==12)?'12-December':'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+             </div>
+          </div>
+          <!-- section-6 end  -->
+          <!-- section-7 start  -->
+          <ng-container *ngIf="this.privateSchool==true">
+             <div class="formpatch">
+                <h5>Only for Private Unaided Schools / केवल निजी गैर
+                   सहायता प्राप्त विद्यालयों के लिए
+                </h5>
+                <div class="row">
+                   <div class="col-lg-4 col-md-12 form-group">
+                      <label class="form-label">(a) No.of children
+                         enrolled at entry level under Section 12 of
+                         the RTE Act in current academic year <br>(ए)
+                         वर्तमान शैक्षणिक वर्ष में आरटीई अधिनियम
+                         की धारा 12 के तहत प्रवेश स्तर पर नामांकित
+                         बच्चों की संख्या </label>
+                   </div>
+                   <div class="col-lg-3 col-md-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label">{{(noChildEnrolled)?noChildEnrolled:'--'}} </label>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-lg-4 col-md-12 form-group">
+                      <label class="form-label">(b) No. of students
+                         continuing who got admission under Section
+                         12 of the RTE Act in previous years <br>(बी)
+                         पिछले वर्षों में आरटीई अधिनियम की धारा
+                         12 के तहत प्रवेश पाने वाले छात्रों की संख्या
+                         जारी है</label>
+                   </div>
+                   <div class="col-lg-3 col-md-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label">{{(noOfStCnt)?noOfStCnt:'--'}} </label>
+                   </div>
+                </div>
+                <ng-container *ngIf="lowestClass <= 8">
+                   <label class="col-md-12 form-label mb-2">(c)Total no. of
+                      students enrolled under Section 12 of
+                      the RTE Act <br>ग) कुल संख्या आरटीई अधिनियम की धारा
+                      12 के तहत नामांकित छात्रों की
+                      संख्या:</label>
+                   <div class="row">
+                      <div class="table-responsive">
+                         <table class="table table-bordered ">
+                            <thead class="bg-lightpurple">
+                               <tr>
+                                  <th rowspan="2"></th>
+                                  <th colspan="3">In Private unaided
+                                     and specified category schools
+                                     under
+                                     section 12(1)(c) / धारा
+                                     12(1)(सी) के तहत निजी गैर सहायता
+                                     प्राप्त और
+                                     निर्दिष्ट श्रेणी के विद्यालयों
+                                     में
+                                  </th>
+                               </tr>
+                               <tr>
+                                  <th>Boys / लड़के</th>
+                                  <th>Girls / लड़कियाँ</th>
+                                  <th>Transgender / ट्रांसजेंडर</th>
+                               </tr>
+                            </thead>
+                            <tbody>
+                               <tr *ngIf="highestClass >= 1 && lowestClass <= 1">
+                                  <td>Class I / वर्ग 1</td>
+                                  <td>{{(totStRTEcls1B)? totStRTEcls1B:'--'}} </td>
+                                  <td>{{(totStRTEcls1G)? totStRTEcls1G:'--'}} </td>
+                                  <td>{{(totStRTEcls1T)? totStRTEcls1T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 1 && lowestClass <= 1">
+                                  <td>Class 1 CWSN / कक्षा 1
+                                     सीडब्ल्यूएसएन
+                                  </td>
+                                  <td>{{(totStRTEcls1CWSNB)? totStRTEcls1CWSNB:'--'}} </td>
+                                  <td>{{(totStRTEcls1CWSNG)? totStRTEcls1CWSNG:'--'}} </td>
+                                  <td>{{(totStRTEcls1CWSNT)? totStRTEcls1CWSNT:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 2 && lowestClass <= 2">
+                                  <td>Class II / वर्ग 2</td>
+                                  <td>{{(totStRTEcls2B)? totStRTEcls2B:'--'}} </td>
+                                  <td>{{(totStRTEcls2G)? totStRTEcls2G:'--'}} </td>
+                                  <td>{{(totStRTEcls2T)? totStRTEcls2T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 3 && lowestClass <= 3">
+                                  <td>Class III / वर्ग 3</td>
+                                  <td>{{(totStRTEcls3B)? totStRTEcls3B:'--'}} </td>
+                                  <td>{{(totStRTEcls3G)? totStRTEcls3G:'--'}} </td>
+                                  <td>{{(totStRTEcls3T)? totStRTEcls3T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 4 && lowestClass <= 4">
+                                  <td>Class IV / वर्ग 4</td>
+                                  <td>{{(totStRTEcls4B)? totStRTEcls4B:'--'}} </td>
+                                  <td>{{(totStRTEcls4G)? totStRTEcls4G:'--'}} </td>
+                                  <td>{{(totStRTEcls4T)? totStRTEcls4T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 5 && lowestClass <= 5">
+                                  <td>Class V / वर्ग 5</td>
+                                  <td>{{(totStRTEcls5B)? totStRTEcls5B:'--'}} </td>
+                                  <td>{{(totStRTEcls5G)? totStRTEcls5G:'--'}} </td>
+                                  <td>{{(totStRTEcls5T)? totStRTEcls5T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 6 && lowestClass <= 6">
+                                  <td>Class VI / वर्ग 6</td>
+                                  <td>{{(totStRTEcls6B)? totStRTEcls6B:'--'}} </td>
+                                  <td>{{(totStRTEcls6G)? totStRTEcls6G:'--'}} </td>
+                                  <td>{{(totStRTEcls6T)? totStRTEcls6T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 7 && lowestClass <= 7">
+                                  <td>Class VII / वर्ग 7</td>
+                                  <td>{{(totStRTEcls7B)? totStRTEcls7B:'--'}} </td>
+                                  <td>{{(totStRTEcls7G)? totStRTEcls7G:'--'}} </td>
+                                  <td>{{(totStRTEcls7T)? totStRTEcls7T:'--'}} </td>
+                               </tr>
+                               <tr *ngIf="highestClass >= 8 && lowestClass <= 8">
+                                  <td>Class VIII / वर्ग 8</td>
+                                  <td>{{(totStRTEcls8B)? totStRTEcls8B:'--'}} </td>
+                                  <td>{{(totStRTEcls8G)? totStRTEcls8G:'--'}} </td>
+                                  <td>{{(totStRTEcls8T)? totStRTEcls8T:'--'}} </td>
+                               </tr>
+                               <!-- <tr>
+                                  <td><b>Total / कुल
+                                     </b>
+                                  </td>
+                                  <td></td>
+                                  <td></td>
+                                  <td></td>
+                               </tr> -->
+                            </tbody>
+                         </table>
+                      </div>
+                   </div>
+                </ng-container>
+                
+                <label class="col-md-12 form-label mb-2">(d) No. of
+                   Economically Weaker Section*(EWS) students
+                   enrolled <br>(डी) आर्थिक रूप से कमजोर वर्ग *
+                   (ईडब्ल्यूएस) नामांकित छात्रों की
+                   संख्या:</label>
+                <div class="table-responsive">
+                   <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                         <tr>
+                            <th rowspan="2"></th>
+                            <th colspan="3">In schools that have
+                               received land, building, equipment
+                               or other
+                               facilities at concessional rate /
+                               जिन विद्यालयों में भूमि, भवन, उपकरण
+                               या
+                               अन्य सुविधाएं रियायती दर पर प्राप्त
+                               हुई हैं
+                            </th>
+                         </tr>
+                         <tr>
+                            <th>Boys / लड़के</th>
+                            <th>Girls / लड़कियाँ</th>
+                            <th>Transgender / ट्रांसजेंडर</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr *ngIf="highestClass >= 1 && lowestClass <= 1">
+                            <td>Class I / वर्ग 1</td>
+                            <td>{{(totStEWScls1B)? totStEWScls1B:'--'}} </td>
+                            <td>{{(totStEWScls1G)? totStEWScls1G:'--'}} </td>
+                            <td>{{(totStEWScls1T)? totStEWScls1T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 2 && lowestClass <= 2">
+                            <td>Class II / वर्ग 2</td>
+                            <td>{{(totStEWScls2B)? totStEWScls2B:'--'}} </td>
+                            <td>{{(totStEWScls2G)? totStEWScls2G:'--'}} </td>
+                            <td>{{(totStEWScls2T)? totStEWScls2T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 3 && lowestClass <= 3">
+                            <td>Class III / वर्ग 3</td>
+                            <td>{{(totStEWScls3B)? totStEWScls3B:'--'}} </td>
+                            <td>{{(totStEWScls3G)? totStEWScls3G:'--'}} </td>
+                            <td>{{(totStEWScls3T)? totStEWScls3T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 4 && lowestClass <= 4">
+                            <td>Class IV / वर्ग 4</td>
+                            <td>{{(totStEWScls4B)? totStEWScls4B:'--'}} </td>
+                            <td>{{(totStEWScls4G)? totStEWScls4G:'--'}} </td>
+                            <td>{{(totStEWScls4T)? totStEWScls4T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 5 && lowestClass <= 5">
+                            <td>Class V / वर्ग 5</td>
+                            <td>{{(totStEWScls5B)? totStEWScls5B:'--'}} </td>
+                            <td>{{(totStEWScls5G)? totStEWScls5G:'--'}} </td>
+                            <td>{{(totStEWScls5T)? totStEWScls5T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 6 && lowestClass <= 6">
+                            <td>Class VI / वर्ग 6</td>
+                            <td>{{(totStEWScls6B)? totStEWScls6B:'--'}} </td>
+                            <td>{{(totStEWScls6G)? totStEWScls6G:'--'}} </td>
+                            <td>{{(totStEWScls6T)? totStEWScls6T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 7 && lowestClass <= 7">
+                            <td>Class VII / वर्ग 7</td>
+                            <td>{{(totStEWScls7B)? totStEWScls7B:'--'}} </td>
+                            <td>{{(totStEWScls7G)? totStEWScls7G:'--'}} </td>
+                            <td>{{(totStEWScls7T)? totStEWScls7T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 8 && lowestClass <= 8">
+                            <td>Class VIII / वर्ग 8</td>
+                            <td>{{(totStEWScls8B)? totStEWScls8B:'--'}} </td>
+                            <td>{{(totStEWScls8G)? totStEWScls8G:'--'}} </td>
+                            <td>{{(totStEWScls8T)? totStEWScls8T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 9 && lowestClass <= 9">
+                            <td>Class IX / वर्ग 9</td>
+                            <td>{{(totStEWScls9B)? totStEWScls9B:'--'}} </td>
+                            <td>{{(totStEWScls9G)? totStEWScls9G:'--'}} </td>
+                            <td>{{(totStEWScls9T)? totStEWScls9T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 10 && lowestClass <= 10">
+                            <td>Class X / वर्ग 10</td>
+                            <td>{{(totStEWScls10B)? totStEWScls10B:'--'}} </td>
+                            <td>{{(totStEWScls10G)? totStEWScls10G:'--'}} </td>
+                            <td>{{(totStEWScls10T)? totStEWScls10T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 11 && lowestClass <= 11">
+                            <td>Class XI / वर्ग 11</td>
+                            <td>{{(totStEWScls11B)? totStEWScls11B:'--'}} </td>
+                            <td>{{(totStEWScls11G)? totStEWScls11G:'--'}} </td>
+                            <td>{{(totStEWScls11T)? totStEWScls11T:'--'}} </td>
+                         </tr>
+                         <tr *ngIf="highestClass >= 12 && lowestClass <= 12">
+                            <td>Class XII / वर्ग 12</td>
+                            <td>{{(totStEWScls12B)? totStEWScls12B:'--'}} </td>
+                            <td>{{(totStEWScls12G)? totStEWScls12G:'--'}} </td>
+                            <td>{{(totStEWScls12T)? totStEWScls12T:'--'}} </td>
+                         </tr>
+                         <!-- <tr>
+                            <td><b>Total / कुल
+                               </b>
+                            </td>
+                            <td></td>
+                            <td></td>
+                            <td></td>
+                         </tr> -->
+                         <!--New Add-->
+                      </tbody>
+                   </table>
+                </div>
+             </div>
+          </ng-container>
+          <!-- section-7 end  -->
+          <!-- section-8 start  -->
+          <ng-container  *ngIf="this.govtSchool==true">
+             <div class="formpatch">
+                <h5>Only for Government and Government Aided Schools /
+                   केवल सरकारी और सरकारी सहायता प्राप्त
+                   स्कूलों के लिए
+                </h5>
+                <div class="row">
+                   <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12  form-group">
+                      <label class="form-label" for="demo-text-input">
+                         Whether Anganwadi Centre located inside
+                         the school premises?<br> क्या आंगनबाडी
+                         केन्द्र विद्यालय परिसर में स्थित है ?</label>
+                   </div>
+                   <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isAngloc==1)?'Yes':(isTLMAvlPM==2)?'No':'--'}}</label>
+                   </div>
+                </div>
+                <div class="row">
+                   <ng-container *ngIf="isAngloc=='1'">
+                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                         <label class="form-label">a) Code of the
+                            Anganwadi Centre <br> आंगनवाड़ी केंद्र
+                            का
+                            कोड </label>
+                      </div>
+                      <div class="col-xxl-3 col-xl-3 col-lg-2 col-md-12 col-sm-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(angCode)? angCode:'--'}}</label>
+                      </div>
+                      <div class="col-xl-5"></div>
+                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                         <label class="form-label">b) Total Children
+                            in Anganwadi Centre <br> आंगनवाड़ी
+                            केंद्र में कुल बच्चे </label>
+                      </div>
+                      <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">Boys:  {{(totChildAngB)? totChildAngB:'--'}}</label>
+                      </div>
+                      <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                         <label class="form-label fw-bold">Girls:  {{(totChildAngG)? totChildAngG:'--'}}</label>
+                      </div>
+                      <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+                         <label class="form-label fw-bold">Transgender:  {{(totChildAngT)? totChildAngT:'--'}}</label>
+                      </div>
+
+                      <div class="col-lg-1"></div>
+                      <div class="row">
+                         <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">c) Is the
+                               Anganwadi Worker trained in early
+                               childhood
+                               education <br> क्या आंगनवाड़ी
+                               कार्यकर्ता को बचपन की शिक्षा में
+                               प्रशिक्षित
+                               किया जाता है </label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-bold">{{(isAngTrained==1)?'Yes':(isAngTrained==2)?'No':'--'}}</label>
+                         </div>
+                      </div>
+                      <div class="row">
+                         <div class="col-xxl-4 col-xl-4 col-lg-7 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">d) Whether
+                               Anganwadi has adequate educational
+                               (1-Yes,
+                               2-No) toys/ puppets/ games/ board
+                               games, etc.? <br> क्या आंगनवाड़ी में
+                               पर्याप्त शैक्षिक (1-हां, 2-नहीं)
+                               खिलौने / कठपुतलियां / खेल / बोर्ड
+                               गेम आदि
+                               हैं? </label>
+                         </div>
+                         <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <span class="colon">:</span>
+                            <label class="form-label fw-bold">{{(isAngEdu==1)?'Yes':(isAngEdu==2)?'No':'--'}}</label>
+                         </div>
+                      </div>
+                   </ng-container>
+                   <div class="row">
+                      <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                         <label class="form-label">Whether Balavatika
+                            is be started in the Co-located
+                            Anganwadi/school? <br>क्या बालवाटिका
+                            सह-स्थित आंगनबाडी/विद्यालय में प्रारंभ
+                            की
+                            जा रही है?</label>
+                      </div>
+                      <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(isBalvatikaSt==1)?'Yes':(isBalvatikaSt==2)?'No':'--'}}</label>
+                      </div>
+                   </div>
+                </div>
+             </div>
+          </ng-container>
+          <!-- section-8 end  -->
+          <!-- section-9 start  -->
+          <div class="formpatch">
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Whether any Out of
+                      School Children enrolled in the school are
+                      attending Special Training? <br>क्या
+                      विद्यालय में नामांकित कोई भी विद्यालय से
+                      बाहर
+                      के बच्चे विशेष प्रशिक्षण में भाग ले रहे हैं?</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isOutChidSpTraining==1)?'Yes':(isOutChidSpTraining==2)?'No':'--'}}</label>
+                </div>
+                <div *ngIf="isOutChidSpTraining==1">
+                   <div class="row">
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">a) No. of
+                            children enrolled for Special
+                            Training in
+                            current year</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <span class="colon">:</span>
+                          <label class="form-label fw-bold">Boys:  {{(totSpTrErCurB)? totSpTrErCurB:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                        <label class="form-label fw-bold">Girls:  {{(totSpTrErCurG)? totSpTrErCurG:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <label class="form-label fw-bold">Transgender:  {{(totSpTrErCurT)? totSpTrErCurT:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2"></div>
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">b) No. of
+                            children enrolled for Special
+                            Training in
+                            previous academic year</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <span class="colon">:</span>
+                          <label class="form-label fw-bold">Boys:  {{(totSpTrErPreB)? totSpTrErPreB:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                        <label class="form-label fw-bold">Girls:  {{(totSpTrErPreG)? totSpTrErPreG:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <label class="form-label fw-bold">Transgender:  {{(totSpTrErPreT)? totSpTrErPreT:'--'}}</label>
+                      </div>
+                      <div class="col-md-2"></div>
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">c) No. of
+                            children completed Special Training
+                            in
+                            previous academic year</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <span class="colon">:</span>
+                          <label class="form-label fw-bold">Boys:  {{(totSpTrComPreB)? totSpTrComPreB:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                        <label class="form-label fw-bold">Girls:  {{(totSpTrComPreG)? totSpTrComPreG:'--'}}</label>
+                      </div>
+                      <div class="col-lg-2 col-md-12 form-group">
+                         <label class="form-label fw-bold">Transgender:  {{(totSpTrComPreT)? totSpTrComPreT:'--'}}</label>
+                      </div>
+                      <div class="col-md-2"></div>
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">d) Who
+                            conducts Special Training ?</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(authSpTraing==1)?'DIET':'--'}}</label>
+                      </div>
+                      <div class="col-lg-5"></div>
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">e) Where is
+                            Special Training conducted ?</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(plcSpTraingCond==1)?'Block Office':(plcSpTraingCond==2)?'District Office':(plcSpTraingCond==3)?'DIET Office':'--'}}</label>
+                      </div>
+                      <div class="col-lg-5"></div>
+                      <div class="col-lg-4 col-md-12 form-group">
+                         <label class="form-label">f) Type of
+                            Training being conducted ?</label>
+                      </div>
+                      <div class="col-lg-3 col-md-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(typeTrainingCond==1)?'NA':'--'}}</label>
+                      </div>
+                      <div class="col-lg-5"></div>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">No. of students
+                      attending Remedial Teaching in current year
+                      <br>चालू वर्ष में उपचारात्मक शिक्षण में भाग
+                      लेने वाले छात्रों की संख्या</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(totStAtRemedialTeacCurYr)? totStAtRemedialTeacCurYr:'--'}}</label>
+                </div>
+                <div class="col-lg-5"></div>
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-7 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">Number of students
+                      attending Learning Enhancement classes
+                      <br>लर्निंग एन्हांसमेंट कक्षाओं में भाग लेने
+                      वाले छात्रों की संख्या</label>
+                </div>
+                <div class="col-lg-3 col-md-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(totStLearningEnhCls)? totStLearningEnhCls:'--'}}</label>
+                </div>
+                <div class="col-lg-5"></div>
+             </div>
+          </div>
+          <!-- section-9 end  -->
+          <!-- section-10 start  -->
+          <div class="formpatch">
+             <h5>Details of visits to the school during the previous
+                academic year? / पिछले शैक्षणिक वर्ष के
+                दौरान विद्यालय के दौरों का विवरण?
+             </h5>
+             <div class="row">
+                <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">(a) No. of academic
+                      inspections <br>(ए) शैक्षणिक निरीक्षणों की
+                      संख्या
+                   </label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-bold">{{(toVisitPrev)? toVisitPrev:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">(b) No. of visits by
+                      CRC Co-ordinator <br>(बी) सीआरसी समन्वयक
+                      द्वारा यात्राओं की संख्या</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-bold">{{(toVisitCRCPrev)? toVisitCRCPrev:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">(c) No. of visits by
+                      Block Level Officers (BRC/BEO) <br>(सी)
+                      ब्लॉक स्तरीय अधिकारियों (बीआरसी/बीईओ) द्वारा
+                      यात्राओं की संख्या</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                    <label class="form-label fw-bold">{{(toVisitBRCPrev)? toVisitBRCPrev:'--'}}</label>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">(d) No of visits by
+                      District/State Level Officers <br>(डी)
+                      जिला/राज्य स्तर के अधिकारियों द्वारा दौरे की
+                      संख्या</label>
+                </div>
+                <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+                   <div>
+                      <span class="colon">:</span>
+                       <label class="form-label fw-bold">{{(toVisitStatePrev)? toVisitStatePrev:'--'}}</label>
+                   </div>
+                </div>
+             </div>
+             <div>
+             </div>
+          </div>
+         
+          <ng-container  *ngIf="this.jnkvSchool==true">
+             <div class="formpatch">
+                <h5>For JNV/KV/Other Central Government Schools /
+                   जेएनवी/केवी/अन्य केंद्र सरकार के स्कूलों के
+                   लिए
+                </h5>
+                <div class="row">
+                   <div class="col-lg-2 col-md-12 form-group">
+                      <label class="form-label">(e) No. of visits by
+                         cluster level officer <br> (ई) क्लस्टर
+                         स्तर के अधिकारी द्वारा यात्राओं की संख्या
+                      </label>
+                   </div>
+                   <div class="col-lg-3 col-md-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-bold">{{(toVisitClusterJNV)? toVisitClusterJNV:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 col-md-12 form-group">
+                      <label class="form-label">(f)No. of visits by
+                         Regional Level Officer <br>(च) नहीं।
+                         क्षेत्रीय स्तर के अधिकारी के दौरों की संख्या
+                      </label>
+                   </div>
+                   <div class="col-lg-3 col-md-12 form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-bold">{{(toVisiRegionJNV)? toVisiRegionJNV:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 col-md-12 form-group">
+                      <label class="form-label">(g) No. of visits by
+                         headquarter level officer <br>(छ)
+                         मुख्यालय स्तर के अधिकारी द्वारा दौरे की
+                         संख्या</label>
+                   </div>
+                   <div class="col-lg-3 col-md-12form-group">
+                      <span class="colon">:</span>
+                       <label class="form-label fw-bold">{{(toVisiHQNV)? toVisiHQNV:'--'}}</label>
+                   </div>
+                   <div class="col-lg-1"></div>
+                </div>
+             </div>
+          </ng-container>
+          <!-- section-10 end  -->
+          <!-- section-11 start  -->
+          <div class="formpatch">
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">a) Whether School
+                      Management Committee (SMC) has been
+                      constituted ? <br>क) क्या आरटीई मानदंडों के
+                      अनुसार विद्यालय प्रबंधन समिति (एसएमसी)
+                      का गठन किया गया है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSMC==1)?'Yes':(isSMC==2)?'No':'--'}}</label>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label">b) Whether School
+                      Development and Management Committee have
+                      been
+                      Constituted as per Samagra Shiksha
+                      guidelines? <br> ख) क्या समग्र शिक्षा
+                      दिशानिर्देशों के अनुसार विद्यालय विकास और
+                      प्रबंधन समिति का गठन किया गया है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12  form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSDMC==1)?'Yes':(isSDMC==2)?'No':(isSDMC==3)?'Same As SMC':'--'}}</label>
+                </div>
+             </div>
+             <ng-container *ngIf="isSMC=='1' || isSDMC=='1'">
+                <label class="col-md-12 form-label mb-2">If (a)
+                   or/and (b) is 1-Yes, <br> यदि (ए) या/और (बी)
+                   1-हां है,
+                </label>
+                <div class="row">
+                   <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">c) Number of
+                         SMC/SDMC Meetings Conducted in previous
+                         Academic
+                         year <br> ग) पिछले शैक्षणिक वर्ष में
+                         आयोजित एसएमसी/एसडीएमसी बैठकों की संख्या
+                      </label>
+                   </div>
+                   <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(meetSmdcCon)? meetSmdcCon:'--'}}</label>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">d) Whether
+                         SMC/SDMC has prepared the School
+                         Development
+                         Plan?
+                         <br>घ) क्या एसएमसी/एसडीएमसी ने विद्यालय
+                         विकास योजना तैयार की है?</label>
+                   </div>
+                   <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isSMCDevPlan==1)?'Yes':(isSMCDevPlan==2)?'No':'--'}}</label>
+                   </div>
+
+                </div>
+                <ng-container *ngIf="isSMCDevPlan == 1">
+                   <div class="row">
+                      <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                         <label class="form-label">If 1-Yes, mention
+                            the year <br> यदि 1-हाँ, वर्ष का उल्लेख
+                            करें</label>
+                      </div>
+                      <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                         <span class="colon">:</span>
+                         <label class="form-label fw-bold">{{(SMCDevPlanYear)? SMCDevPlanYear:'--'}}</label>
+                      </div>
+                   </div>
+                </ng-container>
+             </ng-container>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Whether the School
+                      Building Committee (SBC) has been
+                      constituted? <br> क्या विद्यालय निर्माण
+                      समिति (एसबीसी) का गठन किया गया है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSBC==1)?'Yes':(isSBC==2)?'No':'--'}}</label>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Whether the School
+                      has constituted its Academic Committee
+                      (AC)? <br> क्या विद्यालय ने अपनी अकादमिक
+                      समिति (एसी) का गठन किया है?
+                   </label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isAC==1)?'Yes':(isAC==2)?'No':'--'}}</label>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Whether the School
+                      has constituted its Parent-Teacher
+                      Association (PTA)? <br> क्या विद्यालय ने
+                      अपने अभिभावक-शिक्षक संघ (पीटीए) का गठन किया
+                      है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isPTA==1)?'Yes':(isPTA==2)?'No':'--'}}</label>
+                </div>
+             </div>
+             <ng-container *ngIf="isPTA == 1">
+                <div class="row">
+                   <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12  form-group">
+                      <label class="form-label">If 1-Yes, Number
+                         of PTA meetings held during the last
+                         academic year <br> यदि 1-हाँ, पिछले
+                         शैक्षणिक वर्ष के दौरान आयोजित पीटीए
+                         बैठकों
+                         की संख्या</label>
+                   </div>
+                   <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(totPTAMeetingsCuYr)? totPTAMeetingsCuYr:'--'}}</label>
+                   </div>
+                </div>
+             </ng-container>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Whether the school
+                      has multi-class units? <br> क्या विद्यालय
+                      में बहु-कक्षा इकाइयाँ हैं?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isScMultiClass==1)?'Yes':(isScMultiClass==2)?'No':'--'}}</label>
+                </div>
+
+             </div>
+             <ng-container *ngIf="isScMultiClass == 1">
+                <label class="col-md-12 form-label mb-2">If 1-Yes,
+                   classes and number of children taught
+                   together in a single classroom <br> यदि 1-हाँ,
+                   तो कक्षाएं और बच्चों की संख्या एक ही
+                   कक्षा में एक साथ पढ़ाई जाती है
+                </label>
+                <div class="table-responsive">
+                   <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                         <tr>
+                            <th>Classes Taught Together /
+                               कक्षाएं एक साथ पढ़ाई जाती हैं
+                            </th>
+                            <th>Total Students attending on a
+                               typical day in Multi -Class /
+                               मल्टी-क्लास
+                               में एक विशिष्ट दिन में भाग लेने
+                               वाले कुल छात्र
+                            </th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr>
+                            <td>
+                                <label class="form-label">{{(totClassMultiClass)? totClassMultiClass:'--'}}</label>
+                            </td>
+                            <td>
+                                <label class="form-label">{{(totStudentAttendMultiClass)? totStudentAttendMultiClass:'--'}}</label>
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
+                </div>
+             </ng-container>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Is the school part of
+                      a School Complex? <br>क्या विद्यालय
+                      विद्यालय परिसर का हिस्सा है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSchoolComplex==1)?'Yes':(isSchoolComplex==2)?'No':'--'}}</label>
+                </div>
+                <!--New Add-->
+             </div>
+             <div class="row">
+                <div class="col-xxl-4 col-xl-7 col-lg-8 col-md-12 col-sm-12 form-group">
+                   <label class="form-label"> Is the school a Hub
+                      School for the school complex? <br> क्या
+                      विद्यालय विद्यालय परिसर के लिए एक हब
+                      विद्यालय है?</label>
+                </div>
+                <div class="col-xxl-4 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group colon-top">
+                   <span class="colon">:</span>
+                   <label class="form-label fw-bold">{{(isSchoolComplexHUB==1)?'Yes':(isSchoolComplexHUB==2)?'No':'--'}}</label>
+                </div>
+                <!--New Add-->
+             </div>
+             <ng-container *ngIf="isSchoolComplexHUB =='1'">
+                <label class="col-md-12 form-label mb-2">If 1-Yes,
+                   Number of schools in the school complex
+                   <br>यदि 1-हाँ, विद्यालय परिसर में विद्यालयों की
+                   संख्या
+                </label>
+                <div class="table-responsive">
+                   <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                         <tr>
+
+                            <th>Primary / मुख्य</th>
+                            <th>Upper Primary / उच्च प्राथमिक</th>
+                            <th>Secondary / माध्यमिक</th>
+                            <th>Higher Secondary / उच्च माध्यमिक</th>
+                            <th>Total / कुल</th>
+                         </tr>
+                      </thead>
+                      <tbody>
+                         <tr>
+                            <td>
+                                 <label class="form-label">{{(totSchoolComplextPM)? totSchoolComplextPM:'--'}}</label>
+                                </td>
+                            <td>
+                                 <label class="form-label">{{(totSchoolComplextUP)? totSchoolComplextUP:'--'}}</label>
+                                </td>
+                            <td>
+                                 <label class="form-label">{{(totSchoolComplextSC)? totSchoolComplextSC:'--'}}</label>
+                                </td>
+                            <td>
+                                 <label class="form-label">{{(totSchoolComplextHS)? totSchoolComplextHS:'--'}}</label>
+                                </td>
+                            <td>
+                                 <label class="form-label">{{(totSchoolComplext)? totSchoolComplext:'--'}}</label>
+                            </td>
+                         </tr>
+                      </tbody>
+                   </table>
+                </div>
+             </ng-container>
+          </div>
+          <!-- section-11 end  -->
+           <!-- section-12 start  -->
+          <div class="formpatch">
+             <h5>Availability of free Textbooks, Teaching Learning
+                Material (TLM) and play material (in
+                current academic year) / निःशुल्क पाठ्यपुस्तकों,
+                शिक्षण अधिगम सामग्री (टीएलएम) और खेल
+                सामग्री की उपलब्धता (वर्तमान शैक्षणिक वर्ष में)
+             </h5>
+             <div class="table-responsive ">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th></th>
+                         <!-- <th>Pre-primary / पूर्व प्राथमिक</th> -->
+                         <th *ngIf="highestClass >= 5 && lowestClass <= 1">Primary / प्राथमिक</th>
+                         <th *ngIf="highestClass >= 8 && lowestClass <= 6">Upper Primary / उच्च प्राथमिक</th>
+                         <th *ngIf="highestClass >= 10 && lowestClass <= 9">Secondary / माध्यमिक</th>
+                         <th *ngIf="highestClass >= 12 && lowestClass <= 11"> Higher Secondary / उच्च माध्यमिक</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                         <td>Whether complete set of free
+                            textbooks received / क्या मुफ्त
+                            पाठ्यपुस्तकों का पूरा सेट प्राप्त
+                            हुआ है
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(isTextBookRecievedPM==0)?'Not applicable':(isTextBookRecievedPM==1)?'Yes':(isTextBookRecievedPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(isTextBookRecievedUP==0)?'Not applicable':(isTextBookRecievedUP==1)?'Yes':(isTextBookRecievedUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(isTextBookRecievedSC==0)?'Not applicable':(isTextBookRecievedSC==1)?'Yes':(isTextBookRecievedSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(isTextBookRecievedHS==0)?'Not applicable':(isTextBookRecievedHS==1)?'Yes':(isTextBookRecievedHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td> When were the textbooks received in
+                            current academic year? (May should
+                            be written as 05-May) / वर्तमान
+                            शैक्षणिक वर्ष में पाठ्यपुस्तकें कब
+                            प्राप्त
+                            हुईं? (मई को 05-मई लिखा जाना चाहिए)
+                         </td>
+
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(vchStartAcademicPM==1)?'1-January':(vchStartAcademicPM==2)?'2-February':(vchStartAcademicPM==3)?'3-March':(vchStartAcademicPM==4)?'4-April':(vchStartAcademicPM==5)?'5-May':(vchStartAcademicPM==6)?'6-June':(vchStartAcademicPM==7)?'7-July':(vchStartAcademicPM==8)?'8-August':(vchStartAcademicPM==9)?'9-September':(vchStartAcademicPM==10)?'10-October':(vchStartAcademicPM==11)?'11-November':(vchStartAcademicPM==12)?'12-December':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(vchStartAcademicUP==1)?'1-January':(vchStartAcademicUP==2)?'2-February':(vchStartAcademicUP==3)?'3-March':(vchStartAcademicUP==4)?'4-April':(vchStartAcademicUP==5)?'5-May':(vchStartAcademicUP==6)?'6-June':(vchStartAcademicUP==7)?'7-July':(vchStartAcademicUP==8)?'8-August':(vchStartAcademicUP==9)?'9-September':(vchStartAcademicUP==10)?'10-October':(vchStartAcademicUP==11)?'11-November':(vchStartAcademicUP==12)?'12-December':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(vchStartAcademicSC==1)?'1-January':(vchStartAcademicSC==2)?'2-February':(vchStartAcademicSC==3)?'3-March':(vchStartAcademicSC==4)?'4-April':(vchStartAcademicSC==5)?'5-May':(vchStartAcademicSC==6)?'6-June':(vchStartAcademicSC==7)?'7-July':(vchStartAcademicSC==8)?'8-August':(vchStartAcademicSC==9)?'9-September':(vchStartAcademicSC==10)?'10-October':(vchStartAcademicSC==11)?'11-November':(vchStartAcademicSC==12)?'12-December':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(vchStartAcademicHS==1)?'1-January':(vchStartAcademicHS==2)?'2-February':(vchStartAcademicHS==3)?'3-March':(vchStartAcademicHS==4)?'4-April':(vchStartAcademicHS==5)?'5-May':(vchStartAcademicHS==6)?'6-June':(vchStartAcademicHS==7)?'7-July':(vchStartAcademicHS==8)?'8-August':(vchStartAcademicHS==9)?'9-September':(vchStartAcademicHS==10)?'10-October':(vchStartAcademicHS==11)?'11-November':(vchStartAcademicHS==12)?'12-December':'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Whether TLM available for each grade
+                            / क्या प्रत्येक ग्रेड के लिए टीएलएम
+                            उपलब्ध है <button type="button" class="tooltip__btn" data-toggle="tooltip"
+                               data-placement="top" title="If Yes, mention number of
+                             children provided core TLM for
+                             Language">
+                               <i class="bi
+                             bi-question-circle-fill"></i></button>
+                         </td>
+
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(isTLMAvlPM==1)?'Yes':(isTLMAvlPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(isTLMAvlUP==1)?'Yes':(isTLMAvlUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(isTLMAvlSC==1)?'Yes':(isTLMAvlSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(isTLMAvlHS==1)?'Yes':(isTLMAvlHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+
+                      <tr>
+                         <td>If Yes, number of children provided
+                            core TLM for Language / यदि हाँ, तो
+                            भाषा
+                            के लिए कोर टीएलएम प्रदान करने वाले
+                            बच्चों की संख्या
+                         </td>
+
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <ng-container *ngIf="isTLMAvlPM ==1">
+                                <label class="form-label">{{(totTLMLPM)? totTLMLPM:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <ng-container *ngIf="isTLMAvlUP ==1">
+                                <label class="form-label">{{(totTLMLUP)? totTLMLUP:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <ng-container *ngIf="isTLMAvlSC ==1">
+                                <label class="form-label">{{(totTLMLSC)? totTLMLSC:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <ng-container *ngIf="isTLMAvlHS ==1">
+                                <label class="form-label">{{(totTLMLHS)? totTLMLHS:'--'}}</label>
+                            </ng-container>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>If Yes, number of children provided
+                            core TLM for Mathematics/ यदि हाँ,
+                            तो गणित के लिए कोर टीएलएम प्रदान
+                            करने वाले बच्चों की संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <ng-container *ngIf="isTLMAvlPM ==1">
+                                <label class="form-label">{{(totTLMPM)? totTLMPM:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <ng-container *ngIf="isTLMAvlUP ==1">
+                                 <label class="form-label">{{(totTLMUP)? totTLMUP:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <ng-container *ngIf="isTLMAvlSC ==1">
+                                 <label class="form-label">{{(totTLMSC)? totTLMSC:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <ng-container *ngIf="isTLMAvlHS ==1">
+                                 <label class="form-label">{{(totTLMHS)? totTLMHS:'--'}}</label>
+                            </ng-container>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Whether the School has received
+                            graded supplementary material in
+                            previous
+                            academic year? / क्या विद्यालय को
+                            पिछले शैक्षणिक वर्ष में ग्रेडेड पूरक
+                            सामग्री प्राप्त हुई है?
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(gradSupMatPM==1)?'Yes':(gradSupMatPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(gradSupMatUP==1)?'Yes':(gradSupMatUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(gradSupMatSC==1)?'Yes':(gradSupMatSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(gradSupMatHS==1)?'Yes':(gradSupMatHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>If Yes, number of children provided
+                            Graded Supplementary Material / यदि
+                            हाँ,
+                            तो ग्रेडेड अनुपूरक सामग्री प्रदान
+                            करने वाले बच्चों की संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <ng-container *ngIf="gradSupMatPM ==1">
+                                 <label class="form-label">{{(cPGDmatPM)? cPGDmatPM:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <ng-container *ngIf="gradSupMatUP ==1">
+                                 <label class="form-label">{{(cPGDmatUP)? cPGDmatUP:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <ng-container *ngIf="gradSupMatSC ==1">
+                                 <label class="form-label">{{(cPGDmatSC)? cPGDmatSC:'--'}}</label>
+                            </ng-container>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <ng-container *ngIf="gradSupMatHS ==1">
+                                 <label class="form-label">{{(cPGDmatHS)? cPGDmatHS:'--'}}</label>
+                            </ng-container>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Number of children having access to
+                            Supplementary graded material in
+                            school
+                            / विद्यालय में अनुपूरक ग्रेडेड
+                            सामग्री तक पहुंच रखने वाले बच्चों की
+                            संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                             <label class="form-label">{{(cAGDmatPM)? cAGDmatPM:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                             <label class="form-label">{{(cAGDmatUP)? cAGDmatUP:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                             <label class="form-label">{{(cAGDmatSC)? cAGDmatSC:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                             <label class="form-label">{{(cAGDmatHS)? cAGDmatHS:'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Number of books in the school
+                            library / विद्यालय पुस्तकालय में
+                            पुस्तकों की
+                            संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                             <label class="form-label">{{(bookSchPM)? bookSchPM:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                             <label class="form-label">{{(bookSchUP)? bookSchUP:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                             <label class="form-label">{{(bookSchSC)? bookSchSC:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                             <label class="form-label">{{(bookSchHS)? bookSchHS:'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Number of times Library books have
+                            been borrowed/ read by children of
+                            that
+                            class (given total of issue
+                            register) / उस कक्षा के बच्चों
+                            द्वारा पुस्तकालय
+                            की पुस्तकों को उधार लेने/पढ़ने की
+                            संख्या (कुल अंक रजिस्टर को देखते
+                            हुए)
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                             <label class="form-label">{{(noBookBarowChildPM)? noBookBarowChildPM:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                             <label class="form-label">{{(noBookBarowChildUP)? noBookBarowChildUP:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                             <label class="form-label">{{(noBookBarowChildSC)? noBookBarowChildSC:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                             <label class="form-label">{{(noBookBarowChildHS)? noBookBarowChildHS:'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Number of parental communications by
+                            the school (through teachers of that
+                            grade) of regarding learning
+                            outcomes to be achieved by their
+                            child in the
+                            given year / दिए गए वर्ष में अपने
+                            बच्चे द्वारा प्राप्त किए जाने वाले
+                            सीखने
+                            के परिणामों के बारे में विद्यालय
+                            द्वारा (उस ग्रेड के शिक्षकों के
+                            माध्यम से)
+                            माता-पिता के संचार की संख्या
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                             <label class="form-label">{{(noPaternalCommBySchPM)? noPaternalCommBySchPM:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                             <label class="form-label">{{(noPaternalCommBySchUP)? noPaternalCommBySchUP:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                             <label class="form-label">{{(noPaternalCommBySchSC)? noPaternalCommBySchSC:'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                             <label class="form-label">{{(noPaternalCommBySchHS)? noPaternalCommBySchHS:'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Whether parents/ volunteers
+                            are actively involved in
+                            supporting the school to
+                            achieve FLN / क्या
+                            माता-पिता/स्वयंसेवक FLN प्राप्त करने
+                            के लिए विद्यालय को
+                            समर्थन देने में सक्रिय रूप से शामिल
+                            हैं?
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(parentsInvSupFlnPM==1)?'Yes':(parentsInvSupFlnPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(parentsInvSupFlnUP==1)?'Yes':(parentsInvSupFlnUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(parentsInvSupFlnSC==1)?'Yes':(parentsInvSupFlnSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(parentsInvSupFlnHS==1)?'Yes':(parentsInvSupFlnHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Whether the school has introduced
+                            peer learning? / क्या विद्यालय ने
+                            पीयर
+                            लर्निंग की शुरुआत की है?
+                         </td>
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(schPeerLrnPM==1)?'Yes':(schPeerLrnPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(schPeerLrnUP==1)?'Yes':(schPeerLrnUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(schPeerLrnSC==1)?'Yes':(schPeerLrnSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(schPeerLrnHS==1)?'Yes':(schPeerLrnHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+                      <tr>
+                         <td>Whether play material, games and
+                            sports equipment available for each
+                            grade?
+                         </td>
+
+                         <td *ngIf="highestClass >= 5 && lowestClass <= 1">
+                            <label class="form-label">{{(isSportEquipPM==1)?'Yes':(isSportEquipPM==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 8 && lowestClass <= 6">
+                            <label class="form-label">{{(isSportEquipUP==1)?'Yes':(isSportEquipUP==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 10 && lowestClass <= 9">
+                            <label class="form-label">{{(isSportEquipSC==1)?'Yes':(isSportEquipSC==2)?'No':'--'}}</label>
+                         </td>
+                         <td *ngIf="highestClass >= 12 && lowestClass <= 11">
+                            <label class="form-label">{{(isSportEquipHS==1)?'Yes':(isSportEquipHS==2)?'No':'--'}}</label>
+                         </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+          </div>
+           <!-- section-12 end  -->
+            <!-- section-13 start  -->
+          <div class="formpatch">
+             <h5>Key Performing Indicators (KPI) on teaching,
+                learning (in current academic year), materials
+                etc. / शिक्षण, सीखने (वर्तमान शैक्षणिक वर्ष में),
+                सामग्री आदि पर प्रमुख प्रदर्शन संकेतक
+                (KPIS)।
+             </h5>
+             <label for="" class="col-md-12 form-label mb-2">Number
+                of learning outcome based assessment
+                items created in total : <br> कुल सृजित सीखने के
+                परिणाम आधारित मूल्यांकन मदों की संख्या :
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(noLernOutcmAssemnt1)? noLernOutcmAssemnt1:'--'}} </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(noLernOutcmAssemnt2)? noLernOutcmAssemnt2:'--'}} </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(noLernOutcmAssemnt3)? noLernOutcmAssemnt3:'--'}} </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(noLernOutcmAssemnt4)? noLernOutcmAssemnt4:'--'}} </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(noLernOutcmAssemnt5)? noLernOutcmAssemnt5:'--'}} </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(noLernOutcmAssemnt6)? noLernOutcmAssemnt6:'--'}} </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(noLernOutcmAssemnt7)? noLernOutcmAssemnt7:'--'}} </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(noLernOutcmAssemnt8)? noLernOutcmAssemnt8:'--'}} </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(noLernOutcmAssemnt9)? noLernOutcmAssemnt9:'--'}} </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(noLernOutcmAssemnt10)? noLernOutcmAssemnt10:'--'}} </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(noLernOutcmAssemnt11)? noLernOutcmAssemnt11:'--'}} </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(noLernOutcmAssemnt12)? noLernOutcmAssemnt12:'--'}} </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Number
+                of criterionreferenced items created in
+                Previous Academic Year : <br> पिछले शैक्षणिक वर्ष
+                में बनाए गए मानदंड-संदर्भित मदों की
+                संख्या:
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(noCreatPrevYear1)? noCreatPrevYear1:'--'}} </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(noCreatPrevYear2)? noCreatPrevYear2:'--'}} </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(noCreatPrevYear3)? noCreatPrevYear3:'--'}} </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(noCreatPrevYear4)? noCreatPrevYear4:'--'}} </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(noCreatPrevYear5)? noCreatPrevYear5:'--'}} </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(noCreatPrevYear6)? noCreatPrevYear6:'--'}} </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(noCreatPrevYear7)? noCreatPrevYear7:'--'}} </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(noCreatPrevYear8)? noCreatPrevYear8:'--'}} </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(noCreatPrevYear9)? noCreatPrevYear9:'--'}} </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(noCreatPrevYear10)? noCreatPrevYear10:'--'}} </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(noCreatPrevYear11)? noCreatPrevYear11:'--'}} </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(noCreatPrevYear12)? noCreatPrevYear12:'--'}} </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Whether
+                school teachers of this school created
+                teaching aids/tools for teaching learning? <br> क्या
+                इस विद्यालय के विद्यालय के शिक्षकों ने
+                शिक्षण अधिगम के लिए शिक्षण सहायक सामग्री/उपकरण बनाए
+                हैं?
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">
+                        <label class="form-label">{{(schTchCrtTchAid1==1)?'Yes':(schTchCrtTchAid1==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">
+                        <label class="form-label">{{(schTchCrtTchAid2==1)?'Yes':(schTchCrtTchAid2==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">
+                        <label class="form-label">{{(schTchCrtTchAid3==1)?'Yes':(schTchCrtTchAid3==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">
+                        <label class="form-label">{{(schTchCrtTchAid4==1)?'Yes':(schTchCrtTchAid4==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">
+                        <label class="form-label">{{(schTchCrtTchAid5==1)?'Yes':(schTchCrtTchAid5==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">
+                        <label class="form-label">{{(schTchCrtTchAid6==1)?'Yes':(schTchCrtTchAid6==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">
+                        <label class="form-label">{{(schTchCrtTchAid7==1)?'Yes':(schTchCrtTchAid7==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">
+                        <label class="form-label">{{(schTchCrtTchAid8==1)?'Yes':(schTchCrtTchAid8==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">
+                        <label class="form-label">{{(schTchCrtTchAid9==1)?'Yes':(schTchCrtTchAid9==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">
+                        <label class="form-label">{{(schTchCrtTchAid10==1)?'Yes':(schTchCrtTchAid10==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">
+                        <label class="form-label">{{(schTchCrtTchAid11==1)?'Yes':(schTchCrtTchAid11==2)?'No':'--'}}</label>
+                        </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">
+                        <label class="form-label">{{(schTchCrtTchAid12==1)?'Yes':(schTchCrtTchAid12==2)?'No':'--'}}</label>
+                        </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Whether
+                the school actively undertakes academic
+                enrichment activities, such as Project/Group work,
+                portfolio, virtual labs, class
+                performances, quizzes/debates, creative writing,
+                etc? <br> क्या विद्यालय सक्रिय रूप से
+                अकादमिक संवर्धन गतिविधियों, जैसे परियोजना/समूह
+                कार्य, पोर्टफोलियो, आभासी प्रयोगशालाएं, कक्षा
+                प्रदर्शन, प्रश्नोत्तरी/वाद-विवाद, रचनात्मक लेखन
+                इत्यादि करता है?
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">
+                            <label class="form-label">{{(schActiveUndertake1==1)?'Yes':(schActiveUndertake1==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 2 && lowestClass <= 2">
+                            <label class="form-label">{{(schActiveUndertake2==1)?'Yes':(schActiveUndertake2==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 3 && lowestClass <= 3">
+                            <label class="form-label">{{(schActiveUndertake3==1)?'Yes':(schActiveUndertake3==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 4 && lowestClass <= 4">
+                            <label class="form-label">{{(schActiveUndertake4==1)?'Yes':(schActiveUndertake4==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 5 && lowestClass <= 5">
+                            <label class="form-label">{{(schActiveUndertake5==1)?'Yes':(schActiveUndertake5==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 6 && lowestClass <= 6">
+                            <label class="form-label">{{(schActiveUndertake6==1)?'Yes':(schActiveUndertake6==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 7 && lowestClass <= 7">
+                            <label class="form-label">{{(schActiveUndertake7==1)?'Yes':(schActiveUndertake7==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 8 && lowestClass <= 8">
+                            <label class="form-label">{{(schActiveUndertake8==1)?'Yes':(schActiveUndertake8==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 9 && lowestClass <= 9">
+                            <label class="form-label">{{(schActiveUndertake9==1)?'Yes':(schActiveUndertake9==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 10 && lowestClass <= 10">
+                            <label class="form-label">{{(schActiveUndertake10==1)?'Yes':(schActiveUndertake10==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 11 && lowestClass <= 11">
+                            <label class="form-label">{{(schActiveUndertake11==1)?'Yes':(schActiveUndertake11==2)?'No':'--'}}</label>
+                            </td>
+                            <td *ngIf="highestClass >= 12 && lowestClass <= 12">
+                            <label class="form-label">{{(schActiveUndertake12==1)?'Yes':(schActiveUndertake12==2)?'No':'--'}}</label>
+                            </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Total
+                Number of HardSpots identified in Learning
+                outcomes : <br> सीखने के परिणामों में पहचाने गए
+                हार्डस्पॉट की कुल संख्या:
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(totalNoHardspot1)? totalNoHardspot1:'--'}} </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(totalNoHardspot2)? totalNoHardspot2:'--'}} </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(totalNoHardspot3)? totalNoHardspot3:'--'}} </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(totalNoHardspot4)? totalNoHardspot4:'--'}} </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(totalNoHardspot5)? totalNoHardspot5:'--'}} </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(totalNoHardspot6)? totalNoHardspot6:'--'}} </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(totalNoHardspot7)? totalNoHardspot7:'--'}} </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(totalNoHardspot8)? totalNoHardspot8:'--'}} </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(totalNoHardspot9)? totalNoHardspot9:'--'}} </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(totalNoHardspot10)? totalNoHardspot10:'--'}} </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(totalNoHardspot11)? totalNoHardspot11:'--'}} </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(totalNoHardspot12)? totalNoHardspot12:'--'}} </td>
+                      </tr>
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Number
+                of students received orientation on cyber
+                safety : <br>साइबर सुरक्षा पर उन्मुखीकरण प्राप्त
+                करने वाले छत्रों की संख्या
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(totalNoOrientation1)? totalNoOrientation1:'--'}} </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(totalNoOrientation2)? totalNoOrientation2:'--'}} </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(totalNoOrientation3)? totalNoOrientation3:'--'}} </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(totalNoOrientation4)? totalNoOrientation4:'--'}} </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(totalNoOrientation5)? totalNoOrientation5:'--'}} </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(totalNoOrientation6)? totalNoOrientation6:'--'}} </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(totalNoOrientation7)? totalNoOrientation7:'--'}} </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(totalNoOrientation8)? totalNoOrientation8:'--'}} </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(totalNoOrientation9)? totalNoOrientation9:'--'}} </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(totalNoOrientation10)? totalNoOrientation10:'--'}} </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(totalNoOrientation11)? totalNoOrientation11:'--'}} </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(totalNoOrientation12)? totalNoOrientation12:'--'}} </td>
+                      </tr>
+
+                   </tbody>
+                </table>
+             </div>
+             <label for="" class="col-md-12 form-label mb-2">Number
+                of students received training on
+                psycho-social aspects : <br> मनो-सामाजिक पहलुओं पर
+                प्रशिक्षण प्राप्त करने वाले छात्रों की
+                संख्या:
+             </label>
+             <div class="table-responsive">
+                <table class="table table-bordered">
+                   <thead class="bg-lightpurple">
+                      <tr>
+                         <th width="60px" *ngIf="highestClass >= 1 && lowestClass <= 1">1</th>
+                         <th width="60px" *ngIf="highestClass >= 2 && lowestClass <= 2">2</th>
+                         <th width="60px" *ngIf="highestClass >= 3 && lowestClass <= 3">3</th>
+                         <th width="60px" *ngIf="highestClass >= 4 && lowestClass <= 4">4</th>
+                         <th width="60px" *ngIf="highestClass >= 5 && lowestClass <= 5">5</th>
+                         <th width="60px" *ngIf="highestClass >= 6 && lowestClass <= 6">6</th>
+                         <th width="60px" *ngIf="highestClass >= 7 && lowestClass <= 7">7</th>
+                         <th width="60px" *ngIf="highestClass >= 8 && lowestClass <= 8">8</th>
+                         <th width="60px" *ngIf="highestClass >= 9 && lowestClass <= 9">9</th>
+                         <th width="60px" *ngIf="highestClass >= 10 && lowestClass <= 10">10</th>
+                         <th width="60px" *ngIf="highestClass >= 11 && lowestClass <= 11">11</th>
+                         <th width="60px" *ngIf="highestClass >= 12 && lowestClass <= 12">12</th>
+                      </tr>
+                   </thead>
+                   <tbody>
+                      <tr>
+                        <td *ngIf="highestClass >= 1 && lowestClass <= 1">{{(totalNoRecvTrnPsyco1)? totalNoRecvTrnPsyco1:'--'}} </td>
+                        <td *ngIf="highestClass >= 2 && lowestClass <= 2">{{(totalNoRecvTrnPsyco2)? totalNoRecvTrnPsyco2:'--'}} </td>
+                        <td *ngIf="highestClass >= 3 && lowestClass <= 3">{{(totalNoRecvTrnPsyco3)? totalNoRecvTrnPsyco3:'--'}} </td>
+                        <td *ngIf="highestClass >= 4 && lowestClass <= 4">{{(totalNoRecvTrnPsyco4)? totalNoRecvTrnPsyco4:'--'}} </td>
+                        <td *ngIf="highestClass >= 5 && lowestClass <= 5">{{(totalNoRecvTrnPsyco5)? totalNoRecvTrnPsyco5:'--'}} </td>
+                        <td *ngIf="highestClass >= 6 && lowestClass <= 6">{{(totalNoRecvTrnPsyco6)? totalNoRecvTrnPsyco6:'--'}} </td>
+                        <td *ngIf="highestClass >= 7 && lowestClass <= 7">{{(totalNoRecvTrnPsyco7)? totalNoRecvTrnPsyco7:'--'}} </td>
+                        <td *ngIf="highestClass >= 8 && lowestClass <= 8">{{(totalNoRecvTrnPsyco8)? totalNoRecvTrnPsyco8:'--'}} </td>
+                        <td *ngIf="highestClass >= 9 && lowestClass <= 9">{{(totalNoRecvTrnPsyco9)? totalNoRecvTrnPsyco9:'--'}} </td>
+                        <td *ngIf="highestClass >= 10 && lowestClass <= 10">{{(totalNoRecvTrnPsyco10)? totalNoRecvTrnPsyco10:'--'}} </td>
+                        <td *ngIf="highestClass >= 11 && lowestClass <= 11">{{(totalNoRecvTrnPsyco11)? totalNoRecvTrnPsyco11:'--'}} </td>
+                        <td *ngIf="highestClass >= 12 && lowestClass <= 12">{{(totalNoRecvTrnPsyco12)? totalNoRecvTrnPsyco12:'--'}} </td>
+                      </tr>
+
+                   </tbody>
+                </table>
+             </div>
+          </div>
+           <!-- section-13 end  -->
+       
+       </div>
+    <!--Step 2 end -->
+</div>
+

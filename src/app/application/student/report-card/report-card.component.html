@@ -1,0 +1,427 @@
+    <!-- class reportcard print-->
+    <div class="modal fade progressreport eightreport" id="eightclassprint" tabindex="0"
+        aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <form #progressReportCardForm="ngForm" (ngSubmit)="submitReportCard(progressReportCardForm)">
+                <div class="modal-content">
+                    <div class="modal-header text-center">
+                        <div>
+                            <h4 class="modal-title text-center" id="">प्रगति-पत्रक वर्ग-{{ rcls[this.modalReportCard?.class] }}</h4>
+                        </div>
+                        <button type="button" class="btn-close btn-close-white noprint" data-bs-dismiss="modal"  #reportCardClose aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body modify">
+                        <div class="progress__report">
+                            <table width="100%">
+                                <tbody>
+                                    <tr height="">
+                                        <td width="175px">
+                                            <label class="form-label mb-2">विद्यार्थी का नाम</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold">{{ modalReportCard?.studentName || '--' }}</label></td>
+
+                                    </tr>
+                                    <tr height="">
+                                        <td width="162px">
+                                            <label class="form-label mb-2">विद्यालय का नाम </label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold">{{ modalReportCard?.schoolUdiseCode || '--' }} - {{ modalReportCard?.schoolName || '--' }}</label>
+                                        </td>
+
+                                    </tr>
+                                    <tr height="">
+                                        <td width="162px">
+                                            <label class="form-label mb-2">गाँव का नाम </label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold">{{ modalReportCard?.villageCode || '--' }} - {{ modalReportCard?.villageName || '--' }}</label></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table width="100%">
+                                <tbody>
+                                    <tr height="">
+                                        <td width="">
+                                            <label class="form-label mb-2">आधार नं</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">{{ modalReportCard?.aadhaar || '--' }}</label>
+                                        </td>
+                                        <!-- <td width="">
+                                            <label class="form-label  ms-4 mb-2"> रौल नं</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">--</label></td> -->
+                                        <td width="">
+                                            <label class="form-label ms-4 mb-2">शैक्षिक सत्र</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">{{ modalReportCard?.academicYear || '--' }}</label>
+                                        </td>
+                                    </tr>
+                                    <tr height="">
+                                        
+                                        <td width="">
+                                            <label class="form-label  mb-2 ">जन्म तिथि</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.dob | date:'dd-MMM-yyyy' }}</label></td>
+
+                                        <td width="">
+                                            <label class="form-label  ms-4 mb-2">माता का नाम</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.motherName || '--' }}</label></td>
+                                    </tr>
+                                    <!-- <tr height="50">
+                                        <td width="">
+                                            <label class="form-label mb-2">वजन</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">--</label>
+                                        </td>
+                                        <td width="">
+                                            <label class="form-label  ms-4 mb-2">लम्बाई</label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">--</label></td>
+                                    </tr> -->
+                                  <!--   <tr height="">
+                                        <td width="">
+                                            <label class="form-label mb-2">रक्त समूह </label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">--</label>
+                                        </td>
+                                        <td width="">
+                                            <label class="form-label  ms-4 mb-2">माता का नाम</label>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.motherName || '--' }}</label></td>
+                                    </tr> -->
+                                    <tr height="50">
+                                        <td width="">
+                                            <label class="form-label mb-2">पिता का नाम </label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">{{ modalReportCard?.fatherName || '--' }}</label>
+                                        </td>
+                                        <td width="">
+                                            <label class="form-label  ms-4 mb-2">पंचायत/ वार्ड </label>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.panchayatCode || '--' }} - {{ modalReportCard?.panchayatName || '--' }}</label>
+                                        </td>
+                                    </tr>
+                                    <tr height="">
+                                        <td width="">
+                                            <label class="form-label mb-2">प्रखण्ड </label>
+                                        </td>
+                                        <td width="">:</td>
+                                        <td width="">
+                                            <label class="label-data fw-bold ms-2 ">{{ modalReportCard?.blockCode || '--' }} - {{ modalReportCard?.blockName || '--' }}</label>
+                                        </td>
+                                        <td width="">
+                                            <label class="form-label  ms-4 mb-2">जिला </label>
+                                        <td width="">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.districtCode || '--' }} - {{ modalReportCard?.districtName || '--' }}</label></td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table width="100%">
+                                <tbody>
+                                    <tr height="">
+                                        <td width="300px">
+                                            <label class="form-label mb-2">पत्राचार का पता </label>
+                                        </td>
+                                        <td width="2">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.communicationAddress || '--' }}</label></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <table width="100%">
+                                <tbody>
+                                    <tr height="">
+                                        <td width="300px">
+                                            <label class="form-label mb-2">अभिभावक का दूरभाष /मोबाइल संख्या</label>
+                                        </td>
+                                        <td width="2">:</td>
+                                        <td width=""><label class="label-data fw-bold ms-2 ">{{ modalReportCard?.mobile || '--' }}</label></td>
+
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="table__data mt-4">
+                                <table width="100%" class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>माह</th>
+                                            <th>अप्रैल</th>
+                                            <th>मई</th>
+                                            <th>जून</th>
+                                            <th>जुलाई</th>
+                                            <th>अगस्त</th>
+                                            <th>सितम्बर</th>
+                                            <th>अक्टूबर</th>
+                                            <th>नवम्बर</th>
+                                            <th>दिसम्बर</th>
+                                            <th>जनवरी</th>
+                                            <th>फरवरी</th>
+                                            <th>मार्च</th>
+                                        </tr>
+                                        <tr>
+                                            <th>कुल कार्य दिवस</th>
+                                            <td>{{ modalReportCard?.workingDays['04'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['05'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['06'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['07'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['08'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['09'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['10'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['11'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['12'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['01'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['02'] }}</td>
+                                            <td>{{ modalReportCard?.workingDays['03'] }}</td>
+                                        </tr>
+                                        <tr>
+                                            <th>कुल उपस्थिति </th>
+                                            <td>{{ modalReportCard?.presentDays[04] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[05] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[06] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[07] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[08] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[09] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[10] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[11] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[12] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[01] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[02] || 0 }}</td>
+                                            <td>{{ modalReportCard?.presentDays[03] || 0 }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="table__data">
+                                <table width="100%" class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th>राशि</th>
+                                            <th>पाठ्य-पुस्तक</th>
+                                            <th>पोशाक</th>
+                                            <th>छात्रवृत्ति</th>
+                                        </tr>
+                                        <tr>
+                                            <th>प्राप्ति तिथि</th>
+                                            <td>{{ (modalReportCard?.facility && modalReportCard?.facility['freeTextBook']==0)?'NA':(modalReportCard?.facility && modalReportCard?.facility['freeTextBook']==1)?'Yes':(modalReportCard?.facility && modalReportCard?.facility['freeTextBook']==2)?'No':'--' }}</td>
+                                            <td>{{ (modalReportCard?.facility && modalReportCard?.facility['receivedDressSet']>0)? 'Yes':'No' }}</td>
+                                            <!-- <td width="30%">--</td> -->
+                                            <td width="30%"><input type="text" class="form-control editable-from-control" name="scholarshipStatus" [(ngModel)]="scholarshipStatus"></td>
+
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            
+                            <div class="table__data">
+                                <h5 class=" mt-4 text-orange text-center">भाग –I</h5>
+                                <h5 class=" text-primary text-center">छात्र-छत्राओं के सतत् सिखने में प्रक्रिया</h5>
+                            </div>
+                            <ng-container *ngFor="let item of subjects">
+                                <div class="table__data" *ngIf="item">
+                                    <h5 class="mb-4 mt-0 text-center text-orange">{{ modalReportCard?.subjects[item] }}</h5>
+                                    <table width="100%" class="table table-bordered">
+                                        <tbody>
+                                            <tr>
+                                                <th width="20px">सीखने के बिन्दु</th>    
+                                                <th *ngFor="let indData of modalReportCard?.indicators[item]['indData']">{{ indData }}</th>
+                                            </tr>
+                                            <tr>
+                                                <th>उपलाब्धि</th>
+                                                <td  *ngFor="let indId of modalReportCard?.indicators[item]['indIds']">
+                                                    
+                                                    <app-rating *ngIf="modalReportCard?.stdIndInfoData?.length==0" [rating]='rating' [itemId]='indId' (ratingClick)='ratingComponentClick($event)'></app-rating>
+
+                                                    <app-rating *ngIf="modalReportCard?.stdIndInfoData?.length>0 && modalReportCard?.stdIndInfoData?.[indId]" [rating]='modalReportCard?.stdIndInfoData?.[indId]' [itemId]='indId' (ratingClick)='ratingComponentClick($event)'></app-rating>
+
+                                                    <!-- <span *ngIf="modalReportCard?.stdIndInfoData?.[indId] && modalReportCard?.stdIndInfoData?.[indId] == 1" class="star">
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                    </span>
+                                                    <span *ngIf="modalReportCard?.stdIndInfoData?.[indId] && modalReportCard?.stdIndInfoData?.[indId] == 2" class="star">
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                    </span>
+                                                    <span *ngIf="modalReportCard?.stdIndInfoData?.[indId] && modalReportCard?.stdIndInfoData?.[indId] == 3" class="star">
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                        <i class="bi bi-star-fill text-success me-1"></i>
+                                                    </span> -->
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>                                
+                            </ng-container>
+                            
+                            <div class="table__data">
+                                <h5 class="mb-3 mt-4 text-orange text-center">भाग-II</h5>
+                                <h5 class="mb-3 mt-4 text-primary text-center">अर्द्धवार्षिक मूल्यांकन/वार्षिक परीक्षा
+                                    /पुनःपरीक्षा (वार्षिक) परिणाम</h5>
+                                <table width="100%" class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th width="10px" rowspan="2">क्र०</th>
+                                            <th width="300px" rowspan="2">विषय</th>
+                                            <th colspan="2">अर्द्धवार्षिक परीक्षा मूल्यांकन-सितम्बर (विषयवार पूर्णांक-50)
+                                            </th>
+                                            <th colspan="2">वार्षिक परीक्षा मार्च (विषयवार पूर्णांक-50) </th>
+                                            <th colspan="2">पुनःपरीक्षा (वार्षिक)
+                                                (विषयवार पूर्णांक-50)
+                                            </th>
+                                        </tr>
+                                        <tr>
+                                            <th width="100px" class="bhagtwo-height">प्राप्तांक</th>
+                                            <th width="100px" class="bhagtwo-height">ग्रेड</th>
+                                            <th width="100px" class="bhagtwo-height">प्राप्तांक</th>
+                                            <th width="100px" class="bhagtwo-height">ग्रेड</th>
+                                            <th width="100px" class="bhagtwo-height">प्राप्तांक</th>
+                                            <th width="100px" class="bhagtwo-height">ग्रेड</th>
+                                        </tr>
+                                        <!-- <tr>
+                                            <th>1</th>
+                                            <th>2</th>
+                                            <th>3</th>
+                                            <th>4</th>
+                                            <th>5</th>
+                                            <th>6</th>
+                                            <th>7</th>
+                                            <th>8</th>
+                                        </tr> -->
+                                        <tr *ngFor="let sbjId of markSubjects;let sl=index;">
+                                            <th>{{sl+1}}</th>
+                                            <th>{{ modalReportCard?.markSubjects[sbjId] }}</th>
+                                            <th>{{ (modalReportCard?.markInfo['1'] && modalReportCard?.markInfo['1'][sbjId])?modalReportCard?.markInfo['1'][sbjId]['securedMark']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.markInfo['1'] && modalReportCard?.markInfo['1'][sbjId])?modalReportCard?.markInfo['1'][sbjId]['grade']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.markInfo['2'] && modalReportCard?.markInfo['2'][sbjId])?modalReportCard?.markInfo['2'][sbjId]['securedMark']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.markInfo['2'] && modalReportCard?.markInfo['2'][sbjId])?modalReportCard?.markInfo['2'][sbjId]['grade']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.markInfo['3'] && modalReportCard?.markInfo['3'][sbjId])?modalReportCard?.markInfo['3'][sbjId]['securedMark']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.markInfo['3'] && modalReportCard?.markInfo['3'][sbjId])?modalReportCard?.markInfo['3'][sbjId]['grade']:'-'}}</th>
+                                        </tr>                                    
+                                        <tr>
+                                            <th colspan="2" class="text-center">कुल</th>
+                                            <th>{{ (modalReportCard?.totSecoured['1'])?modalReportCard?.totSecoured['1']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.overAllGrade['1'])?modalReportCard?.overAllGrade['1']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.totSecoured['2'])?modalReportCard?.totSecoured['2']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.overAllGrade['2'])?modalReportCard?.overAllGrade['2']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.totSecoured['3'])?modalReportCard?.totSecoured['3']:'-'}}</th>
+                                            <th>{{ (modalReportCard?.overAllGrade['3'])?modalReportCard?.overAllGrade['3']:'-'}}</th>
+                                        </tr>
+                                        <tr>
+                                            <th colspan="10">
+                                                नोट –ग्रेड :- <br>
+                                                A- 81% से 100% अंक (बहुत अच्छा) B- 61% से 80% अंक (अच्छा) C- 41% से 60% अंक
+                                                (संतोषप्रद)
+                                                D- 33% से 40% अंक (प्रयास की आवश्यकता) E- 0% से 32% अंक (विशेष प्रयास/
+                                                शिक्षण की आवश्यकता) <br>
+                                                उपलब्धि संकेतक :- सीख चुका है (***) सीख रहा है (**) प्रयास की आवश्यकता है
+                                                (*)
+
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+
+
+                            <div class="table__data bhagthree">
+                                <h5 class="mb-3 mt-4 text-orange text-center">भाग-III</h5>
+                                <table width="100%" class="table table-bordered">
+                                    <tbody ngModelGroup="context">
+                                        <tr>
+                                            <th>क्र०सं०</th>
+                                            <th>संदर्भ</th>
+                                            <th>अर्द्धवार्षिक मूल्यांकन</th>
+                                            <th>वार्षिक परीक्षा</th>
+                                            <th>पुनःपरीक्षा (वार्षिक)</th>
+                                        </tr>
+                                        <tr *ngFor="let item of modalReportCard?.contexts;let i=index">
+                                           
+                                                <th>{{i+1}}</th>
+                                                <td>{{item.contextName}}</td>
+                                                <td>
+                                                    <ng-container ngModelGroup="1">
+                                                    <input type="text" [name]="item.contextId" class="form-control editable-from-control" maxlength="1" ngModel="{{(modalReportCard?.stdConInfoData && modalReportCard?.stdConInfoData[1]) ? modalReportCard?.stdConInfoData[1][item.contextId] : '' }}">
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <ng-container ngModelGroup="2">
+                                                    <input type="text" [name]="item.contextId"  class="form-control editable-from-control" maxlength="1" ngModel="{{(modalReportCard?.stdConInfoData  && modalReportCard?.stdConInfoData[2]) ? modalReportCard?.stdConInfoData[2][item.contextId]:''}}">
+                                                    </ng-container>
+                                                </td>
+                                                <td>
+                                                    <ng-container ngModelGroup="3">
+                                                    <input type="text" [name]="item.contextId"  class="form-control editable-from-control" maxlength="1" ngModel="{{(modalReportCard?.stdConInfoData  && modalReportCard?.stdConInfoData[3]) ? modalReportCard?.stdConInfoData[3][item.contextId] : '' }}">
+                                                    </ng-container>
+                                                </td>
+                                        </tr>                                    
+                                    </tbody>
+                                </table>
+                            </div>
+
+                            <div class="table__data">
+                                <table width="100%" class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <th colspan="6" class="sanketak">संकेतक : <span>A - बहुत अच्छा</span> <span>B -
+                                                    अच्छा</span> <span>C - संतोषप्रद</span> <span>D - प्रयास की
+                                                    आवश्यकता</span>
+                                                <span>E - विशेष प्रयास की आवश्यकता</span>
+                                            </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="pramana__patra">
+                                <h5 class="mb-3 mt-4 text-orange text-center">प्रमाण-पत्र </h5>
+                                <table width="100%" class="table">
+                                    <tbody>
+                                        <tr>
+                                            <th>प्रमाणित किया जाता है कि <label class="form-label mb-2"> {{ modalReportCard?.studentName || '--' }}</label>
+                                                ने वर्ग {{ rcls[this.modalReportCard?.class] }} तक की प्रारंभिक शिक्षा पूरी कर ली है | अत: नि:शुल्क और अनिवार्य
+                                                बाल शिक्षा का अधिकार अधिनियम, 2009 की धारा 30(2) के आलोक में इन्हें
+                                                प्रारंभिक शिक्षा पूरी करने का प्रमाण-पत्र दिया जाता है </th>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            <div class="mt-5 mb-3">
+                                <label class="" for="">विद्यालय का मुहर <span class="">:</span> 
+                                    <strong *ngIf="!this.modalReportCard?.prcGeneratedOn"> {{ today | date:"dd.MM.YYYY" }} </strong>
+                                    <strong *ngIf="this.modalReportCard?.prcGeneratedOn"> {{ this.modalReportCard?.prcGeneratedOn | date:"dd.MM.YYYY" }} </strong>
+                                </label>
+                                <span class="float-end"><strong> प्रधानाध्यापक का हस्ताक्षर </strong></span>
+                                <br>
+                                <span class="float-end"><strong>नाम : {{ (this.modalReportCard?.schoolHead)?this.modalReportCard?.schoolHead:(this.modalReportCard?.schoolPrincipal)?this.modalReportCard?.schoolPrincipal:'' }} </strong></span>
+                            </div>
+                        </div>
+                        <div class="modal-footer noprint">
+                            <button *ngIf="!this.modalReportCard?.prcGeneratedOn" class="btn btn-success noprint" type="submit">Submit / प्रस्तुत करें </button>
+                            <button *ngIf="this.modalReportCard?.prcGeneratedOn" class="btn btn-success noprint" type="submit">Update / अपडेट करें</button>
+                            <a *ngIf="this.modalReportCard?.prcGeneratedOn" class="btn btn-primary noprint" onclick="window.print();">Print / प्रिंट</a> 
+                            <button *ngIf="this.modalReportCard?.prcGeneratedOn" type="button" class="btn btn-danger noprint" data-bs-dismiss="modal">Close / बंद करे </button>                            
+                        </div>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <!--  class reportcard print-->

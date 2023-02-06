@@ -1,0 +1,185 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Committee Members/समिति के सदस्यों का प्रबंधन करें</h3>
+        </div>
+
+        <div class="tabArea mt-1">
+            <a routerLink="./../addSmcMember" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add Committee Members/समिति के सदस्यों को जोड़ें</a>
+            <a routerLink="./../viewSmcMember" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View Committee Members/समिति के सदस्यों को देखें</a>
+        </div>
+    </div>
+    <ng-container *ngIf="permissionDiv == true">
+        <div class="top-space">
+            <ng-container *ngIf="show">
+                <form  (ngSubmit)="memberSearch()" #searchForm="ngForm" novalidate>
+                    <div class="search-container student-info">
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="form-group col-lg-3">
+                                    <label for="exampleInputEmail1" class="form-label me-2">Committee Type<br>समिति का प्रकार</label>
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <span class="colon">:</span>
+                                    <select class="form-select"  [(ngModel)]="committeeType" name="committeeType">
+                                        <option value="" selected>--Select--</option>
+                                        <option value="{{item.anxtValue}}" *ngFor="let item of committeeTypeData">
+                                            {{item.anxtName}}</option>
+                                        <!-- <option value="1" >Parent</option> -->
+
+                                    </select>
+                                </div>
+
+                                <div class="col-lg-1"> </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="exampleInputEmail1" class="form-label me-2">Member Type<br>सदस्य का प्रकार </label>
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default Member Type" [(ngModel)]="memberType" name="memberType">
+                                        <option value="" selected>--Select--</option>
+                                        <option value="{{item.anxtValue}}" *ngFor="let item of memberTypeData">
+                                            {{item.anxtName}}</option>
+                                    </select>
+                                </div>
+
+                                <div class="form-group col-lg-3">
+                                    <label for="ParentNameMobile" class="form-label me-2">Parent Name/Mobile<br>सदस्य का नाम/मोबाइल </label>
+                                </div>
+                                <div class="form-group col-lg-2">
+                                    <span class="colon">:</span>
+                                    <input type="text" class="form-control" id="ParentNameMobile"
+                                        aria-describedby="ParentNameMobile" [(ngModel)]="memberData" name="memberData">
+                                </div>
+                                <div class="col-lg-1"> </div>
+                                <div _ngcontent-vwb-c88="" class="col-lg-2"><button _ngcontent-vwb-c88=""
+                                        class="btn btn-default btn-purple"> Search/खोजें  <i _ngcontent-vwb-c88=""
+                                            class="bi bi-search"></i></button></div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </ng-container>
+            <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+                data-original-title="Click me">Search Panel/खोज पैनल
+            </button>
+        </div>
+    </ng-container>
+
+    <div class="clearfix"></div>
+
+    <div class="row mt-4">
+        <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <div class="util">
+                            <a title="Excel" class="excel" (click)="downloadCommMemberList()"><i class="bi bi-file-earmark-excel"></i></a>
+                            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                          </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="table-responsive" id="viewTable">
+
+                <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+                <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                    #exporter="matTableExporter">
+                    <ng-container matColumnDef="slNo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Sl.No / क्र.सं.
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="name">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Name / नाम
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.memberName) ?
+                            element?.memberName :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="mobile">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Mobile / मोबाइल
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.mobile) ? element?.mobile :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="email">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Email / ईमेल
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.email) ? element?.email :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="gender">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Gender / लिंग
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.gender) ? element?.gender :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="position">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Position / पद
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.position) ? element?.position :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="committeeType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Committee Type / समिति का प्रकार
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.committeeType) ? element?.committeeType :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="memberType">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Member Type / सदस्य प्रकार
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.memberType) ? element?.memberType :'--' }}</td>
+                    </ng-container>
+                    <ng-container matColumnDef="category">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                            Category/ श्रेणी
+                        </th>
+                        <td mat-cell *matCellDef="let element">{{(element?.socialCategory) ? element?.socialCategory :'--' }}</td>
+                    </ng-container>
+                    
+
+                    <ng-container matColumnDef="action" >
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                            Action / क्रिया
+                        </th>
+                        <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                            <!-- <a title="Edit" [routerLink]="['./../editMember/', element?.encId]"
+                                class="edit-btn me-2"><i class="bi bi-pencil-square text-primary"></i></a> -->
+                            <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                                (click)="deleteMemeber(element?.encId)"><i class="bi bi-trash"></i></a>
+                        </td>
+                    </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                </table>
+                <table>
+                    <tr *ngIf="!dataSource.data.length">
+                        <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length"
+                            class="mt-2 text-danger">
+                            No Records Found!
+                        </td>
+                    </tr>
+                </table>
+                <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                    [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                 class="noPrint"  showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+            {{ "No record found." }}
+          </div>
+         <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin"> 
+          {{ "You don't have the permission to access this page !!" }}
+        </div>
+    </div>
+</div>

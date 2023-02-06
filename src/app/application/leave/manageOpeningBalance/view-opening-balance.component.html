@@ -1,0 +1,186 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Opening Leave Balance</h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addOpeningBalance" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add Opening Leave Balance</a>
+      <a routerLink="./../viewOpeningBalance" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View Opening Leave Balance</a>
+    </div>
+  </div>
+  <div class="searchPanel top-space">
+    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+        <div class="row" >
+       
+        <div class="col-lg-2 form-group " *ngIf="blkLogin==false">
+          <label for="exampleInputEmail1" class="form-label">Cluster Name </label>
+        </div>
+        <div class="col-lg-3 form-group " *ngIf="blkLogin==false">
+          <span class="colon">:</span>
+          <select name="offclusterId" [(ngModel)]="offclusterId" class="form-select" aria-label="Default select example"
+            (change)="getSchool($any($event.target).value)">
+            <option value="0" *ngIf="clusterChanged==false">--Select--</option>
+            <option value="" *ngIf="clusterChanged==true">Loading...</option>
+            <option *ngFor="let item of clusterData" [value]="item.clusterId">
+              {{ item.clusterCode }} - {{ item.clusterName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1" *ngIf="blkLogin==false"></div>
+
+        <div class="col-lg-2 form-group " *ngIf="blkLogin==false">
+          <label for="exampleInputEmail1" class="form-label">School Name </label>
+        </div>
+        <div class="col-lg-3 form-group " *ngIf="blkLogin==false">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" name="schoolId" [(ngModel)]="schoolId" 
+            (change)="getTeachersList(0,$any($event.target).value);">
+            <option value="" *ngIf="scSchoolChanged==false">--Select--</option>
+            <option value="" *ngIf="scSchoolChanged==true">Loading...</option>
+            <option *ngFor="let school of getSchoolData" [value]="school.schoolId">
+              {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1" *ngIf="blkLogin==false"></div>
+        <div class="col-lg-2 form-group ">
+          <label for="teacherId" class="form-label">Teacher Name </label>
+        </div>
+        <div class="col-lg-3 form-group ">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" name="teacherId" [(ngModel)]="teacherId">
+            <option value="" *ngIf="leaveModeChanged == false" selected>--Select--</option>
+            <option value="" *ngIf="leaveModeChanged == true">Loading...</option>
+            <option *ngFor="let item of teacherList" [value]="item.tId">{{ item.teacherId}}- {{ item.teacherName
+              }}</option>
+          </select>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group ">
+          <label for="exampleInputEmail1" class="form-label">Leave Type </label>
+        </div>
+        <div class="col-lg-3 form-group ">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" name="leaveTypeId" [(ngModel)]="leaveTypeId">
+            <option value="0" *ngIf="leaveTypeChanged==false">--Select--</option>
+            <option value="" *ngIf="leaveTypeChanged==true">Loading...</option>
+            <option *ngFor="let item of lvtype" [value]="item.anxtValue">
+              {{ item.anxtName }}
+            </option>
+          </select>
+        </div>
+
+
+
+        <div class="col-lg-1">
+          <button class="btn btn-default btn-purple" type="submit"> Search <i class="bi bi-search"></i></button>
+        </div>
+      </div>
+
+    </form>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+
+            <!-- <a title="Print" class="print"><i class="bi bi-printer"></i></a> -->
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" [hidden]="isLoading">
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+          <table  class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" >
+
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No 
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="Teacher Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Teacher Name
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.teacherId }}- {{element?.teacherName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Teacher Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Teacher Type
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.tchType }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Leave Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Leave Type
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.anxtName }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Leave Entitled">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Leave Entitled 
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.leaveEntitled }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Leave Granted">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Leave Granted 
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.leaveGranted }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Leave Balance">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Leave Balance 
+              </th>
+              <td mat-cell *matCellDef="let element">{{element?.leaveBalance }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Life Time Balance">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Life Time Balance 
+              </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.lifeTimeBalance>0)?element?.lifeTimeBalance:'--' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="No. of Times Leave Balance">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                No. of Times Leave Balance
+              </th>
+              <td mat-cell *matCellDef="let element">{{ (element?.noOfTimesLeaveBalance>0)?element?.noOfTimesLeaveBalance:'--' }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Action </th>
+              <td mat-cell *matCellDef="let element" class="action-link">
+                <a *ngIf="(element?.tchTypeID == 2 && element?.isSchoolLogin == 1) || (element?.tchTypeID == 1 && element?.isSchoolLogin == 0)" title="Edit" [routerLink]="['./../editOpeningBalance/', element?.encId]" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square text-primary"></i></a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                No Records Found!
+              </td>
+            </tr>
+          </table>
+          <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" showFirstLastButtons>
+         </mat-paginator>
+      </div>
+      
+    </div>
+  </div>
+</div>

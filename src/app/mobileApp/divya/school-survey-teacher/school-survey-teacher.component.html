@@ -1,0 +1,1657 @@
+<div class="screen-space mobApp">
+  <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+  <div class="indicator">( * ) Indicator Mandatory</div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">
+        School Survey - {{ (userDetails && userDetails["activityCenterName"]) || "--" }}
+      </h3>
+      <!-- <span class="indicator">( * ) Indicator Mandatory</span> -->
+    </div>
+    <!-- <div class="tabArea"> <a routerLink="./../SchoolsurveyTeacher" class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Add</a> </div> -->
+  </div>
+  <form [formGroup]="schoolSurveyTeacherForm">
+    <div class="formpatch top-space">
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >1) Total Registered CWSN <span class="mandatory">*</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnVi"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnVi', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnVi
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnVi',
+                        'assistiveCwsnVi',
+                        'educationalCwsnVi',
+                        'skillCwsnVi',
+                        'totalCwsnVi',
+                        'VI'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnHi"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnHi', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnHi
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnHi',
+                        'assistiveCwsnHi',
+                        'educationalCwsnHi',
+                        'skillCwsnHi',
+                        'totalCwsnHi',
+                        'HI'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnOh"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnOh', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnOh
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnOh',
+                        'assistiveCwsnOh',
+                        'educationalCwsnOh',
+                        'skillCwsnOh',
+                        'totalCwsnOh',
+                        'OH'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnSi"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnSi', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnSi
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnSi',
+                        'assistiveCwsnSi',
+                        'educationalCwsnSi',
+                        'skillCwsnSi',
+                        'totalCwsnSi',
+                        'SI'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnId"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnId', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnId
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnId',
+                        'assistiveCwsnId',
+                        'educationalCwsnId',
+                        'skillCwsnId',
+                        'totalCwsnId',
+                        'ID'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnCp"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnCp', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnCp
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnCp',
+                        'assistiveCwsnCp',
+                        'educationalCwsnCp',
+                        'skillCwsnCp',
+                        'totalCwsnCp',
+                        'CP'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="totalCwsnOthers"
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'totalCwsnOthers', 3)"
+                    (blur)="
+                      totalCalculation(
+                        totalCwsnVi,
+                        totalCwsnHi,
+                        totalCwsnOh,
+                        totalCwsnSi,
+                        totalCwsnId,
+                        totalCwsnCp,
+                        totalCwsnOthers,
+                        1
+                      )
+                    "
+                    #totalCwsnOthers
+                    (blur)="
+                      checkFromTotalElement(
+                        'presentCwsnOthers',
+                        'assistiveCwsnOthers',
+                        'educationalCwsnOthers',
+                        'skillCwsnOthers',
+                        'totalCwsnOthers',
+                        'OTHERS'
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total <span class="mandatory">*</span></label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="totalEnrolledCwsn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >2) Present CWSN <span class="mandatory">*</span></label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnVi"
+                    #presentCwsnVi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnVi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnVi',
+                        'presentCwsnVi',
+                        'Total Registered CWSN VI',
+                        'Present CWSN VI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnHi"
+                    #presentCwsnHi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnHi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnHi',
+                        'presentCwsnHi',
+                        'Total Registered CWSN HI',
+                        'Present CWSN HI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnOh"
+                    #presentCwsnOh
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnOh', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOh',
+                        'presentCwsnOh',
+                        'Total Registered CWSN OH',
+                        'Present CWSN OH'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnSi"
+                    #presentCwsnSi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnSi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnSi',
+                        'presentCwsnSi',
+                        'Total Registered CWSN SI',
+                        'Present CWSN SI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnId"
+                    #presentCwsnId
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnId', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnId',
+                        'presentCwsnId',
+                        'Total Registered CWSN ID',
+                        'Present CWSN ID'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnCp"
+                    #presentCwsnCp
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnCp', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnCp',
+                        'presentCwsnCp',
+                        'Total Registered CWSN CP',
+                        'Present CWSN CP'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="presentCwsnOthers"
+                    #presentCwsnOthers
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnOthers', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOthers',
+                        'presentCwsnOthers',
+                        'Total Registered CWSN OTHERS',
+                        'Present CWSN OTHERS'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        presentCwsnVi,
+                        presentCwsnHi,
+                        presentCwsnOh,
+                        presentCwsnSi,
+                        presentCwsnId,
+                        presentCwsnCp,
+                        presentCwsnOthers,
+                        2
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total <span class="mandatory">*</span></label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="totalPresentCwsn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >3) How many IEP / ITP of CWSN were prepared<span class="mandatory"
+                >*</span
+              >
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="iepCwsn"
+              maxlength="3"
+              (keyup)="keyUpInputNumber($event, 'iepCwsn', 3)"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >4) How many CWSN were given assistive devices
+                <span class="mandatory">*</span>
+              </label>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnVi"
+                    #assistiveCwsnVi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnVi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnVi',
+                        'assistiveCwsnVi',
+                        'Total Registered CWSN VI',
+                        'Assitive CWSN VI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnHi"
+                    #assistiveCwsnHi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnHi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnHi',
+                        'assistiveCwsnHi',
+                        'Total Registered CWSN HI',
+                        'Assitive CWSN HI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnOh"
+                    #assistiveCwsnOh
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnOh', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOh',
+                        'assistiveCwsnOh',
+                        'Total Registered CWSN OH',
+                        'Assitive CWSN OH'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnSi"
+                    #assistiveCwsnSi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnSi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnSi',
+                        'assistiveCwsnSi',
+                        'Total Registered CWSN SI',
+                        'Assitive CWSN SI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnId"
+                    #assistiveCwsnId
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnId', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnId',
+                        'assistiveCwsnId',
+                        'Total Registered CWSN ID',
+                        'Assitive CWSN ID'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnCp"
+                    #assistiveCwsnCp
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnCp', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnCp',
+                        'assistiveCwsnCp',
+                        'Total Registered CWSN CP',
+                        'Assitive CWSN CP'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="assistiveCwsnOthers"
+                    #assistiveCwsnOthers
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'assistiveCwsnOthers', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOthers',
+                        'assistiveCwsnOthers',
+                        'Total Registered CWSN OTHERS',
+                        'Assitive CWSN OTHERS'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        assistiveCwsnVi,
+                        assistiveCwsnHi,
+                        assistiveCwsnOh,
+                        assistiveCwsnSi,
+                        assistiveCwsnId,
+                        assistiveCwsnCp,
+                        assistiveCwsnOthers,
+                        3
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total <span class="mandatory">*</span></label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="totalAssistiveCwsn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >5) How many CWSN were given educational devices
+                <span class="mandatory">*</span></label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnVi"
+                    #educationalCwsnVi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnVi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnVi',
+                        'educationalCwsnVi',
+                        'Total Registered CWSN VI',
+                        'Educational CWSN VI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnHi"
+                    #educationalCwsnHi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnHi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnHi',
+                        'educationalCwsnHi',
+                        'Total Registered CWSN HI',
+                        'Educational CWSN HI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnOh"
+                    #educationalCwsnOh
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnOh', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOh',
+                        'educationalCwsnOh',
+                        'Total Registered CWSN OH',
+                        'Educational CWSN OH'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnSi"
+                    #educationalCwsnSi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnSi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnSi',
+                        'educationalCwsnSi',
+                        'Total Registered CWSN SI',
+                        'Educational CWSN SI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnId"
+                    #educationalCwsnId
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnId', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnId',
+                        'educationalCwsnId',
+                        'Total Registered CWSN ID',
+                        'Educational CWSN ID'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnCp"
+                    #educationalCwsnCp
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'educationalCwsnCp', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnCp',
+                        'educationalCwsnCp',
+                        'Total Registered CWSN CP',
+                        'Educational CWSN CP'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="educationalCwsnOthers"
+                    #educationalCwsnOthers
+                    maxlength="3"
+                    (keyup)="
+                      keyUpInputNumber($event, 'educationalCwsnOthers', 3)
+                    "
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOthers',
+                        'educationalCwsnOthers',
+                        'Total Registered CWSN OTHERS',
+                        'Educational CWSN OTHERS'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        educationalCwsnVi,
+                        educationalCwsnHi,
+                        educationalCwsnOh,
+                        educationalCwsnSi,
+                        educationalCwsnId,
+                        educationalCwsnCp,
+                        educationalCwsnOthers,
+                        4
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total <span class="mandatory">*</span></label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="totalEducationalCwsn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"
+                >6) How many CWSN were given skill training
+                <span class="mandatory">*</span></label
+              >
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnVi"
+                    #skillCwsnVi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnVi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnVi',
+                        'skillCwsnVi',
+                        'Total Registered CWSN VI',
+                        'Skill Training CWSN VI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnHi"
+                    #skillCwsnHi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnHi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnHi',
+                        'skillCwsnHi',
+                        'Total Registered CWSN HI',
+                        'Skill Training CWSN HI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnOh"
+                    #skillCwsnOh
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnOh', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOh',
+                        'skillCwsnOh',
+                        'Total Registered CWSN OH',
+                        'Skill Training CWSN OH'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnSi"
+                    #skillCwsnSi
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnSi', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnSi',
+                        'skillCwsnSi',
+                        'Total Registered CWSN SI',
+                        'Skill Training CWSN SI'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnId"
+                    #skillCwsnId
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnId', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnId',
+                        'skillCwsnId',
+                        'Total Registered CWSN ID',
+                        'Skill Training CWSN ID'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnCp"
+                    #skillCwsnCp
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnCp', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnCp',
+                        'skillCwsnCp',
+                        'Total Registered CWSN CP',
+                        'Skill Training CWSN CP'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    formControlName="skillCwsnOthers"
+                    #skillCwsnOthers
+                    maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'skillCwsnOthers', 3)"
+                    (blur)="
+                      maxLimitChk(
+                        'totalCwsnOthers',
+                        'skillCwsnOthers',
+                        'Total Registered CWSN OTHERS',
+                        'Skill Training CWSN OTHERS'
+                      )
+                    "
+                    (blur)="
+                      totalCalculation(
+                        skillCwsnVi,
+                        skillCwsnHi,
+                        skillCwsnOh,
+                        skillCwsnSi,
+                        skillCwsnId,
+                        skillCwsnCp,
+                        skillCwsnOthers,
+                        5
+                      )
+                    "
+                  />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label"
+                    >Total <span class="mandatory">*</span></label
+                  >
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input
+                    type="number"
+                    class="form-control"
+                    readonly
+                    formControlName="totalSkillCwsn"
+                  />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >7) How many CWSN were given individual TLM
+              <span class="mandatory">*</span></label
+            >
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="individualTlmCwsn"
+              (keyup)="keyUpInputNumber($event, 'individualTlmCwsn', 3)"
+              maxlength="3"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label"
+              >8) How many CWSN were given peer support
+              <span class="mandatory">*</span></label
+            >
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <input
+              type="number"
+              class="form-control"
+              formControlName="peerSupportCwsn"
+              (keyup)="keyUpInputNumber($event, 'peerSupportCwsn', 3)"
+              maxlength="3"
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+    <div>
+      <button type="submit" class="btn btn-success me-2" (click)="onSubmit()">Submit</button>
+      <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+  </form>
+</div>

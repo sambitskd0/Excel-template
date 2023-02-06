@@ -1,0 +1,162 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName">Add Book Receipt / बुक रसीद जोड़ें</h3>
+         </div>
+         <div class="tab__section">
+            <a routerLink="./../viewBook" class="tablink" routerLinkActive="active">Book Master <br> बुक मास्टर</a>
+            <a routerLink="./../viewBookOpeningStock" class="tablink" routerLinkActive="active">Opening Stock<br> ओपनिंग
+               स्टॉक</a>
+            <a routerLink="./../viewBookReceipt" class="tablink active" routerLinkActive="active">Book Receipt<br> पुस्तक
+               रसीद</a>
+            <a routerLink="./../viewDamageBook" class="tablink" routerLinkActive="active">Damage Book <br> क्षति पुस्तिका</a>
+            <a routerLink="./../viewStockStatus" class="tablink" routerLinkActive="active">Stock Status <br> स्टॉक की स्थित</a>
+         </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+      <div class="tabArea">
+         <a routerLink="./../addBookReceipt" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+         <a routerLink="./../viewBookReceipt" class="neuro addLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View / देखें </a>
+      </div>
+   </div>
+   <form [formGroup]="openingStock" (ngSubmit)="validateSubmitStock();">
+      <div class="row top-space">
+         <div class="col-lg-2 form-group">
+            <label class="form-label">District <br> जिला</label>
+         </div>
+         <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="form-data">{{(districtName) ? districtName :'--'}}</label>
+         </div>
+         <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Block/ULB <br> ब्लॉक/यूएलबी</label>
+         </div>
+         <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="form-data">{{(blockName) ? blockName :'--'}}</label>
+         </div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Cluster <br>संकुल</label>
+         </div>
+         <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="form-data">{{(clusterName) ? clusterName :'--'}}</label>
+         </div>
+         <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">School Name <br>विद्यालय का नाम</label>
+         </div>
+         <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label class="form-data">{{(schoolName) ? schoolName :'--'}}</label>
+         </div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Academic Year <br>अकादमिक वर्ष</label>
+         </div>
+         <div class="col-lg-3 form-group colon-top">
+            <span class="colon">:</span>
+            <label for="" class="form-data "> {{academicYear}} </label>
+            <!-- <select class="form-select" aria-label="Default select example" formControlName="academicYear">
+            <option value="">--Select--</option>
+            <option value="2019-20">2019-20</option>
+           <option value="2020-21">2020-21</option>
+           <option value="2021-22">2021-22</option>
+           <option value="2022-23">2022-23</option>
+         </select> -->
+            <!-- <span  class="mandatory">*</span> -->
+         </div>
+         <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Received From<br>से प्राप्त किय</label>
+         </div>
+         <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" formControlName="receivedFrom" maxlength="50" autocomplete="off">
+         </div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Bill No. <br>बिल नं.</label>
+         </div>
+         <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" formControlName="billNo" maxlength="50" autocomplete="off">
+
+         </div>
+
+         <div class="col-lg-1"></div>
+         <div class="col-lg-2 form-group">
+            <label class="form-label">Date<br>तारीख</label>
+         </div>
+         <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker bsDatepicker
+               [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,showClearButton: true, clearPosition: 'right' }" id="exampleInputEmail1" aria-describedby="emailHelp"
+               [maxDate]="maxDate" formControlName="recvDate" readonly>
+            <span class="mandatory">*</span>
+         </div>
+      </div>
+      <div class="mt-4">
+         <div class="table-responsive">
+            <table class="table  table-bordered">
+               <thead class="bg-lightpurple">
+                  <tr>
+                     <th>Sl No. / क्र.सं</th>
+                     <th>Book Type / पुस्तक का प्रकार <span class="text-danger">*</span></th>
+                     <th>Book Name / पुस्तक का नाम<span class="text-danger">*</span></th>
+                     <!-- <th>Author's Name <span class="text-danger">*</span></th>
+                  <th>Publisher Name<span class="text-danger">*</span></th> -->
+                     <th>Book No. / पुस्तक क्र. <span class="text-danger">*</span></th>
+                     <th>Amount / राशि <span class="text-danger">*</span></th>
+                     <th>Action / क्रिया</th>
+                  </tr>
+               </thead>
+               <tbody formArrayName="bookReceiptArray">
+                  <tr *ngFor="let item of bookReceiptInfo().controls; index as i" [formGroupName]="i">
+                     <td>{{ i + 1 }}</td>
+                     <td>
+                        <select class="form-select" formControlName="bookType"
+                           (change)="filterBookName($any($event.target).value, i)">
+                           <option value="" *ngIf="bkTypeChanged==false">-- Select --</option>
+                           <option value="" *ngIf="bkTypeChanged==true">Loading...</option>
+                           <option *ngFor="let item of bkType" value="{{item.anxtValue}}">
+                              {{item.anxtName}}
+                           </option>
+                        </select>
+                     </td>
+                     <td>
+                        <select class="form-select" formControlName="bookName">
+                           <option value="" *ngIf="bookNameChanged==false">-- Select --</option>
+                           <option value="" *ngIf="bookNameChanged==true">Loading...</option>
+                           <option *ngFor="let bookItem of bookFilterData[i]" [value]="bookItem.bookId">
+                              {{'Book Name : ' + bookItem.bookName + ', Author Name : (' + bookItem.authorName+ ')' + ',
+                              Publisher : (' + bookItem.publisher + ')'}}
+                           </option>
+                        </select>
+                     </td>
+
+                     <td>
+                        <input type="text" class="form-control" formControlName="bookNo" maxlength="20" (keypress)="customValidators.keyPressNumbers($event)">
+                     </td>
+                     <td>
+                        <input type="text" class="form-control" formControlName="amount" (keypress)="customValidators.keyPressNumbers($event)" maxlength="20">
+                     </td>
+                     <td width="120">
+                        <button type="button" class="btn btn-success btn-sm me-2" (click)="addRow(i)"><i
+                              class="bi bi-plus-lg"></i></button>
+                        <button type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)"><i
+                              class="bi bi-dash-lg"></i></button>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <div>
+            <button class="btn btn-success me-2">Submit / जमा करें</button>
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Reset / पुनर्स्थापित </button>
+         </div>
+      </div>
+   </form>
+</div>

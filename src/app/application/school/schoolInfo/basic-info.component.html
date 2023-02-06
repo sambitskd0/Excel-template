@@ -1,0 +1,400 @@
+<div>
+    <div class="pageHeading">
+        <div><h3 class="pageName">Update School Information</h3><span  class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span></div>
+
+        <div class="tabArea">
+            <a  class="neuro addLink step1 active"> <i class="bi bi-plus-lg me-2"></i> Add / जोड़ें</a>
+        </div>
+    </div>
+
+    <div class="regi__info top-space">
+        <a class="neuro addLink step1 active">Step 1 / स्टेप 1</a>
+        
+        <a  routerLink="./../../otherInfo/{{encId}}" class="neuro viewLink step2">Step 2 / स्टेप 2</a>
+
+        <a  routerLink="./../../physicalInfo/{{encId}}" class="neuro viewLink step3">Step 3 / स्टेप 3</a>
+
+        <a  routerLink="./../../physicalequipmentinfo/{{encId}}" class="neuro viewLink step4">Step 4 / स्टेप 4</a>
+
+        <a  routerLink="./../../CADIniInfo/{{encId}}" class="neuro viewLink step3">Step 5 / स्टेप 5</a>
+    </div>
+    <div class="step-container">
+        <div class="tab-content " id="main_form">
+            <div class="tab-pane active step1-content" role="tabpanel" id="step1">
+                <h5 class="text-center top-space">Basic Information / मूल जानकारी</h5>
+                <div class="formpatch ">
+                    <h5>School Profile  / विद्यालय का विवरण</h5>
+                    <div class="row">
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Academic Year <br>शैक्षणिक वर्ष</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{schoolInfo.academicYear}}</label>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">School Name <br>विद्यालय का नाम</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{schoolInfo.schoolName}} </label>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">School UDISE code (USCHCD) <br>विद्यालय UDISE कोड </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{schoolInfo.schoolUdiseCode}} </label>
+                        </div> 
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">School Code (SCHCD)  <br>विद्यालय कोड </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{schoolInfo.schoolUschcdCode}} </label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Latitude <br>अक्षांश</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{schoolInfo.latitude}}</label>
+                        </div>  
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Longitude <br>देशान्तर</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{schoolInfo.longitude}}</label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">District <br>ज़िला</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{schoolInfo.districtName}}</label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Block <br>प्रखण्ड</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{schoolInfo.blockName}}</label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Cluster <br>संकुल</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{schoolInfo.clusterName}}</label>
+                        </div>  
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Is This School Located In <br>क्या यह विद्यालय में स्थित है</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{ schoolInfo.locateId == 1 ? 'Rural Area' : 'Urban Area' }}  </label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>  
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">ULB / Panchayat <br>नगर पालिका/पंचायत </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.panchayatName ? schoolInfo.panchayatName : '--' }} </label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Ward / Village <br>वार्ड / गांव </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{ schoolInfo.villageName ? schoolInfo.villageName : '--' }} </label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Habitation Name / Mohalla <br>बस्ती का नाम / मोहल्ला </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold" style="word-break: break-word;"> {{ schoolInfo.habitation ? schoolInfo.habitation : '--' }} </label>
+                        </div> 
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">PIN Code <br>पिन कोड </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{ schoolInfo.pincode ? schoolInfo.pincode : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div> 
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Revenue Block <br>शैक्षिक ब्लॉक </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{ schoolInfo.educationBlockName ? schoolInfo.educationBlockName : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Name of City (where applicable) <br>शहर का नाम (जहां लागू हो) </label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold" style="word-break: break-word;">{{ schoolInfo.city ? schoolInfo.city : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Assembly Constituency <br>विधानसभा क्षेत्र</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.assemblyName ? schoolInfo.assemblyName : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Parliamentary Constituency <br>संसदीय क्षेत्र</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.parliamentaryName ? schoolInfo.parliamentaryName : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">School Type <br>विद्यालय का प्रकार</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold"> {{ schoolInfo.schoolTypeName ? schoolInfo.schoolTypeName : '--' }} </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Management / प्रबंधन</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">  {{ schoolInfo.managementName ? schoolInfo.managementName : '--' }} </label>
+                        </div>
+                        <ng-container *ngIf="schoolInfo.management==101">
+                            <div class="col-xl-1"></div>
+
+                            <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                                <label class="form-label">For Management Code 101 mention Nodal Ministry/Dept.<br>
+                                    प्रबंधन कोड 101 के लिए नोडल मंत्रालय/विभाग का उल्लेख करें।</label>
+                            </div>
+                            <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                                <span class="colon">:</span>
+                                <label class="label-data fw-bold">  {{ schoolInfo.otherManagement ? schoolInfo.otherManagement : '--' }} </label>
+                            </div>
+                        </ng-container>
+
+                        <!-- <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Administration Type <br>व्यवस्थापन का प्रकार</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">  {{ schoolInfo.admistrationTypeName ? schoolInfo.admistrationTypeName : '--' }}  </label>
+                        </div> -->
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">School Category <br>विद्यालय की श्रेणी</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">  {{ schoolInfo.schlCatName ? schoolInfo.schlCatName : '--' }}  </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Address <br>पता</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-9 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold" style="word-break: break-word;">{{ schoolInfo.address ? schoolInfo.address : '--' }}</label>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Medium of instruction (s) in the school <br>विद्यालय में शिक्षा का माध्यम</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold" style="word-break: break-word;">{{ schoolInfo.mediumofInsNames ? schoolInfo.mediumofInsNames : '--' }} </label>
+                        </div>
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label" >Language(s) taught as a subject <br>भाषा (है) एक विषय के रूप में पढ़ाया जाता है</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold" style="word-break: break-word;">{{ schoolInfo.langToughtNames ? schoolInfo.langToughtNames : '--' }} </label>
+                        </div>
+
+                    </div>
+                </div>
+
+                <div class="formpatch ">
+                    <h5>Respondent Contact  Details</h5>
+                    <div class="row">
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Respondent Type <br>उत्तरदाता का प्रकार</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.respodentTypeName ? schoolInfo.respodentTypeName : '--' }} </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Respondent Name (In Capital Letters) <br>उत्तरदाता का नाम (बड़े अक्षरों में)</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.respondentName ? schoolInfo.respondentName : '--' }} </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Landline Number (with STD Code) <br>लैंडलाइन नंबर (एसटीडी कोड के साथ)</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.schoolLandline ? schoolInfo.schoolLandline : '--' }} </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Mobile Number  <br>मोबाइल नंबर</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.respondentMobile ? schoolInfo.respondentMobile : '--' }} </label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Website of School <br>विद्यालय की वेबसाइट</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.schoolWebsite ? schoolInfo.schoolWebsite : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Email of School <br>विद्यालय का ईमेल</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.schoolEmail ? schoolInfo.schoolEmail : '--' }} </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="formpatch ">
+                    <h5>Head of School Contact Details  / विद्यालय के प्रमुख संपर्क विवरण</h5>
+                    <div class="row">
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">HoS / In-Charge Type<br>एचओएस / प्रभारी प्रकार</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.inchargeTypeName ? schoolInfo.inchargeTypeName : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div> 
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">HoS /In-Charge Name
+                               <br> विभागाध्यक्ष / प्रभारी का नाम</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.headOfSchool ? schoolInfo.headOfSchool : '--' }}</label>
+                        </div>
+
+                        <div class="col-xl-1"></div>
+
+                        <!-- <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Landline Number (with STD Code) <br>लैंडलाइन नंबर (एसटीडी कोड के साथ)</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data">{{ schoolInfo.HMLandline ? schoolInfo.HMLandline : '--' }} </label>
+                        </div>
+
+                        <div class="col-md-1"></div> -->
+
+                        <div class="cocol-xxl-2 col-xl-2 col-lg-3 col-md-12 col-sm-12 form-group">
+                            <label class="form-label">Mobile Number <br>मोबाइल नंबर</label>
+                        </div>
+                        <div class="col-xxl-3 col-xl-3 col-lg-9 col-md-12 col-sm-12 form-group colon-top">
+                            <span class="colon">:</span>
+                            <label class="label-data fw-bold">{{ schoolInfo.HMMobile ? schoolInfo.HMMobile : '--' }} </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div>
+                    <a routerLink="./../../otherInfo/{{schoolInfo.encId}}" class="btn btn-purple">Next / अगला</a>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+
+
+
+
+

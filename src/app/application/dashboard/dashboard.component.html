@@ -1,0 +1,14 @@
+<section id="glassmorphism">
+  <div class="search__box">
+    <input type="text" name="" placeholder="Search" class="form-control" />
+    <i class="bi bi-search"></i>
+  </div>
+
+  <ul>
+    <li *ngFor="let menu of menus">
+      <a [routerLink]="['../', menu.gl_path]"
+        ><i [class]="menu.gl_class"></i><span>{{ menu.gl_name }}</span></a
+      >
+    </li>
+  </ul>
+</section>

@@ -1,0 +1,147 @@
+<div class="screen-space mobApp">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+        <div class="indicator">( * ) Indicator Mandatory</div>
+    </div>
+	<div class="pageHeading">
+		<div class="d-flex justify-content-between">
+			<div><h3 class="pageName pt-2">Artificial Limb Center - {{centerName}}</h3></div> 
+        </div>
+	</div>
+    <form [formGroup]="artLimbTeacherForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space pb-3">
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="RegisteredCWSNYear" class="form-label">1) Registered CWSN in current financial year? <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                   
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfRegisteredCwsn" class="form-control" maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfRegisteredCwsn', 3)"   (blur)="maxLimitChk('noOfRegisteredCwsn','noOfPresentCwsn','No. of registered CWSN.','No. of present CWSN')" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="PresentCWSN" class="form-label">2) Present CWSN <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfPresentCwsn" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfPresentCwsn', 3)"  (blur)="maxLimitChk('noOfRegisteredCwsn','noOfPresentCwsn','No. of registered CWSN.','No. of present CWSN')"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="CWSN-P&O-Purposes" class="form-label">3) Total no of CWSN were assessed for P&O purposes in current financial year<span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfAssessedCwsn" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfAssessedCwsn', 3)" (blur)="maxLimitChk('noOfAssessedCwsn','noOfMeasuredCwsn','No. of assessed CWSN','No. of measured CWSN')"/>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="CWSN-P&O" class="form-label">4) Total no of CWSN were measured for P&O in current financial year <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfMeasuredCwsn" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfMeasuredCwsn', 3)" (blur)="maxLimitChk('noOfAssessedCwsn','noOfMeasuredCwsn','No. of assessed CWSN','No. of measured CWSN')"/>
+                     </div>
+                    </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="NoOfdevicesCurrentyear" class="form-label">5) Write the number of devices prepared in current financial year <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfDevicesPrepared" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfDevicesPrepared', 3)" />
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="OldDevicesRepaired" class="form-label">6) How many old devices were repaired ? <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfDevicesRepaired" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfDevicesRepaired', 3)" />
+                     </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="AvailabilityRawMmaterials" class="form-label">7) Availability of raw materials ? <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                   
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                  <div class="colon-top">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div  class="rdio rdio-primary form-check-inline">
+                            <input formControlName="rawMatAvailability" value="1" id="rawMatAvailabilityAd" type="radio" >
+                            <label for="rawMatAvailabilityAd">Adequate</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input formControlName="rawMatAvailability" value="2" id="rawMatAvailabilityNtAd" type="radio">
+                            <label  for="rawMatAvailabilityNtAd">Not adequate</label>
+                        </div>    
+                    </div>                       
+                   </div>
+               </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <label for="devicesReadyForDistribution" class="form-label">8) How many devices were ready to be distribution ? <span class="mandatory">*</span></label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <input type="number" formControlName="noOfDevicesReadyToDistribute" class="form-control"  maxlength="3" (keyup)="keyUpInputNumber($event, 'noOfDevicesReadyToDistribute', 3)" />
+                     </div>
+                </div>
+            </div>
+           
+        </div>
+        <div>
+            <button type="submit" class="btn btn-success me-2">Submit</button>
+            <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+        </div>
+    </form>
+
+  
+  
+  
+  
+  
+  

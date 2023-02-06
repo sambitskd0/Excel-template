@@ -1,0 +1,88 @@
+.questionBankImg {
+  width: 150px;
+  height: 100px;
+}
+
+.markedPatch {
+  border: 1px solid #ccc;
+  margin: 1rem 0;
+  padding: 0.5rem;
+}
+.markedPatch ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding-left: 0;
+}
+.markedPatch li {
+  list-style: none;
+  margin: 6px 2px;
+}
+.markedPatch a {
+  border: 1px solid rgb(0 0 0 / 74%);
+  padding: 7px 9px;
+  height: 41px;
+  width: 41px;
+  margin: 0px 8px;
+  text-align: center;
+  border-radius: 100%;
+  color: rgb(0 0 0);
+  display: inline-block;
+  background-color: rgb(252 252 252);
+}
+.markedPatch a.attended {
+  border: 1px solid rgb(17 180 32);
+  color: rgb(247 243 243);
+  background-color: rgb(17 180 32);
+}
+.markedPatch a.marked {
+  border: 1px solid rgb(34 134 180);
+  color: rgb(247 243 243);
+  background-color: rgb(34 134 180);
+}
+.markedPatch a.notattended {
+  border: 1px solid rgb(0 0 0 / 74%);
+  color: rgb(0 0 0);
+  background-color: rgb(252 252 252);
+}
+.markedPatch a.curQuestion {
+  border: 1px solid #c6a93e;
+  color: rgb(247 243 243);
+  background-color: #c6a93e;
+}
+.legendPatch a {
+  height: 10px;
+  width: 10px;
+  padding: 7px 7px;
+}
+.legendPatch a.legend-attended {
+  border: 1px solid rgb(17 180 32);
+
+  background-color: rgb(17 180 32);
+}
+.legendPatch a.legend-marked {
+  border: 1px solid rgb(34 134 180);
+
+  background-color: rgb(34 134 180);
+}
+.legendPatch a.legend-notattended {
+  border: 1px solid rgb(0 0 0 / 74%);
+
+  background-color: rgb(252 252 252);
+}
+.legendPatch a.legend-curQuestion {
+  border: 1px solid #c6a93e;
+  background-color: #c6a93e;
+}
+.legendPatch li {
+  font-size: 14px;
+}
+.radiobuttons--modify{
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+}
+.radiobuttons--modify label {
+  display: inline-flex;
+}
+.radiobuttons--modify .questionBankImg{
+  margin-left: 10px;
+}

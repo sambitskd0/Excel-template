@@ -1,0 +1,527 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">
+          Teacher Training Assessment / शिक्षक प्रशिक्षण मूल्यांकन
+        </h3>
+      </div>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../view" class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Self
+        Assessment / आत्म मूल्यांकन</a>
+      <a routerLink="./" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>Assessment
+        Result / मूल्यांकन परिणाम</a>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="searchPanel">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label class="form-label">District </label><br />जिला
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="userInput.districtId"
+            name="searchDistrictId" autocomplete="off" #districtRef (change)="getBlock(+districtRef.value)">
+            <option value="" *ngIf="
+                !+this.userProfile.district &&
+                demographyData.disrtictChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.disrtictChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.districtData" [value]="item.districtId">
+              {{ item.districtCode }} -{{ item.districtName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">Block </label><br />प्रखण्ड
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Block" #blockRef (change)="getCluster(+blockRef.value)"
+            [(ngModel)]="userInput.blockId">
+            <option value="" *ngIf="
+                !+this.userProfile.block && demographyData.blockChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.blockChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.blockData" [value]="item.blockId">
+              {{ item.blockCode }} - {{ item.blockName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">Cluster </label><br />संकुल
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Cluster" #clusterRef (change)="getSchool(+clusterRef.value)"
+            [(ngModel)]="userInput.clusterId">
+            <option value="" *ngIf="
+                !+this.userProfile.cluster &&
+                demographyData.clusterChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.clusterChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.clusterData" [value]="item.clusterId">
+              {{ item.clusterCode }} - {{ item.clusterName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="" class="form-label">School Category</label><br />विद्यालय
+          की श्रेणी
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="School" [(ngModel)]="userInput.schoolCategory">
+            <option value="" *ngIf="
+                !+userInput?.schoolId && demographyData.schoolChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.schoolChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let school of demographyData.schoolData" [value]="school.schoolCategory">
+              {{ school.schlCatName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">School</label><br />विद्यालय
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="School" [(ngModel)]="userInput.schoolId">
+            <option value="" *ngIf="
+                !+this.userProfile.udiseCode &&
+                demographyData.schoolChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.schoolChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let school of demographyData.schoolData" [value]="school.schoolId">
+              {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-2 form-group">
+          <div><label class="form-label">Subject</label><br />विषय</div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select aria-label="Default select example" class="form-select" #subjectRef
+              [(ngModel)]="userInput.subjectId">
+              <option value="" *ngIf="demographyData?.subjectLoad == false">
+                --Select / चुनें--
+              </option>
+              <option value="" *ngIf="demographyData?.subjectLoad == true">
+                Loading...
+              </option>
+              <option *ngFor="let subject of subjects" [value]="subject.subjectId">
+                {{ subject.subject }}
+              </option>
+            </select>
+          </div>
+        </div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label class="form-label">Assessment Type</label><br />मूल्यांकन
+            प्रकार
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select aria-label="Default select example" class="form-select" #subjectRef
+              [(ngModel)]="userInput.assessmentType">
+              <option value="">--Select / चुनें--</option>
+              <option value="1">
+                {{ "Pre assessment" }}
+              </option>
+              <option value="2">
+                {{ "Post assessment" }}
+              </option>
+            </select> <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-2">
+          <button class="btn btn-default btn-purple" (click)="onSearch()">
+            Search <i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3" [hidden]="resultData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort>
+          <thead class="bg-lightpurple">
+            <tr>
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  #
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="traineeName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Teacher Name / शिक्षक का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.traineeName }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Subject / विषय
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.subject }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalMark">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Total Mark / कुल अंक
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.totalMark || 0 }}
+                </td>
+              </ng-container>
+              <th></th>
+              <ng-container matColumnDef="markObtained">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Mark Obtained
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.markObtained || 0 }}
+                </td>
+              </ng-container>
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                  Action / कार्रवाई करें
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link">
+                  <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="onViewDetails(element)">
+                    View Details / विवरण देखे</a>
+                </td>
+              </ng-container>
+            </tr>
+          </thead>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="resultData.length" class="mt-2">
+              No Records Found!
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+          showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+  <ng-container *ngIf="isNorecordFound || isSearched">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+      <span *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </span>
+      <span *ngIf="isSearched">
+        {{ "Please select drop-down lists to view the records." }}
+      </span>
+    </div>
+  </ng-container>
+</div>
+
+<!-- ----------------------------- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  [hidden]="!viewDetails">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          View Result / परिणाम देखे
+        </h5>
+        <div>
+          <a href="javascript: void(0)" (click)="printModal()" class="btn btn-primary noprint"><i
+                  class="bi bi-printer"></i></a>
+          <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      </div>
+    
+      <div class="modal-body printReport" id="printModal">
+        <div class="search-container mt-0">
+          <div class="searchPanel">
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label"> Trainee Name</label><br />प्रशिक्षण
+                का नाम
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.traineeName || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label">Trainee Id</label><br />शिक्षक आईडी
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.traineeId || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Training Name</label><br />प्रशिक्षण
+                का नाम
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.trainingName || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label"> Training Subject</label><br />प्रशिक्षण का विषय
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.subject || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Total Question</label><br />कुल प्रश्न
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.totalQuestion || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label">Attended Question</label><br />उपस्थित
+                प्रश्न
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.attendedQuestion || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Correct Answer</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.correctAnswercount || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label">Wrong Answer</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.wrongAnswercount || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Total Marks</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.totalMark || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+
+              <div class="col-md-2 form-group">
+                <label class="form-label">Secured Marks</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.traineeInfo?.securedMark || "--"
+                  }}</label>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="questions-bg" *ngFor="let item of viewDetails?.traineeResponseData; index as i">
+          <div class="row">
+            <div class="col-md-12 form-group ques-mark">
+              <label class="form-label">
+                Q{{ i + 1 }}.
+                <span *ngIf="item?.question">
+                  {{ item?.question }}</span>
+              </label>
+            </div>
+            <div class="col-md-12 form-group">
+              <div class="row">
+                <div class="col-md-2 form-group">
+                  <label class="form-label" >
+                    Option A</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label for="form-label fw-normal" class="optionText">
+                    <span class="me-2" *ngIf="item?.optionA">
+                      {{ item?.optionA }}</span>
+                      <ng-container *ngIf='item?.givenAnswerName == "optionA"' >
+                        <img  width="20px" height="20px" [src]="correctImg" *ngIf = 'item?.correctAnswerName == "optionA"'>
+                        <img  width="20px" height="20px" [src]="wrongImg" *ngIf='item?.correctAnswerName != "optionA"'>
+                      </ng-container>
+                      
+                  </label>
+                </div>
+
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                  <label class="form-label" >Option B</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label for="form-label fw-normal" class="optionText">
+                    <span class="me-2" *ngIf="item?.optionB">
+                      {{ item?.optionB }}</span>
+                      <ng-container *ngIf='item?.givenAnswerName == "optionB"' >
+                        <img  width="20px" height="20px" [src]="correctImg" *ngIf = 'item?.correctAnswerName == "optionB"'>
+                        <img  width="20px" height="20px" [src]="wrongImg" *ngIf='item?.correctAnswerName != "optionB"'>
+                      </ng-container>
+                  </label>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 form-group">
+                  <label class="form-label" >
+                    Option C</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label for="form-label fw-normal" class="optionText">
+                    <span class="me-2" *ngIf="item?.optionC">
+                      {{ item?.optionC }}</span>
+                      <ng-container *ngIf='item?.givenAnswerName == "optionC"' >
+                        <img  width="20px" height="20px" [src]="correctImg" *ngIf = 'item?.correctAnswerName == "optionC"'>
+                        <img  width="20px" height="20px" [src]="wrongImg" *ngIf='item?.correctAnswerName != "optionC"'>
+                      </ng-container>
+                  </label>
+                </div>
+
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                  <label class="form-label" >Option D</label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label for="form-label fw-normal" class="optionText">
+                    <span class="me-2" *ngIf="item?.optionD">{{ item?.optionD }}</span>
+                      <ng-container *ngIf='item?.givenAnswerName == "optionD"'>
+                        <img  width="20px" height="20px" [src]="correctImg" *ngIf = 'item?.correctAnswerName == "optionD"'>
+                        <img  width="20px" height="20px" [src]="wrongImg" *ngIf='item?.correctAnswerName != "optionD"'>
+                      </ng-container>
+                  </label>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="col-md-12 mb-3">
+            <div class="bg-light ps-2 pt-2 border">
+              <div class="row">
+                <div class="col-md-4 form-group">
+                  <label class="form-label">Correct Answer<br />सही जवाब</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-normal">{{
+                    item?.correctAnswerName || "--"
+                    }}</label>
+                </div>
+
+                <div class="col-md-4 form-group">
+                  <label class="form-label">Answer Given<br />दिया गया जवाब</label>
+                </div>
+                <div class="col-md-2 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-normal"><strong [ngClass]="
+                        item?.correctAnswer === item?.givenAnswer
+                          ? 'text-success'
+                          : 'text-danger'
+                      ">{{ item?.givenAnswerName || "--" }}</strong></label>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close / बंद करें
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

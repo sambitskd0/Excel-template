@@ -1,0 +1,12 @@
+/* @media only screen and (max-width: 576px){
+    .screen-space .indicator {
+        margin-top: -2rem;
+        display: flex;
+        justify-content: flex-end;
+        font-size: 10px;
+    }
+} */
+
+.w-30 {
+    width: 30% !important;
+} 

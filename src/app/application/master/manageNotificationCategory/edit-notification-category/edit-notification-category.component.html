@@ -1,0 +1,37 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit Notification Category / प्रतिक्रिया श्रेणी संपादन करें</h3>
+            <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a  class="neuro addLink disabled active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit / संपादन करें</a>
+            <a routerLink="../../viewNotificationCategory" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="editNotificationCategoryForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="categoryName" class="form-label">Category <br> श्रेणी</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input appAutoFocus type="text" class="form-control" id="notifyCatName" aria-describedby="emailHelp"
+                        formControlName="notifyCatName" autocomplete="off" maxlength="50" minlength="2" (keypress)="customValidator.keyPressAlphabetSpaceDot($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="row formpatch">
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Update / अपडेट करें</button>
+                <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करें</button>
+
+            </div>
+        </form>
+    </div>
+</div>

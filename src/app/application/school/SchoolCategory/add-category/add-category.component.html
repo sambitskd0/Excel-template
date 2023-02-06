@@ -1,0 +1,50 @@
+<div>
+    <div class="pageHeading">
+    <div><h3 class="pageName">Add School Category / विद्यालय श्रेणी जोड़ें</h3><span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span></div>
+    <div class="tabArea">
+        <a routerLink="./../addCategory"  class="neuro addLink" routerLinkActive="active"  *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i> Add / जोड़ें</a>
+        <a routerLink="./../viewCategory" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a> 
+    </div>
+    </div>
+    <div>
+        <form [formGroup]="schoolCategoryForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+       
+    <div class="row">   
+        <div class="col-md-2 form-group">
+             <label  class="form-label">School Category <br>विद्यालय श्रेणी </label>
+        </div>
+       <div class="col-md-3 form-group"> 
+               <span class="colon">:</span> 
+               <input appAutoFocus type="text" class="form-control" formControlName="schoolCategoryName" maxlength="50" (keypress)="
+               customValidators.alphaNumericValidator(
+                 $event,'space','dot','hyphen','slash','comma')">
+               <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-6"></div> 
+        <div class="col-md-2 form-group">
+            <label  class="form-label">School Type Tagging <br>विद्यालय प्रकार टैगिंग</label>
+        </div>
+
+        <div class="col-md-6 form-group">
+                <span class="colon">:</span>
+                <div  class="check__box mb-3 class--checkbox">
+                    <div  class="form-group checkbox" *ngFor="let item of anextureType; let i=index;" >
+                        <input  type="checkbox" [id]="item.anxtName" class="check" [value]="item.anxtValue"  (change)="onCheckboxChange($event)" >
+                        <label  [for]="item.anxtName">{{item.anxtName}}</label>
+                    </div>
+               </div>
+        </div>
+        
+    </div>
+   
+</div>
+<div>
+    <button class="btn btn-success me-2" type="submit">Submit/ जमा करे</button>
+    <button type="reset" class="btn btn-danger" (click)="formCancel()">Reset / पुनर्स्थापित करे</button>
+</div>
+</form>
+</div>
+
+
+

@@ -1,0 +1,215 @@
+
+  /* photo preview */
+.fs{
+    font-size: 1.2rem;
+}
+.box {
+    display: block;
+    min-width: 100%;
+    height: 175px;
+    margin: 0;
+    background-color: white;
+    border-radius: 5px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.12), 0 1px 2px rgba(0, 0, 0, 0.24);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+    overflow: hidden;
+}
+.upload-options {
+    position: relative;
+    height: 45px;
+    background-color: rgb(99 64 154);
+    cursor: pointer;
+    overflow: hidden;
+    text-align: center;
+    transition: background-color ease-in-out 150ms;
+}
+.upload-options:hover {
+    background-color: rgb(70 40 118);
+}
+.upload-options input {
+    width: 0.1px;
+    height: 0.1px;
+    opacity: 0;
+    overflow: hidden;
+    position: absolute;
+    z-index: -1;
+}
+    .upload-options label {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        font-size: 22px;
+        margin-top: -7px;
+        color: #fff;
+        height: 100%;
+        font-weight: 400;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        cursor: pointer;
+        overflow: hidden;
+        left: 71px;
+        position: relative;
+        bottom: -5px;
+    }
+    
+.upload-options label::after {
+    content: 'Upload Photo';
+    position: absolute;
+    font-size: 1rem;
+    color: rgba(230, 230, 230, 1);
+    top: 13px;
+    left: 80px;
+    z-index: 0;
+}
+.upload-options label span {
+    display: inline-block;
+    width: 50%;
+    height: 100%;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    vertical-align: middle;
+    text-align: center;
+}
+.upload-options label span:hover i.material-icons {
+    color: lightgray;
+}
+.js--image-preview {
+    height: 130px;
+    position: relative;
+    overflow: hidden;
+    /* background-image: url(''); */
+    background-color: white;
+    background-position: center center;
+    background-repeat: no-repeat;
+    background-size: cover;
+}
+.js--image-preview::after {
+    content: "\F4E1";
+    font-family: bootstrap-icons!important;
+    position: relative;
+    font-size: 5rem;
+    color: rgba(230, 230, 230, 1);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.js--image-preview.js--no-default::after {
+    display: none;
+}
+.js--image-preview img{
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+.upload-btn-wrapper {
+    position: relative;
+    overflow: hidden;
+    display: inline-block;
+    margin-top: 5px;
+  }
+  
+  .upload-btn-wrapper .btn {
+    border: 1px solid white;
+    color: #1e1d1dbf;
+    background-color: #80808038;
+    padding: 8px 20px;
+    border-radius: 8px;
+    font-size: 20px;
+  }
+  
+  .upload-btn-wrapper input[type=file] {
+    font-size: 100px;
+    position: absolute;
+    left: 0;
+    top: 0;
+    opacity: 0;
+  }
+  
+
+  
+@media only screen and (max-width:1680px){
+    .upload-options label {
+        left: 42px;
+    }
+}
+@media only screen and (max-width:1600px){
+    .upload-options label {
+        left: 32px;
+    }
+}
+
+@media only screen and (max-width:1440px){
+    .upload-options label {
+        left: 57px;
+    }
+    .upload-options label::after {
+        left: 30px;
+     }
+     
+     
+}
+
+@media only screen and (max-width:1366px){
+    .upload-options label {
+        left: 48px;
+    }
+}
+
+@media only screen and (max-width:768px){
+    .upload-options label {
+        left: 296px;
+    }
+}
+
+@media only screen and (max-width:640px){
+    .upload-options label {
+        left: 235px;
+    }
+}
+
+@media only screen and (max-width:576px){
+    .upload-options label {
+        left: 200px;
+    }
+}
+
+@media only screen and (max-width:530px){
+    .upload-options label {
+        left: 178px;
+    }
+}
+
+@media only screen and (max-width:480px){
+    .upload-options label {
+        left: 150px;
+    }
+}
+
+@media only screen and (max-width:425px){
+    .upload-options label {
+        left: 125px;
+    }
+}
+
+
+@media only screen and (max-width:380px){
+    .upload-options label {
+        left: 97px;
+    }
+}
+  
+@media only screen and (max-width:360px){
+    .upload-options label {
+        left: 81px;
+    }
+}
+
+@media only screen and (max-width:320px){
+    .upload-options label {
+        left: 68px;
+    }
+}
+
+  

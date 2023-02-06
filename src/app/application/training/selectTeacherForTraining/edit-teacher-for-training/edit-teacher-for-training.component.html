@@ -1,0 +1,305 @@
+<form [formGroup]="SelectTeacherForTraining" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">
+            Training Enrollment / प्रशिक्षण नामांकन
+          </h3>
+        </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+      <div class="tabArea">
+        <a routerLink="../../edit/{{ encId }}" class="neuro addLink active" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Edit / जोड़ें</a>
+        <a routerLink="../../view" class="neuro addLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View /
+          देखें</a>
+      </div>
+    </div>
+
+    <div class="formpatch top-space">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Academic Year </label><br />शैक्षणिक वर्ष
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <input type="hidden" formControlName="encId" />
+          <select class="form-select" aria-label="Default select example" formControlName="academicYear" tabindex="1">
+            <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+              {{ this.years }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Subject</label><br />प्रशिक्षण विषय
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select aria-label="Default select example" name="subjectId" id="subjectId" #subjectId
+            formControlName="trainingSubject" (change)="getTrainingName($any($event.target).value)" class="form-select">
+            <option value="" *ngIf="loadingObj?.subjectLoad == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.subjectLoad == true">
+              Loading...
+            </option>
+
+            <option *ngFor="let subject of res" [value]="subject.subjectId">
+              {{ subject.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Name</label><br />प्रशिक्षण का नाम
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select aria-label="Default select example" formControlName="trainingId" name="trainingId" id="trainingId"
+            #trainingId class="form-select">
+            <option value="" *ngIf="loadingObj?.traiingLoading == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.traiingLoading == true">
+              Loading...
+            </option>
+            <option *ngFor="let train of training" [value]="train.trainingId">
+              {{ train.trainingName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Level</label><br />प्रशिक्षण का स्तर
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select aria-label="Default select example" (change)="checkValid($any($event.target).value)"
+            id="trainingLevel" name="trainingLevel" #trainingLevel formControlName="trainingLevel" class="form-select">
+            <!-- <option value="">--Select / चुनें--</option> -->
+            <option [value]="this.anxtValue">
+              {{this.anxtName}}
+            </option>
+          </select>
+          <span class="mandatory"></span>
+        </div>
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Trainee Type</label><br />प्रशिक्षु का प्रकार
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select id="selTrainerType" name="selTrainerType" #selTrainerType (change)="checkTeacherEnroll({
+            traineeType: $any($event.target).value,
+            subjectId: subjectId.value,
+            trainingId: trainingId.value,
+            trainingLevel: trainingLevel.value,
+            level: 1,
+            scDistrictId:scDistrictId.value,
+            scBlockId: scBlockId.value,
+            scClusterId: scClusterId.value
+          })" formControlName="traineeType" class="form-select" aria-label="Default select example">
+            <option value="" *ngIf="loadingObj.traineeTypeLoad == false">--Select / चुनें--</option>
+            <option value="1">Teacher</option>
+            <option value="2" *ngIf="userLevel != 1">Officer</option>
+            <option value="3" *ngIf="userLevel == 3">Requested Teacher</option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">District</label><br />जिला
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+
+          <select formControlName="scDistrictId" name="scDistrictId" id="scDistrictId" #scDistrictId
+            class="form-select scDistrictId" aria-label="Default select example" (change)="getBlock($any($event.target).value);checkTeacherEnroll({
+              traineeType: selTrainerType.value,
+              subjectId: subjectId.value,
+              trainingId: trainingId.value,
+              trainingLevel: trainingLevel.value,
+              level: 1,
+              scDistrictId:$any($event.target).value,
+              scBlockId: scBlockId.value,
+              scClusterId: scClusterId.value
+            });" #district>
+            <option value="" *ngIf="loadingObj.districtLoad == false && sessionDistrictId == ''">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.districtLoad == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of districtData" [value]="item.districtId">
+              {{ item.districtCode }} - {{ item.districtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Block </label><br />प्रखण्ड
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select formControlName="scBlockId" name="scBlockId" id="scBlockId" #scBlockId class="form-select scBlockId"
+            aria-label="Default
+                                                select example" (change)="getCluster($any($event.target).value);checkTeacherEnroll({
+                                                  traineeType: selTrainerType.value,
+                                                  subjectId: subjectId.value,
+                                                  trainingId: trainingId.value,
+                                                  trainingLevel: trainingLevel.value,
+                                                  level: 2,
+                                                  scDistrictId:scDistrictId.value,
+                                                  scBlockId: $any($event.target).value,
+                                                  scClusterId: scClusterId.value
+                                                });" #block>
+            <option value="" *ngIf="loadingObj.blockLoad == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj.blockLoad == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of blockData" [value]="item.blockId">
+              {{ item.blockCode }} - {{ item.blockName }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Cluster</label><br />संकुल
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" formControlName="scClusterId" name="scClusterId" id="scClusterId" #scClusterId
+            (change)="getSchool($any($event.target).value);checkTeacherEnroll({
+            traineeType: selTrainerType.value,
+            subjectId: subjectId.value,
+            trainingId: trainingId.value,
+            trainingLevel: trainingLevel.value,
+            level: 3,
+            scDistrictId:scDistrictId.value,
+            scBlockId: scBlockId.value,
+            scClusterId: $any($event.target).value
+          });">
+            <option value="" *ngIf="scClusterChanged == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scClusterChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of clusterData" [value]="item.clusterId">
+              {{ item.clusterCode }} - {{ item.clusterName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row dvTeacher">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">School</label><br />विद्यालय
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" (change)="checkTeacherEnroll({
+            traineeType: selTrainerType.value,
+            subjectId: subjectId.value,
+            trainingId: trainingId.value,
+            trainingLevel: trainingLevel.value,
+            level: 4,
+            scDistrictId:scDistrictId.value,
+            scBlockId: scBlockId.value,
+            scClusterId: scClusterId.value,
+            schoolId: $any($event.target).value
+          });" formControlName="schoolId" id="schoolId" name="schoolId" #schoolId>
+            <option value="" *ngIf="scSchoolChanged == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="scSchoolChanged == true">Loading...</option>
+            <option *ngFor="let school of getSchoolData" [value]="school.schoolId">
+              {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row dvTeacher">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Teacher Type</label><br />शिक्षक का प्रकार
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <input type="hidden" name="schoolIDDD" #schoolIDDD value="{{ schoolId }}" />
+          <select class="form-select" formControlName="teacherType" (change)="
+          checkTeacherEnroll({
+            traineeType: selTrainerType.value,
+            subjectId: subjectId.value,
+            trainingId: trainingId.value,
+            trainingLevel: trainingLevel.value,
+            level: 5,
+            scDistrictId:scDistrictId.value,
+            scBlockId: scBlockId.value,
+            scClusterId: scClusterId.value,
+            schoolId: schoolId.value,
+            appointmentType: $any($event.target).value
+          })
+            " name="teacherType" aria-label="Default select example">
+            <option value="null">--Select / चुनें--</option>
+            <option *ngFor="let appointment of appointmentType" [value]="appointment.anxtValue">
+              {{ appointment.anxtName }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row dvTeacher">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Teachers attended training
+          </label>
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="teacherList" formControlName="teacherLists">
+          </ng-multiselect-dropdown>
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj?.teacherLoad == true" alt="dsd" />
+        </div>
+      </div>
+
+      <div class="row dvOffice">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Officer List</label><br />अधिकारी की सूची
+        </div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <ng-multiselect-dropdown [placeholder]="'Select Officers List'" [settings]="dropdownSettings1"
+            [data]="officersList" formControlName="officerList">
+          </ng-multiselect-dropdown>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2">
+      Update
+    </button>
+
+  </div>
+</form>

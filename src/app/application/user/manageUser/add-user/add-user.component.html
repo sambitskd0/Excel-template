@@ -1,0 +1,227 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage User / उपयोगकर्ता प्रबंधित करें</h3>
+            <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addUser" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add User / उपयोगकर्ता जोड़ें</a>
+            <a routerLink="./../viewUser" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View User / उपयोगकर्ता देखें</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="userForm" (ngSubmit)="onSubmit()">
+            <div class="formpatch top-space">
+                <h5>Office Details / कार्यालय विवरण</h5>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का स्तर</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="userLevelId" class="form-select"
+                            (change)="loadSubDesignation($any($event.target).value);">
+                            <option value="0">--Select--</option>
+                            <option value="5" *ngIf="stateUser == false">State</option>
+                            <option value="4" *ngIf="distUser == false">District</option>
+                            <option value="3" *ngIf="blkUser == false">Block</option>
+                            <option value="2">Cluster</option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="designationGroupId" class="form-label"> Designation <br> पद</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="designationGroupId" class="form-select"
+                            (change)="getSubDesignation($any($event.target).value);">
+                            <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+                            <option value="" *ngIf="desGrpLoading == false">Loading...</option>
+                            <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+                                {{ item.designationGroupName }}
+                            </option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Sub-Designation <br>उप-पदनाम</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="intDesignationId" (change)="getUserList();">
+                            <option value="0" *ngIf="designationChanged==false">--Select--</option>
+                            <option value="" *ngIf="designationChanged==true">Loading...</option>
+                            <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                {{ item.vchDesignationName }}
+                            </option>
+
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+
+
+                    <div class="col-lg-2 form-group" *ngIf="distLvl == true">
+                        <label for="" class="form-label"> District <br>ज़िला</label>
+                    </div>
+                    <div class="col-md-3 form-group" *ngIf="distLvl == true">
+                        <span class="colon">:</span>
+                        <select formControlName="districtId" class="form-select"
+                            (change)="getBlock($any($event.target).value); getBlockList($any($event.target).value);getUserList();">
+                            <option value="0" *ngIf="scDisrtictSelect == true">--Select--</option>
+                            <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                            <option *ngFor="let item of districtData" data-value="{{ item.districtCode }}"
+                                [value]="item.districtId">
+                                {{ item.districtCode }} - {{ item.districtName }}
+                            </option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+
+                    <div class="col-lg-1" *ngIf="blkLvl == true"></div>
+                    <div class="col-lg-2 form-group" *ngIf="blkLvl == true">
+                        <label for="" class="form-label"> Block <br> प्रखण्ड</label>
+                    </div>
+                    <div class="col-md-3 form-group" *ngIf="blkLvl == true">
+                        <span class="colon">:</span>
+                        <select formControlName="blockId" class="form-select"
+                            (change)="getCluster($any($event.target).value); getUserList();">
+                            <option value="0" *ngIf="scBlockSelect == true">
+                                --Select--
+                            </option>
+                            <option value="" *ngIf="scBlockLoading == true">
+                                Loading...
+                            </option>
+                            <option *ngFor="let item of blockData" [value]="item.blockId">
+                                {{ item.blockCode }} - {{ item.blockName }}
+                            </option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+
+
+
+                    <div class="col-lg-2 form-group" *ngIf="clusterLvl == true">
+                        <label for="" class="form-label"> Cluster <br> संकुल</label>
+                    </div>
+                    <div class="col-lg-3 form-group" *ngIf="clusterLvl == true">
+                        <span class="colon">:</span>
+                        <select formControlName="offclusterId" class="form-select" aria-label="Default select example">
+                            <option value="0" *ngIf="clusterChanged==false">--Select--</option>
+                            <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                            <option *ngFor="let item of clusterData" [value]="item.clusterId">
+                                {{ item.clusterCode }} - {{ item.clusterName }}
+                            </option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+
+                    <div class="col-lg-1" *ngIf="multiUserlvl == true"></div>
+                    <div class="col-lg-2 form-group" *ngIf="multiUserlvl == true">
+                        <label for="blankUserId" class="form-label">Users <br>उपयोगकर्ताओं </label>
+                    </div>
+                    <div class="col-lg-3 form-group" *ngIf="multiUserlvl == true">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example" formControlName="blankUserId">
+                            <option value="0" *ngIf="blkUserChanged==false">--Select--</option>
+                            <option value="" *ngIf="blkUserChanged==true">Loading...</option>
+                            <option value="newuser" *ngIf="blkUserChanged==false">Add New User</option>
+                            <option *ngFor="let item of blankUserData" [value]="item.intUserId">
+                                {{ item.vchUserId }} ({{item.vchUserName}})
+                            </option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                    <div class="col-lg-1 form-group">
+                        <a class="btn btn-success me-2" (click)="fetchTaggingInfo();"
+                            *ngIf="showprocessBtn==false">Proceed / आगे बढ़ें</a>
+                        <button type="button" class="btn btn-warning" (click)="refresh()"
+                            *ngIf="proceedClicked==true">Clear</button>
+                        <input type="hidden" formControlName="intUserId" value="0">
+                        <input type="hidden" formControlName="encUserId" value="0">
+                    </div>
+                </div>
+
+            </div>
+            <div class="formpatch top-space" *ngIf="proceedClicked==true">
+                <h5>Login Details / लॉगिन का विवरण </h5>
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table  table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col" style="width: 40%;">User Details / उपयोगकर्ता की जानकारी</th>
+                                    <th scope="col" style="width: 30%;">Assign Employee /कर्मचारी असाइन करें</th>
+                                    <th scope="col" style="width: 20%;">Access Role / पहुँच भूमिका</th>
+                                    <th scope="col" style="width: 10%;">Action / क्रिया</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>
+                                        <input type="hidden" formControlName="vchUserName" maxlength="100"
+                                            class="form-control" value="" placeholder="e.g. BEO, Arwal">
+                                        <input type="hidden" formControlName="vchUserId" maxlength="25" minlength="2"
+                                            class="form-control" placeholder="e.g. beo_arwal">
+                                        <label><strong>User Id: </strong>{{this.txtUserIdAuto}}<br> <strong>User Name:
+                                            </strong>{{this.txtUserNameAuto}}</label>
+                                    </td>
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example"
+                                            formControlName="intProfileId">
+                                            <option value="0" *ngIf="profileAvailableChanged==false">--Select--</option>
+                                            <option value="" *ngIf="profileAvailableChanged==true">Loading...</option>
+                                            <option *ngFor="let item of availabelProfileData"
+                                                [value]="item.intProfileId">
+                                                {{ item.vchfullName }} ({{item.vchDesignationName}})
+                                            </option>
+                                        </select>
+
+                                    </td>
+                                    <td>
+                                        <select class="form-select" aria-label="Default select example"
+                                            formControlName="intRoleId">
+                                            <option value="0" *ngIf="roleChanged==false">--Select--</option>
+                                            <option value="" *ngIf="roleChanged==true">Loading...</option>
+                                            <option *ngFor="let item of roleData" [value]="item.intRoleId">
+                                                {{ item.vchRoleName }}
+                                            </option>
+                                        </select>
+                                    </td>
+                                    <td><a class="btn btn-danger me-2" *ngIf="isDisabled==false"
+                                            (click)="unTagProfile();">Untag</a> <span *ngIf="isDisabled==true">NA</span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group" *ngIf="multiOfficelvl == true">
+                        <label for="" class="form-label">Tag Multiple Office <br>एकाधिक कार्यालय टैग करें</label>
+                    </div>
+
+                    <div class="col-lg-5 form-group" *ngIf="multiOfficelvl == true">
+                        <span class="colon">:</span>
+                        <ng-multiselect-dropdown [placeholder]="'Select Block'" [settings]="dropdownSettings"
+                            [data]="multiblockData" formControlName="multiOfficeId">
+                        </ng-multiselect-dropdown>
+                        <span class="mandatory">*</span>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-lg-5 form-group">
+                    </div>
+                    <div class="col-lg-5 form-group">
+                        <button class="btn btn-success me-2">Submit / जमा करें</button>
+                        <button type="reset" class="btn btn-danger" (click)="refresh();">Reset /
+                            पुनर्स्थापित </button>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,114 @@
+<div>
+    <div class="pageHeading">
+      <div>
+        <h3 class="pageName">Edit Class Teacher Tagging / कक्षा शिक्षक टैगिंग संपादित करें</h3>
+      </div>
+      <div class="tabArea">
+        <a routerLink="./../editclassTeacherTagging" class="neuro addLink active" routerLinkActive="active" ><i
+            class="bi bi-plus-lg me-2"></i>Edit / जोड़ें </a>
+        <a routerLink="../../viewclassTeacherTagging" class="neuro viewLink " routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View / देखें</a>
+      </div>
+    </div>
+    <ng-container *ngIf="permissionDiv == true">
+        <div class="top-space">
+            <form [formGroup]="editClassTeacherTaggedForm" (ngSubmit)="onSubmit()">
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="exampleInputEmail1" class="form-label">Teacher Name <br> अध्यापक का नाम
+                        </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select"  aria-label="Default select example" formControlName="teacherName">
+                            <option value="" >--select--</option>
+                         <option *ngFor="let item of teacherListData" [value]="item.tId">
+                             {{ item.teacherName }}
+                           </option>
+                         </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="className" class="form-label">Class Name <br> कक्षा का नाम 
+                        </label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select"  aria-label="Default select example" formControlName="className" (change)="classChange($any($event.target).value)">
+                            <option value="" >--select--</option>
+                            <option *ngFor="let item of classData" [value]="item.classId">
+                             {{ item.class }} 
+                            </option>
+                         </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div> 
+                <ng-container *ngIf="className == 11 || className == 12">
+                    <div class="row ">
+                        <div class="col-lg-2 form-group">
+                            <div class="mb-3">
+                                <label for="streamName" class="form-label">Stream Name<br> संकाय का नाम </label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <span class="colon">:</span>
+                            <select class="form-select"  aria-label="Default select example" formControlName="streamName" (click)="streamControlChange($any($event.target).value)">
+                                <option value="" >--select--</option>
+                                <option *ngFor="let item of streamList" [value]="item.anxtValue"> {{ item.anxtName }}</option>
+                             </select>
+                            <span class="mandatory">*</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="col-lg-1"></div> 
+                <ng-container *ngIf="className > 10 && streamName == 3">
+                    <div class="row ">
+                        <div class="col-lg-2 form-group">
+                            <div class="mb-3">
+                                <label for="groupName" class="form-label">Group <br> समूह का नाम</label>
+                            </div>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <span class="colon">:</span>
+                            <select class="form-select"  aria-label="Default select example" formControlName="groupName">
+                                <option value="" >--select--</option>
+                                <option *ngFor="let item of groupList" [value]="item.anxtValue"> {{ item.anxtName }}</option>
+                             </select>
+                            <span class="mandatory">*</span>
+                        </div>
+                    </div>
+                </ng-container>
+                <div class="col-lg-1"></div> 
+    
+                <div class="row formpatch">
+                    <div class="col-lg-2 form-group">
+                        <div class="mb-3">
+                            <label for="sectionName" class="form-label">Section Name<br> अनुभाग का नाम
+                            </label>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select"  aria-label="Default select example" formControlName="sectionName">
+                            <option value="" >--select--</option>
+                         <option *ngFor="let item of sectionData" [value]="item.anxtValue">{{ item.anxtName }}</option>
+                         </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="col-lg-1"></div> 
+                
+                <div>
+                    <button class="btn btn-success me-2">Update / अपडेट करें</button>
+                    <button class="btn btn-danger" (click)="onCancel()">Cancel/ रद्द करना</button>
+                </div>
+            </form>
+        </div>
+    </ng-container>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+        {{ "You don't have the permission to access this page !!" }}
+    </div>
+</div>

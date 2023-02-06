@@ -1,0 +1,193 @@
+@import url('https://fonts.googleapis.com/css2?family=Asap+Condensed&display=swap');
+
+.modal-body.modify {
+    padding: 1rem 2rem;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('../../../../../assets/img/bihar-logo-img.png');
+    background-repeat: no-repeat, repeat;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    margin: 0;
+    background-color: #f7f7f7;
+}
+.english--tc, .generate__tc{font-family: 'Asap Condensed', sans-serif;}
+.tc__details .modal-dialog{max-width: 1170px;max-height: 840px;overflow: hidden;}
+.tc__section{padding: 0 10px;}
+.tc__title{text-align: center;}
+.tc__details table tr{height: auto;}
+.tc__logo {
+  position: absolute;
+  width: 70px;
+  height: 70px;
+  top: 10px;
+}
+.tc__logo img{width: 100%;}
+.tc__title h1 {
+  font-weight: 600;
+  font-size: 1.2rem;
+  color: #ce4014;
+  margin-bottom: 0;
+}
+.tc__title small{font-size: .8rem;}
+.tc__details .modal-header {
+  padding: .5rem 1rem;
+  border-bottom: none;
+}
+.tc__details .modal-body{padding: 0;}
+.tc__details .tc__data {
+  justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('../../../../../assets/img/tc-bg.png');
+    background-repeat: no-repeat, repeat;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    margin: 0;
+    background-color: #f7f7f7;
+  border: 5px solid #425542;
+  padding: 10px;
+  font-size: .6rem;
+  position: relative;
+}
+.english--tc .tc__data {font-size: .7rem;}
+.english--tc .form-label {
+  padding-top: 2px;
+}
+.upload__img {
+  width: 60px;
+  border: 1px solid #ccc;
+  margin: 0 auto;
+}
+.upload__img img{width: 100%;
+height: 100%;}
+.pratham--text{    color: #296529;
+  border: 2px solid #296529;
+  padding: 2px 10px;
+  background: #e6ffe6;
+  display: inline-block;
+  border-radius: 0 10px 0 10px;
+  font-size: .9rem;
+  margin-top: 10px;}
+  .tc__details .form-control {
+    border: none;
+    border-bottom: 2px dotted #545454;
+    border-radius: 0;
+    padding: 0;
+    background: transparent;
+    font-size: .6rem;
+}
+.tc__details .form-control:focus{box-shadow: none;}
+.input-wdth{width: 96%;}
+.tc__details .label-data {
+  border-bottom: 2px dotted #545454;
+  display: block;
+  width: 96%;
+}
+.stamp__gap{margin-top: 4rem;}
+.copy__title{margin-top: 10px;
+  position: absolute;
+  right: 15px;
+  top: 0px;}
+.pramna__wdth{width: 70%!important;}
+.code__wdth{width: 70%!important;}
+.code__section{margin-top: 2.5rem;}
+.copy__title h6{font-size: .9rem;}
+
+/* generate__tc */
+.generatetc__header{text-align: center;}
+.generatetc__header h1{
+  font-weight: 600;
+  font-size: 2rem;
+  color: #be0e0e;
+  margin-bottom: 0;
+}
+.generatetc__header small{font-size: 1rem;}
+.generatetc__logo {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  top: 10px;
+}
+.generatetc__logo img{width: 100%;}
+.generateupload__img {
+  width: 110px;
+  border: 1px solid #ccc;
+  margin: 0 auto;
+}
+.generateupload__img  img {
+  width: 100%;
+  height: 100%;
+}
+.genertecode__sec{margin-top: 2.5rem;}
+.generatetc__sec .label-data {
+  border-bottom: 2px dotted #545454;
+  display: block;
+  width: 99%;
+}
+.generatetc__sec .form-control {
+  border: none;
+  border-bottom: 2px dotted #545454;
+  border-radius: 0;
+  padding: 0;
+  background: transparent;
+  width: 99%;
+}
+.generatetc__sec .form-control:focus{box-shadow: none;}
+.genpramna__wdth{width: 70%!important;}
+.gencode__wdth{width: 70%!important;}
+.generate__tc .modal-header {
+  padding: .5rem 1rem;
+  border-bottom: none;
+}
+.generate__tc .modal-body{padding: 0 20px;}
+.generate__tc .generatetc__sec {
+  justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('../../../../../assets/img/tc-bg.png');
+    background-repeat: no-repeat, repeat;
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    margin: 0;
+    background-color: #f7f7f7;
+  border: 5px solid #425542;
+  padding: 15px;
+}
+.genpratham--text {
+  color: #296529;
+  border: 2px solid #296529;
+  padding: 2px 10px;
+  background: #e6ffe6;
+  display: inline-block;
+  border-radius: 0 10px 0 10px;
+  font-size: 1.2rem;
+  margin-top: 10px;
+  margin-bottom: 1rem;
+}
+.genstamp__gap{margin-top: 5rem;}
+/* generate__tc */
+
+
+
+
+
+@media print {
+   .noprint{
+    display: none!important;
+   }
+   .modal-dialog{max-width: 100%!important;margin: 1.5rem auto;}
+   .tc__details .modal-body{margin: 10px 10px;}
+   .tc__section{
+    padding: 0 5px 0 35px;
+}
+.modal-content{border: none;}
+.generate__tc .modal-body{
+  padding: 20px 20px;
+}
+ 
+ }

@@ -1,0 +1,86 @@
+
+.title {
+    background: linear-gradient(to left, #3494e6, #ec6ead);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+    font-size: 2rem;
+    margin-top: 0.8rem;
+  }
+
+.dashboard-area{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow: hidden;
+    background-image: url('../../../../assets/img/landing-pattern-bg.png');
+    background-repeat: no-repeat, repeat;
+    width: 100%;
+    height: 100vh;
+    background-position: center;
+    margin: 0;
+    background-size: 100% 100%;
+}
+.dashboard-area ul {
+    position: relative;
+    display: grid;
+    grid-template-columns: repeat(3,1fr);
+    grid-gap: 20px;
+  }
+ .dashboard-area ul li {
+    position: relative;
+    list-style: none;
+  }
+ .dashboard-area ul li a {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 350px;
+    height: auto;
+    border-radius: 10px;
+    text-decoration: none;
+    color: #fff;
+    font-size: 1rem;
+    border: 1px solid rgba(255,255,255,0.4);
+    border-right: 1px solid rgba(255,255,255,0.2);
+    border-bottom: 1px solid rgba(255,255,255,0.2);
+    /* box-shadow: 0 5px 40px rgb(0 0 0 / 10%); */
+    overflow: hidden;
+    transition: 0.5s;
+    /* background: rgb(255 255 255 / 41%); */
+    padding: 1.5rem;
+    background: rgb(239 230 255);
+}
+
+
+
+ .dashboard-area ul li a:hover {
+    transform: translateY(-5px);
+     /* background: rgb(99 64 154); */
+     box-shadow: 0 5px 40px rgb(0 0 0 / 10%);
+  }
+ .dashboard-area ul li a i {
+    color: #63409a;
+    margin-right: 0.5rem;
+  }
+ /* .dashboard-area ul li a:hover i{color: #fff;} */
+ .dashboard-area ul li a span{    color: #63409a;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    font-weight: 500px;
+}
+ /* .dashboard-area ul li a:hover span{color: #fff;} */
+ footer{
+    color: rgb(173 170 170);
+    padding: 20px;
+    text-align: center;
+    margin-top: 4rem;
+    position: absolute!important;
+    bottom: 0;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}

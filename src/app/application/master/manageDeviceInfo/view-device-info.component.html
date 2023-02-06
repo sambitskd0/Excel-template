@@ -1,0 +1,351 @@
+<div>
+    <div class="pageHeading">
+       <div>
+          <h3 class="pageName">View Device Information/उपकरण की जानकारी जोड़ें</h3>
+       </div>
+       <div class="tabArea">
+          <a
+             routerLink="./../addDeviceInfo"
+             class="neuro addLink"
+             routerLinkActive="active" *ngIf="adminPrivilege"
+             ><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a
+             >
+          <a
+             routerLink="./../viewDeviceInfo"
+             class="neuro viewLink"
+             routerLinkActive="active"
+             ><i class="bi bi-eye me-2"></i>View/देखें
+             </a
+             >
+       </div>
+    </div>
+   
+    <div class="top-space">
+       <div class="search-container">
+          <div class="search-sec" id="searchPanel" style="display: block">
+             <div class="searchPanel">
+                <form [formGroup]="DeviceSearchForm" (ngSubmit)="onSearch()">
+                <div class="row">
+                   <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >District<br>जिला
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="districtId"
+                         (change)="getBlock($any($event.target).value)"
+                         >
+                         <option selected value="">---Select District---</option>
+                         <option
+                         *ngFor="let districtItem of allDistrict"
+                         [value]="districtItem.districtId"
+                         >
+                         {{ districtItem.districtCode }} -
+                         {{ districtItem.districtName }}
+                         </option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >Block<br>प्रखण्ड
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="blockId"
+                         (change)="getCluster($any($event.target).value)"
+                         >
+                         <option selected value="" *ngIf="filterChanged === false">
+                            ---Select Block---
+                         </option>
+                         <option selected value="" *ngIf="filterChanged === true">
+                            Loading...
+                         </option>
+                         <option
+                         *ngFor="let blockItem of blockData"
+                         [value]="blockItem.blockId"
+                         >
+                         {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                         </option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >Cluster<br>संकुल
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="clusterId"
+                         (change)="clusterChange($any($event.target).value)"
+                         >
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedCluster === false"
+                            >
+                            ---Select Cluster---
+                         </option>
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedCluster === true"
+                            >
+                            Loading...
+                         </option>
+                         <option
+                         *ngFor="let clusterItem of clusterData"
+                         [value]="clusterItem.clusterId"
+                         >
+                         {{ clusterItem.clusterCode }} -
+                         {{ clusterItem.clusterName }}
+                         </option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >School<br>विद्यालय
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="schoolId"
+                         (change)="schoolChange($any($event.target).value)"
+                         >
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedSchool === false"
+                            >
+                            ---Select School---
+                         </option>
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedSchool === true"
+                            >
+                            Loading...
+                         </option>
+                         <option
+                         *ngFor="let schoolItem of schoolData"
+                         [value]="schoolItem.schoolId"
+                         >
+                         {{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}
+                         </option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >Teacher Id<br>शिक्षक
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="teacherId"
+                         >
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedTeacher === false"
+                            >
+                            ---Select Teacher---
+                         </option>
+                         <option
+                            selected
+                            value=""
+                            *ngIf="filterChangedTeacher === true"
+                            >
+                            Loading...
+                         </option>
+                         <option
+                         *ngFor="let teacherItem of teacherData"
+                         [value]="teacherItem.tId"
+                         >
+                         {{ teacherItem.teacherName }}
+                         </option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >UUID/IMEI<br>यूयूआईडी/आईएमईआई
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <input
+                         type="text"
+                         class="form-control"
+                         formControlName="uuidImei"
+                         maxlength="30"
+                         minlength="1"
+                         aria-describedby="emailHelp"
+                         />
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-2 form-group mb-0">
+                      <label for="exampleInputEmail1" class="form-label"
+                         >Device Type<br>उपकरण का  प्रकार
+                      </label>
+                   </div>
+                   <div class="col-lg-3 form-group mb-0">
+                      <span class="colon">:</span>
+                      <select
+                         class="form-select"
+                         aria-label="Default select example"
+                         formControlName="deviceType"
+                         >
+                         <option selected value="">---Select Device Type---</option>
+                         <option value="1">Mobile</option>
+                         <option value="2">Tablet</option>
+                         <option value="3">Laptop</option>
+                         <option value="4">Desktop</option>
+                      </select>
+                   </div>
+                   <div class="col-lg-1"></div>
+                   <div class="col-lg-3">
+                      <button class="btn btn-default btn-purple">
+                      Search/खोजें 
+                      <i class="bi bi-search"></i>
+                      </button>
+                   </div>
+                </div>
+                </form>
+             </div>
+          </div>
+       </div>
+       <button
+          class="searchopen"
+          id="hide"
+          data-toggle="tooltip"
+          data-original-title="Click me"
+          >
+       Search Panel/खोज पट्टिका 
+
+       </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4">
+       <div class="col-lg-12"  [hidden]="resultListData?.length === 0">
+          <div class="page__rightarea">
+             <div class="page__util">
+               <div class="util">
+                  <a title="Excel" class="excel" (click)="downloadDeviceInfoList()"><i class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                </div>
+             </div>
+          </div>
+          <div class="table-responsive" id="viewTable">
+             <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+             </mat-progress-bar>
+             <table
+             class="mat-elevation-z8"
+             mat-table
+             [dataSource]="dataSource"
+             matSort
+             matTableExporter
+             #exporter="matTableExporter"
+             >
+             <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl.No /क्रमांक
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+             <ng-container matColumnDef="District">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 District/जिला 
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.districtName) ? element?.districtName :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="Block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 Block /प्रखण्ड
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.blockName) ? element?.blockName :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="Cluster">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 Cluster /संकुल
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.clusterName) ? element?.clusterName :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="School">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 School/विद्यालय 
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.schoolName) ? element?.schoolName :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="Teacher">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 Teacher /शिक्षक
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.teacherName) ? element?.teacherName :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="Received_Date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Received Date/प्राप्त तिथि
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.receivedDate) ? element?.receivedDate :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="deviceType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Device Type/उपकरण का  प्रकार
+                </th>
+                <td mat-cell *matCellDef="let element">
+                    {{ (element?.deviceTypeName) ? element?.deviceTypeName :'--' }}
+                </td>
+              </ng-container>
+             <ng-container matColumnDef="UUID_IMEI">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    UUID/IMEI/यूयूआईडी/आईएमईआई
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.uuid_imei) ? element?.uuid_imei :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                  Action/क्रिया
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                   <a title="Edit" [routerLink]="['./../editDeviceInfo/', element?.encId]" class="edit-btn me-2"><i
+                       class="bi bi-pencil-square text-primary"></i></a>
+                   <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteDevice(element?.encId)"><i
+                       class="bi bi-trash"></i></a>
+                 </td>
+              </ng-container>
+            
+             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+             </table>
+           
+              <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+              [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+              class="noPrint" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+       </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </div>
+ </div>

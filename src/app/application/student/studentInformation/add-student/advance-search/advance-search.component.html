@@ -1,0 +1,279 @@
+<div class="top-space">
+  <div class="search-container student-info">
+    <div class="searchPanel">
+      <div class="row">
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 form-group">
+          <div class="">
+            <label for="" class="form-label">Student Code <br> छात्र का कोड </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" aria-describedby="Student Code" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="15" [(ngModel)]="userInput.studentCode"/>
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+            <label for="" class="form-label">Aadhaar Number <br> आधार संख्या </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" aria-describedby="Aadhaar Number" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="12" [(ngModel)]="userInput.studentAadhaar" />
+          </div>
+        </div>
+        <div class="col-md-1"></div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-2 col-sm-2 form-group">
+          <div class="">
+            <label for="" class="form-label">TC Code  <br> स्थानांतरण प्रमाण पत्र संख्या </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" aria-describedby="TC Code" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="25" [(ngModel)]="userInput.tcCode"/>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-lg-3 form-group">
+          <div class="">
+            <button _ngcontent-hmb-c31="" class="btn btn-default btn-purple mb-lg-0 mb-3" (click)="onSearch(1)">Search 
+              <i _ngcontent-hmb-c31="" class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <ng-container *ngIf="modalStatus">
+      <div class="search-sec" id="searchPanel">
+        <div class="searchPanel pt-3">
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="" class="form-label">District </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="userInput.districtId" name="searchDistrictId"          autocomplete="off" #districtRef (change)="getBlock(+districtRef.value)">
+                  <option value="" *ngIf="demographyData.disrtictChanged == false">--- Select ---</option>
+                  <option value="" *ngIf="demographyData.disrtictChanged == true">Loading...</option>
+                  <option *ngFor="let item of demographyData.districtData" [value]="item.districtId">{{ item.districtCode }} -{{ item.districtName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Block </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Block" #blockRef (change)="getCluster(+blockRef.value)" [(ngModel)]="userInput.blockId">
+                  <option value="" *ngIf="demographyData.blockChanged == false">--- Select ---</option>
+                  <option value="" *ngIf="demographyData.blockChanged == true">Loading...</option>
+                  <option *ngFor="let item of demographyData.blockData" [value]="item.blockId">{{ item.blockCode }} - {{ item.blockName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Cluster </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Cluster" #clusterRef (change)="getSchool(+clusterRef.value)" [(ngModel)]="userInput.clusterId">
+                  <option value="" *ngIf="demographyData.clusterChanged == false">--- Select ---</option>
+                  <option value="" *ngIf="demographyData.clusterChanged == true">Loading...</option>
+                  <option *ngFor="let item of demographyData.clusterData" [value]="item.clusterId">{{ item.clusterCode }} - {{ item.clusterName }}</option>
+                </select>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="" class="form-label">School </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <select class="form-control" aria-label="School" [(ngModel)]="userInput.schoolId">
+                  <option value="" *ngIf="demographyData.schoolChanged == false">--- Select ---</option>
+                  <option value="" *ngIf="demographyData.schoolChanged == true">Loading...</option>
+                  <option *ngFor="let school of demographyData.schoolData" [value]="school.schoolId">
+                    {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+                  </option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Student Name</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="userInput.studentName"/><span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Father Name</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="userInput.fatherName"/><span class="mandatory">*</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Mother Name</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <input type="text" class="form-control" aria-describedby="emailHelp" [(ngModel)]="userInput.motherName"/><span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Date of Birth</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <!-- <input type="date" class="form-control" aria-describedby="emailHelp" [(ngModel)]="userInput.dob" /> -->
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                            bsDatepicker [(ngModel)]="userInput.dob"
+                            [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,showClearButton: true, clearPosition: 'right' }"
+                            autocomplete="off" readonly autofocus>
+                            <span class="mandatory">*</span>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="" class="form-label">Gender</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="userInput.gender">
+                  <option value="" *ngIf="otherData.genderChanged == false">--- Select ---</option>
+                  <option value="" *ngIf="otherData.genderChanged == true">Loading...</option>
+                  <option *ngFor="let item of otherData.genderData" [value]="item?.anxtValue">{{ item?.anxtName }}</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <button _ngcontent-hmb-c31="" class="btn btn-default btn-purple" (click)="onSearch(2)">
+                  Search <i _ngcontent-hmb-c31="" class="bi bi-search"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+  </div>
+  <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+    Advance Search
+  </button>
+</div>
+
+<!-- Modal  -->
+
+<button style="display: none" data-bs-toggle="modal" data-bs-target="#exampleModal" #openModal></button>
+
+<div class="modal fade" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true" id="exampleModal">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Student details</h5>
+        <button type="button" class="btn-close close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <!-- <button type="button" #closebutton class="close" data-dismiss="modal">&times;</button> -->
+      </div>
+      <div class="modal-body">
+        <div class="table-responsive" [hidden]="!searchedStudentDetails">
+          <table class="table table-bordered poptable">
+            <thead>
+              <tr>
+                <th>Student code</th>
+                <th>Student Name</th>
+                <th>Aadhaar Number</th>
+                <th>Father name</th>
+                <th>Mother name</th>
+                <th>Date of birth</th>
+                <th>Progression status</th>
+                <th>Academic year</th>
+                <th>School</th>
+                <th>UDISE</th>
+                <th>Action</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let item of searchedStudentDetails">
+                <td>{{ item?.studentCode || "--" }}</td>
+                <td>{{ item?.studentName || "--" }}</td>
+                <td>{{ item?.aadhaar || "--" }}</td>
+                <td>{{ item?.fatherName || "--" }}</td>
+                <td>{{ item?.motherName || "--" }}</td>
+                <td>{{ item?.dob | date: "dd-MMM-yyyy" || "--" }}</td>
+                <td>{{ item?.admissionType || "--" }}</td>
+                <td>{{ item?.academicYear || "--" }}</td>
+                <td>{{ item?.schoolName || "--" }}</td>
+                <td>{{ item?.schoolUdiseCode || "--" }}</td>
+                <td>    
+                  <a *ngIf="item?.schoolUdiseCode==udiseCode" title="Edit" class="btn btn-primary" data-bs-dismiss="modal" routerLink="./../edit/{{ item?.studentEncId }}"> <i class="bi bi-pencil-square"></i></a>
+
+                  <a style="display: none;" title="New Enrollment" class="btn btn-primary" data-bs-dismiss="modal" routerLink="./../newEnrollment/{{ item?.customEncId }}"> <i class="bi bi-pencil-square"></i></a>
+
+                  <a *ngIf="item?.schoolUdiseCode!=udiseCode" title="New Enrollment" class="btn btn-primary" data-bs-dismiss="modal" routerLink="./../newEnrollment/{{ item?.customEncId }}"> <i class="bi bi-pencil-square"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" [hidden]="searchedStudentDetails">
+          {{ "No student found." }}
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal" #closeModal>Close</button>
+      </div>
+    </div>
+  </div>
+</div>

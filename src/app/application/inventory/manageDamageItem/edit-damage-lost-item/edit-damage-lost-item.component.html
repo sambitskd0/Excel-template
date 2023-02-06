@@ -1,0 +1,95 @@
+
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <div><h3 class="pageName">Damage/Lost Item/क्षति/खोया आइटम</h3>       </div>
+        </div>
+        <span class="indicator">( * ) Indicates Mandatory</span>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" 	*ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें
+            </a>
+            <a routerLink="../../viewDamageItem"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें </a>
+        </div>
+    </div>
+    <form [formGroup]="damageItemForm" (ngSubmit)="updateDamageItem()">
+    <div class="top-space formpatch">
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <div class="">
+                <label for="exampleInputEmail1" class="form-label">Date<br>तिथि  </label>
+              </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class=""><span class="colon">:</span>
+                <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="damageDate"(blur)="futuredateCheck();">
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+    </div>
+    <div class="row mt-4">
+          <div class="table-responsive">
+              <table class="table  table-bordered">
+                  <thead class="bg-lightpurple">
+                    <tr>
+                      <th scope="col" width="15px">SI#/क्र.सं</th>
+                      <th scope="col">Asset Type/संपत्ति का प्रकार</th>
+                      <th scope="col">Asset Name/संपत्ति का नाम</th>
+                      <th scope="col">Unit/इकाई</th>
+                      <th scope="col">Quantity/मात्रा </th>
+                      <th scope="col">Reason of Damage/नुकसान की वजह</th>
+                      <th scope="col">Remark/टिप्पणी </th>
+                      
+                    </tr>
+                  </thead>
+                  <tbody >
+                    <tr >
+                        <td> 1 </td>
+                      <td><select class="form-select" aria-label="Default select example" width="100%" formControlName="assetType" (change)="filterAssetName($any($event.target).value)" autocomplete="off">
+                        <option value="" *ngIf="assetTypeChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="assetTypeChanged==true">Loading...</option>
+                        <option *ngFor="let item of asType" value="{{item.anxtValue}}">
+                          {{item.anxtName}}
+                        </option>   
+                    </select></td>
+                      <td><select class="form-select" aria-label="Default select example" width="100%" formControlName="assetName" autocomplete="off">
+                        <option value="" *ngIf="assetNameChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="assetNameChanged==true">Loading...</option>
+                        <option *ngFor="let assetItem of assetFilterData"  [value]="assetItem.assetCatId">  
+                        {{ assetItem.assetName }} 
+                        </option>
+                    </select></td>
+                    <td>
+                      <select class="form-select" aria-label="Default select example" width="100%" formControlName="unit">
+                       <option value="" *ngIf="unitChanged==false">--- Select ---</option>
+                       <option value="" *ngIf="unitChanged==true">Loading...</option>
+                       <option *ngFor="let units of incUnit" value="{{units.anxtValue}}">
+                          {{units.anxtName}}
+                       </option>
+                      </select>
+                   </td>
+                      <td><input type="text" id="exampleInputEmail1" aria-describedby="emailHelp" class="form-control" formControlName="quantity" autocomplete="off" (blur)="quantityCheckDamageItem();" [maxLength]="4" (blur)="greaterThanZero($any($event.target).value)"></td>
+                      <td><select class="form-select" aria-label="Default select example" width="100%" formControlName="reasonDamage"autocomplete="off">
+                        <option value="" *ngIf="unitChanged==false">--- Select ---</option>
+                      <option value="" *ngIf="unitChanged==true">Loading...</option>
+                      <option *ngFor="let damage of damageR" value="{{damage.anxtValue}}">
+                        {{damage.anxtName}}
+                      </option> 
+                    </select></td>
+                    <td><textarea cols="12" rows="2" style="width: 100%;" class="form-control" formControlName="remark"autocomplete="off"></textarea>
+                        <span class="minimum-text"> Maximum <span class="minimum-text text-danger">(300)</span>Characters allowed</span>
+                    </td>
+                    
+                    </tr>
+                  </tbody>
+                </table>
+            </div>
+        </div>
+      
+  </div>
+
+  <div>
+    <button class="btn btn-success me-2">Update/अद्यतन</button>
+     <a routerLink="../../viewDamageItem" class="btn btn-danger me-2">Cancel/रद्द करना</a>  
+  </div>
+</form>
+</div>

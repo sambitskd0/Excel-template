@@ -1,0 +1,35 @@
+.inputAsLabel{
+  background-color: #f7f7f7;
+  opacity: 1;
+  border: none;
+}
+.legendPatch{
+  margin-right: 10px;
+}
+.legendPatch ul{
+  display: flex;
+}
+.legendPatch li {
+  font-size: 14px;
+  list-style-type: none;
+}
+.legend__attended {
+  display: flex;
+}
+.legendPatch a {
+  height: 4px;
+  width: 5px;
+  padding: 7px 7px;
+  display: inline-block;
+  margin: 0px 7px;
+  vertical-align: text-bottom;
+}
+.legendPatch a.legend-ntpg {
+  border: 1px solid #0d6efd;
+  background-color: #0d6efd;
+}
+.legendPatch a.legend-pg {
+  border: 1px solid #ffc107;
+  background-color: #ffc107;
+}
+

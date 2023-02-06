@@ -1,0 +1,172 @@
+<div>
+    <div class="pageHeading">
+    <div><h3 class="pageName">Edit Ward / Village/वार्ड / गांव संपादन करें</h3>
+        <span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+    <div class="tabArea">
+        <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें</a>
+        <a routerLink="../../viewWardVillage" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a>    
+    </div>
+    </div> 
+    <div class="top-space">
+        <form [formGroup]="wardVillageform" (ngSubmit)="onSubmit()">
+        <div class="formpatch">
+        <div class="row">
+            <input type="hidden" formControlName="encId">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Type<br>प्रकार </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" id="select__type" formControlName="villageType" (change)="typeChange($any($event.target).value)">
+                <option value="2">Village</option>
+                <option value="1">Ward</option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+      </div>
+        <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">District<br>जिला </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="districtId"
+            (change)="getBlock($any($event.target).value)">
+            <option value="" selected>--Select District--</option>
+            <option *ngFor="let item of allDistrict" [value]="item.districtId">
+                {{ item.districtCode }} - {{ item.districtName }}
+            </option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="districtLoading==true" alt="dsd">
+          </div>
+    </div>
+    <ng-container *ngIf="villageType == 2">
+    <div class="village" id="village">
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Block<br>प्रखण्ड </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="blockId"  (change)="getPanchayat($any($event.target).value)">
+                <option selected value="" *ngIf="blockChanged === false">--Select Block--</option>
+                <option selected value="" *ngIf="blockChanged === true">Loading...</option>
+                <option *ngFor="let item of blockData" [value]="item.blockId">
+                    {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="blockLoading==true" alt="dsd">
+          </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Panchayat<br>पंचायत  </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="panchayatId">
+                <option selected value="" *ngIf="panchayatChanged === false">--Select Panchayat--</option>
+                <option selected value="" *ngIf="panchayatChanged === true">Loading...</option>
+                <option *ngFor="let item of panchayatData" [value]="item.nagarId">
+                    {{ item.panchayatCode }} - {{ item.panchayatName }}
+                </option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="panchayatLoading==true" alt="dsd">
+          </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Village Name<br>गांव का नाम </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="villageName" minlength="2" maxlength="40"
+             autocomplete="off">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Village Code :<br>गांव कोड</label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="villageCode" minlength="9" maxlength="9"
+            (keypress)="customValidators.keyPressNumbers($event)"   autocomplete="off">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+</div>
+</ng-container>
+<ng-container *ngIf="villageType == '1'">
+<div class="ward" id="ward">
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">ULB<br>नगर पालिका </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="panchayatId">
+                <option selected value="" *ngIf="muncipalityChanged === false">--Select Municipality--</option>
+                <option selected value="" *ngIf="muncipalityChanged === true">Loading...</option>
+                <option *ngFor="let item of municipaltyData" [value]="item.nagarId">
+                    {{ item.panchayatCode }} - {{ item.panchayatName }}
+                </option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="municipalityLoading==true" alt="dsd">
+          </div>
+    </div>
+
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Ward Name<br>वार्ड का नाम </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="wardName" minlength="3" maxlength="40" autocomplete="off">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+    <div class="row ">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Ward Code :<br>वार्ड कोड</label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="wardCode" minlength="9" maxlength="9"
+            (keypress)="customValidators.keyPressNumbers($event)"   autocomplete="off">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+</div>
+</ng-container>
+</div>
+    <div>
+        <button class="btn btn-success me-2">Update/अद्यतन</button>
+        <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+
+    </div>
+</form>
+    </div>
+</div>
+
+
+
+
+
+
+

@@ -1,0 +1,247 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Leave Type/अवकाश के प्रकार
+            </h3>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addLeaveType" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add Leave Type/अवकाश के प्रकार जोड़ें 
+            </a>
+            <a routerLink="./../viewLeaveType" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View Leave Type/अवकाश के प्रकार देखें
+            </a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="leaveTypeForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="leaveTypeId" class="form-label">Leave Type<br>अवकाश के प्रकार
+                        </label>
+                    </div>
+                </div>
+
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example" formControlName="leaveTypeId"
+                            (change)="resetField();">
+                            <option value="" *ngIf="leaveTypeChanged==false">--Select--</option>
+                            <option value="" *ngIf="leaveTypeChanged==true">Loading...</option>
+                            <option *ngFor="let item of lvtype" [value]="item.anxtValue">
+                                {{ item.anxtName }}
+                            </option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="leaveTypeLoading==true" alt="dsd">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Entitlement<br>पात्रता
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-8 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioEntitlement" value="1" id="radio1" type="radio">
+                                <label for="radio1">Month wise</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioEntitlement" value="3" id="radio3" type="radio" checked="">
+                                <label for="radio3">Year wise</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioEntitlement" value="4" id="radio4" type="radio">
+                                <label for="radio4">Once in a service Period</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Carry Forward<br>आगे बढ़ो
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioCarryForward" value="1" id="radio6" type="radio">
+                                <label for="radio6">Yes</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioCarryForward" value="2" id="radio7" type="radio"
+                                    checked="">
+                                <label for="radio7">No</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Encashable<br>भुनाने योग्य
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioEncashable" value="1" id="radio8" type="radio">
+                                <label for="radio8">Yes</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioEncashable" value="2" id="radio9" type="radio" checked="">
+                                <label for="radio9">No</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Include Holiday<br>अवकाश शामिल करें
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioIncludeHoliday" value="1" id="radio10" type="radio">
+                                <label for="radio10">Yes</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioIncludeHoliday" value="2" id="radio11" type="radio"
+                                    checked="">
+                                <label for="radio11">No</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Applicable To
+                            (Exclude first 3 years of service) <br>लागू (सेवाओं के पहले 3 वर्षों को छोड़कर)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioApplicableTo" value="1" id="radio12" type="radio">
+                                <label for="radio12">Yes</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioApplicableTo" value="2" id="radio13" type="radio"
+                                    checked="">
+                                <label for="radio13">No</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="" class="form-label">Applicable For
+                            (Gender Specific)<br>के लिए लागू (लिंग विशिष्ट)
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="colon-top">
+                        <span class="colon">:</span>
+                        <div class="radiobuttons">
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioApplicableFor" value="1" id="radio14" type="radio">
+                                <label for="radio14">Male</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioApplicableFor" value="2" id="radio15" type="radio">
+                                <label for="radio15">Female</label>
+                            </div>
+                            <div class="rdio rdio-primary form-check-inline">
+                                <input formControlName="radioApplicableFor" value="3" id="radio16" type="radio"
+                                    checked="">
+                                <label for="radio16">Both</label>
+                            </div><span class="mandatoryRd">*</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="lvEntitlementYear" class="form-label">Entitlement Year<br>पात्रता वर्ष
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="lvEntitlementYear">
+                            <option value="">--Select--</option>
+                            <option value="1">Calender Year</option>
+                            <option value="2">Financial Year</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="lvDescription" class="form-label">Description<br>विवरण
+                        </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <textarea class="form-control" formControlName="lvDescription" maxlength="400"
+                            rows="3"></textarea>
+                        <span class="minimum-text">Maximum <span class="text-danger">(400) </span> Characters</span>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group"></div>
+                <div class="col-lg-5 form-group">
+                    <button class="btn btn-success me-2">Submit/जमा करें
+                    </button>
+                    <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>

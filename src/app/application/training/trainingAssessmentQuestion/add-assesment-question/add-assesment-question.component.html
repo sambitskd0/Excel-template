@@ -1,0 +1,200 @@
+<form [formGroup]="SelfAssesment" (ngSubmit)="onSubmit()" autocomplete="off">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Training Assessment Question</h3>
+        </div>
+        <div class="tab__section">
+          <a routerLink="./../viewTrainingType" class="tablink" routerLinkActive="active">Training</a>
+          <a routerLink="./../viewAssesmentQuestion" class="tablink active" routerLinkActive="active">
+            Training Assessment Question</a>
+        </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory</span>
+      <div class="tabArea">
+        <a routerLink="./../addAssesmentQuestion" class="neuro addLink active" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Add Question</a>
+        <a routerLink="./../viewAssesmentQuestion" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View Question</a>
+      </div>
+    </div>
+
+    <div class="formpatch space-top">
+      <h5>Objective Question</h5>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Academic Year</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" formControlName="academicYear" tabindex="1">
+            <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+              {{ this.years }}
+            </option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Subject</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingSubject" (change)="getTrainingName($any($event.target).value)"
+            aria-label="Default select example" class="form-select">
+            <option value="" *ngIf="loadingObj?.subjectLoad == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.subjectLoad == true">
+              Loading...
+            </option>
+            <option *ngFor="let subject of res" [value]="subject.subjectId">
+              {{ subject.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Training Name</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select formControlName="trainingName" aria-label="Default select example" class="form-select">
+            <option value="" *ngIf="loadingObj?.traiingLoading == false">
+              --Select / चुनें--
+            </option>
+            <option value="" *ngIf="loadingObj?.traiingLoading == true">
+              Loading...
+            </option>
+
+            <option *ngFor="let train of training" [value]="train.trainingId">
+              {{ train.trainingName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-1">
+          <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Assessment Type</label>
+        </div>
+        <div class="col-md-6 form-group colon-top">
+          <span class="colon">:</span>
+
+          <div class="check__box mb-3 class--checkbox">
+            <div class="form-group checkbox" *ngFor="let n of checkb">
+              <input type="checkbox" [id]="n.name" class="check" value="{{ n.id }}" (change)="changeClass($event)" />
+              <label [for]="n.name"> {{ n.name }}</label>
+            </div>
+          </div>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Question </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <textarea class="form-control" formControlName="question" cols="4" rows="3" maxlength="400"></textarea>
+          <span class="mandatory">*</span>
+          <small>Maximum <span class="text-danger">(400)</span> Characters</small>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Mark</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" id="" aria-describedby="emailHelp" formControlName="mark"
+            maxlength="2" (keypress)="customValidators.keyPressNumbers($event)"/>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Option A </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" formControlName="optionA" maxlength="100"
+            aria-describedby="emailHelp" />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Option B </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" formControlName="optionB" maxlength="100"
+            aria-describedby="emailHelp" />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Option C </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" formControlName="optionC" maxlength="100"
+            aria-describedby="emailHelp" />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Option D </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" formControlName="optionD" maxlength="100"
+            aria-describedby="emailHelp" />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="exampleInputEmail1" class="form-label">Answer</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <div class="radiobuttons pt-2">
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="1" formControlName="answer" id="radio1" type="radio" />
+              <label for="radio1">Option A</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="2" formControlName="answer" id="radio2" type="radio" />
+              <label for="radio2">Option B</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="3" formControlName="answer" id="radio3" type="radio" />
+              <label for="radio3">Option C</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input value="4" formControlName="answer" id="radio4" type="radio" />
+              <label for="radio4">Option D</label>
+            </div>
+          </div>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2">Submit</button>
+    <button type="reset" class="btn btn-danger">Reset</button>
+  </div>
+</form>

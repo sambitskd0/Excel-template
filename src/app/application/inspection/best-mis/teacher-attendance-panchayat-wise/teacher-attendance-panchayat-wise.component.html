@@ -1,0 +1,1813 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">
+                HM/Teacher/Staff Attendance Monitoring Report(Panchayat Wise)
+            </h3>
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="./" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View</a>
+            <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <ng-container>
+            <div class="search-container" *ngIf="cardIsDisplayed" @fadeSlideInOut>
+                <div class="search-sec" id="searchPanel">
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का
+                                        स्तर</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                                        (change)="getDesignationGroup($any($event.target).value);">
+                                        <option value="0" *ngIf="userLevelId === 0">--Select--</option>
+                                        <option value="5" *ngIf="stateUser == false">State</option>
+                                        <option value="4" *ngIf="distUser == false">District</option>
+                                        <option value="3" *ngIf="blkUser == false">Block</option>
+                                        <option value="2" *ngIf="cluUser == false">Cluster</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Designation <br />पद </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select name="designationGroupId" [(ngModel)]="designationGroupId"
+                                        class="form-select" (change)="getSubDesignation($any($event.target).value);">
+                                        <option value="" *ngIf="desGrpSelect == false">--Select--</option>
+                                        <option value="" *ngIf="desGrpLoading == true">Loading...</option>
+                                        <option *ngFor="let item of DesignationGroupData"
+                                            [value]="item.designationGroupId">
+                                            {{ item.designationGroupName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDesignationId" name="scDesignationId">
+                                        <option value="" *ngIf="scDesignationChanged == false">--Select--</option>
+                                        <option value="" *ngIf="scDesignationLoading == true">Loading...</option>
+                                        <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                            {{ item.vchDesignationName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">District </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]="scDistrictId" name="scDistrictId"
+                                        class="form-select scDistrictId" aria-label="Default select example" (change)="
+                      getBlock($any($event.target).value);
+                    " #district>
+                                        <option value="" *ngIf="
+                        scDisrtictChanged == false && sessionDistrictId === ''
+                      ">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of districtData" [value]="item.districtId">
+                                            {{ item.districtCode }} - {{ item.districtName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Block </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId"
+                                        aria-label="Default
+                                                select example" (change)="getNagarPanchayat(district.value,$any($event.target).value,2);" #block>
+                                        <option value="" *ngIf="scBlockChanged == false && sessionBlockId === ''">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scBlockChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of blockData" [value]="item.blockId">
+                                            {{ item.blockCode }} - {{ item.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Panchayat</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scPanchayatId" [(ngModel)]="scPanchayatId"
+                                        name="scPanchayatId" (change)="getSchool($any($event.target).value)">
+                                        <option value="" *ngIf="scPanchayatChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scPanchayatChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let item of panchayatData" [value]="item.nagarId">
+                                            {{ item.panchayatCode }} - {{ item.panchayatName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"></div>
+
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolId" name="schoolId" autocomplete="off"
+                                        [disabled]="sessionSchoolId != '' ? 'true' : 'false'">
+                                        <option value="" *ngIf="scSchoolChanged == false">
+                                            --Select--
+                                        </option>
+                                        <option value="" *ngIf="scSchoolChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label class="form-label">School Type</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolType" name="schoolType" autocomplete="off">
+                                        <option value="">--All--</option>
+                                        <option value="1">Elementry</option>
+                                        <option value="2">Secondary</option>
+                                        <option value="3">Composite</option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Officials Group
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select officialsGroup" [(ngModel)]="officialsGroup"
+                                        name="officialsGroup">
+                                        <option value="">--Select--</option>
+                                        <option value="1">Head-Master (HM) </option>
+                                        <option value="2">Teacher (T) </option>
+                                        <option value="3">Head-Master & Teacher (HM & T) </option>
+                                        <option value="4">Non Teaching staff (NTS) </option>
+                                    </select>
+                                </div>
+
+                            </div>
+
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">Start Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="startDate" name="startDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="exampleInputEmail1" class="form-label">End Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="endDate" name="endDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+                                <div class="col-md-1 form-group3">
+                                    <button class="btn btn-default btn-purple">
+                                        Search <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+
+
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+            Search Panel
+        </button>
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="p-2">
+                    <button type="button" class="btn btn-success " (click)="exportSchoolList(scDistrictId,scBlockId,
+          scPanchayatId,
+          schoolId,
+          startDate,
+          endDate,scDesignationId)">
+                        <i class="bi bi-file-earmark-excel"></i> Export School Report
+                    </button>
+                </div>
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Back" (click)="
+                goBack(
+                  getDistrictBackId,
+                  getBlockBackId,
+                  getPanchayatBackId,
+                  getSchoolBackId,
+                  pageLevel,
+                  getStartDate,
+                  getEndDate
+                )
+              " class="back"><i class="bi bi-skip-backward"></i></a>
+                        <a *ngIf="pageLevel !== 4" title="Excel" (click)="excel(pageLevel)" class="excel"><i
+                                class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div>
+                <div *ngIf="pageLevel === 0">
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col" rowspan="3">Sl.No</th>
+                                    <th scope="col" rowspan="3">District Name</th>
+                                    <!-- <th scope="col"  rowspan="3">Block Name</th> -->
+                                    <th scope="col" rowspan="3">Number of schools</th>
+                                    <th scope="col" rowspan="3">
+                                        Number of visited schools (unique)
+                                    </th>
+                                    <th scope="col" rowspan="3">Number of visits</th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        HM Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        Teacher Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        HM & Teacher Attendance
+                                    </th>
+                                    <th scope="col" class="text-center" colspan="9"
+                                        *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        Staff Attendance
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultData">
+                                    <td>{{ element?.slNo }}</td>
+
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="
+                        drillDown(
+                          element?.districtId,
+                          '',
+                          '',
+                          '',
+                          getStartDate,
+                          getEndDate
+                        )
+                      ">{{
+                                            element?.districtCode ? element?.districtCode : "--"
+                                            }}-{{
+                                            (element?.districtName | titlecase)
+                                            ? element?.districtName
+                                            : "--"
+                                            }}</a>
+                                    </td>
+                                    <!-- <td>{{ element?.blockName }}</td> -->
+                                    <td>{{ element?.totalSchool }}</td>
+                                    <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                    <td>{{ element?.totalNoOfVists }}</td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedHM }}</td>
+                                        <td>{{ element?.totalPresentHM }}</td>
+                                        <td>{{ element?.totalPresentHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveHM }}</td>
+                                        <td>{{ element?.authorizedLeaveHMPercentage }}%</td>
+                                        <td>{{ element?.absentHM }}</td>
+                                        <td>{{ element?.absentHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyHM }}</td>
+                                        <td>{{ element?.onDutyHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTech }}</td>
+                                        <td>{{ element?.totalPresentTech }}</td>
+                                        <td>{{ element?.totalPresentTechPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTech }}</td>
+                                        <td>{{ element?.authorizedLeaveTechPercentage }}%</td>
+                                        <td>{{ element?.absentTech }}</td>
+                                        <td>{{ element?.absentTechPercentage }}%</td>
+                                        <td>{{ element?.onDutyTech }}</td>
+                                        <td>{{ element?.onDutyTechPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTechHM }}</td>
+                                        <td>{{ element?.authorizedLeaveTechHMPercentage }}%</td>
+                                        <td>{{ element?.absentTechHM }}</td>
+                                        <td>{{ element?.absentTechHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyTechHM }}</td>
+                                        <td>{{ element?.onDutyTechHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedStaff }}</td>
+                                        <td>{{ element?.totalPresentStaff }}</td>
+                                        <td>{{ element?.totalPresentStaffPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveStaff }}</td>
+                                        <td>{{ element?.authorizedLeaveStaffPercentage }}%</td>
+                                        <td>{{ element?.absentStaff }}</td>
+                                        <td>{{ element?.absentStaffPercentage }}%</td>
+                                        <td>{{ element?.onDutyStaff }}</td>
+                                        <td>{{ element?.onDutyStaffPercentage }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-center"><b>Total</b></td>
+                                    <td>
+                                        <b>{{ totalSchoolSum }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSchools }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSum }}</b>
+                                    </td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTech }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTech}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTech }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTechHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTechHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTechHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumStaff }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentStaffs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentagePresentStaff }}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveStaffs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyStaff }} %</b>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tr *ngIf="!dataSource.data.length">
+                                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                    No Records Found!
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="pageLevel === 1">
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col" rowspan="3">Sl.No</th>
+                                    <th scope="col" rowspan="3">District Name</th>
+                                    <th scope="col" rowspan="3">Block Name</th>
+                                    <th scope="col" rowspan="3">Number of schools</th>
+                                    <th scope="col" rowspan="3">
+                                        Number of visited schools (unique)
+                                    </th>
+                                    <th scope="col" rowspan="3">Number of visits</th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        HM Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        Teacher Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        HM & Teacher Attendance
+                                    </th>
+                                    <th scope="col" class="text-center" colspan="9"
+                                        *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        Staff Attendance
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultData">
+                                    <td>{{ element?.slNo }}</td>
+                                    <td>
+                                        {{
+                                        element?.districtCode ? element?.districtCode : "--"
+                                        }}-{{
+                                        (element?.districtName | titlecase)
+                                        ? element?.districtName
+                                        : "--"
+                                        }}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="
+                        drillDown(
+                          element?.districtId,
+                          element?.blockId,
+                          '',
+                          '',
+                          getStartDate,
+                          getEndDate
+                        )
+                      ">{{ element?.blockCode ? element?.blockCode : "--" }} -{{
+                                            element?.blockName ? element?.blockName : "--"
+                                            }}
+                                        </a>
+                                    </td>
+                                    <td>{{ element?.totalSchool }}</td>
+                                    <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                    <td>{{ element?.totalNoOfVists }}</td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedHM }}</td>
+                                        <td>{{ element?.totalPresentHM }}</td>
+                                        <td>{{ element?.totalPresentHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveHM }}</td>
+                                        <td>{{ element?.authorizedLeaveHMPercentage }}%</td>
+                                        <td>{{ element?.absentHM }}</td>
+                                        <td>{{ element?.absentHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyHM }}</td>
+                                        <td>{{ element?.onDutyHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTech }}</td>
+                                        <td>{{ element?.totalPresentTech }}</td>
+                                        <td>{{ element?.totalPresentTechPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTech }}</td>
+                                        <td>{{ element?.authorizedLeaveTechPercentage }}%</td>
+                                        <td>{{ element?.absentTech }}</td>
+                                        <td>{{ element?.absentTechPercentage }}%</td>
+                                        <td>{{ element?.onDutyTech }}</td>
+                                        <td>{{ element?.onDutyTechPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTechHM }}</td>
+                                        <td>{{ element?.authorizedLeaveTechHMPercentage }}%</td>
+                                        <td>{{ element?.absentTechHM }}</td>
+                                        <td>{{ element?.absentTechHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyTechHM }}</td>
+                                        <td>{{ element?.onDutyTechHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedStaff }}</td>
+                                        <td>{{ element?.totalPresentStaff }}</td>
+                                        <td>{{ element?.totalPresentStaffPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveStaff }}</td>
+                                        <td>{{ element?.authorizedLeaveStaffPercentage }}%</td>
+                                        <td>{{ element?.absentStaff }}</td>
+                                        <td>{{ element?.absentStaffPercentage }}%</td>
+                                        <td>{{ element?.onDutyStaff }}</td>
+                                        <td>{{ element?.onDutyStaffPercentage }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td colspan="3" class="text-center"><b>Total</b></td>
+                                    <td>
+                                        <b>{{ totalSchoolSum }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSchools }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSum }}</b>
+                                    </td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTech }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTech}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTech }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTechHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTechHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTechHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumStaff }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentStaffs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentagePresentStaff }}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveStaffs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyStaff }} %</b>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tr *ngIf="!dataSource.data.length">
+                                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                    No Records Found!
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="pageLevel === 2">
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col" rowspan="3">Sl.No</th>
+                                    <th scope="col" rowspan="3">District Name</th>
+                                    <th scope="col" rowspan="3">Block Name</th>
+                                    <th scope="col" rowspan="3">Panchayat Name</th>
+                                    <th scope="col" rowspan="3">Number of schools</th>
+                                    <th scope="col" rowspan="3">
+                                        Number of visited schools (unique)
+                                    </th>
+                                    <th scope="col" rowspan="3">Number of visits</th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        HM Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        Teacher Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        HM & Teacher Attendance
+                                    </th>
+                                    <th scope="col" class="text-center" colspan="9"
+                                        *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        Staff Attendance
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultData">
+                                    <td>{{ element?.slNo }}</td>
+                                    <td>
+                                        {{
+                                        element?.districtCode ? element?.districtCode : "--"
+                                        }}-{{
+                                        (element?.districtName | titlecase)
+                                        ? element?.districtName
+                                        : "--"
+                                        }}
+                                    </td>
+                                    <td>
+                                        {{ element?.blockCode ? element?.blockCode : "--" }} -{{
+                                        element?.blockName ? element?.blockName : "--"
+                                        }}
+                                    </td>
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="
+                        drillDown(
+                          element?.districtId,
+                          element?.blockId,
+                          element?.nagarId,
+                          '',
+                          getStartDate,
+                          getEndDate
+                        )
+                      ">{{
+                                            element?.panchayatCode ? element?.panchayatCode : "--"
+                                            }}
+                                            -
+                                            {{
+                                            (element?.panchayatName | titlecase)
+                                            ? element?.panchayatName
+                                            : "--"
+                                            }}
+                                        </a>
+                                    </td>
+                                    <td>{{ element?.totalSchool }}</td>
+                                    <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                    <td>{{ element?.totalNoOfVists }}</td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedHM }}</td>
+                                        <td>{{ element?.totalPresentHM }}</td>
+                                        <td>{{ element?.totalPresentHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveHM }}</td>
+                                        <td>{{ element?.authorizedLeaveHMPercentage }}%</td>
+                                        <td>{{ element?.absentHM }}</td>
+                                        <td>{{ element?.absentHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyHM }}</td>
+                                        <td>{{ element?.onDutyHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTech }}</td>
+                                        <td>{{ element?.totalPresentTech }}</td>
+                                        <td>{{ element?.totalPresentTechPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTech }}</td>
+                                        <td>{{ element?.authorizedLeaveTechPercentage }}%</td>
+                                        <td>{{ element?.absentTech }}</td>
+                                        <td>{{ element?.absentTechPercentage }}%</td>
+                                        <td>{{ element?.onDutyTech }}</td>
+                                        <td>{{ element?.onDutyTechPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTechHM }}</td>
+                                        <td>{{ element?.authorizedLeaveTechHMPercentage }}%</td>
+                                        <td>{{ element?.absentTechHM }}</td>
+                                        <td>{{ element?.absentTechHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyTechHM }}</td>
+                                        <td>{{ element?.onDutyTechHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedStaff }}</td>
+                                        <td>{{ element?.totalPresentStaff }}</td>
+                                        <td>{{ element?.totalPresentStaffPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveStaff }}</td>
+                                        <td>{{ element?.authorizedLeaveStaffPercentage }}%</td>
+                                        <td>{{ element?.absentStaff }}</td>
+                                        <td>{{ element?.absentStaffPercentage }}%</td>
+                                        <td>{{ element?.onDutyStaff }}</td>
+                                        <td>{{ element?.onDutyStaffPercentage }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td colspan="4" class="text-center"><b>Total</b></td>
+                                    <td>
+                                        <b>{{ totalSchoolSum }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSchools }}</b>
+                                    </td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSum }}</b>
+                                    </td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTech }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTech}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTech }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTechHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTechHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTechHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumStaff }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentStaffs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentagePresentStaff }}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveStaffs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyStaff }} %</b>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tr *ngIf="!dataSource.data.length">
+                                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                    No Records Found!
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="pageLevel === 3">
+                    <div class="alert alert-info text-uppercase" role="alert">
+                        <div class="row">
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">District Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ districtName }}</label>
+                            </div>
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">Block Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ blockName }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 form-group mb-0">
+                                <label for="" class="form-label">Panchayat Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ panchayatName }}</label>
+                            </div>
+                            <div class="col-sm-2 form-group mb-0">
+                                <label for="" class="form-label">School Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;--</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col" rowspan="3">Sl.No</th>
+                                    <th scope="col" rowspan="3">School Name</th>
+                                    <th scope="col" rowspan="3">Number of visits</th>
+
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        HM Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        Teacher Attendance
+                                    </th>
+                                    <th class="text-center" scope="col" colspan="9"
+                                        *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        HM & Teacher Attendance
+                                    </th>
+                                    <th scope="col" class="text-center" colspan="9"
+                                        *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        Staff Attendance
+                                    </th>
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th scope="col" rowspan="2" class="text-center">Posted</th>
+                                        <th scope="col" colspan="2" class="text-center">Present</th>
+                                        <th scope="col" colspan="2" class="text-center">Leave</th>
+                                        <th scope="col" colspan="2" class="text-center">Absent</th>
+                                        <th scope="col" colspan="2" class="text-center">On Office Work</th>
+                                    </ng-container>
+
+                                </tr>
+                                <tr>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <th>Present (No.)</th>
+                                        <th>Present (%)</th>
+                                        <th>Leave (No.)</th>
+                                        <th>Leave (%)</th>
+                                        <th>Absent (No.)</th>
+                                        <th>Absent (%)</th>
+                                        <th>On Office Work (No.)</th>
+                                        <th>On Office Work (%)</th>
+                                    </ng-container>
+
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let element of resultData">
+                                    <td>{{ element?.slNo }}</td>
+                                    <td>
+                                        <a href="javascript:void(0)" (click)="
+                        drillDown(
+                          element?.districtId,
+                          element?.blockId,
+                          element?.nagarId,
+                          element?.schoolId,
+                          getStartDate,
+                          getEndDate
+                        )
+                      ">{{
+                                            element?.schoolUdiseCode
+                                            ? element?.schoolUdiseCode
+                                            : "--"
+                                            }}-{{
+                                            (element?.schoolName | titlecase)
+                                            ? element?.schoolName
+                                            : "--"
+                                            }}
+                                        </a>
+                                    </td>
+
+                                    <td>{{ element?.totalNoOfVists }}</td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedHM }}</td>
+                                        <td>{{ element?.totalPresentHM }}</td>
+                                        <td>{{ element?.totalPresentHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveHM }}</td>
+                                        <td>{{ element?.authorizedLeaveHMPercentage }}%</td>
+                                        <td>{{ element?.absentHM }}</td>
+                                        <td>{{ element?.absentHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyHM }}</td>
+                                        <td>{{ element?.onDutyHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTech }}</td>
+                                        <td>{{ element?.totalPresentTech }}</td>
+                                        <td>{{ element?.totalPresentTechPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTech }}</td>
+                                        <td>{{ element?.authorizedLeaveTechPercentage }}%</td>
+                                        <td>{{ element?.absentTech }}</td>
+                                        <td>{{ element?.absentTechPercentage }}%</td>
+                                        <td>{{ element?.onDutyTech }}</td>
+                                        <td>{{ element?.onDutyTechPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHM }}</td>
+                                        <td>{{ element?.totalPresentTechHMPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveTechHM }}</td>
+                                        <td>{{ element?.authorizedLeaveTechHMPercentage }}%</td>
+                                        <td>{{ element?.absentTechHM }}</td>
+                                        <td>{{ element?.absentTechHMPercentage }}%</td>
+                                        <td>{{ element?.onDutyTechHM }}</td>
+                                        <td>{{ element?.onDutyTechHMPercentage }}%</td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+                                        <td>{{ element?.totalPostedStaff }}</td>
+                                        <td>{{ element?.totalPresentStaff }}</td>
+                                        <td>{{ element?.totalPresentStaffPercentage }}%</td>
+                                        <td>{{ element?.authorizedLeaveStaff }}</td>
+                                        <td>{{ element?.authorizedLeaveStaffPercentage }}%</td>
+                                        <td>{{ element?.absentStaff }}</td>
+                                        <td>{{ element?.absentStaffPercentage }}%</td>
+                                        <td>{{ element?.onDutyStaff }}</td>
+                                        <td>{{ element?.onDutyStaffPercentage }}%</td>
+                                    </ng-container>
+                                </tr>
+                                <tr>
+                                    <td colspan="2" class="text-center"><b>Total</b></td>
+                                    <td>
+                                        <b>{{ totalNoOfVistsSum }}</b>
+                                    </td>
+                                    <ng-container *ngIf="(officialsGroup == 1) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 2) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTech }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTech}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTech}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTech }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 3) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumTechHM }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentTechHMs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentagePresentTechHM}}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveTechHMs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentTechHM}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyTechHMs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyTechHM }} %</b>
+                                        </td>
+                                    </ng-container>
+                                    <ng-container *ngIf="(officialsGroup == 4) || (officialsGroup == '')">
+
+                                        <td>
+                                            <b>{{ totalPostedSumStaff }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPresentStaffs }}
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentagePresentStaff }}%
+                                            </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ authorizedLeaveStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageLeaveStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ unAuthorizedLeaveStaffs }}</b>
+                                        </td>
+                                        <td>
+                                            <b>{{totalPercentageAbsentStaff}}% </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ onDutyStaffs }} </b>
+                                        </td>
+                                        <td>
+                                            <b>{{ totalPercentageOnDutyStaff }} %</b>
+                                        </td>
+                                    </ng-container>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tr *ngIf="!dataSource.data.length">
+                                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                    No Records Found!
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div *ngIf="pageLevel === 4">
+                    <div class="alert alert-info text-uppercase" role="alert">
+                        <div class="row">
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">District Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ districtName }}</label>
+                            </div>
+                            <div class="col-sm-2 form-group">
+                                <label for="" class="form-label">Block Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ blockName }}</label>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-sm-2 form-group mb-0">
+                                <label for="" class="form-label">Panchayat Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ panchayatName }}</label>
+                            </div>
+                            <div class="col-sm-2 form-group mb-0">
+                                <label for="" class="form-label">School Name</label>
+                            </div>
+                            <div class="col-sm-4 form-group mb-0">
+                                <label class="form-label fw-bolder" for="">: &nbsp;&nbsp;{{ schoolName }}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-responsive" id="viewTable">
+                        <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                        </mat-progress-bar>
+
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col">Sl.No</th>
+                                    <th scope="col">School Name</th>
+                                    <th scope="col">Monitored By</th>
+                                    <th scope="col">Monitoring Date</th>
+                                    <th scope="col">School Open / Close Status</th>
+                                    <th scope="col" colspan="4" class="text-center">
+                                        Monitoring Details
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <ng-container *ngFor="let element of resultData">
+                                    <tr>
+                                        <td>{{ element?.slNo }}</td>
+                                        <td>
+                                            {{
+                                            element?.schoolUdiseCode
+                                            ? element?.schoolUdiseCode
+                                            : "--"
+                                            }}-{{
+                                            (element?.schoolName | titlecase)
+                                            ? element?.schoolName
+                                            : "--"
+                                            }}
+                                        </td>
+                                        <td>{{ element?.vchfullName }}</td>
+                                        <td>{{ element?.inspectionDate }}</td>
+                                        <td>
+                                            {{ element?.schoolOpenStatus == 1 ? "Open" : "Closed" }}
+                                        </td>
+                                        <td colspan="4">
+                                            <ng-container *ngIf="element.teacherAtt != ''; else other_content">
+                                                <table class="table table-bordered">
+                                                    <thead class="bg-lightpurple">
+                                                        <tr>
+                                                            <th scope="col">Officials Type</th>
+                                                            <th scope="col">Total Officials Posted</th>
+                                                            <th scope="col">Total Officials Present</th>
+                                                            <th scope="col">Total Officials On Leave</th>
+                                                            <th scope="col">Total Absent Officials</th>
+                                                            <th scope="col">Total On Duty Officials</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr *ngFor="let elementAtt of element.teacherAtt">
+                                                            <td>
+                                                                <b>{{ elementAtt?.teacherType }}</b>
+                                                            </td>
+                                                            <td>{{ elementAtt?.totalPosted }}</td>
+                                                            <td>{{ elementAtt?.totalPresent }}</td>
+                                                            <td>{{ elementAtt?.authorizedLeave }}</td>
+                                                            <td>{{ elementAtt?.absent }}</td>
+                                                            <td>{{ elementAtt?.outForOfficialWork }}</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-container>
+                                            <ng-template #other_content>
+                                                <table class="table table-bordered">
+                                                    <thead class="bg-lightpurple">
+                                                        <tr>
+                                                            <th scope="col">Officials Type</th>
+                                                            <th scope="col">Total Officials Posted</th>
+                                                            <th scope="col">Total Officials Present</th>
+                                                            <th scope="col">Total Officials On Leave</th>
+                                                            <th scope="col">Total Absent Officials</th>
+                                                            <th scope="col">Total On Duty Officials</th>
+                                                        </tr>
+                                                    </thead>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td>--</td>
+                                                            <td>--</td>
+                                                            <td>--</td>
+                                                            <td>--</td>
+                                                            <td>--</td>
+                                                            <td>--</td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </ng-template>
+                                        </td>
+                                    </tr>
+                                </ng-container>
+                            </tbody>
+                        </table>
+                        <table>
+                            <tr *ngIf="!dataSource.data.length">
+                                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                    No Records Found!
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <ng-template #showEmptyAlert> </ng-template>
+            </div>
+        </div>
+    </div>
+
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound == true"
+        #showEmptyAlert>
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{
+        "Please search to find the HM/Teacher/Staff attendance monitoring report "
+        }}
+    </div>
+</div>

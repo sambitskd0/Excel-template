@@ -1,0 +1,230 @@
+body { padding: 10px; font-family: 'Nunito', sans-serif;}
+.logo {height: 50px;}
+
+.noPrint{
+	display:none;
+}
+.questionBankImg {
+	width: 150px;
+	height: 100px;
+  }
+#printHeader{
+	border-bottom: 1px solid #ccc;
+	padding-bottom: 20px;
+	margin-bottom: 1rem;
+}
+table>tbody>tr>td {font-size: 13px; padding: 0.5rem!important;}
+#printFooter {text-align: center; padding: 10px;}
+
+.bg-lightpurple {
+	background-color: rgb(150 118 199)!important;
+	color: #fff!important;
+	padding: 0.8rem!important;
+	font-size: 15px;
+}
+table{
+	border: 1px solid #000!important;
+	width: 100%!important;
+	border-collapse: collapse!important;
+}
+/* table, th, td {
+	border: 1px solid #ccc!important;
+} */
+.heading{
+	color: rgb(99 64 154);
+    margin-bottom: 0;
+    font-size: 1.3rem;
+    margin-top: 0.5rem;
+    display: inline-block;
+}
+.headingSub {
+    color: rgb(78 78 78);
+    margin-top: 0.2rem;
+    display: block;
+    font-size: 15px;
+}
+.print-btn{
+	margin-right: 10px;
+    margin-top: 20px;
+    background-color: #715cb8;
+    padding: 6px 12px;
+    border-radius: 3px;
+    color: #fff;
+    text-decoration: none;
+    float: right;
+    border: 1px solid rgb(131 98 181);
+	margin-bottom:1rem;
+}
+.print-btn:hover{
+	background-color: rgb(88 38 167);
+
+}
+.print-logo{
+
+	height: 60px;
+	width: 280px;
+	margin: 0 auto;
+	
+}
+.print-logo img {
+	width: 100%;
+    object-fit: cover;
+}
+#printFooter {
+    /* text-align: center;
+    padding: 12px 15px;
+    margin-top: 1.5rem;
+	color: #000!important;
+	background-color: #ccc!important; */
+
+	text-align: center;
+    padding: 12px 15px;
+    margin-top: 1.5rem;
+    color: #000!important;
+    font-size: 0.8em;
+    border-top: #9d9d9d 1px solid;
+}
+
+	/* raised grievance css */
+	.row {
+		--bs-gutter-x: 1.5rem;
+		--bs-gutter-y: 0;
+		display: flex;
+		flex-wrap: wrap;
+		margin-top: calc(-1 * var(--bs-gutter-y));
+		margin-right: calc(-.5 * var(--bs-gutter-x));
+		margin-left: calc(-.5 * var(--bs-gutter-x));
+	}
+	.row>* {
+		flex-shrink: 0;
+		width: 100%;
+		max-width: 100%;
+		padding-right: calc(var(--bs-gutter-x) * .5);
+		padding-left: calc(var(--bs-gutter-x) * .5);
+		margin-top: var(--bs-gutter-y);
+	}
+	.col-lg-3 {
+		flex: 0 0 auto!important;
+		width: 25%!important;
+	}
+	.col-md-3 {
+		flex: 0 0 auto;
+		width: 25%;
+	}
+	.col-md-2 {
+		flex: 0 0 auto;
+		width: 16.66666667%;
+	}
+	.printReport .col-md-1{
+		display: none;
+	}
+	.col-lg-8 {
+		flex: 0 0 auto!important;
+		width: 66.66666667%!important;
+	}
+	.form-group {
+		margin-bottom: 1rem!important;
+		position: relative!important;
+	}
+
+	.printReport .form-label {
+		font-weight: 500;
+	}
+	.printReport .table {
+        margin-bottom: 0;
+	}
+	
+	.mb-4 {
+		margin-bottom: 1.5rem!important;
+	}
+	h6 {
+		font-size: 1rem;
+		margin: 15px 15px 4px!important;
+	}
+	  h5 {
+		font-size: 1.25rem;
+		margin-bottom: 20px;
+	} 
+	.printReport h5{
+		margin-bottom: .5rem!important;
+		font-size: 1.1rem!important;
+		}
+	.form-label {
+		margin-bottom: 0.2rem;
+		font-weight: 600;
+		padding-top: 5px;
+	}
+	.colon {
+		position: absolute;
+		left: 0;
+		top: 0px;
+		font-weight: 700;
+	}
+	.colon-top .colon {
+		top: -2px;
+	}
+	table, th{
+	    font-size: 14px;
+		padding: 15px 5px!important;
+	}
+	table, th, td {
+		border: 1px solid #ccc!important;
+		padding: 15px 5px!important;
+	}
+	.printReport table, th, td {
+		padding: 5px 5px!important;
+	}
+	.printReport{
+		padding: 0 1rem 0 0rem!important;
+	}
+	.text-center {
+		text-align: center!important;
+	}
+	.mt-3{
+		margin-top: 1rem;
+	}
+
+	.col-md-8 {
+		flex: 0 0 auto!important;
+		width: 66.66666667%!important;
+	}
+
+	.col-md-4 {
+		flex: 0 0 auto!important;
+		width: 26.333333%!important;
+	}
+
+	.col-md-2 {
+		flex: 0 0 auto!important;
+		width: 16.66666667%!important;
+	}
+
+	.questions-bg {
+		background: #f1f1f1;
+		padding: 10px 10px;
+		border: 1px solid #dddddd;
+		margin-bottom: 10px;
+		margin-top: 10px;
+	}
+
+	.bg-light {
+		background-color: rgb(100 98 104 / 6%)!important;
+		border: 1px solid #dee2e6!important;
+		padding: 0.5rem!important;
+		
+	}
+
+	.bg-light .form-group
+	{
+		margin-bottom: 0rem!important;
+	}
+
+	label img{
+		height: 100px!important;
+	}
+/* ends */
+@media print {
+	@page { margin: 0; }
+
+
+}

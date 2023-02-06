@@ -1,0 +1,14 @@
+<fieldset class="rating">
+
+  <input type="radio" [name]="inputName" value="3" [checked]="rating===3" />
+  <label title="सीख चुका है (***)"  (click)='onClick(3)'>3 star</label>
+
+  <input type="radio" [name]="inputName" value="2" [checked]="rating===2" />
+  <label title="सीख रहा है (**)" (click)='onClick(2)'>2 stars</label>
+
+
+  <input type="radio" [name]="inputName" value="1" [checked]="rating===1" />
+  <label title="प्रयास की आवश्यकता है (*)" (click)='onClick(1)'>1 stars</label>
+
+  
+</fieldset>

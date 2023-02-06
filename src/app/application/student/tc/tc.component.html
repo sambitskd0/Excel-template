@@ -1,0 +1,1068 @@
+<!-- for generate TC -->
+<div class="modal generate__tc fade" id="TCModal" tabindex="-1" aria-labelledby="TCModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+   <form [formGroup]="TCForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <div class="modal-content">
+         <div class="modal-header text-center noprint">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #generateTCModalClose></button>
+         </div>
+         <div class="modal-body ">
+            <div class="generatetc__sec">
+               <div class="generatetc__logo">
+                  <img src="./assets/img/logo-bihar.png">
+               </div>
+               <div class="generatetc__header">
+                  <h1 class="modal-title text-center">शिक्षा विभाग</h1>
+                  <small class="d-block">बिहार सरकार</small>
+               </div>
+               <div class="genertecode__sec">
+                  <div class="row">
+                     <div class="col-sm-9">
+                        <!-- <table  width="100%">
+                           <tbody>
+                              <tr height="50">
+                                 <td width="150">
+                                    <label class="form-label mb-2"> प्रमाण-पत्र का क्रमांक </label>
+                                 </td>
+                                 <td width="2">:</td>
+                                 <td width="300"><label class="label-data fw-bold ms-2 genpramna__wdth">3965811</label></td>
+                              </tr>
+                           </tbody>
+                        </table> -->
+                        <table  width="100%">
+                           <tbody>
+                              <tr height="50">
+                                 <td width="100">
+                                    <label class="form-label mb-2"> जिला कोड </label>
+                                 </td>
+                                 <td width="2">:</td>
+                                 <td width="100">
+                                    <label class="label-data fw-bold ms-2 gencode__wdth">{{ modalTCInfo?.districtCode}}</label>
+                                    <!-- <input type="text" formControlName="districtCode" maxlength="5" (keypress)="customValidators.keyPressNumbers($event)" class="form-control gencode__wdth"> -->
+                                 </td>
+                                 <td width="100">
+                                    <label class="form-label  ms-4 mb-2"> प्रखण्ड कोड </label>
+                                 <td width="2">:</td>
+                                 <td width="100">
+                                    <label class="label-data fw-bold ms-2 gencode__wdth">{{ modalTCInfo?.blockCode}}</label>
+                                    <!-- <input type="text" formControlName="blockCode" maxlength="8" (keypress)="customValidators.keyPressNumbers($event)" class="form-control gencode__wdth"> -->
+                                 </td>
+                                 <td width="100">
+                                    <label class="form-label mb-2"> विद्यालय कोड </label>
+                                 </td>
+                                 <td width="2">:</td>
+                                 <td width="100">
+                                    <label class="label-data fw-bold ms-2 gencode__wdth">{{ modalTCInfo?.schoolUdiseCode}}</label>
+                                    <!-- <input type="text" formControlName="schoolCode" maxlength="10" (keypress)="customValidators.keyPressNumbers($event)" class="form-control gencode__wdth"> -->
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                     <div class="col-sm-3">
+                        <div class="generateupload__img">
+                           <img *ngIf="studentPhotoIDPath==''" src="./assets/img/male-avtar.png">
+                           <img *ngIf="studentPhotoIDPath" src="{{this.studentPhotoIDPath}}">
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div  class="text-center">
+                  <h4  class="genpratham--text">विद्यालय स्थानान्तरण प्रमाण-पत्र</h4>
+               </div>
+               <table  width="100%">
+                  <tbody>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label mb-2">विद्यालय का नाम </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="220">
+                           <label class="label-data fw-bold ms-2 ">{{ modalTCInfo?.schoolUdiseCode}} - {{ modalTCInfo?.schoolName}}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">1.</strong>विद्यार्थी का नाम </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.studentName || '' }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">2.</strong>माता का नाम </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.motherName || '' }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">3.</strong>पिता का नाम</label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.fatherName || '' }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">4.</strong>स्थायी पता (ग्राम,थाना और जिला) </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <!-- <label *ngIf="modalTCInfo?.permanentAddress" class="label-data fw-bold ms-2 me-2">{{ modalTCInfo?.permanentAddress || '' }}</label> -->
+                           <input type="text" formControlName="permanentAddress" class="form-control ms-2 me-2" value="{{ modalTCInfo?.permanentAddress || '' }}">
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">5.</strong>प्रवेश-तिथि </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionDate| date:'dd MMM yyyy' }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">6.</strong>प्रवेश-पंजी की क्रम-संख्या </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionNo || '' }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">7.</strong>प्रवेश-पंजी मे अंकित जन्म-तिथि - अंक मे </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <table  width="100%">
+                              <tbody>
+                                 <tr height="50">
+                                    <td width="50">
+                                       <label class="form-label mb-2">दिवस</label>
+                                    </td>
+                                    <td width="100">
+                                       <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'dd' }}</label>
+                                    </td>
+                                    <td width="50">
+                                       <label class="form-label  ms-2">माह</label>
+                                    </td>
+                                    <td width="100"><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MM' }}</label></td>
+                                    <td width="50">
+                                       <label class="form-label ms-3">वर्ष</label>
+                                    </td>
+                                    <td width="200">
+                                       <label class="label-data fw-bold ms-3 code__wdth">{{ modalTCInfo?.dob| date:'yyyy' }}</label>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2 ms-4">a.</strong> शब्दों मे </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <table  width="100%">
+                              <tbody>
+                                 <tr height="50">
+                                    <td width="">
+                                       <label class="form-label mb-2">दिवस</label>
+                                    </td>
+                                    <td width="">
+                                       <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dobD | titlecase }}</label>
+                                    </td>
+                                    <td width="">
+                                       <label class="form-label  ms-2">माह</label>
+                                    </td>
+                                    <td width=""><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MMMM' }}</label></td>
+                                    <td width="">
+                                       <label class="form-label ms-3">वर्ष</label>
+                                    </td>
+                                    <td width="200">
+                                       <label class="label-data fw-bold ms-2">{{ modalTCInfo?.dobY | titlecase }}</label>
+                                    </td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">8.</strong>विद्यालय परित्याग के पूर्व अध्ययनरत कक्षा का नाम </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.cls }}</label>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">9.</strong>वर्तमान शैक्षणिक सत्र मे वर्ग दिवसों की कुल संख्या </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <input type="text" formControlName="noOfSchlDay" class="form-control ms-2 me-2" maxlength="3" (keypress)="customValidators.keyPressNumbers($event)">
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">10.</strong>वर्तमान शैक्षणिक सत्र मे कुल उपस्थिती </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <input type="text" formControlName="noAttendance" class="form-control ms-2 me-2" maxlength="3" (keypress)="customValidators.keyPressNumbers($event)">
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">11.</strong>विद्यालय परित्याग करने की तिथि</label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <!-- <input type="text" formControlName="leavingDate" class="form-control ms-2 me-2"> -->
+                           <input class="form-control ms-2 me-2" formControlName="leavingDate" readonly #datepickerYMD="bsDatepicker" bsDatepicker [minDate]="adDate" [maxDate]="today" [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"/>
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">12.</strong>विद्यालय परित्याग का कारण</label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <input type="text" formControlName="transferReason" class="form-control ms-2 me-2" maxlength="300">
+                        </td>
+                     </tr>
+                     <tr height="50">
+                        <td width="200">
+                           <label class="form-label">
+                           <strong class="me-2">13.</strong>आचरण </label>
+                        </td>
+                        <td width="2">:</td>
+                        <td width="50">
+                           <input type="text" formControlName="stdCharacter" class="form-control ms-2 me-2" maxlength="50">
+                        </td>
+                     </tr>
+                  </tbody>
+               </table>
+               <div class="genstamp__gap">
+                  <label class="" for="">दिनांक <span class="">:</span> <strong>{{ today| date:'dd MMM yyyy' }}</strong> </label>
+                  <span class="float-end"><strong>प्राधानाध्यापक का हस्ताक्षर एवं मुहर </strong></span>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer noprint">
+            <button type="submit" class="btn btn-primary noprint">Generate / उत्पन्न करें</button>  
+            <button type="button" class="btn btn-danger noprint" data-bs-dismiss="modal">Close / बंद करे</button>
+         </div>
+      </div>
+   </form>
+  </div>
+</div>
+<!-- for generate TC -->
+
+<!-- for hindi TC Print -->
+<!--<div class="modal fade" id="exampleModal2" tabindex="-1" aria-labelledby="exampleModalLabel2" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header text-center">
+            <div>
+               <h4 class="modal-title text-center" id="exampleModalLabel">शिक्षा विभाग</h4>
+               <small class="d-block">बिहार सरकार</small>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body modify">
+            <table  width="100%">
+               <tbody>
+                  <tr height="50">
+                     <td  width="200">
+                        <label class="form-label mb-2"> प्रमाण-पत्र का क्रमांक </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="200"><label class="label-data fw-bold ms-2 ">3965811</label></td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label class="form-label mb-2"> जिला कोड </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">1028</label>
+                     </td>
+                     <td  width="200">
+                        <label class="form-label  ms-4 mb-2"> प्रखण्ड कोड </label>
+                     <td  width="2">:</td>
+                     <td  width="200"><label class="label-data fw-bold ms-2 ">01</label></td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label class="form-label mb-2"> विद्यालय कोड </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">4006</label>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <div  class="text-center">
+               <h4  class="mb-4 mt-4 text-primary">विद्यालय स्थानान्तरण प्रमाण-पत्र </h4>
+            </div>
+            <table  width="100%">
+               <tbody>
+                  <tr height="50">
+                     <td  width="250">
+                        <label class="form-label mb-2"> विद्यालय का नाम </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="200"><label class="label-data fw-bold ms-2 ">0280104006- P.S Dhibra Balak</label></td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">1.</strong> विद्यार्थी का नाम </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">Nikita Das </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">2.</strong> माता का नाम </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">Anita Das </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">3.</strong> पिता का नाम</label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">Anil kumar Das</label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">4.</strong> स्थायी पता (ग्राम,थाना और जिला) </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">Patna – 804432 </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">5.</strong> .MMM. </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">13.04.2021 </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">6.</strong>  प्रवेश-पंजी की क्रम-संख्या </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">115 </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">7.</strong>  प्रवेश-पंजी मे अंकित जन्म-तिथि - अंक मे </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">08-04-2009 </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2 ms-4">a.</strong>  शब्दों मे </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">Eight Days / Month of April / 2009 Years </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">8.</strong>विद्यालय परित्याग के पूर्व अध्ययनरत कक्षा का नाम </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold  ms-2 me-2">8th </label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">9.</strong> वर्तमान शैक्षणिक सत्र मे वर्ग दिवसों की कुल संख्या </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">133</label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">10.</strong> वर्तमान शैक्षणिक सत्र मे कुल उपस्थिती </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">59</label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">11.</strong>  विद्यालय परित्याग करने की तिथि</label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">31.03.2022</label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">12.</strong>विद्यालय परित्याग का कारण</label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">Higher education</label>
+                     </td>
+                  </tr>
+                  <tr height="50">
+                     <td  width="200">
+                        <label  for="" class="form-label">
+                        <strong  class="me-2">13.</strong>  आचरण </label>
+                     </td>
+                     <td  width="2">:</td>
+                     <td  width="50">
+                        <label class="label-data fw-bold ms-2 ">Excellent</label>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+            <div class="mt-5 mb-3">
+               <label class="" for="">दिनांक <span class="">:</span> <strong>  05.04.2022</strong> </label>
+               <span class="float-end"><strong> प्राधानाध्यापक का हस्ताक्षर एवं मुहर </strong></span>
+            </div>
+            <div class="modal-footer noprint">
+               <a  class="btn btn-primary noprint" onclick="window.print()">Print</a>  
+               <button type="button" class="btn btn-danger noprint" data-bs-dismiss="modal">Close</button>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>-->
+<div class="modal tc__details fade" id="PrintTCModal" tabindex="-1" aria-labelledby="PrintTCModal" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header text-center noprint">
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body ">
+            <div class="tc__section">
+               <div class="row">
+                  <div class="col-sm-6">
+                     <div class="tc__data">
+                        <div class="tc__header">
+                           <div class="tc__logo">
+                              <img src="./assets/img/logo-bihar.png">
+                           </div>
+                           <div class="tc__title">
+                              <h1>शिक्षा विभाग</h1>
+                              <small class="d-block">बिहार सरकार</small>
+                           </div>
+                        </div>
+                        <div class="copy__title text-center">
+                           <h6>School Copy</h6>
+                        </div>
+                        <div class="code__section">
+                           <div class="row">
+                              <div class="col-sm-10">
+                                 <table  width="100%">
+                                    <tbody>
+                                       <tr height="50">
+                                          <td  width="100">
+                                             <label class="form-label mb-2"> प्रमाण-पत्र का क्रमांक </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="300"><label class="label-data fw-bold ms-2 pramna__wdth">{{ modalTCInfo?.certificateNo}}</label></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <table  width="100%">
+                                    <tbody>
+                                       <tr height="50">
+                                          <td  width="100">
+                                             <label class="form-label mb-2"> जिला कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100">
+                                             <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.districtCode}}</label>
+                                          </td>
+                                          <td  width="100">
+                                             <label class="form-label  ms-2"> प्रखण्ड कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100"><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.blockCode}}</label></td>
+                                          <td  width="100">
+                                             <label class="form-label ms-3"> विद्यालय कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100">
+                                             <label class="label-data fw-bold ms-3 code__wdth">{{ modalTCInfo?.schoolUdiseCode}}</label>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="col-sm-2">
+                                 <div class="upload__img">
+                                    <img *ngIf="studentPhotoIDPath==''" src="./assets/img/male-avtar.png">
+                                    <img *ngIf="studentPhotoIDPath" src="{{this.studentPhotoIDPath}}">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div  class="text-center">
+                           <h4  class="pratham--text">विद्यालय स्थानान्तरण प्रमाण-पत्र </h4>
+                        </div>
+                        <table  width="100%">
+                           <tbody>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label class="form-label mb-2"> विद्यालय का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="200"><label class="label-data fw-bold ms-2 ">{{ modalTCInfo?.schoolUdiseCode}} - {{ modalTCInfo?.schoolName}}</label></td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">1.</strong> विद्यार्थी का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.studentName || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">2.</strong> माता का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.motherName || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">3.</strong> पिता का नाम</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.fatherName || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">4.</strong> स्थायी पता (ग्राम,थाना और जिला) </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.permanentAddress || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">5.</strong> प्रवेश-तिथि </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionDate| date:'dd MMM yyyy' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">6.</strong>  प्रवेश-पंजी की क्रम-संख्या </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionNo || '' }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">7.</strong>  प्रवेश-पंजी मे अंकित जन्म-तिथि - अंक मे </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="50">
+                                                <label class="form-label mb-2">दिवस</label>
+                                             </td>
+                                             <td  width="100">
+                                                <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'dd' }}</label>
+                                             </td>
+                                             <td  width="50">
+                                                <label class="form-label  ms-2">माह</label>
+                                             </td>
+                                             <td  width="100"><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MM' }}</label></td>
+                                             <td  width="50">
+                                                <label class="form-label ms-3">वर्ष</label>
+                                             </td>
+                                             <td  width="200">
+                                                <label class="label-data fw-bold ms-3 code__wdth">{{ modalTCInfo?.dob| date:'yyyy' }}</label>
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2 ms-4">a.</strong>  शब्दों मे </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="">
+                                                <label class="form-label mb-2">दिवस</label>
+                                             </td>
+                                             <td  width="">
+                                                <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dobD | titlecase }}</label>
+                                             </td>
+                                             <td  width="">
+                                                <label class="form-label  ms-2">माह</label>
+                                             </td>
+                                             <td  width=""><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MMMM' }}</label></td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label class="form-label ms-3"></label>
+                                 </td>
+                                 <td  width="2"></td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="">
+                                                <label class="form-label  ms-1">वर्ष</label>
+                                             </td>
+                                             <td  width=""><label class="label-data fw-bold ms-2">{{ modalTCInfo?.dobY | titlecase }}</label></td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">8.</strong>विद्यालय परित्याग के पूर्व अध्ययनरत कक्षा का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.cls }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">9.</strong> वर्तमान शैक्षणिक सत्र मे वर्ग दिवसों की कुल संख्या </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.noOfSchlDay }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">10.</strong> वर्तमान शैक्षणिक सत्र मे कुल उपस्थिती </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.noAttendance }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">11.</strong>  विद्यालय परित्याग करने की तिथि</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.leavingDate| date:'dd MMM yyyy' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">12.</strong>विद्यालय परित्याग का कारण</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.transferReason }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">13.</strong>  आचरण </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2"> {{ modalTCInfo?.stdCharacter }}  </label>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <div class="stamp__gap">
+                           <label class="" for="">दिनांक <span class="">:</span> <strong>{{ modalTCInfo?.tcGeneratedOn| date:'dd MMM yyyy' }}</strong> </label>
+                           <span class="float-end"><strong> प्राधानाध्यापक का हस्ताक्षर एवं मुहर </strong></span>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-sm-6">
+                     <div class="tc__data">
+                        <div class="tc__header">
+                           <div class="tc__logo">
+                              <img src="./assets/img/logo-bihar.png">
+                           </div>
+                           <div class="tc__title">
+                              <h1>शिक्षा विभाग</h1>
+                              <small class="d-block">बिहार सरकार</small>
+                           </div>
+                        </div>
+                        <div class="copy__title text-center">
+                           <h6>Student Copy</h6>
+                        </div>
+                        <div class="code__section">
+                           <div class="row">
+                              <div class="col-sm-10">
+                                 <table  width="100%">
+                                    <tbody>
+                                       <tr height="50">
+                                          <td  width="100">
+                                             <label class="form-label mb-2"> प्रमाण-पत्र का क्रमांक </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="300"><label class="label-data fw-bold ms-2 pramna__wdth">{{ modalTCInfo?.certificateNo}}</label></td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                                 <table  width="100%">
+                                    <tbody>
+                                       <tr height="50">
+                                          <td  width="100">
+                                             <label class="form-label mb-2"> जिला कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100">
+                                             <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.districtCode}}</label>
+                                          </td>
+                                          <td  width="100">
+                                             <label class="form-label  ms-2"> प्रखण्ड कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100"><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.blockCode}}</label></td>
+                                          <td  width="100">
+                                             <label class="form-label ms-3"> विद्यालय कोड </label>
+                                          </td>
+                                          <td  width="2">:</td>
+                                          <td  width="100">
+                                             <label class="label-data fw-bold ms-3 code__wdth">{{ modalTCInfo?.schoolUdiseCode}}</label>
+                                          </td>
+                                       </tr>
+                                    </tbody>
+                                 </table>
+                              </div>
+                              <div class="col-sm-2">
+                                 <div class="upload__img">
+                                    <img *ngIf="studentPhotoIDPath==''" src="./assets/img/male-avtar.png">
+                                    <img *ngIf="studentPhotoIDPath" src="{{this.studentPhotoIDPath}}">
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                        <div  class="text-center">
+                           <h4  class="pratham--text">विद्यालय स्थानान्तरण प्रमाण-पत्र </h4>
+                        </div>
+                        <table  width="100%">
+                           <tbody>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label class="form-label mb-2"> विद्यालय का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="200"><label class="label-data fw-bold ms-2 ">{{ modalTCInfo?.schoolUdiseCode}} - {{ modalTCInfo?.schoolName}}</label></td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">1.</strong> विद्यार्थी का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.studentName || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">2.</strong> माता का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.motherName || '' }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">3.</strong> पिता का नाम</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.fatherName || '' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">4.</strong> स्थायी पता (ग्राम,थाना और जिला) </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.permanentAddress || '' }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">5.</strong> प्रवेश-तिथि </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionDate| date:'dd MMM yyyy' }}</label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">6.</strong>  प्रवेश-पंजी की क्रम-संख्या </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.admissionNo || '' }}  </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">7.</strong>  प्रवेश-पंजी मे अंकित जन्म-तिथि - अंक मे </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="50">
+                                                <label class="form-label mb-2">दिवस</label>
+                                             </td>
+                                             <td  width="100">
+                                                <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'dd' }}</label>
+                                             </td>
+                                             <td  width="50">
+                                                <label class="form-label  ms-2">माह</label>
+                                             </td>
+                                             <td  width="100"><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MM' }}</label></td>
+                                             <td  width="50">
+                                                <label class="form-label ms-3">वर्ष</label>
+                                             </td>
+                                             <td  width="200">
+                                                <label class="label-data fw-bold ms-3 code__wdth">{{ modalTCInfo?.dob| date:'yyyy' }}</label>
+                                             </td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2 ms-4">a.</strong>  शब्दों मे </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="">
+                                                <label class="form-label mb-2">दिवस</label>
+                                             </td>
+                                             <td  width="">
+                                                <label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dobD | titlecase }}</label>
+                                             </td>
+                                             <td  width="">
+                                                <label class="form-label  ms-2">माह</label>
+                                             </td>
+                                             <td  width=""><label class="label-data fw-bold ms-2 code__wdth">{{ modalTCInfo?.dob| date:'MMMM' }}</label></td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label class="form-label ms-3"></label>
+                                 </td>
+                                 <td  width="2"></td>
+                                 <td  width="50">
+                                    <table  width="100%">
+                                       <tbody>
+                                          <tr height="50">
+                                             <td  width="">
+                                                <label class="form-label  ms-1">वर्ष</label>
+                                             </td>
+                                             <td  width=""><label class="label-data fw-bold ms-2">{{ modalTCInfo?.dobY | titlecase }}</label></td>
+                                          </tr>
+                                       </tbody>
+                                    </table>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">8.</strong>विद्यालय परित्याग के पूर्व अध्ययनरत कक्षा का नाम </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.cls }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">9.</strong> वर्तमान शैक्षणिक सत्र मे वर्ग दिवसों की कुल संख्या </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.noOfSchlDay }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">10.</strong> वर्तमान शैक्षणिक सत्र मे कुल उपस्थिती </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.noAttendance }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">11.</strong>  विद्यालय परित्याग करने की तिथि</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.leavingDate| date:'dd.MMM.yyyy' }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">12.</strong>विद्यालय परित्याग का कारण</label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.transferReason }} </label>
+                                 </td>
+                              </tr>
+                              <tr height="50">
+                                 <td  width="200">
+                                    <label  for="" class="form-label">
+                                    <strong  class="me-2">13.</strong>  आचरण </label>
+                                 </td>
+                                 <td  width="2">:</td>
+                                 <td  width="50">
+                                    <label class="label-data fw-bold  ms-2 me-2">{{ modalTCInfo?.stdCharacter }} </label>
+                                 </td>
+                              </tr>
+                           </tbody>
+                        </table>
+                        <div class="stamp__gap">
+                           <label class="" for="">दिनांक <span class="">:</span> <strong>{{ modalTCInfo?.tcGeneratedOn| date:'dd MMM yyyy' }}</strong> </label>
+                           <span class="float-end"><strong> प्राधानाध्यापक का हस्ताक्षर एवं मुहर </strong></span>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="modal-footer noprint">
+            <a  class="btn btn-primary noprint" onclick="window.print()" id="print">Print / प्रिंट</a>  
+            <button type="button" class="btn btn-danger noprint" data-bs-dismiss="modal">Close / बंद करे</button>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- for hindi TC Print -->

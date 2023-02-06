@@ -1,0 +1,440 @@
+<div class="screen-space mobApp">
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+    <div class="indicator">( * ) Indicator Mandatory</div>
+</div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">School Survey - {{(userDetails && (userDetails["activityCenterName"]) ) || "--"}}</h3>
+      <!-- <span class="indicator">( * ) Indicator Mandatory</span> -->
+    </div>
+  </div>
+  <form [formGroup]="schoolSurveyForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 col-12 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">1)Total Enrolled CWSN in School </label><span
+                class="mandatory">*</span>    
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnVi" #totalCwsnVi maxlength="3"
+                   (keyup)="keyUpInputNumber($event, 'totalCwsnVi', 3)"  
+                    (blur)="checkFromTotalElement('presentCwsnVi','totalCwsnVi','VI')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnHi" #totalCwsnHi maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'totalCwsnHi', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnHi','totalCwsnHi','HI')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnOh" #totalCwsnOh maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'totalCwsnOh', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnOh','totalCwsnOh','OH')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnSi" #totalCwsnSi maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'totalCwsnSi', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnSi','totalCwsnSi','SI')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnId" #totalCwsnId maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'totalCwsnId', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnId','totalCwsnId','ID')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnCp" #totalCwsnCp maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'totalCwsnCp', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnCp','totalCwsnCp','CP')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="totalCwsnOthers" #totalCwsnOthers
+                    maxlength="3"  (keyup)="keyUpInputNumber($event, 'totalCwsnOthers', 3)"
+                    (blur)="checkFromTotalElement('presentCwsnOthers','totalCwsnOthers','OTHERS')"
+                    (blur)="totalCalculation(totalCwsnVi,totalCwsnHi,totalCwsnOh,totalCwsnSi,totalCwsnId,totalCwsnCp,totalCwsnOthers,1)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Total<span class="mandatory">*</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" readonly placeholder="" formControlName="totalEnrolledCwsn" />
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="patch">
+        <div class="row patch-heading">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">2)Present CWSN </label><span class="mandatory">*</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-6">
+            <div class="row">
+              <div class="col-3 col-md-1 col-sm-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">VI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 col-sm-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnVi" #presentCwsnVi maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'presentCwsnVi', 3)"
+                    (blur)="maxLimitChk('totalCwsnVi','presentCwsnVi','Present CWSN VI can not be greater than Total Registered CWSN VI.','VI')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">HI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnHi" #presentCwsnHi maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'presentCwsnHi', 3)"
+                     (blur)="maxLimitChk('totalCwsnHi','presentCwsnHi','Present CWSN HI can not be greater than Total Registered CWSN HI.','HI')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">OH </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnOh" #presentCwsnOh maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'presentCwsnOh', 3)"
+                    (blur)="maxLimitChk('totalCwsnOh','presentCwsnOh','Present CWSN OH can not be greater than Total Registered CWSN OH.','OH')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">SI </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnSi" #presentCwsnSi maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'presentCwsnSi', 3)"
+                    (blur)="maxLimitChk('totalCwsnSi','presentCwsnSi','Present CWSN SI can not be greater than Total Registered CWSN SI.','SI')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">ID </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnId" #presentCwsnId maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'presentCwsnId', 3)"
+                    (blur)="maxLimitChk('totalCwsnId','presentCwsnId','Present CWSN ID can not be greater than Total Registered CWSN ID.','ID')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">CP </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnCp" #presentCwsnCp maxlength="3"
+                     (keyup)="keyUpInputNumber($event, 'presentCwsnCp', 3)"
+                     (blur)="maxLimitChk('totalCwsnCp','presentCwsnCp','Present CWSN CP can not be greater than Total Registered CWSN CP.','CP')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Others
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" formControlName="presentCwsnOthers" #presentCwsnOthers
+                    maxlength="3" (keyup)="keyUpInputNumber($event, 'presentCwsnOthers', 3)"
+                     (blur)="maxLimitChk('totalCwsnOthers','presentCwsnOthers','Present CWSN Others can not be greater than Total Registered CWSN OTHERS.','OTHERS')"
+                    (blur)="totalCalculation(presentCwsnVi,presentCwsnHi,presentCwsnOh,presentCwsnSi,presentCwsnId,presentCwsnCp,presentCwsnOthers,2)" />
+                </div>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-3 col-md-1 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Total<span class="mandatory">*</span>
+                  </label>
+                </div>
+              </div>
+              <div class="col col-md-2 form-group">
+                <div class="">
+                  <span class="colon">:</span>
+                  <input type="number" class="form-control" readonly placeholder="" formControlName="totalPresentCwsn" />
+                  
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">
+              3)Last date of visit of RT/BRP (IE)
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+              [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" formControlName="rtBrpVisitDate" [maxDate]="maxDate"  readonly/>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">
+              4)No. of IEP prepared?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input type="number" class="form-control" formControlName="iepPrepared" (keyup)="keyUpInputNumber($event, 'iepPrepared', 3)"
+              (blur)="maxLimitChk('iepPrepared','iepUpdated',' No. of IEP updated can not be greater than IEP prepared.','')" />
+           
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">
+              5)No. of IEP updated ?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <input type="number" class="form-control" formControlName="iepUpdated" (keyup)="keyUpInputNumber($event, 'iepUpdated', 3)"
+              (blur)="maxLimitChk('iepPrepared','iepUpdated','No. of IEP updated can not be greater than IEP prepared.','')" />
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="exampleInputEmail1" class="form-label">
+              6)RAMP available in school ?
+              <span class="mandatory">*</span>
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="colon-top">
+            <span class="colon">:</span>
+            <div class="radiobuttons">
+              <div class="rdio rdio-primary form-check-inline">
+                <input name="rampAvailable" value="1" id="radio3" type="radio" checked=""
+                  formControlName="rampAvailable" />
+                <label for="radio3">Yes</label>
+              </div>
+              <div class="rdio rdio-primary form-check-inline">
+                <input name="rampAvailable" value="2" id="radio4" type="radio"
+                  formControlName="rampAvailable" />
+                <label for="radio4">No</label>
+              </div>
+              
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">7)Disable Friendly toilet availability ?<span class="mandatory">*</span>
+              </label>
+            </div>
+          </div>
+          <div class="col-md-3 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <div class="radiobuttons">
+                <div class="rdio rdio-primary form-check-inline">
+                  <input name="toiletAvailability" value="1" id="radio5" type="radio" checked=""
+                    formControlName="toiletAvailability" />
+                  <label for="radio5">Yes</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                  <input name="toiletAvailability" value="2" id="radio6" type="radio"
+                    formControlName="toiletAvailability" />
+                  <label for="radio6">No</label>
+                </div>
+                
+              </div>
+            </div>
+          </div>
+          <!-- <div class="row">
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">8) Upload a Picture <span class="mandatory"> *</span> </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <input accept=".jpg,.png,.jpeg" type="file" class="form-control" formControlName="provisionToUpdateAPicture"
+              (change)="selectFile($event)" /><code>('png, jpg, jpeg' with size of 1 MB)</code>
+            </div>
+          </div> -->
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Upload  picture <span class="mandatory">*</span>
+                </label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <input accept=".jpg,.png,.jpeg" type="file" class="form-control" formControlName="provisionToUpdateAPicture"
+                (change)="selectFile($event)" />
+               
+              </div>
+            </div>
+
+            
+            <div class="col-md-2 form-group">
+              <div class="box">
+                <div class="js--image-preview">
+                  <img *ngIf="provisionToUpdateAPictureUrl" [src]="provisionToUpdateAPictureUrl"
+                    class="img-thumbnail rounded mx-auto d-block questionBankImg" />
+                </div>
+              </div>
+            </div>
+          </div> 
+        </div>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success me-2">Submit</button>
+      <button type="reset" class="btn btn-danger" >Reset</button>
+    </div>
+  </form>
+</div>

@@ -1,0 +1,241 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">Manage User / उपयोगकर्ता प्रबंधित करें</h3>
+      </div>
+      <div class="tabArea">
+         <a routerLink="./../addUser" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add User / उपयोगकर्ता जोड़ें</a>
+         <a routerLink="./../viewUser" class="neuro viewLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View User / उपयोगकर्ता देखें</a>
+      </div>
+   </div>
+   <div class="searchPanel top-space">
+      <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का स्तर</label>
+            </div>
+            <div class="col-md-3 form-group">
+               <span class="colon">:</span>
+               <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                  (change)="loadSubDesignation($any($event.target).value);">
+                  <option value="0">--Select--</option>
+                  <option value="5" *ngIf="stateUser == false">State</option>
+                  <option value="4" *ngIf="distUser == false">District</option>
+                  <option value="3" *ngIf="blkUser == false">Block</option>
+                  <option value="2">Cluster</option>
+               </select>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label for="designationGroupId" class="form-label"> Designation <br>पद</label>
+            </div>
+            <div class="col-md-3 form-group">
+               <span class="colon">:</span>
+               <select name="designationGroupId" [(ngModel)]="designationGroupId" class="form-select"
+                  (change)="getSubDesignation($any($event.target).value);">
+                  <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+                  <option value="" *ngIf="desGrpLoading == false">Loading...</option>
+                  <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+                     {{ item.designationGroupName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="intDesignationId"
+                  name="intDesignationId">
+                  <option value="0" *ngIf="designationSelect == true">--Select--</option>
+                  <option value="" *ngIf="designationLoading == true">Loading...</option>
+                  <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                     {{ item.vchDesignationName }}
+                  </option>
+               </select>
+            </div>
+
+
+
+            <div class="col-lg-2 form-group mb-0" *ngIf="distLvl == true">
+               <label for="exampleInputEmail1" class="form-label">District <br> ज़िला</label>
+            </div>
+            <div class="col-lg-3 form-group mb-0" *ngIf="distLvl == true">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="districtId"
+                  name="districtId" (change)="getBlock($any($event.target).value); ">
+                  <option value="0" *ngIf="scDisrtictSelect == true">--Select--</option>
+                  <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                     {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1" *ngIf="distLvl2 == true"></div>
+            <div class="col-lg-1" *ngIf="blkLvl == true"></div>
+            <div class="col-lg-2 form-group" *ngIf="blkLvl == true">
+               <label class="form-label">Block <br>प्रखण्ड</label>
+            </div>
+            <div class="col-lg-3 form-group" *ngIf="blkLvl == true">
+               <span class="colon">:</span>
+               <select [(ngModel)]="blockId" name="blockId" class="form-select" aria-label="Default select example"
+                  (change)="getCluster($any($event.target).value);">
+                  <option value="0" *ngIf="scBlockSelect == true">--Select--</option>
+                  <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                  <option *ngFor="let item of blockData" [value]="item.blockId">
+                     {{ item.blockCode }} - {{ item.blockName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-2 form-group" *ngIf="clusterLvl == true">
+               <label class="form-label">Cluster <br>संकुल</label>
+            </div>
+            <div class="col-lg-3 form-group" *ngIf="clusterLvl == true">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="clusterId" name="clusterId">
+                  <option value="0" *ngIf="scClusterSelect == true">
+                     --Select--
+                  </option>
+                  <option value="" *ngIf="scClusterLoading == true">
+                     Loading...
+                  </option>
+                  <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                     {{ clusterItem.clusterCode }} -
+                     {{ clusterItem.clusterName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1" *ngIf="clusterLvl == true"></div>
+
+            <div class="col-lg-2 form-group mb-0">
+               <label for="vchUserId" class="form-label">User Id <br>यूजर आईडी</label>
+            </div>
+            <div class="col-lg-3 form-group mb-0">
+               <span class="colon">:</span>
+               <input type="text" class="form-control" id="vchUserId" aria-describedby="emailHelp"
+                  [(ngModel)]="vchUserId" name="vchUserId" autocomplete="off"
+                  (keypress)="customValidators.keyPressNumbers($event)" maxlength="25" />
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4">
+               <button class="btn btn-default btn-purple" type="submit"> Search / खोज करें <i
+                     class="bi bi-search"></i></button>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="row mt-4">
+      <div class="col-lg-12">
+         <div class="page__rightarea">
+            <div class="page__util">
+               <div class="util">
+                  <a title="Excel" class="excel" (click)="downloadUserList()"><i
+                        class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+               </div>
+            </div>
+         </div>
+         <div class="table-responsive" [hidden]="isLoading" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+            <table class="mat-elevation-z8 " mat-table [dataSource]="dataSource" matSort matTableExporter
+               #exporter="matTableExporter">
+               <ng-container matColumnDef="slNo">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Sl.No /क्रमांक
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+               </ng-container>
+               <ng-container matColumnDef="User Name">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     User Name / उपयोगकर्ता का नाम
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchUserName) ? element?.vchUserName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="User Id">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     User Id / यूजर आईडी
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchUserId ) ? element?.vchUserId :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="District">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     District / जिला
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.districtName ) ? element?.districtName :'--' }}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="Block">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Block / प्रखण्ड
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.blockName ) ? element?.blockName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Cluster">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Cluster / संकुल
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.clusterName ) ? element?.clusterName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Access Role">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Access Role / पहुँच भूमिका
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchRoleName ) ? element?.vchRoleName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Designation">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Sub-Designation / पद 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchDesignationName ) ? element?.vchDesignationName
+                     :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Assigned Employee">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Assigned Employee / नियत कर्मचारी
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchfullName ) ? element?.vchfullName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple noPrint"> Action / क्रियाएँ
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                     <a title="Delete"
+                        *ngIf="(this.userProfile.userLevel != element?.intLevelId && element?.intLevelId < 5) || (this.userProfile.userLevel == 5 || this.userProfile.userLevel == '')"
+                        class="delete-btn me-2" style="cursor: pointer" (click)="deleteUser(element?.encId)"><i
+                           class="bi bi-trash"></i></a>
+                  </td>
+
+               </ng-container>
+               <ng-container matColumnDef="resetpass">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple noPrint"> Reset Password / पासवर्ड रीसेट
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                     <a title="Reset Password" class="btn btn-warning me-2" style="cursor: pointer"
+                        (click)="resetPass(element?.encId)"><i class="bi bi-pencil-square text-primary"></i></a>
+                  </td>
+
+               </ng-container>
+               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <table>
+               <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length"
+                     class="mt-2 alert text-center text-uppercase fw-bold border">
+                     No Records Found!
+                  </td>
+               </tr>
+            </table>
+            <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows"
+               [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+               (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>
+            </mat-paginator>
+         </div>
+      </div>
+   </div>
+</div>

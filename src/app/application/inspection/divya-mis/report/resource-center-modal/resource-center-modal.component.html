@@ -1,0 +1,482 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Resource Center / Day Care Center Inspection Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+          <div class="top-space">
+                  <div class="patch">
+                    <div class="row patch-heading">
+                        <div class="col-md-6 form-group">
+                          <div class="">
+                             <label for="exampleInputEmail1" class="form-label">1) Registered CWSN in the current financial year till the date of
+                                visit   </label>
+                            
+                          </div>
+                        </div>
+                      </div>
+                    
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="row">
+                                 <div class=" col-3 col-md-1 col-sm-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">VI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2  col-sm-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnVi || "--"
+                                        }}</label>   
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1  form-group">
+                                    <div class="">
+                                       <label class="form-label">HI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnHi || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class=" col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">OH </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnOh || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">SI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnSi || "--"
+                                        }}</label>  
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class=" col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">ID </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnId || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">CP </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnCp || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">Others </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class="">  <span class="colon">:</span>
+                                       <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfRegisteredCwsnOthers || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">Total </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class="">  <span class="colon">:</span>
+                                       <label class="form-label fw-normal">{{
+                                        resourceCenterData.noOfRegisteredCwsnVi + resourceCenterData.noOfRegisteredCwsnHi  + resourceCenterData.noOfRegisteredCwsnOh  + resourceCenterData.noOfRegisteredCwsnSi+ resourceCenterData.noOfRegisteredCwsnId+ resourceCenterData.noOfRegisteredCwsnCp + resourceCenterData.noOfRegisteredCwsnOthers || "--"
+                                           }}</label> 
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     
+                </div>
+                  <div class="patch">
+                    <div class="row patch-heading">
+                        <div class="col-md-6 form-group">
+                          <div class="">
+                             <label for="exampleInputEmail1" class="form-label">2) Present CWSN at the time of visit
+                             </label>
+                          </div>
+                        </div>
+                      </div>
+                    
+                        <div class="row">
+                           <div class="col-md-12">
+                              <div class="row">
+                                 <div class=" col-3 col-md-1 col-sm-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">VI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2  col-sm-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnVi || "--"
+                                        }}</label>   
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1  form-group">
+                                    <div class="">
+                                       <label class="form-label">HI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnHi || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class=" col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">OH </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnOh || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">SI </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnSi || "--"
+                                        }}</label>  
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class=" col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">ID </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnId || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">CP </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                        <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnCp || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">Others </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class=""> <span class="colon">:</span>
+                                       <label class="form-label fw-normal">{{
+                                            resourceCenterData?.noOfPresentCwsnOthers || "--"
+                                        }}</label> 
+                                    </div>
+                                 </div>
+                                 <div class="col-md-1"></div>
+                                 <div class="col-3 col-md-1 form-group">
+                                    <div class="">
+                                       <label class="form-label">Total </label>
+                                    </div>
+                                 </div>
+                                 <div class="col col-md-2 form-group">
+                                    <div class="">  <span class="colon">:</span>
+                                       <label class="form-label fw-normal">{{
+                                        resourceCenterData.noOfPresentCwsnVi + resourceCenterData.noOfPresentCwsnHi  + resourceCenterData.noOfPresentCwsnOh  + resourceCenterData.noOfPresentCwsnSi+ resourceCenterData.noOfPresentCwsnId+ resourceCenterData.noOfPresentCwsnCp + resourceCenterData.noOfPresentCwsnOthers || "--"
+                                           }}</label> 
+                                    </div>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     
+                </div>
+                  
+  
+                 
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                      <div class="">
+                          <label for="noOfIEPOrITPPrepared" class="form-label"
+                          >3)No. of IEP/ITP prepared ? 
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-6 form-group">
+                      <div class=""><span class="colon">:</span>
+                          <label class="form-label fw-normal">{{
+                              resourceCenterData?.noOfIEPOrITPPrepared || "--"
+                          }}</label>
+                      </div>
+                      </div>
+                  </div>
+  
+  
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                      <div class="">
+                          <label for="noOfIEPOrITPUpdated" class="form-label"
+                          >4)No. of IEP/ITP updated ? 
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-6 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label class="form-label fw-normal">{{
+                              resourceCenterData?.noOfIEPOrITPUpdated || "--"
+                          }}</label>
+                      </div>
+                      </div>
+                  </div>
+  
+                  <div class="patch">
+                    <div class="row patch-heading">
+                        <div class="col-md-6 form-group">
+                          <div class="">
+                             <label for="exampleInputEmail1" class="form-label">5) Status of RT (Resource Teacher) and RP (Rehab. Professionals)
+                             </label>
+                          </div>
+                        </div>
+                      </div>
+                    
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class=" col-5 col-md-2 form-group">
+                                        <div class="">
+                                            <label class="form-label">RT/BRP(IE) – No. of posted</label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-3 form-group">
+                                        <div class="pb-1"> <span class="colon">:</span>
+                                            <label class="form-label fw-normal">{{
+                                                resourceCenterData?.noOfPostedRT || "--"
+                                            }}</label>  </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-5 col-md-2  form-group">
+                                        <div class="">
+                                            <label class="form-label">No. of present</label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-3 form-group">
+                                        <div class="pb-1"> <span class="colon">:</span>
+                                            <label class="form-label fw-normal">{{
+                                                resourceCenterData?.noOfnoOfPresentRT || "--"
+                                            }}</label>  </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class=" col-5 col-md-2 form-group">
+                                        <div class="">
+                                            <label class="form-label">R.P. – No. of Posted</label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-3 form-group">
+                                        <div class="pb-1"> <span class="colon">:</span>
+                                            <label class="form-label fw-normal">{{
+                                                resourceCenterData?.noOfPostedRP || "--"
+                                            }}</label> </div>
+                                    </div>
+                                    <div class="col-md-1"></div>
+                                    <div class="col-5 col-md-2 form-group">
+                                        <div class="">
+                                            <label class="form-label">No. of present</label>
+                                        </div>
+                                    </div>
+                                    <div class="col col-md-3 form-group">
+                                        <div class="pb-1"> <span class="colon">:</span>
+                                            <label class="form-label fw-normal">{{
+                                                resourceCenterData?.noOfnoOfPresentRP || "--"
+                                            }}</label> </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    
+                  </div>
+
+
+
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                      <div class="">
+                          <label for="sufficientFurniture" class="form-label"
+                          >6) Sufficient Furniture for Staff and Parents ? :
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-6 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label class="form-label fw-normal">{{
+                              resourceCenterData?.sufficientFurniture || "--"
+                          }}</label>
+                      </div>
+                      </div>
+                  </div>
+  
+  
+  
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                      <div class=""> 
+                          <label for="electricity" class="form-label"
+                          >7) Electricity? 
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-6 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label class="form-label fw-normal">{{
+                              resourceCenterData?.electricity || "--"
+                          }}</label>
+                      </div>
+                      </div>
+                  </div>
+  
+  
+  
+                  <div class="row">
+                      <div class="col-md-6 form-group">
+                      <div class="">
+                          <label for="lightFan" class="form-label"
+                          >8) Light/Fan ? 
+                          </label>
+                      </div>
+                      </div>
+                      <div class="col-md-6 form-group">
+                      <div class=""> <span class="colon">:</span>
+                          <label class="form-label fw-normal">{{
+                              resourceCenterData?.lightFan || "--"
+                          }}</label>
+                      </div>
+                      </div>
+                  </div>
+
+
+
+                  <div class="row">
+                    <div class="col-md-6 form-group">
+                    <div class="">
+                        <label for="waterFacility" class="form-label"
+                        >9) Water Facility ? 
+                        </label>
+                    </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                    <div class=""> <span class="colon">:</span>
+                        <label class="form-label fw-normal">{{
+                            resourceCenterData?.waterFacility || "--"
+                        }}</label>
+                    </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                    <div class="">
+                        <label for="sufficientEquipments" class="form-label"
+                        >10) Sufficient Equipments for CWSN ? 
+                        </label>
+                    </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                    <div class=""> <span class="colon">:</span>
+                        <label class="form-label fw-normal">{{
+                            resourceCenterData?.sufficientEquipments || "--"
+                        }}</label>
+                    </div>
+                    </div>
+                </div>
+
+
+
+                <div class="row">
+                    <div class="col-md-6 form-group">
+                    <div class="">
+                        <label for="cleanlinessStatus" class="form-label"
+                        >11) Cleanliness status ? 
+                        </label>
+                    </div>
+                    </div>
+                    <div class="col-md-6 form-group">
+                    <div class=""> <span class="colon">:</span>
+                        <label class="form-label fw-normal">{{
+                            resourceCenterData?.cleanlinessStatus || "--"
+                        }}</label>
+                    </div>
+                    </div>
+                </div>
+  
+  
+          </div>
+       <!-- form end -->
+  
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>
+  

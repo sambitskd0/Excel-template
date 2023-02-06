@@ -1,0 +1,519 @@
+<div>
+  <div class="pageHeading">
+  <div><h3 class="pageName">View School / विद्यालय देखें</h3></div>
+    <div class="tabArea">
+      <a routerLink="./../addSchool" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege && this.designationId==33"><i class="bi bi-plus-lg me-2"></i>Registration and Updation / निबंधन और अद्यतन</a>
+      <a routerLink="./../viewSchool" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View / देखें</a>
+    </div>
+  </div>
+  <div class="top-space">
+     <ng-container *ngIf="show">
+        <div class="search-container">
+           <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+           <div class="searchPanel">
+              <div class="row">
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">Academic Year <br>शैक्षणिक वर्ष</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchAcademicYear" name="searchAcademicYear">
+                     <option value="{{this.academicYear}}">{{this.academicYear}}</option>
+                    </select>
+                 </div>
+                 <div class="col-lg-1"></div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">Operational Status <br>परिचालन स्थिति</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="operationalStatus" name="operationalStatus">
+                    <option value="0">Operational</option>
+                    <option value="1">Not – Operational</option>
+                    <option value="2">Closed</option>
+                    </select>
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">District <br>जिला</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchDistrictId" name="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                      <option value="" *ngIf="disrtictSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="disrtictChanged == true">Loading...</option>
+                      <option *ngFor="let districtItem of districtData"  [value]="districtItem.districtId">{{ districtItem.districtCode }} - {{ districtItem.districtName }}</option>
+                    </select>
+                 </div>
+                 <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="disrtictChanged==true">
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">Block <br> प्रखण्ड</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchBlockId" name="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                      <option value="" *ngIf="blockSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="blockChanged == true">Loading...</option>
+                      <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">{{ blockItem.blockCode }} - {{ blockItem.blockName }}</option>
+                    </select>
+                 </div>
+                 <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="blockChanged==true">
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">Cluster <br> संकुल</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchClusterId" name="searchClusterId">
+                      <option value="" *ngIf="clusterSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="clusterChanged == true">Loading...</option>
+                      <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}</option>
+                    </select>
+                 </div>
+                 <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="clusterChanged==true">
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">School Code/ Name <br>विद्यालय कोड/नाम</label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"[(ngModel)]="schoolName"
+                    name="schoolName" maxlength="15">
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">Management  <br> प्रबंधन </label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchManagementId" name="searchManagementId" autocomplete="off">
+                      <option value="" *ngIf="scManagementSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scManagementLoading == true">Loading...</option>
+                      <option *ngFor="let item of schoolMgmtData" [value]="item.anxtValue">{{item.anxtValue}} - {{ item.anxtName }}</option>
+                    </select>
+                 </div>
+                 <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scManagementLoading==true">
+                 </div>
+                 <div class="col-lg-2 form-group">
+                    <label class="form-label">School Category <br>विद्यालय की श्रेणी </label>
+                 </div>
+                 <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select"  [(ngModel)]="searchSchoolCategoryId" name="searchSchoolCategoryId" autocomplete="off">
+                      <option value="" *ngIf="scSchoolCategorySelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scSchoolCategoryLoading == true">Loading...</option>
+                      <option *ngFor="let item of schoolCatData"  [value]="item.code">{{item.code}} - {{ item.schlCatName  }}</option>
+                    </select>
+                 </div>
+                 <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scSchoolCategoryLoading==true">
+                 </div>
+                 <div class="col-lg-2">
+                    <button class="btn btn-default btn-purple"> Search / खोज<i class="bi bi-search"></i></button>
+                 </div>
+              </div>
+           </div>
+           </form>
+        </div>
+     </ng-container>
+     <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज पैनल</button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="mt-4" [hidden]="viewSchoolData?.length === 0">
+     <div class="page__rightarea">
+        <div class="page__util">
+           <div class="util">
+              <a title="Excel" class="excel" (click)="downloadSchoolList()"><i class="bi bi-file-earmark-excel"></i></a>
+              <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+           </div>
+        </div>
+     </div>
+     <div  id="viewTable" >
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <div class="table-responsive">
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter #exporter="matTableExporter" [hiddenColumns]="[11]">
+        <thead class="bg-lightpurple">
+           <tr>
+              <ng-container matColumnDef="slNo">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Sl.No/क्रमांक
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="SchoolUDISECode">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    School UDISE Code/ विद्यालय यू.डी.आई.एस.ई कोड
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.schoolUdiseCode) ? element?.schoolUdiseCode :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="District">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    District/ जिला
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.districtName) ? element?.districtName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Block">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Block/ प्रखण्ड
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.blockName) ? element?.blockName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Cluster">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Cluster/ संकुल
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.clusterName) ? element?.clusterName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="SchoolName">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    School Name / विद्यालय का नाम
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.schoolName) ? element?.schoolName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Management">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Management / प्रबंधन 
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.managementName) ? element?.managementName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Category">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Category / श्रेणी
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.schlCatName) ? element?.schlCatName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Status">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint "
+                 
+                 >
+                    Status / स्थिति
+                    <a data-toggle="tooltip" class="tool text-dark" data-placement="bottom" title="School can edit and update status">
+                    <i class="bi bi-question-circle-fill text-center"></i>
+                    </a>
+                 </th>
+                 <td  mat-cell *matCellDef="let element" class="noPrint">
+                  <!-- <a *ngIf="this.loginUserTypeId!=2" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getSchoolStatus(element?.encId)">Operational</a> -->
+                  <a *ngIf="element?.activationFlag ==0 &&  this.loginUserTypeId!=2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;"  (click)="getSchoolStatus(element?.encId)"
+                  class="badge badge-success bg-success me-2">Operational</a>      
+                  <a *ngIf="element?.activationFlag ==1 &&  this.loginUserTypeId!=2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;"  (click)="getSchoolStatus(element?.encId)"
+                  class="badge badge-warning bg-warning me-2">Not Operational</a>      
+                  <a *ngIf="element?.activationFlag ==2 &&  this.loginUserTypeId!=2" data-bs-toggle="modal" data-bs-target="#exampleModal" style="cursor: pointer;" (click)="getSchoolStatus(element?.encId)"
+                  class="badge badge-danger bg-danger me-2">Closed</a>
+
+                  <a *ngIf="this.loginUserTypeId == 2 && element?.activationFlag ==0" class="badge badge-success bg-success me-2">Operational</a>      
+                  <a *ngIf="this.loginUserTypeId == 2 && element?.activationFlag ==1" class="badge badge-warning bg-warning me-2">Not Operational</a>      
+                  <a *ngIf="this.loginUserTypeId == 2 && element?.activationFlag ==2" class="badge badge-danger bg-danger me-2">Closed</a>      
+                  </td>
+              </ng-container>
+              <ng-container matColumnDef="Info">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noprint">
+                    Info / विवरण
+                    <a data-toggle="tooltip" class="tool text-dark" data-placement="bottom" title="School Other Information">
+                    <i class="bi bi-question-circle-fill"></i>
+                    </a>
+                 </th>
+                 <td mat-cell *matCellDef="let element" class="noPrint">
+                  <!-- <a title="Info" class="btn btn-purple btn-sm" routerLink="./../../schoolInfo/basicInfo/{{ element?.encId }}"><i class="bi bi-pencil"></i></a> -->
+                  <a routerLink="./../../schoolInfo/basicInfo/{{element?.encId}}" title="View Details" class="badge badge-info bg-info" style="cursor: pointer;" > <i class="bi bi-eye-fill"></i> View </a>
+               </td>
+              </ng-container>
+              <ng-container matColumnDef="AcadmicYear">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Acadmic Year/ शैक्षणिक वर्ष
+                 </th>
+                 <td mat-cell *matCellDef="let element">{{(element?.academicYear) ? element?.academicYear :'--' }}</td>
+              </ng-container>
+             <ng-container matColumnDef="Remarks">
+               <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Verification Status / सत्यापन की स्थिति 
+               </th>
+               <td mat-cell *matCellDef="let element" class="noPrint">
+                  <a *ngIf="element?.verificationStatus==1 && element?.freezStatus==1" class="badge badge-success bg-success me-2">Verified</a>
+                  <a *ngIf="(element?.verificationStatus == 0 || element?.verificationStatus == 4) && (element?.crStatus==0 ||  element?.crStatus==2)" class="badge badge-danger bg-danger me-2">Not Verified</a>
+                  <a *ngIf="element?.verificationStatus == 2  &&  (element?.crStatus==0 || element?.crStatus==2)" class="badge badge-primary bg-primary me-2">Requested for Verification</a>
+                  <a *ngIf="element?.verificationStatus==3" class="badge badge-danger bg-danger me-2"  style="cursor: pointer;" (click)="showVfRevertReason(element?.verificationRemarks)" data-bs-toggle="modal" data-bs-target="#verificationReasonModal">Verification Reverted</a>
+                  <span *ngIf="element?.crStatus==1" class="badge badge-warning bg-warning">Requested For Modification</span>
+                  <span *ngIf="element?.verificationStatus==1 && element?.crStatus==3" class="badge badge-danger bg-danger me-2" (click)="showRevertReason(element?.crRemarks)" data-bs-toggle="modal" style="cursor: pointer;" data-bs-target="#crRevertReasonModal">Change Request Rejected </span>
+               </td>
+            </ng-container>
+            <ng-container matColumnDef="pending_at">
+               <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 Pending At/ पर लंबित है
+               </th>
+               <td mat-cell *matCellDef="let element">
+                  <span *ngIf="element?.verificationStatus == 4  && element?.crStatus==0"> Pending At DPO </span>
+                  <span *ngIf="element?.verificationStatus == 0 && (element?.crStatus==0 || element?.crStatus==2)" > Pending At School </span>
+                  <span *ngIf="element?.verificationStatus==1 && element?.crStatus==0">--</span>
+                  <span *ngIf="element?.verificationStatus == 2"> Pending At BEO </span>
+                  <span *ngIf="element?.crStatus==1" > Pending At BEO </span>
+                  <span *ngIf="element?.verificationStatus==3" > Pending At School </span>
+               </td>
+            </ng-container>
+              <ng-container matColumnDef="action">
+                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                    Action/ गतिविधि
+                 </th>
+                 <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                  <!-- DPO ACTION START-->
+                 <a *ngIf="element?.verificationStatus==4 && this.designationId==33 &&element?.crStatus==0 && element?.activationFlag ==0"  [routerLink]="['./../editSchool/', element?.encId]" title="Edit" class="badge badge-info bg-info" style="cursor: pointer;" ><i class="bi bi-pencil-square"></i> Edit</a>
+                 <a *ngIf="element?.verificationStatus==4 && this.designationId==33 &&element?.crStatus==0 && element?.activationFlag ==0" title="Delete" class="badge badge-danger bg-danger"  style="cursor: pointer" (click)="deleteSchool(element?.encId)"><i class="bi bi-trash3"></i> Delete </a>
+                 <a title="Assign to School" class="badge badge-primary bg-primary" style="cursor: pointer;" *ngIf="designationId==33 && element?.verificationStatus == 4 && element?.crStatus == 0 && element?.freezStatus == 0 && element?.activationFlag ==0" (click)="assignToSchool(element?.encId,element?.respondentName,element?.respondentMobile)" [style.cursor]="'pointer'">Assign</a>
+                   <!-- DPO ACTION END-->
+                    <!-- SCHOOL ACTION START-->
+                 <a *ngIf="element?.verificationStatus==0  && (element?.crStatus==0 || element?.crStatus==2) && element?.freezStatus==0 && loginUserTypeId==2 && element?.activationFlag ==0"  [routerLink]="['./../editSchool/', element?.encId]" title="Edit" class="badge badge-info bg-info" style="cursor: pointer;" > <i class="bi bi-pencil-square"></i> Edit</a>
+
+                 <a *ngIf="element?.verificationStatus==3 && loginUserTypeId==2 && element?.crStatus==2 && element?.activationFlag ==0"  [routerLink]="['./../editSchool/', element?.encId]" title="Edit" class="badge badge-info bg-info" style="cursor: pointer;"> <i class="bi bi-pencil-square"></i> Edit</a>
+
+                 <a title="Send Request to Verify" class="badge badge-primary bg-primary" style="cursor: pointer;" *ngIf="loginUserTypeId==2 && (element?.verificationStatus==0 ||element?.verificationStatus==3) && element?.freezStatus == 0  && (element?.crStatus == 2 || element?.crStatus == 0) && element?.activationFlag ==0" (click)="requestforVerification(element?.encId)" [style.cursor]="'pointer'"> Request to Verify</a>
+
+                 <a title="Send Request to Modify" class="badge badge-primary bg-primary" style="cursor: pointer;" *ngIf="loginUserTypeId==2 && element?.verificationStatus == 1 && (element?.crStatus == 0  || element?.crStatus == 3) && element?.freezStatus == 1 && element?.activationFlag ==0" (click)="requestToModify(element?.encId)" [style.cursor]="'pointer'">Request to Modify</a>
+                   <!-- SCHOOL ACTION END-->
+                  <!-- BEO ACTION START-->
+                 <a *ngIf="element?.verificationStatus == 2 && this.designationId==46 && (element?.crStatus==0 || element?.crStatus==2) && element?.activationFlag ==0" title="Verify" class="badge badge-primary bg-primary me-2" style="cursor: pointer;" data-bs-toggle="modal" data-bs-target="#nonverifiedModal"(click)="ActionOnSchlVerificationReq(element?.encId,2)">Take Action</a>
+                 
+                 <a title="Take Action" class="badge badge-primary bg-primary" style="cursor: pointer;" *ngIf="element?.crStatus == 1 && userProfile?.designationId == 46 && element?.activationFlag ==0" data-bs-toggle="modal" data-bs-target="#crApprovalModal" (click)="approvalForCR(element?.encId)">Approve</a>
+                   <!-- BEO ACTION END-->
+                    
+                 </td>
+              </ng-container>
+           </tr>
+        </thead>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+      </div>
+      
+        <table>
+           <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center" [attr.colspan]="viewSchoolData.length" class="mt-2">
+                 No Records Found!
+              </td>
+           </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" class="noPrint" aria-label="Select page" showFirstLastButtons>
+        </mat-paginator>
+     </div>
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-3" role="alert" *ngIf="isNorecordFound">
+     {{ "No record found." }}
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-3" role="alert" *ngIf="isInitAdmin">
+     {{ "Please Search to find School Lists" }}
+  </div>
+</div>
+
+<!-- non-verified Verification modal -->
+<div class="modal fade" id="nonverifiedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <form [formGroup]="schlVerifyForm" (ngSubmit)="onVerifySubmit()" autocomplete="off">
+     <div class="modal-dialog modal-md">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Verify School</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #schlVerificationApprovrClose></button>
+         </div>
+         <div class="modal-body p-4">
+           <div class="row"> 
+           </div>
+           <div class="row">
+             <div class="col-lg-3 form-group">
+               <label class="form-label">Action Type </label>
+             </div>
+             <div class="col-lg-9 form-group">
+               <span class="colon">:</span>
+               <div class=" pt-2">                
+                 <div class="rdio rdio-primary form-check-inline">
+                     <input formControlName="verifyType" value="1" id="verifyStatusApprove" type="radio" (change)="verificationStatusChangeControl($any($event.target).value)"/>
+                     <label for="verifyStatusApprove">Approve</label>
+                 </div>
+                 <div class="rdio rdio-primary form-check-inline" *ngIf="this.verReq==2">
+                     <input formControlName="verifyType" value="2" id="verifyStatusRevert" type="radio" (change)="verificationStatusChangeControl($any($event.target).value)"/>
+                     <label for="verifyStatusRevert">Revert</label>
+                 </div>
+               </div>
+               <span class="mandatory">*</span>
+             </div>
+           </div>
+           <div class="row formpatch">
+             <div class="col-lg-3 form-group">
+               <label class="form-label">Remarks </label>
+             </div>
+             <div class="col-lg-9 form-group">
+               <span class="colon">:</span>
+               <textarea cols="4" rows="4" formControlName="verificationRemark" class="form-control" aria-describedby="Remarks" maxlength="500"></textarea>
+               <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+               <span *ngIf="verifyType==2" class="mandatory">*</span>
+             </div>
+           </div>
+           <input type="hidden" formControlName="schoolId"> 
+           <div>
+             <button class="btn btn-success" type="submit">Submit</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </form>
+ </div> 
+ 
+ <!-- Verification Revert Reason Modal -->
+ <div class="modal fade" id="verificationReasonModal" tabindex="-1" aria-labelledby="infoview" aria-hidden="true">
+   <div class="modal-dialog modal-l">
+     <div class="modal-content">
+       <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Revert Reason</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">        
+         <div class="row"> 
+           <div class="col-lg-9 form-group"> {{vfRevertReason}} </div>  
+         </div>
+       </div>
+       <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+       </div>
+     </div>
+   </div>
+ </div>
+<!-- Cr Revert Reason Modal -->
+<div class="modal fade" id="crRevertReasonModal" tabindex="-1" aria-labelledby="infoview" aria-hidden="true">
+  <div class="modal-dialog modal-l">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Revert Reason</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">        
+        <div class="row"> 
+          <div class="col-lg-9 form-group"> {{revertReason}} </div>  
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- CR Approval Modal -->
+<div class="modal fade" id="crApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <form [formGroup]="crApprovalForm" (ngSubmit)="crApprovalSubmit()" autocomplete="off">
+     <div class="modal-dialog modal-md">
+       <div class="modal-content">
+         <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel"> Approval of school profile modification </h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #schlCRApproveClose></button>
+         </div>
+         <div class="modal-body p-4">
+           <div class="row">
+             <div class="col-lg-3 form-group">
+               <label class="form-label">Action Type</label>
+             </div>
+             <div class="col-lg-9 form-group">
+               <span class="colon">:</span>
+               <div class=" pt-2">                
+                 <div class="rdio rdio-primary form-check-inline">
+                     <input formControlName="crStatus" value="2" id="crStatusApprove" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                     <label for="crStatusApprove">Approve</label>
+                 </div>
+                 <div class="rdio rdio-primary form-check-inline">
+                     <input formControlName="crStatus" value="3" id="crStatusRevert" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                     <label for="crStatusRevert">Reject</label>
+                 </div>
+               </div>
+               <span class="mandatory">*</span>
+             </div>
+           </div>
+           <div class="row formpatch">
+             <div class="col-lg-3 form-group">
+               <label class="form-label">Remarks </label>
+             </div>
+             <div class="col-lg-9 form-group">
+               <span class="colon">:</span>
+               <textarea cols="4" rows="4" formControlName="remarks" class="form-control" aria-describedby="Remarks" maxlength="500"></textarea>
+               <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+               <span *ngIf="crStatus==3"  class="mandatory">*</span>
+             </div>
+           </div>
+           <input type="hidden" formControlName="schoolId"> 
+           <div>
+             <button class="btn btn-success" type="submit">Submit</button>
+           </div>
+         </div>
+       </div>
+     </div>
+   </form>
+ </div> 
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+     <div class="modal-content">
+        <div class="modal-header">
+           <h5 class="modal-title" id="exampleModalLabel">Update School Status</h5>
+           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <form [formGroup]="schoolStatusform" (ngSubmit)="updateSchoolStatus()">
+        <input type="hidden" formControlName="encId"> 
+        <input type="hidden" formControlName="academicYear"> 
+        <div  class="modal-body p-4">
+           <div class="row">
+              <div class="col-lg-3 form-group">
+                 
+                    <label class="form-label">Status</label>
+               
+              </div>
+              <div class="col-lg-7 form-group">
+                
+                    <select formControlName="activationFlag" class="form-select" >
+                       <option value="0">Operational</option>
+                       <option value="1">Not – Operational</option>
+                       <option value="2">Closed</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                 
+                 
+              </div>
+              <div class="col-lg-3 form-group">
+                
+                    <label class="form-label">Remarks</label>
+                
+              </div>
+              <div class="col-lg-7 form-group mb-3">
+                 
+                    <textarea formControlName="activationRemark" class="form-control mb-0" id="exampleFormControlTextarea1" rows="3"></textarea>
+                    <small>Maximum <span class="text-danger">(<span>300</span>)</span> Characters</small>
+                    <span class="mandatory">*</span>
+                
+                
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-lg-3 form-group ">
+                
+                    <label class="form-label">Upload Document</label>
+                 
+              </div>
+              <div class="col-lg-7 form-group mb-3">
+                 
+                    <input formControlName="activationDoc" class="form-control mb-0" type="file" id="formFile" (change)="onFileChange($event)">
+                    <span class="minimum-text text-danger"> (Only jpeg, jpg, png,pdf file supported & Maximum size is 2MB)</span>
+                
+              </div>
+              <div class="col-md-1">
+                 <div> 
+                    <a *ngIf="docExist" class="btn btn-success me-2" title="Download Document" href="{{this.activationDocPath}}" target="_blank">
+                    <i class="bi bi-download"></i>
+                    </a>             
+                 </div>
+              </div>
+           </div>
+        </div>
+        <div class="modal-footer">
+           <button type="submit" class="btn btn-success">Submit</button>
+           <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Cancel</button>
+        </div>
+        </form>
+     </div>
+  </div>
+</div>

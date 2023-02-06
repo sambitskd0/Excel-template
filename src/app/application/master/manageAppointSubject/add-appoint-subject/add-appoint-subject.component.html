@@ -1,0 +1,58 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Add Appoint Subject/नियुक्त विषय जोड़ें
+            </h3>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addAppointSubject"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+            </a>
+            <a routerLink="./../viewAppointSubject" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें
+            </a>   
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="appointSubjectForm" (ngSubmit)="onSubmit()" > 
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Add Subject<br>विषय जोड़ें
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" maxlength="30" minlength="3" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" formControlName="subjectName" autocomplete="off">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Description<br>विवरण 
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea cols="4" rows="4" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" maxlength="300" formControlName="description" autocomplete="off"></textarea>
+                    <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+                    <!-- <span class="mandatory">*</span> -->
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Submit/जमा करें
+                </button>
+                <button type="reset"class="btn btn-danger">Reset/पुनर्स्थापित 
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+

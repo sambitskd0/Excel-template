@@ -1,0 +1,171 @@
+
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <div><h3 class="pageName">Damage / Lost Item / क्षति / खोया आइटम</h3></div>
+        </div>
+        <span class="indicator">( * ) Indicates Mandatory</span>
+        <div class="tabArea">
+            <a routerLink="../addDamageItem"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+            <a routerLink="../viewDamageItem"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखें </a>
+        </div>
+    </div>
+    
+    <div class="top-space">
+      <form [formGroup]="damageItemForm" (ngSubmit)="onSearch()">
+        <div class="searchPanel top-space">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <div class="">
+                        <label for="exampleInputEmail1" class="form-label">From Date<br>दिनांक से
+                        </label>
+                      </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <div class=""><span class="colon">:</span>
+                         <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker bsDatepicker
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="damageFromDate" readonly>
+                        <!-- <div class="input-group">
+                        <input type="text" class="form-control" formControlName="damageFromDate"  placeholder="DD-MM-YYYY" ngbDatepicker #d="ngbDatepicker"  readonly>                          
+                         <button class="btn btn-outline-secondary bi bi-calendar" (click)="d.toggle()" type="button"></button>
+                        </div> -->
+                        
+                    </div>
+                </div>
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 form-group">
+            <div class="">
+                <label for="exampleInputEmail1" class="form-label">To Date<br>आज तक
+                </label>
+              </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class=""><span class="colon">:</span>
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker bsDatepicker
+                [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" [maxDate]="maxDate"  formControlName="damageToDate" readonly>
+                <!-- <div class="input-group">
+                <input type="text" class="form-control" formControlName="damageToDate"  placeholder="DD-MM-YYYY" ngbDatepicker #e="ngbDatepicker"  readonly>                          
+                <button class="btn btn-outline-secondary bi bi-calendar" (click)="e.toggle()" type="button"></button>
+              </div> -->
+            </div>
+        </div>
+    <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+              <button class="btn btn-default btn-purple"> Search / खोज करें
+                <i class="bi bi-search"></i></button>
+          </div>
+            </div>
+          </div>
+        </form>
+          <div class="row  mt-4" [hidden]="resultListData?.length === 0">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        
+                        
+                      <a title="Excel" class="excel" (click)="downloadDamageItemList()"><i class="bi bi-file-earmark-excel"></i></a>
+                      <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>                    
+                    </div>
+                </div>
+                </div>
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+    
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter">
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" style="width: 100px">
+                  Sl.No / क्र.सं
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="damageDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" style="width: 150px">
+                  Damage Date / क्षति की तारीख
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.damageDate | date: 'dd-MMM-yyyy') }}</td>
+              </ng-container>
+              <ng-container matColumnDef="assetType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Asset Type / संपत्ति का प्रकार
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.assetType && element?.assetType === 1) ? 'MDM' :(element?.assetType && element?.assetType === 2) ? 'Inventory':(element?.assetType && element?.assetType === 3) ? 'Sports':(element?.assetType && element?.assetType === 4) ? 'ICT/Smart Class':'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="assetName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Asset Name / संपत्ति का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.assetName) ? element?.assetName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="assetItemName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Asset Item Name / संपत्ति का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <!-- {{ (element?.assetItemName) ? element?.assetItemName :'--' }} -->
+                  {{ (element?.assetItemCode) ? element?.assetItemName+'-'+element?.assetItemCode :(!element?.assetItemCode) ? element?.assetItemName :'--' }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="unit">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Unit / इकाई
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.unit) ?element?.unit :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Quantity / मात्रा 
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.quantity) ? element?.quantity  :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="reasonDamage">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 Damage Reason / नुकसान की वजह
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.reasonDamage) ? element?.reasonDamage  :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="remark">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Remark / टिप्पणी 
+                </th>
+                <td mat-cell *matCellDef="let element">{{ (element?.remark) ? element?.remark  :'--' }}</td>     
+              </ng-container>
+              <ng-container matColumnDef="Action">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" style="width: 100px">
+                 Action / क्रिया
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link noPrint">   
+                  <!-- <a title="Edit" routerLink="./../editDamageItem/{{element.encId}}" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square"></i></a>            -->
+                   <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteDamageItem(element?.encId,element?.assetItemId)"><i
+                       class="bi bi-trash"></i></a>
+                 </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+                 
+                </table>
+                <table>
+                  <tr *ngIf="!dataSource.data.length">
+                    <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                      No Records Found!
+                    </td>
+                  </tr>
+                </table>
+        
+                <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                  [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+               class="noPrint"   showFirstLastButtons>
+                </mat-paginator>
+            </div>
+        </div>
+        
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found." }}
+  </div>
+  <!-- <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin">
+    {{ "Please Search to find Book Lists" }}
+  </div> -->
+</div>

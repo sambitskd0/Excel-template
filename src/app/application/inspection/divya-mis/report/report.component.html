@@ -1,0 +1,345 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">{{ reportDetails?.reportName || "--" }}</h3>
+    </div>
+  </div>
+  
+
+ 
+  <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <div class="search-container">
+        <div class="search-sec" id="searchPanel" style="display: block">
+          <div class="searchPanel">
+            <div class="row">
+              <div class="col-md-2 form-group3">
+                <label for="" class="form-label">From Date </label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [maxDate]="maxDate" autocomplete="off" readonly
+                  [(ngModel)]="fromDate" name="fromDate"/>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label for="" class="form-label">To Date </label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                  [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [maxDate]="maxDate" autocomplete="off" readonly
+                  [(ngModel)]="toDate" name="toDate" />
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group3">
+                <label for="" class="form-label">District</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedDistrict"
+                name="selectedDistrict" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                <option value="" *ngIf="scDisrtictSelect == true">
+                  --- Select ---
+                </option>
+                <option value="" *ngIf="scDisrtictLoading == true">
+                  Loading...
+                </option>
+                <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                  {{ districtItem.districtCode }} -
+                  {{ districtItem.districtName }}
+                </option>
+              </select>
+              </div>
+
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+              </div>
+
+              <div class="col-md-2 form-group3">
+                <label for="" class="form-label">Block</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedBlock"
+                name="selectedBlock" autocomplete="off">
+                <option value="" *ngIf="scBlockSelect == true">
+                  --- Select ---
+                </option>
+                <option value="" *ngIf="scBlockLoading == true">
+                  Loading...
+                </option>
+                <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                  {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                </option>
+              </select>
+              </div>
+              <div class="col-md-1">
+                <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+              </div>
+              <div class="row" >
+                <ng-container *ngIf="typeOficcer">
+                  <div class="col-md-2 form-group3">
+                    <label for="" class="form-label">Show Records </label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="showAll">
+                      <option value="1"> Self</option>
+                      <option value="2"> All</option>                    
+                     
+                    </select>
+                  </div>
+                  <div class="col-md-1"></div>
+                </ng-container>
+                <div class="col-md-2 form-group3">
+                  <button class="btn btn-default btn-purple">
+                    Search <i class="bi bi-search"></i>
+                  </button>
+                </div>
+              </div>
+             
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </ng-container>
+
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+      Search Panel
+    </button>
+  </div>
+</form>
+
+
+  <div class="clearfix"></div>
+  <div class="row mt-4" [hidden]="reportData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a routerLink="../" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+            <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <div class="table-responsive">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+          #exporter="matTableExporter">
+          <tr>
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                #
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="inspectionDateTime">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Date
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ (element?.inspectionDateTime | date : "dd-MMM-yyyy") || "--" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="districtName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                District
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.districtName || "--" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="blockName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Block
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.blockName || "--" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CenterName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Center
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.centerName || "--" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="inspectorName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Inspecting officer
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.inspectorName || "--" }}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="designationName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Designation
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.designationName || "--" }}
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                Action
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link">
+                <button class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                  (click)="getInspectionDetails(element?.inspectionEncId)">
+                  Details
+                </button>
+              </td>
+            </ng-container>
+          </tr>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="reportData?.length" class="mt-2">
+              No Records Found!
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+          showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found..." }}
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <!-- survey work modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 1 &&
+      modalDetails.activityTypeId === 7 &&
+      modalDetails.activitySubTypeId === 8
+    ">
+    <app-survey-work-modal [surveyData]="modalData"></app-survey-work-modal>
+  </ng-container>
+
+  <!-- KGBV teacher modal -->
+  <ng-container *ngIf="modalDetails.userDesignationType === 1 && modalDetails.activityTypeId === 2">
+    <app-kgbv-teacher-modal [surveyData]="modalData"></app-kgbv-teacher-modal>
+  </ng-container>
+
+  <!-- KGBV Officer modal -->
+  <ng-container *ngIf="modalDetails.userDesignationType === 2 && modalDetails.activityTypeId === 2">
+    <app-kgbv-modal [surveyData]="modalData"></app-kgbv-modal>
+  </ng-container>
+
+  <!-- Any other modal -->
+  <ng-container
+    *ngIf="modalDetails.userDesignationType === 1 && modalDetails.activityTypeId === 7 && modalDetails.activitySubTypeId === 12">
+    <app-any-other-modal [surveyData]="modalData"></app-any-other-modal>
+  </ng-container>
+
+  <!-- school survey modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 2 &&
+      modalDetails.activityTypeId === 1 &&
+      +modalDetails.activitySubTypeId === 0
+    ">
+    <app-school-survey-modal [surveyData]="modalData"></app-school-survey-modal>
+  </ng-container>
+  <!-- school survey Teacher modal -->
+  <ng-container *ngIf="
+    modalDetails.userDesignationType === 1 &&
+    modalDetails.activityTypeId === 1 &&
+    +modalDetails.activitySubTypeId === 0
+  ">
+    <app-school-survey-teacher-modal [surveyData]="modalData"></app-school-survey-teacher-modal>
+  </ng-container>
+  <!-- artificial limb modal -->
+  <ng-container *ngIf="
+     modalDetails.userDesignationType === 2 &&
+     modalDetails.activityTypeId === 4 &&
+     modalDetails.activitySubTypeId === 0
+   ">
+    <app-artificial-limb-center-modal [altCenterData]="modalData"></app-artificial-limb-center-modal>
+  </ng-container>
+  <!--  artificial limb teacher modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 1 &&
+      modalDetails.activityTypeId === 4 &&
+      modalDetails.activitySubTypeId === 0
+    ">
+    <app-artificial-limb-center-teacher-modal [altCenterTeacherData]="modalData">
+    </app-artificial-limb-center-teacher-modal>
+  </ng-container>
+  <!--  resource center modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 2 &&
+      modalDetails.activityTypeId === 3 &&
+      modalDetails.activitySubTypeId === 0
+    ">
+    <app-resource-center-modal [resourceCenterData]="modalData"></app-resource-center-modal>
+  </ng-container>
+  <!-- resource center teacher modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 1 &&
+      modalDetails.activityTypeId === 3 &&
+      modalDetails.activitySubTypeId === 0
+    ">
+    <app-resource-center-teacher-modal [resourceCenterTeacherData]="modalData"></app-resource-center-teacher-modal>
+  </ng-container>
+  <!-- training  modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 2 &&
+      modalDetails.activityTypeId === 5 &&
+      modalDetails.activitySubTypeId === 0
+    ">
+    <app-training-modal [trainingData]="modalData"></app-training-modal>
+  </ng-container>
+  <!-- training teacher modal -->
+  <ng-container *ngIf="
+      modalDetails.userDesignationType === 1 &&
+      modalDetails.activityTypeId === 7 &&
+      modalDetails.activitySubTypeId === 10
+    ">
+    <app-training-teacher-modal [trainingTeacherData]="modalData"></app-training-teacher-modal>
+  </ng-container>
+
+
+   <!-- Home Based Education teacher modal -->
+   <ng-container *ngIf="modalDetails.userDesignationType === 1 && modalDetails.activityTypeId === 7 &&
+   modalDetails.activitySubTypeId === 11">
+    <app-home-education-teacher-modal [surveyData]="modalData"></app-home-education-teacher-modal>
+  </ng-container>
+
+  <!-- Home Based Education Officer modal -->
+  <ng-container *ngIf="modalDetails.userDesignationType === 2 && modalDetails.activityTypeId === 6">
+    <app-home-education-modal [surveyData]="modalData"></app-home-education-modal>
+  </ng-container>
+  
+   <!-- Camp modal -->
+   <ng-container *ngIf="
+   modalDetails.userDesignationType === 1 &&
+   modalDetails.activityTypeId === 7 &&
+   +modalDetails.activitySubTypeId === 9
+ ">
+  <app-camp-modal [surveyData]="modalData"></app-camp-modal>
+  </ng-container>
+
+</div>

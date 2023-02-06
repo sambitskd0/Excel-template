@@ -1,0 +1,768 @@
+<div *ngIf="
+    this.userProfile?.maxClass >= 9 || userProfile?.loginId === 'supAdmin';
+    else elseContent
+  ">
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Result / नतीजा </h3>
+      </div>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-eye me-2"></i>Online Assessment Result / ऑनलाइन
+        मूल्यांकन परिणाम
+      </a>
+      <a routerLink="./../all" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-eye me-2"></i>All Result / सभी परिणाम
+      </a>
+    </div>
+  </div>
+  <div class="search-container">
+    <div class="searchPanel">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <label class="form-label">District <br />ज़िला </label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+
+          <select class="form-select" aria-label="Default select example" [(ngModel)]="userInput.districtId"
+            name="searchDistrictId" autocomplete="off" #districtRef (change)="getBlock(+districtRef.value)">
+            <option value="" *ngIf="
+                !+this.userProfile.district &&
+                demographyData.disrtictChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.disrtictChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.districtData" [value]="item.districtId">
+              {{ item.districtCode }} -{{ item.districtName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-1"></div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">Block <br />प्रखण्ड </label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Block" #blockRef (change)="getCluster(+blockRef.value)"
+            [(ngModel)]="userInput.blockId">
+            <option value="" *ngIf="
+                !+this.userProfile.block && demographyData.blockChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.blockChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.blockData" [value]="item.blockId">
+              {{ item.blockCode }} - {{ item.blockName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">Cluster <br />संकुल </label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Cluster" #clusterRef (change)="getSchool(+clusterRef.value)"
+            [(ngModel)]="userInput.clusterId">
+            <option value="" *ngIf="
+                !+this.userProfile.cluster &&
+                demographyData.clusterChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.clusterChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let item of demographyData.clusterData" [value]="item.clusterId">
+              {{ item.clusterCode }} - {{ item.clusterName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <label for="" class="form-label">School Category <br />विद्यालय की श्रेणी</label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="School" [(ngModel)]="userInput.schoolCategory">
+            <option value="" *ngIf="
+                !+userInput?.schoolId && demographyData.schoolChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.schoolChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let school of demographyData.schoolData" [value]="school.schoolCategory">
+              {{ school.schlCatName }}
+            </option>
+          </select>
+        </div>
+
+        <div class="col-lg-2 form-group">
+          <label class="form-label">School <br />विद्यालय</label>
+        </div>
+        <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="School" [(ngModel)]="userInput.schoolId">
+            <option value="" *ngIf="
+                !+this.userProfile.udiseCode &&
+                demographyData.schoolChanged == false
+              ">
+              --- Select ---
+            </option>
+            <option value="" *ngIf="demographyData.schoolChanged == true">
+              Loading...
+            </option>
+            <option *ngFor="let school of demographyData.schoolData" [value]="school.schoolId">
+              {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+            </option>
+          </select>
+        </div>
+        <div class="col-lg-7"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label class="form-label">Assessment Type <br />मूल्यांकन का प्रकार</label>
+          </div>
+        </div>
+
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select aria-label="Default select example" class="form-select" [(ngModel)]="selectedAssesmentType">
+              <option value="" *ngIf="annextureLoad === false">
+                --Select--
+              </option>
+              <option value="" *ngIf="annextureLoad === true">
+                Loading...
+              </option>
+              <option [value]="item.anxtValue" ng-reflect-value="1" *ngFor="let item of assessmentAnnexture">
+                {{ item?.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div>
+            <label class="form-label">Class <br />वर्ग </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div>
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example"
+              (change)="classChangeHandler(); getSubjects()" [(ngModel)]="selectedClass">
+              <option value="" *ngIf="annextureLoad === false">
+                --Select--
+              </option>
+              <option value="" *ngIf="annextureLoad === true">
+                Loading...
+              </option>
+
+              <option [value]="item.anxtValue" ng-reflect-value="1" *ngFor="let item of classAnnexture">
+                {{ item?.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <ng-container *ngIf="isClassGreaterThanTen === true">
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Stream <br />धारा</label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" (change)="getStreamGroupType()"
+                [(ngModel)]="selectedStream" (change)="getSubjects()">
+                <option value="" *ngIf="streamLoad === false">
+                  --Select--
+                </option>
+                <option value="" *ngIf="streamLoad === true">Loading...</option>
+                <option [value]="item.anxtValue" ng-reflect-value="1" *ngFor="let item of streamType">
+                  {{ item?.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-lg-1"></div>
+        </ng-container>
+        <ng-container *ngIf="
+            isClassGreaterThanTen === true && isScienceStreamSelected === true
+          ">
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Group <br />समूह</label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="selectedGroup"
+                (change)="getSubjects()">
+                <option value="" *ngIf="streamGroupTypeLoad === false">
+                  --Select--
+                </option>
+                <option value="" *ngIf="streamGroupTypeLoad === true">
+                  Loading...
+                </option>
+                <option [value]="item.anxtValue" ng-reflect-value="1" *ngFor="let item of streamGroupAnnexture">
+                  {{
+                  item.anxtValue == 1
+                  ? item?.anxtName + " (Non-Medical)"
+                  : item?.anxtName + " (Medical)"
+                  }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-lg-1"></div>
+        </ng-container>
+        <ng-container>
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Subject <br />विषय</label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select aria-label="Default select example" class="form-select" [(ngModel)]="selectedSubject">
+                <option selected value="" *ngIf="subjectLoad === false">
+                  --Select--
+                </option>
+                <option selected value="" *ngIf="subjectLoad === true">
+                  Loading...
+                </option>
+                <option [value]="item?.subjectId" ng-reflect-value="1" *ngFor="let item of classWiseSubjects">
+                  {{ item?.subject }}
+                </option>
+              </select>
+            </div>
+          </div>
+          <div class="col-lg-1"></div>
+        </ng-container>
+        <!-- Done by : Sailesh Mishra on 28-12-2022 -->
+        <ng-container>
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Student Code/ Name <br />
+                कोड/नाम</label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                [(ngModel)]="studentInput" name="studentInput" maxlength="15" />
+            </div>
+          </div>
+          <div class="col-lg-1"></div>
+        </ng-container>
+        <!-- end -->
+
+        <!-- <div class="col-lg-1"></div> -->
+
+        <div class="col-lg-2">
+          <button class="btn btn-default btn-purple" (click)="onSearch()">
+            Search / खोज<i class="bi bi-search"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="row mt-3" [hidden]="resultData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util" [hidden]="false">
+            <a title="Excel" class="excel" (click)="downloadOnlineAssessmentResultList()"><i
+                class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="table-responsive" id="viewTable">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+          #exporter="matTableExporter">
+          <thead class="bg-lightpurple">
+            <tr>
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl No. / क्रमांक
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="studentName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Student Name / विद्यार्थी का नाम
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.studentName }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="studentCode">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Student Code / छात्र कोड
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.studentCode }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="assessmentType">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Assessment Type / मूल्यांकन प्रकार
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.assessmentType ? element?.assessmentType : "" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="class">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Class / कक्
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.className }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="stream">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Stream / धारा
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ streamName(+element?.streamType) || "--" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="group">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Group / समूह
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ streamGroupName(+element?.streamGroupType) || "--" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Subject / विषय
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.subject }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="totalMark">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Total Mark / पूर्णांक
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.totalMark || 0 }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="markObtained">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Mark Obtained / प्राप्तांक
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.markObtained || 0 }}
+                </td>
+              </ng-container>
+              <!-- Action Column -->
+              <ng-container matColumnDef="action">
+                <th mat-header-cell *matHeaderCellDef class="bg-lightpurple noPrint">
+                  Action / क्रिया
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                  <a class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#exampleModal"
+                    (click)="onViewDetails(element)">
+                    View Details / विवरण देखें</a>
+                </td>
+              </ng-container>
+            </tr>
+          </thead>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="resultData.length" class="mt-2">
+              No Records Found!
+            </td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint"
+          showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+
+  <ng-container *ngIf="isNorecordFound || isSearched">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+      <span *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </span>
+      <span *ngIf="isSearched">
+        {{ "Please select drop-down lists to view the records." }}
+      </span>
+    </div>
+  </ng-container>
+</div>
+
+<ng-template #elseContent>
+  <div class="alert alert-danger text-center fw-bold" role="alert">
+    {{ "Schools having class 9 to 12 is allowed to give assessment." }}
+  </div>
+</ng-template>
+
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true"
+  [hidden]="!viewDetails">
+  <div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+        <div class="modal-header">
+          <div>
+              <h5 class="modal-title" id="exampleModalLabel">
+                View Result / परिणाम देख
+              </h5>
+          </div>
+          <div>
+              <a href="javascript: void(0)" (click)="printModal()" class="btn btn-primary noprint"><i
+                      class="bi bi-printer"></i></a>
+              <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
+          </div>
+      </div>
+      <div class="modal-body printReport" id="printModal">
+        <div class="search-container mt-0">
+          <div class="searchPanel">
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">
+                  Student Name <br />विद्यार्थी का नाम</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.studentName || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label">Student Code <br />छात्र कोड</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.studentCode || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Assessment Type <br />
+                  मूल्यांकन प्रकार</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.assessmentType || "--"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label"> Subject <br />विषय</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.subject || "--"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Total Question <br />कुल प्रश्न</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.totalQuestion || "0"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label text-nowrap">Attended Question <br />प्रश्न में भाग लिया</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.attendedQuestion || "0"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Correct Answer <br />सही जवाब</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.correctAnswercount || "0"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+              <div class="col-md-2 form-group">
+                <label class="form-label">Wrong Answer <br />गलत जवाब</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.wrongAnswercount || "0"
+                  }}</label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-2 form-group">
+                <label class="form-label">Total Marks <br />पूर्णांक</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.totalMark || "0"
+                  }}</label>
+              </div>
+              <div class="col-md-1"></div>
+
+              <div class="col-md-2 form-group">
+                <label class="form-label">Secured Marks <br />सुरक्षित अंक</label>
+              </div>
+              <div class="col-md-3 form-group">
+                <span class="colon">:</span>
+                <label class="form-label fw-normal">{{
+                  viewDetails?.securedMark || "0"
+                  }}</label>
+              </div>
+            </div>
+            <!-- <div  class="row">
+           
+          </div> -->
+          </div>
+        </div>
+        <div  *ngIf="viewDetails?.studentResponseData">
+          <div class="questions-bg" *ngFor="let item of viewDetails?.studentResponseData; index as i">
+            <div class="row">
+              <div class="col-md-12 form-group ques-mark">
+                <label class="form-label">
+                  Q{{ i + 1 }}.
+                  <span *ngIf="item?.questionText">
+                    {{ item?.questionText }}</span>
+                  <br />
+                  <br />
+                  <img [src]="fileUrl + '/' + item?.questionImg.replace('.', '~')" *ngIf="item?.questionImg"
+                    class="questionBankImg" />
+                </label>
+              </div>
+              <div class="col-md-12 form-group">
+                <div class="row">
+                  <div class="col-md-2 form-group">
+                    <label class="form-label"><span>I.</span>&nbsp;&nbsp; Option A<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विकल्प
+                      ए</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="form-label fw-normal" class="optionText">
+                      <img [src]="
+                          fileUrl + '/' + item?.optionAImg.replace('.', '~')
+                        " *ngIf="item?.optionAImg" class="questionBankImg" />
+                      <span *ngIf="item?.optionAText">
+                        {{ item?.optionAText }}</span>
+                    </label>
+                    <!-- Done by : Sailesh Mishra on 27-12-2022 -->
+                    <span class="m-2"></span>
+                      <img [src]="correctImg" width="20px" height="20px" alt="corresct" *ngIf="item?.correctAnswer == 1 ? true : false" [ngClass]="{
+                        correctAnswer: item?.correctAnswer == 1,
+                        wrongAnswer:
+                          item?.givenAnswer == 1 &&
+                          item?.givenAnswer != item?.correctAnswer
+                      }">
+                      <img [src]="wrongImg" width="20px" height="20px" alt="wrong" *ngIf="
+                      item?.givenAnswer == 1 &&
+                      item?.givenAnswer != item?.correctAnswer
+                        ? true
+                        : false
+                    " [ngClass]="{
+                      correctAnswer: item?.correctAnswer == 1,
+                      wrongAnswer:
+                        item?.givenAnswer == 1 &&
+                        item?.givenAnswer != item?.correctAnswer
+                    }" >
+                  </div>
+
+                  <div class="col-md-1"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="form-label"><span>II.</span>&nbsp;&nbsp; Option B<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विकल्प
+                      ब</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="form-label fw-normal" class="optionText">
+                      <img [src]="
+                          fileUrl + '/' + item?.optionBImg.replace('.', '~')
+                        " *ngIf="item?.optionBImg" class="questionBankImg" />
+                      <span *ngIf="item?.optionBText">
+                        {{ item?.optionBText }}</span>
+                    </label>
+                    <!-- Done by : Sailesh Mishra on 27-12-2022 -->
+                    <span class="m-2"></span>
+                    <img [src]="correctImg" alt="correct" width="20px" height="20px" *ngIf="item?.correctAnswer == 2 ? true : false" [ngClass]="{
+                      correctAnswer: item?.correctAnswer == 2,
+                      wrongAnswer:
+                        item?.givenAnswer == 2 &&
+                        item?.givenAnswer != item?.correctAnswer
+                    }">
+                    <img [src]="wrongImg" alt="wrong" width="20px" height="20px" *ngIf="
+                    item?.givenAnswer == 2 &&
+                    item?.givenAnswer != item?.correctAnswer
+                      ? true
+                      : false
+                  " [ngClass]="{
+                    correctAnswer: item?.correctAnswer == 2,
+                    wrongAnswer:
+                      item?.givenAnswer == 2 &&
+                      item?.givenAnswer != item?.correctAnswer
+                  }">
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-md-2 form-group">
+                    <label class="form-label"><span>III.</span>&nbsp;&nbsp; Option C <br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विकल्प स</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="form-label fw-normal" class="optionText">
+                      <img [src]="
+                          fileUrl + '/' + item?.optionCImg.replace('.', '~')
+                        " *ngIf="item?.optionCImg" class="questionBankImg" />
+                      <span *ngIf="item?.optionCText">
+                        {{ item?.optionCText }}</span>
+                    </label>
+                    <!-- Done by : Sailesh Mishra on 27-12-2022 -->
+                    <span class="m-2"></span>
+                    <img [src]="correctImg" alt="correct" width="20px" height="20px" *ngIf="item?.correctAnswer == 3 ? true : false" [ngClass]="{
+                      correctAnswer: item?.correctAnswer == 3,
+                      wrongAnswer:
+                        item?.givenAnswer == 3 &&
+                        item?.givenAnswer != item?.correctAnswer
+                    }">
+                    <img [src]="wrongImg" alt="wrong" width="20px" height="20px" *ngIf="
+                    item?.givenAnswer == 3 &&
+                    item?.givenAnswer != item?.correctAnswer
+                      ? true
+                      : false
+                  " [ngClass]="{
+                    correctAnswer: item?.correctAnswer == 3,
+                    wrongAnswer:
+                      item?.givenAnswer == 3 &&
+                      item?.givenAnswer != item?.correctAnswer
+                  }">
+                  </div>
+
+                  <div class="col-md-1"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="form-label"><span>IV.</span>&nbsp;&nbsp; Option D<br />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;विकल्प
+                      ड</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="form-label fw-normal" class="optionText">
+                      <img [src]="
+                          fileUrl + '/' + item?.optionDImg.replace('.', '~')
+                        " *ngIf="item?.optionDImg" class="questionBankImg" />
+                      <span *ngIf="item?.optionDText">
+                        {{ item?.optionDText }}</span>
+                    </label>
+                    <!-- Done by : Sailesh Mishra on 27-12-2022 -->
+                    <span class="m-2"></span>
+                    <img [src]="correctImg" alt="correct" width="20px" height="20px" *ngIf="item?.correctAnswer == 4 ? true : false" [ngClass]="{
+                      correctAnswer: item?.correctAnswer == 4,
+                      wrongAnswer:
+                        item?.givenAnswer == 4 &&
+                        item?.givenAnswer != item?.correctAnswer
+                    }">
+                    <img [src]="wrongImg" alt="wrong" width="20px" height="20px" *ngIf="
+                    item?.givenAnswer == 4 &&
+                    item?.givenAnswer != item?.correctAnswer
+                      ? true
+                      : false
+                  " [ngClass]="{
+                    correctAnswer: item?.correctAnswer == 4,
+                    wrongAnswer:
+                      item?.givenAnswer == 4 &&
+                      item?.givenAnswer != item?.correctAnswer
+                  }">
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            
+              <div class="bg-light ps-2 pt-2 border">
+                <div class="row">
+                  <div class="col-md-2 form-group">
+                    <label class="form-label">Correct Answer<br />सही जवाब</label>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <span class="colon">:</span>
+                    <label class="form-label fw-normal">{{
+                      item?.correctAnswerName || "--"
+                      }}</label>
+                  </div>
+
+                  <div class="col-md-2 form-group">
+                    <label class="form-label">Answer Given<br />दिया गया जवाब</label>
+                  </div>
+                  <div class="col-md-4 form-group">
+                    <span class="colon">:</span>
+                    <label class="form-label fw-normal"><strong [ngClass]="
+                          item?.correctAnswer === item?.givenAnswer
+                            ? 'text-success'
+                            : 'text-danger'
+                        ">{{ item?.givenAnswerName || "--" }}</strong></label>
+                  </div>
+                </div>
+              </div>
+           
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer noprint">
+        <a (click)="printModal()" class="btn btn-primary noprint">Print</a>
+        <button type="button" data-bs-dismiss="modal" class="btn btn-danger noprint">
+            Close / बंद करें
+        </button>
+    </div>
+    </div>
+  </div>
+</div>

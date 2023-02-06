@@ -1,0 +1,208 @@
+<h5>Educational Qualification (In-Service) / शैक्षिक योग्यता (सेवा में)</h5>
+<div class="row mt-4">
+  <div class="col-lg-12">
+    <div >
+      <form [formGroup]="inServiceForm" (change)="emitChangeEventToParent()">
+        <div class="pb-1 d-flex justify-content-end">
+          <button
+            class="btn btn-warning btn-sm"
+            (click)="enableFields()"
+            *ngIf="disableFields === true"
+          >
+            Edit / संपादन करें
+          </button>
+          <button
+            class="btn btn-primary btn-sm"
+            (click)="enableFields()"
+            *ngIf="disableFields === false && existingInServiceDataAll?.length"
+          >
+            Cancel / रद्द करें
+          </button>
+        </div>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th>Sl# / <small>क्र॰सं॰</small></th>
+                <th>
+                  Education / <small>शिक्षा</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Year of Passing / <small>उत्तीर्ण होने का वर्ष</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  School/College / <small>विद्यालय/महाविद्यालय</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Board/Council/University /
+                  <small>बोर्ड/परिषद/विश्वविद्यालय</small>
+  
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Subject / <small>विषय</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Marks Obtained / <small>प्राप्तांक</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Full Marks / <small>पूर्णांक</small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th>
+                  Percentage / <small>प्रतिशत </small>
+                  <span class="text-danger ms-2">*</span>
+                </th>
+                <th *ngIf="disableFields === false && singleField === false">
+                  Action / <small>कार्रवाई करें </small>
+                </th>
+              </tr>
+            </thead>
+  
+            <tbody formArrayName="inServiceEducationalInfoArray">
+              <tr
+                *ngFor="let item of educationalInfo().controls; index as i"
+                [formGroupName]="i"
+              >
+                <td>{{ i + 1 }}</td>
+                <td>
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    formControlName="educationalQualificationType" style="width: 300px!important;"
+                  >
+                    <option value="">---Select---</option>
+                    <option
+                      value="{{ types?.anxtValue }}"
+                      *ngFor="let types of educationalQualificationTypes"
+                    >
+                      {{ types?.anxtName }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <select
+                    class="form-select"
+                    aria-label="Default select example"
+                    formControlName="yearOfPassing"
+                  >
+                    <option value="">---Select---</option>
+                    <option value="{{ year }}" *ngFor="let year of allYears">
+                      {{ year }}
+                    </option>
+                  </select>
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="schoolCollege"
+                    (keypress)="customValidators.firstCharValidator($event)"
+                    (keypress)="
+                      customValidators.alphaNumericValidator(
+                        $event,
+                        'comma',
+                        'space',
+                        'dot',
+                        'hyphen'
+                      )
+                    "
+                    maxlength="100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="boardCouncilUniversity"
+                    (keypress)="customValidators.firstCharValidator($event)"
+                    (keypress)="
+                      customValidators.alphaNumericValidator(
+                        $event,
+                        'comma',
+                        'space',
+                        'dot',
+                        'hyphen'
+                      )
+                    "
+                    maxlength="100"
+                  />
+                </td>
+                <td>
+                  <input
+                    type="text"
+                    class="form-control"
+                    formControlName="subject"
+                    (keypress)="customValidators.firstCharValidator($event)"
+                    (keypress)="
+                      customValidators.alphaNumericValidator(
+                        $event,
+                        'comma',
+                        'space',
+                        'dot',
+                        'hyphen'
+                      )
+                    "
+                    maxlength="100"
+                  />
+                </td>
+                <td>
+                  <input
+                    #marksObtained
+                    type="text"
+                    class="form-control"
+                    formControlName="marksObtained"
+                    (keypress)="customValidators.keyPressNumbers($event)"
+                    (blur)="calculatePercentage(marksObtained, fullMarks, i)"
+                    maxlength="4"
+                  />
+                </td>
+                <td>
+                  <input
+                    #fullMarks
+                    type="text"
+                    class="form-control"
+                    formControlName="fullMarks"
+                    (keypress)="customValidators.keyPressNumbers($event)"
+                    (blur)="calculatePercentage(marksObtained, fullMarks, i)"
+                    maxlength="4"
+                  />
+                </td>
+                <td>
+                  <input
+                    #percentage
+                    type="text"
+                    class="form-control"
+                    formControlName="percentage"
+                    (keypress)="customValidators.onlyNumbersWithDecimal($event)"
+                    maxlength="5"
+                  />
+                </td>
+                <td *ngIf="disableFields === false && singleField === false">
+                  <button class="btn btn-danger btn-sm" (click)="removeRow(i)">
+                    <i class="bi bi-dash-lg"></i>
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      
+      </form>
+      <div class="pb-1 float-end">
+        <button
+          class="btn btn-success me-2 btn-sm"
+          (click)="addRow()"
+          *ngIf="disableFields === false"
+        >
+          Add More / अधिक जोड़ें
+        </button>
+      </div>
+    </div>
+  </div>
+</div>

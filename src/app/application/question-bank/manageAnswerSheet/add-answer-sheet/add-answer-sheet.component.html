@@ -1,0 +1,572 @@
+<div
+  *ngIf="
+    this.userProfile?.maxClass >= 9 || userProfile?.loginId === 'supAdmin';
+    else elseContent
+  "
+>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Answer sheet / उत्तर पुस्तिका</h3>
+      </div>
+    </div>
+    <span class="indicator"
+      >( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span
+    >
+    <div class="tabArea">
+      <a
+        routerLink="./"
+        class="neuro addLink"
+        routerLinkActive="active"
+        *ngIf="adminPrivilege"
+        ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a
+      >
+      <a routerLink="./../view" class="neuro addLink" routerLinkActive="active"
+        ><i class="bi bi-eye me-2"></i>View / देखें 
+      </a>
+    </div>
+  </div>
+
+  <div class="formpatch top-space">
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="" class="form-label"> District <br />जिला</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          [(ngModel)]="userInput.districtId"
+          name="searchDistrictId"
+          autocomplete="off"
+          #districtRef
+          (change)="getBlock(+districtRef.value)"
+        >
+          <option
+            value=""
+            *ngIf="
+              !+this.userProfile.district &&
+              demographyData.disrtictChanged == false
+            "
+          >
+            --- Select ---
+          </option>
+          <option value="" *ngIf="demographyData.disrtictChanged == true">
+            Loading...
+          </option>
+          <option
+            *ngFor="let item of demographyData.districtData"
+            [value]="item.districtId"
+          >
+            {{ item.districtCode }} -{{ item.districtName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="" class="form-label"> Block <br />प्रखण्ड</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="Block"
+          #blockRef
+          (change)="getCluster(+blockRef.value)"
+          [(ngModel)]="userInput.blockId"
+        >
+          <option
+            value=""
+            *ngIf="
+              !+this.userProfile.block && demographyData.blockChanged == false
+            "
+          >
+            --- Select ---
+          </option>
+          <option value="" *ngIf="demographyData.blockChanged == true">
+            Loading...
+          </option>
+          <option
+            *ngFor="let item of demographyData.blockData"
+            [value]="item.blockId"
+          >
+            {{ item.blockCode }} - {{ item.blockName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="" class="form-label">Cluster <br />संकुल</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="Cluster"
+          #clusterRef
+          (change)="getSchool(+clusterRef.value)"
+          [(ngModel)]="userInput.clusterId"
+        >
+          <option
+            value=""
+            *ngIf="
+              !+this.userProfile.cluster &&
+              demographyData.clusterChanged == false
+            "
+          >
+            --- Select ---
+          </option>
+          <option value="" *ngIf="demographyData.clusterChanged == true">
+            Loading...
+          </option>
+          <option
+            *ngFor="let item of demographyData.clusterData"
+            [value]="item.clusterId"
+          >
+            {{ item.clusterCode }} - {{ item.clusterName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <label for="" class="form-label"
+          >School Category <br />विद्यालय की श्रेणी</label
+        >
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="School"
+          [(ngModel)]="userInput.schoolCategory"
+        >
+          <option
+            value=""
+            *ngIf="
+              !+userInput?.schoolId && demographyData.schoolChanged == false
+            "
+          >
+            --- Select ---
+          </option>
+          <option value="" *ngIf="demographyData.schoolChanged == true">
+            Loading...
+          </option>
+          <option
+            *ngFor="let school of demographyData.schoolData"
+            [value]="school.schoolCategory"
+          >
+            {{ school.schlCatName }}
+          </option>
+        </select>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="" class="form-label"> School <br />विद्यालय</label>
+      </div>
+      <div class="col-lg-3 form-group colon-top">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="School"
+          [(ngModel)]="userInput.schoolId"
+        >
+          <option
+            value=""
+            *ngIf="
+              !+this.userProfile.udiseCode &&
+              demographyData.schoolChanged == false
+            "
+          >
+            --- Select ---
+          </option>
+          <option value="" *ngIf="demographyData.schoolChanged == true">
+            Loading...
+          </option>
+          <option
+            *ngFor="let school of demographyData.schoolData"
+            [value]="school.schoolId"
+          >
+            {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+          </option>
+        </select>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label class="form-label">Date of Exam <br />परीक्षा की तिथि</label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div>
+          <span class="colon">:</span>
+          <input
+            class="form-control"
+            readonly
+            #datepickerYMD="bsDatepicker"
+            placeholder="DD-MM-YYYY"
+            bsDatepicker
+            [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }"
+            [(ngModel)]="dateOfExam"
+            [maxDate]="maxDate"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label"
+          >Assessment Type <br />मूल्यांकन का प्रकार
+        </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+
+        <select
+          aria-label="Default select example"
+          class="form-select"
+          [(ngModel)]="selectedAssesmentType"
+          (change)="getTotalMark()"
+          tabindex="1"
+          autofocus
+          #selectedAssesmentTypeRef
+        >
+          <option value="" *ngIf="annextureLoad === false">--Select--</option>
+          <option value="" *ngIf="annextureLoad === true">Loading...</option>
+          <option
+            [value]="item.anxtValue"
+            ng-reflect-value="1"
+            *ngFor="let item of assessmentAnnexture"
+          >
+            {{ item?.anxtName }}
+          </option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label for="exampleInputEmail1" class="form-label"
+          >Class <br />वर्ग 
+        </label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <select
+          class="form-select"
+          aria-label="Default select example"
+          (change)="
+            classChangeHandler(); getTotalMark();
+          "
+          [(ngModel)]="selectedClass"
+          tabindex="2"
+          #selectedClassRef
+        >
+          <option value="" *ngIf="annextureLoad === false">--Select--</option>
+          <option value="" *ngIf="annextureLoad === true">Loading...</option>
+
+          <option
+            [value]="item.anxtValue"
+            ng-reflect-value="1"
+            *ngFor="let item of classAnnexture"
+          >
+            {{ item?.anxtName }}
+          </option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+      <div class="col-sm-6 form-group">
+        <ng-container *ngIf="isClassGreaterThanTen === true">
+          <div class="row hide" id="11">
+            <div class="col-lg-4 form-group">
+              <label for="exampleInputEmail1" class="form-label"
+                >Stream <br />धारा
+              </label>
+            </div>
+            <div class="col-lg-6 form-group">
+              <span class="colon">:</span>
+              <select
+                class="form-select"
+                aria-label="Default select example"
+                (change)="getStreamGroupType()"
+                [(ngModel)]="selectedStream"
+                (change)="getTotalMark()"
+                (change)="getSubjects()"
+                tabindex="3"
+                #selectedStreamRef
+              >
+                <option value="" *ngIf="streamLoad === false">
+                  --Select--
+                </option>
+                <option value="" *ngIf="streamLoad === true">Loading...</option>
+                <option
+                  [value]="item.anxtValue"
+                  ng-reflect-value="1"
+                  *ngFor="let item of streamType"
+                >
+                  {{ item?.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+      <div class="col-sm-6 form-group">
+        <ng-container
+          *ngIf="
+            isClassGreaterThanTen === true && isScienceStreamSelected === true
+          "
+        >
+          <div class="row">
+            <div class="col-lg-4 form-group">
+              <div>
+                <label class="form-label">Group <br />समूह</label>
+              </div>
+            </div>
+            <div class="col-lg-6 form-group">
+              <div>
+                <span class="colon">:</span>
+                <select
+                  class="form-select"
+                  aria-label="Default select example"
+                  [(ngModel)]="selectedGroup"
+                  (change)="getTotalMark()"
+                  (change)="getSubjects()"
+                  tabindex="4"
+                  #selectedGroupRef
+                >
+                  <option value="" *ngIf="streamGroupTypeLoad === false">
+                    --Select--
+                  </option>
+                  <option value="" *ngIf="streamGroupTypeLoad === true">
+                    Loading...
+                  </option>
+                  <option
+                    [value]="item.anxtValue"
+                    ng-reflect-value="1"
+                    *ngFor="let item of streamGroupAnnexture"
+                  >
+                    {{
+                      item.anxtValue == 1
+                        ? item?.anxtName + " (Non-Medical)"
+                        : item?.anxtName + " (Medical)"
+                    }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+          </div>
+        </ng-container>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 form-group">
+        <div class="">
+          <label for="" class="form-label">Section <br />खंड</label>
+        </div>
+      </div>
+      <div class="col-md-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            [(ngModel)]="selectedSection"
+            (change)="getStudents()"
+            tabindex="5"
+            #selectedSectionRef
+          >
+            <option value="">--Select--</option>
+            <option
+              [value]="item.anxtValue"
+              ng-reflect-value="1"
+              *ngFor="let item of sectionData"
+            >
+              {{ item.anxtValue == 1 ? item.anxtName : item.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label">Subject <br />विषय</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <select
+          aria-label="Default select example"
+          class="form-select"
+          [(ngModel)]="selectedSubject"
+          (change)="getTotalMark()"
+          tabindex="6"
+          #selectedSubjectRef
+        >
+          <option selected value="" *ngIf="subjectLoad === false">
+            --Select--
+          </option>
+          <option selected value="" *ngIf="subjectLoad === true">
+            Loading...
+          </option>
+          <option
+            [value]="item?.subjectId"
+            ng-reflect-value="1"
+            *ngFor="let item of classWiseSubjects"
+          >
+            {{ item?.subject }}
+          </option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label">Set Name <br />सेट का नाम</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <select
+          aria-label="Default select example"
+          class="form-select"
+          [(ngModel)]="selectedsetName"
+          (change)="getTotalMark()"
+          tabindex="7"
+          #selectedsetNameRef
+        >
+          <option value="" *ngIf="annextureLoad === false">--Select--</option>
+          <option value="" *ngIf="annextureLoad === true">Loading...</option>
+          <option value="1" ng-reflect-value="1">Set A</option>
+          <option value="2" ng-reflect-value="2">Set B</option>
+          <option value="3" ng-reflect-value="3">Set C</option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label"
+          >Student Name <br />विद्यार्थी का नाम
+        </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <select
+          aria-label="Default select example"
+          class="form-select"
+          [(ngModel)]="selectedStudent"
+          tabindex="8"
+          #selectedStudentRef
+        >
+          <option value="" *ngIf="studentLoad === false">--Select--</option>
+          <option value="" *ngIf="studentLoad === true">Loading...</option>
+          <option
+            [value]="item?.studentId"
+            ng-reflect-value="1"
+            *ngFor="let item of studentData"
+          >
+            {{ item?.studentCode }} - {{ item?.studentName }}
+          </option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label"
+          >Upload Answer Sheet <br />उत्तर पुस्तिका अपलोड करें
+        </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="file"
+          class="form-control"
+          id=""
+          aria-describedby="emailHelp"
+          (change)="fileUploadHandler($event)"
+          #fileInput
+          tabindex="9"
+          accept="application/pdf"
+        />
+        <span class="minimum-text text-danger"
+          >Only pdf (max size 2mb) type allowed.</span
+        >
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label">Total Mark <br />पूर्णांक</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">
+            {{ totalMark || "--" }}</label
+          >
+        </div>
+      </div>
+      <!-- <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="" aria-describedby="emailHelp" readonly value="100">
+                   
+                </div> -->
+      <div class="col-lg-1"></div>
+      <div class="col-md-2 form-group">
+        <label for="" class="form-label">Mark Obtained <br />प्राप्तांक</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <input
+          type="text"
+          class="form-control"
+          id=""
+          aria-describedby="emailHelp"
+          (keypress)="customValidators.onlyNumber($event)"
+          [(ngModel)]="markObtained"
+          tabindex="10"
+          #markObtainedRef
+        />
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+
+    <div class="row"></div>
+  </div>
+  <div>
+    <button
+      type="submit"
+      class="btn btn-success me-2"
+      (click)="onSubmit()"
+      tabindex="11"
+    >
+      Submit / जमा करें
+    </button>
+    <button
+      type="reset"
+      class="btn btn-danger"
+      (click)="onReset()"
+      tabindex="12"
+    >
+      Reset / पुनर्स्थापित
+    </button>
+  </div>
+</div>
+<ng-template #elseContent>
+  <div
+    class="alert alert-danger text-center text-uppercase fw-bold"
+    role="alert"
+  >
+    {{ "Schools having class 9 to 12 is allowed to give assessment." }}
+  </div>
+</ng-template>

@@ -1,0 +1,121 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Committee Meeting/समिति की बैठक प्रबंधित करें
+            </h3>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addCommitteeMeeting" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add Committee Meeting/समिति की बैठक जोड़ें
+                </a>
+            <a routerLink="./../viewCommitteeMeeting" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View Committee Meetings/समिति की बैठक देखें
+                </a>
+        </div>
+    </div>
+    <ng-container *ngIf="permissionDiv == true">
+        <form [formGroup]="addCommitteeMeetingForm" (ngSubmit)="addCommitteeMeeting()">
+            <div class="formpatch mt-3">
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="committeeType" class="form-label">Committee Type<br>समिति का प्रकार
+                    </label></div>
+
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <!-- <select class="form-select" aria-label="Default Member Type" formControlName="committeeType"
+                            (change)="committeeTypeChange($any($event.target).value)" (blur)="committeeTypeCheck('committeeType','Committee type is required')"> -->
+                            <select class="form-select" aria-label="Default Member Type" formControlName="committeeType"
+                            (change)="committeeTypeChange($any($event.target).value)">
+                            <option value="" selected>--Select--</option>
+                            <option value="{{item.id}}" *ngFor="let item of schoolTypeCommitteArr">{{item.committeeType}}</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="meetingDate" class="form-label">Meeting Date<br>मीटिंग की तारीख                    </label></div>
+
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }"id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="meetingDate"   readonly [maxDate]="maxDate"  >
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="uploadProceeding" class="form-label">Upload Proceeding<br>कार्यवाही अपलोड करें</label></div>
+
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="file" class="form-control" id="uploadProceeding" aria-describedby="uploadProceeding" formControlName="uploadProceeding" (change)="fileUploadHandler($event)" #fileInput>
+                        <small class="text-danger">(Only .png,.jpg,.jpeg,.pdf Files Of Max Size 2 MB.)</small>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-md-2 form-group"><label for="meetingDiscussion" class="form-label">Meeting Discussion<br>बैठक में हुई चर्चा</label></div>
+
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <textarea class="form-control" rows="3" formControlName="meetingDiscussion"
+                            maxlength="800"></textarea>
+                        <small>(Maximum <span class="text-danger">800</span> characters)</small>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="clearfix"></div>
+            <ng-container *ngIf="tableShow == true && this.membersData.length > 0">
+                <div class="row">
+                    <div class="col-lg-12">
+                        <div class="table-responsive">
+                            <table class="table table-bordered table-striped">
+                                <thead class="bg-lightpurple">
+                                    <tr>
+                                        <th width="50px">Sl#/क्र.सं.</th>
+                                        <th>Name/नाम</th>
+                                        <th>Mobile/मोबाइल</th>
+                                        <th>Email/ईमेल</th>
+                                        <th>Gender/लिंग</th>
+                                        <th>Position/पद</th>
+                                        <th>Member Type/सदस्य प्रकार</th>
+                                        <th>Attendance Status/उपस्थिति की स्थिति</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let item of membersData;index as i">
+                                        <td>{{i+1}}</td>
+                                        <td>{{item.memberName}}</td>
+                                        <td>{{item.mobile}}</td>
+                                        <td>{{item.email}}</td>
+                                        <td>{{item.gender}}</td>
+                                        <td>{{item.position}}</td>
+                                        <td>{{item.memberType}}</td>
+                                        <td><input type="checkbox" name="memberAttended" class="" [value]="item?.recNo"
+                                                (change)="onCheckboxChange($event)"></td>
+                                    </tr>
+                                </tbody>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </ng-container>
+            <div class="clearfix"></div>
+            <div>
+                <button type="submit" class="btn btn-success me-2">Submit/जमा करें
+                </button>
+                <button type="button" class="btn btn-danger" (click)="resetTakeAction()">Reset/पुनर्स्थापित
+                </button>
+            </div>
+        </form>
+    </ng-container>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="permissionDiv == false">
+        {{ "You don't have the permission to access this page !!" }}
+    </div>
+</div>

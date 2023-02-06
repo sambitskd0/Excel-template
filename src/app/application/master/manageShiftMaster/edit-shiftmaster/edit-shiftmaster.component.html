@@ -1,0 +1,65 @@
+<div>
+    <div class="pageHeading">
+    <div><h3 class="pageName">Edit Shift Master//शिफ्ट मास्टर संपादन करें</h3></div>
+    <span class="indicator">( * ) Indicates Mandatory</span>
+    <div class="tabArea">
+        <a routerLink="../../editShiftMaster"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें</a>
+        <a routerLink="../../viewShiftMaster" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View//देखें</a>   
+    </div>
+    </div>
+     <form [formGroup]="editShiftMasterForm" (ngSubmit)="onSubmit()" >  
+    <div class="top-space">
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Shift<br>शिफ्ट </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" formControlName="shift">
+                <option selected value="">---Select Shift---</option>
+                <option value="1">Morning</option>
+                <option value="2">After Noon</option>
+                <option value="3">Day</option>
+            </select>
+            <span class="mandatory">*</span>
+        </div>
+       
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Period From Time<br>पीरियड कब से </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="time" class="form-control" formControlName="shiftStartTime" aria-describedby="emailHelp">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+
+    <div class="row formpatch">
+        <div class="col-lg-2 form-group">
+            <label for="exampleInputEmail1" class="form-label">Period To Time<br>पीरियड कब तक </label>
+        </div>
+        <div class="col-lg-3 form-group">
+            <span class="colon">:</span>
+            <input type="time" class="form-control" formControlName="shiftEndTime" aria-describedby="emailHelp">
+            <span class="mandatory">*</span>
+        </div>
+    </div>
+    <div>
+        <button  class="btn btn-success me-2">Update/अद्यतन</button>
+        <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+       
+    </div>
+
+ </div>
+ </form>  
+
+
+
+
+
+
+
+
+

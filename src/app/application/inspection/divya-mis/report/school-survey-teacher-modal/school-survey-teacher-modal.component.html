@@ -1,0 +1,574 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">School Visit Details</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="top-space">
+            <div class="patch">
+                <div class="row patch-heading">
+                   <div class="col-md-6 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">1) Total Registered CWSN   </label>
+                        
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="row">
+                         <div class=" col-3 col-md-1 col-sm-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">VI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2  col-sm-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnVi || "--"}}</label>  
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1  form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">HI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <strong>
+                                    <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnHi || "--"}}</label>
+                                  </strong>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">OH </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                               <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnOh || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">SI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnSi || "--"}}</label>   
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">ID </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnId || "--"}}</label>   
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">CP </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnCp || "--"}}</label>   
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-4 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Others</label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.totalCwsnOthers || "--"}}</label>   
+                            </div>
+                         </div>
+                         
+                         <div class="col-md-1"></div>
+                         <div class="col-4 col-md-1 form-group">
+                            <div class="">
+                                <label for="exampleInputEmail1" class="form-label">Total </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                            <label for="" class="form-label fw-normal">{{ surveyData.totalCwsnVi + surveyData.totalCwsnHi  + surveyData.totalCwsnOh  + surveyData.totalCwsnSi+ surveyData.totalCwsnId+ surveyData.totalCwsnCp + surveyData.totalCwsnOthers  }}</label>           
+                            
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="patch">
+                <div class="row patch-heading">
+                   <div class="col-md-2 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">2) Present CWSN 
+                         </label>
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="row">
+                         <div class=" col-3 col-md-1 col-sm-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">VI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2  col-sm-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                               <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnVi || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1  form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">HI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                               <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnHi || "--"}}</label>  
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">OH </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnOh || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">SI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnSi || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">ID </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnId || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">CP </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnCp || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Others </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.presentCwsnOthers || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Total </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{ surveyData.presentCwsnVi + surveyData.presentCwsnHi  + surveyData.presentCwsnOh  + surveyData.presentCwsnSi+ surveyData.presentCwsnId+ surveyData.presentCwsnCp + surveyData.presentCwsnOthers  }}</label>      
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="exampleInputEmail1" class="form-label">3) How many IEP / ITP of CWSN were prepared  </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div class=""> <span class="colon">:</span>
+                      <label for="" class="form-label fw-normal">{{surveyData?.iepCwsn || "--"}}</label>
+                   </div>
+                </div>
+             </div>
+             
+             <div class="patch">
+                <div class="row patch-heading">
+                   <div class="col-md-6 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">4) How many CWSN were given assistive devices 
+                          </label>
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="row">
+                         <div class=" col-3 col-md-1 col-sm-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">VI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2  col-sm-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnVi || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1  form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">HI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                               <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnHi || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">OH </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnOh || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">SI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnSi || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">ID </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnId || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">CP </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnCp || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Others </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.assistiveCwsnOthers || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Total </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{ surveyData.assistiveCwsnVi + surveyData.assistiveCwsnHi  + surveyData.assistiveCwsnOh  + surveyData.assistiveCwsnSi+ surveyData.assistiveCwsnId+ surveyData.assistiveCwsnCp + surveyData.assistiveCwsnOthers  }}</label> 
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="patch">
+                <div class="row patch-heading">
+                   <div class="col-md-6 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">5) How many CWSN were given educational devices 
+                         </label>
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="row">
+                         <div class=" col-3 col-md-1 col-sm-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">VI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2  col-sm-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnVi || "--"}}</label> 
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1  form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">HI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnHi || "--"}}</label>
+                              
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">OH </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnOh || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">SI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnSi || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">ID </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnId || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">CP </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnCp || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Others </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.educationalCwsnOthers || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Total </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{ surveyData.educationalCwsnVi + surveyData.educationalCwsnHi  + surveyData.educationalCwsnOh  + surveyData.educationalCwsnSi+ surveyData.educationalCwsnId+ surveyData.educationalCwsnCp + surveyData.educationalCwsnOthers  }}</label>   
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+             <div class="patch">
+                <div class="row patch-heading">
+                   <div class="col-md-6 form-group">
+                      <div class="">
+                         <label for="exampleInputEmail1" class="form-label">6) How many CWSN were given skill training
+                         </label>
+                      </div>
+                   </div>
+                </div>
+                <div class="row">
+                   <div class="col-md-12">
+                      <div class="row">
+                         <div class=" col-3 col-md-1 col-sm-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">VI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2  col-sm-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnVi || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1  form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">HI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnHi || "--"}}</label>                         
+                             </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">OH </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnOh || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">SI </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnSi || "--"}}</label>                         
+                             </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class=" col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">ID </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnId || "--"}}</label>                         
+                             </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">CP </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                              <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnCp || "--"}}</label>                          
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Others </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{surveyData?.skillCwsnOthers || "--"}}</label>
+                            </div>
+                         </div>
+                         <div class="col-md-1"></div>
+                         <div class="col-3 col-md-1 form-group">
+                            <div class="">
+                               <label for="exampleInputEmail1" class="form-label">Total </label>
+                            </div>
+                         </div>
+                         <div class="col col-md-2 form-group">
+                            <div class=""> <span class="colon">:</span>
+                                <label for="" class="form-label fw-normal">{{ surveyData.skillCwsnVi + surveyData.skillCwsnHi  + surveyData.skillCwsnOh  + surveyData.skillCwsnSi+ surveyData.skillCwsnId+ surveyData.skillCwsnCp + surveyData.skillCwsnOthers  }}</label>     
+                            </div>
+                         </div>
+                      </div>
+                   </div>
+                </div>
+             </div>
+           <div class="row">
+              <div class="col-md-6 form-group">
+                 <div class="">
+                    <label for="exampleInputEmail1" class="form-label">7) How many CWSN were given individual TLM </label>
+                 </div>
+              </div>
+              <div class="col-md-3 form-group">
+                 <div class=""> <span class="colon">:</span>
+                    <label for="" class="form-label fw-normal">{{surveyData?.individualTlmCwsn || "--"}}</label>
+                 </div>
+              </div>
+           </div>
+           <div class="row">
+              <div class="col-md-6 form-group">
+                 <div class="">
+                    <label for="exampleInputEmail1" class="form-label">8) How many CWSN were given peer support </label>
+                 </div>
+              </div>
+              <div class="col-md-3 form-group">
+                 <div class=""> <span class="colon">:</span>
+                    <label for="" class="form-label fw-normal">{{surveyData?.peerSupportCwsn || "--"}}</label>
+                 </div>
+              </div>
+           </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+        </button>
+      </div>
+    </div>
+  </div>

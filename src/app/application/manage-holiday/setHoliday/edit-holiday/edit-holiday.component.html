@@ -1,0 +1,178 @@
+<div>
+    <div class="pageHeading">
+        <div><h3 class="pageName">Set Holiday/अवकाश निर्धारित करें</h3></div>
+        <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य {{districtId}}
+        </span>
+        <div class="tabArea">
+            <a class="neuro addLink active" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करना
+            </a>
+            <a routerLink="./../../viewHoliday"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें</a>
+        </div>
+    </div>
+    <form [formGroup]="holidayForm" (ngSubmit)="onSubmit()" autocomplete="off">
+        <div class="formpatch top-space">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> District<br>जिला</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                        <select formControlName="districtId" class="form-select" (change)="getBlock($any($event.target).value)">
+                            <option value="" *ngIf="distLoading==true">Loading...</option>
+                            <option value="" *ngIf="disrtictChanged==false">All Districts</option>
+                            <option *ngFor="let item of districtData" [value]="item.districtId">
+                                    {{ item.districtCode }} - {{ item.districtName }}
+                            </option>
+                        </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <ng-container *ngIf="districtId>0">
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Block<br>प्रखण्ड</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select formControlName="blockId" class="form-select" aria-label="Default select example" (change)="getSchoolList()">
+                        <option value="" *ngIf="blockChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="blockLoading==true">Loading...</option>
+                        <option  *ngFor="let item of blockData"  [value]="item.blockId">  
+                                {{ item.blockCode }} - {{ item.blockName }}
+                        </option>
+                    </select>
+                    <!-- <span class="mandatory">*</span> -->
+                </div> 
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-2 form-group3">
+                        <label for="exampleInputEmail1" class="form-label">Management</label>
+                    </div>
+                    <div class="col-md-3 form-group"> 
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example">
+                            <option selected>--Select--</option>
+                            <option value="1">Department of Education</option>
+                            <option value="2">Tribal Welfare Department</option>
+                            <option value="3">Local Body</option>
+                            <option value="4">Government Aided</option>
+                            <option value="5">Private Unaided</option>
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div> -->
+                <div class="row">
+                        <div class="col-lg-2 form-group">
+                            <label for="" class="form-label">School Category<br>विद्यालय की श्रेणी</label>
+                        </div>
+                        <div class="col-lg-3 form-group">
+                            <span class="colon">:</span>
+                            <select formControlName="schlCatId" class="form-select" (change)="getSchoolList();">
+                                <option value="" *ngIf="schoolCatagoryChanged==false">--- Select ---</option>
+                                <option value="" *ngIf="schoolCatagoryChanged==true">Loading...</option>
+                                <option *ngFor="let item of schoolCatData"  [value]="item.schlCatId">  
+                                        {{ item.schlCatName }} 
+                                </option>
+                            </select>
+                            <!-- <span class="mandatory">*</span> -->
+                        </div> 
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">School<br>विद्यालय</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="schoolId" class="form-select">
+                            <option value="" *ngIf="schoolChanged==false">--- Select ---</option>
+                            <option value="" *ngIf="schoolChanged==true">Loading...</option>
+                            <option *ngFor="let item of schoolData"  [value]="item.schoolId">  
+                                {{ item.schoolName }} 
+                        </option>
+                        </select>
+                        <!-- <span class="mandatory">*</span> -->
+                    </div> 
+                </div>
+            </ng-container>
+
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Holiday Name<br>अवकाश का नाम</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" formControlName="holidayName" id="holidayName" aria-describedby="holidayName" class="form-control" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" maxlength="50">
+                    <span class="mandatory">*</span>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> <ng-container *ngIf="districtId === 0 || districtId ===''">Start</ng-container> Date<br>प्रारंभ होने की तिथि</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <!-- <input type="date" formControlName="startDate" id="startDate" aria-describedby="startDate" class="form-control"> -->
+                    <input class="form-control" formControlName="startDate" [minDate]="minDate" [maxDate]="maxDate" id="startDate" readonly #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,'customTodayClass': 'bg-warning'}" />
+                    <span class="mandatory">*</span>
+                </div> 
+            </div>
+            <ng-container *ngIf="districtId === 0 || districtId ===''">
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> End Date<br>समाप्ति तिथि</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <!-- <input type="date" formControlName="endDate" id="endDate" aria-describedby="endDate" class="form-control"> -->
+                        <input class="form-control" formControlName="endDate" [minDate]="minDate" [maxDate]="maxDate" id="endDate" readonly #datepickerYMD="bsDatepicker" placeholder="DD-MMM-YYYY" bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,'customTodayClass': 'bg-warning'}" />
+                        <!-- <span class="mandatory">*</span> -->
+                    </div> 
+                </div>
+            </ng-container>
+            <!-- <div class="row" *ngIf="districtId > 0">
+                <div class="col-lg-2 form-group">
+                </div> 
+                <div class="col-lg-3 form-group">
+                    <div class="checkbox mb-3 check__box pt-2">
+                        <div class="form-group">
+                            <label  for="optionalCheck" class="form-label">
+                                <input type="checkbox" class="check" id="optionalCheck" value="1" formControlName="isOptionalHoliday"> Optional Holiday<br>वैकल्पिक अवकाश
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div> -->
+            <div class="row" *ngIf="districtId > 0">
+                <div class="col-lg-2 form-group">
+                    <label class="form-label" for="optionalCheck">Optional Holiday<br>वैकल्पिक अवकाश
+                    </label>
+                </div> 
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <div class="checkbox mb-3 check__box pt-2">
+                        <div class="form-group">
+                            <label>
+                                <input type="checkbox"  formControlName="isOptionalHoliday" id="optionalCheck" value="1" />
+                                <span></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div>
+            <div>
+                <button class="btn btn-success me-2">Update/अद्यतन</button>
+                <a routerLink="./../../viewHoliday" class="btn btn-danger me-2">Cancel / रद्द करें</a>
+            </div>    
+        </div>
+    </form>
+</div>
+ 
+
+  
+  
+
+
+

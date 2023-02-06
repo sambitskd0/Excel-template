@@ -1,0 +1,110 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Transfer Notification / स्थानांतरण अधिसूचना प्रबंधित करें</h3>
+            <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addNotification" class="neuro addLink" routerLinkActive="active"><i
+                class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+            <a routerLink="./../viewNotification" class="neuro viewLink" routerLinkActive="active"><i
+                class="bi bi-eye me-2"></i>View / देखें </a>
+
+        </div>
+    </div>
+    <form [formGroup]="teacherForm" (ngSubmit)="onSubmit()" enctype="multipart/form-data">
+        <div class="formpatch top-space">
+
+          <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Transfer Notification Title / स्थानांतरण अधिसूचना शीर्षक</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                        <input type="text" [maxlength]="300" formControlName="title" class="form-control">
+                    <span class="mandatory">*</span>
+                </div>                
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Transfer Notification Letter No. / स्थानांतरण अधिसूचना पत्र संख्या</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                        <input class="form-control" [maxlength]="300" formControlName="letterNo" class="form-control"/>
+                    <span class="mandatory">*</span>
+                </div>                
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Transfer Application Start Date / स्थानांतरण आवेदन प्रारंभ तिथि</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <!-- <input type="date" class="form-control" placeholder="dd-mm-yyyy" formControlName="serviceJoiningDt"
+                        (blur)="joiningServiceDate();teacherAgeCalculate();joiningServiceDate();" autocomplete="off"> -->
+                        <input class="form-control" formControlName="fromDate"  #datepickerYMD="bsDatepicker"
+                        placeholder="DD-MMM-YYYY" bsDatepicker #dateRef [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY' } " [maxDate]="maxDate" readonly/>
+                    <span class="mandatory">*</span>
+                </div>                
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Transfer Application End Date / स्थानांतरण आवेदन की अंतिम तिथि</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <!-- <input type="date" class="form-control" placeholder="dd-mm-yyyy" formControlName="serviceJoiningDt"
+                        (blur)="joiningServiceDate();teacherAgeCalculate();joiningServiceDate();" autocomplete="off"> -->
+                        <input class="form-control" formControlName="toDate"  #datepickerYMD="bsDatepicker"
+                        placeholder="DD-MMM-YYYY" bsDatepicker #dateRef [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY' } " [maxDate]="maxDate" readonly/>
+                    <span class="mandatory">*</span>
+                </div>                
+            </div>            
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Type of Teacher <br>शिक्षक का प्रकार </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" (change)="teacherTitleChange($any($event.target).value)"
+                        aria-label="Default select example" formControlName="teacherTitle">
+                        <option value="" *ngIf="teacherTitleChanged==false">-- Select --</option>
+                        <option value="" *ngIf="teacherTitleChanged==true">Loading...</option>
+                        <option *ngFor="let title of teacherTitle" [value]="title.anxtValue">
+                            {{ title.anxtName }}
+                        </option>
+
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1">
+                    <img src="assets/img/loading.gif" *ngIf="teacherTitleChanged==true" alt="dsd">
+                </div>
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Nature of Appointment <br> नियुक्ति की प्रकृति</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <!-- <ng-multiselect-dropdown class="form-select" aria-label="Default select example" formControlName="natureOfAppointmt"
+                        >
+                        <option value="" *ngIf="teacherAppointmentChanged==false">-- Select --</option>
+                        <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                        <option *ngFor="let appointment of teacherAppointment" [value]="appointment.anxtValue">
+                            {{ appointment.anxtName }}
+                        </option>
+                    </ng-multiselect-dropdown> -->
+                    <ng-multiselect-dropdown [placeholder]="'-- Select --'" [settings]="dropdownSettings"
+                            [data]="teacherAppointment" formControlName="natureOfAppointmt">
+                    </ng-multiselect-dropdown>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1">
+                    <img src="assets/img/loading.gif" *ngIf="teacherAppointmentChanged==true" alt="dsd">
+                </div>                
+            </div>  
+        </div>
+        <div>
+            <button class="btn btn-success me-2">Submit / जमा करे</button>
+            <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित करे</button>
+        </div>
+    </form>
+</div>

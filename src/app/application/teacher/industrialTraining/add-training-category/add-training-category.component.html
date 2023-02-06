@@ -1,0 +1,52 @@
+<form [formGroup]="trainingCategory" (ngSubmit)="onSubmit()">
+    <div>
+        <div class="pageHeading">
+            <div class="heading__tab">
+                <div><h3 class="pageName">Type of Training  / प्रशिक्षण का प्रकार </h3> </div>
+                <div class="tab__section">
+                        <a routerLink="./../viewTrainingAgency"  class="tablink d-inline-block " >Training Agency <br> प्रशिक्षण संस्था</a>
+                        <a routerLink="./../viewTrainingCategory"  class="tablink d-inline-block active" routerLinkActive="active">Type of Training <br> प्रशिक्षण का तरीका</a>                
+                        <a routerLink="./../viewIndustrialTraining"  class="tablink d-inline-block" >Industrial Training <br> औद्योगिक प्रशिक्षण</a>
+                </div>
+            </div>
+            <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+            <div class="tabArea">
+                <a routerLink="./../addTrainingCategory"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+                <a routerLink="./../viewTrainingCategory"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a>
+            </div>        
+        </div>
+        <div class="formpatch top-space">
+          
+          <div class="row">
+              <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group"><label for="" class="form-label">Type of Training Name </label><br />प्रशिक्षण का प्रकार नाम</div>
+              <div class="col-lg-4 col-md-6 form-group">
+                  <span class="colon">:</span>
+                  <input autofocus type="text" class="form-control" formControlName="trainingName" aria-describedby="Name" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" [maxLength]="70"> 
+                  <span class="mandatory">*</span>
+              </div>
+          </div>
+          <div class="row">
+              <div class="col-xxl-2 col-xl-3 col-lg-3 col-md-4 col-sm-12 form-group"><label for="" class="form-label">Description </label><br>विवरण</div>
+              <div class="col-lg-4 col-md-6 form-group">
+                  <span class="colon">:</span>
+                  <textarea class="form-control" cols="4" rows="3" [maxLength]="500" formControlName="description"></textarea>
+                  <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+              </div>
+          </div>
+         
+       
+      </div>
+      
+    
+    </div>
+    <div>
+      <button class="btn btn-success me-2">Submit / जमा करें</button>
+      <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित</button>
+    </div>
+    </form>  
+     
+    
+      
+      
+    
+    

@@ -1,0 +1,70 @@
+.indicators-pannel {
+    text-align: center;
+    padding: 14px 10px 1px 10px;
+    background: #dcd5e6;
+    color: #63409a;
+    border-radius: 3px;
+}
+
+.indicators-pannelol, ul{
+    list-style-type: none;
+}
+
+.indicators-pannel li {
+    display: inline-block;
+    margin: 0 10px;
+}
+
+.timeline-color {
+    width: 12px;
+    height: 12px;
+    margin-right: 2px;
+    display: inline-block;
+}
+
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+.light-red-bg {
+    background-color: #FF0000;
+}
+.light-darkgreen-bg {
+    background-color: #30ad5c;
+}
+
+.light-navy-bg {
+    background-color: #21b9bb;
+    color: #fff;
+}
+
+.light-purple-bg {
+    background-color: #ca87ec;
+}
+
+.light-darkyellow-bg {
+    background-color: #989804;
+}
+
+.light-green-bg {
+    background-color: #0ef788;
+}
+
+.light-yellow-bg {
+    background-color: #FFFF00;
+}
+
+.popup-loader {
+    text-align: center; 
+    min-height: 200px; 
+    padding-top: 60px; 
+    color: #63409a; 
+    font-size: 24px; 
+    font-weight: 800px;
+}

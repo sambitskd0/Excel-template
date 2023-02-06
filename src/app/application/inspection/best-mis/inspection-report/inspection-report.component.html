@@ -1,0 +1,747 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">School Monitoring Report
+            </h3>
+
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="./../schoolStatusReport" class="neuro viewLink active" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>Viewxsx / देखें</a>
+        </div>
+
+
+    </div>
+    <div class="top-space">
+        <ng-container>
+            <div class="search-container" *ngIf="cardIsDisplayed" @fadeSlideInOut>
+                <div class="search-sec" id="searchPanel">
+
+                    <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                        autocomplete="off" novalidate>
+                        <div class="searchPanel">
+                            <div class="row">
+                                <div class="col-md-1 form-group">
+                                    <label for="" class="form-label">Districtcsc <br>जिला
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]="scDistrictId" name="scDistrictId"
+                                        class="form-select scDistrictId" aria-label="Default select example"
+                                        (change)="getBlock($any($event.target).value)"
+                                        [disabled]="(sessionDistrictId != '')? 'true':'false'" #district>
+                                        <option value="" *ngIf="scDisrtictChanged==false">-- Select --
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictChanged==true">Loading...</option>
+                                        <option *ngFor="let item of districtData" [value]="item.districtId">
+                                            {{ item.districtCode }} - {{ item.districtName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+
+                                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="scDisrtictChanged==true"
+                                        alt="dsd"></div>
+
+                                <div class="col-md-1 form-group">
+                                    <label for="" class="form-label">Block <br>प्रखण्ड </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId"
+                                        aria-label="Default
+                                                select example" (change)="getCluster($any($event.target).value)"
+                                        [disabled]="(sessionBlockId != '')? 'true':'false'" #block>
+                                        <option value="" *ngIf="scBlockChanged==false">-- Select --</option>
+                                        <option value="" *ngIf="scBlockChanged==true">Loading...</option>
+                                        <option *ngFor="let item of blockData" [value]="item.blockId">
+                                            {{ item.blockCode }} - {{ item.blockName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="scBlockChanged==true"
+                                        alt="dsd">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-1 form-group">
+                                    <label for="" class="form-label">Cluster<br>संकुल</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select scClusterId" [(ngModel)]="scClusterId" name="scClusterId"
+                                        (change)="getSchool($any($event.target).value)"
+                                        [disabled]="(sessionClusterId != '')? 'true':'false'">
+                                        <option value="" *ngIf="scClusterChanged==false">--Select--</option>
+                                        <option value="" *ngIf="scClusterChanged==true">Loading...</option>
+                                        <option *ngFor="let item of clusterData" [value]="item.clusterId">
+                                            {{ item.clusterCode }} - {{ item.clusterName }}
+                                        </option>
+                                    </select>
+                                </div>
+
+                                <div class="col-md-1"><img src="assets/img/loading.gif" *ngIf="scClusterChanged==true"
+                                        alt="dsd"></div>
+
+                                <div class="col-md-1 form-group">
+                                    <label class="form-label">School</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="schoolId" name="schoolId" autocomplete="off"
+                                        [disabled]="(sessionSchoolId != '')? 'true':'false'">
+                                        <option value="" *ngIf="scSchoolChanged == false">
+                                            --- Select ---
+                                        </option>
+                                        <option value="" *ngIf="scSchoolChanged == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1">
+                                    <img src="assets/img/loading.gif" *ngIf="scSchoolChanged==true" alt="dsd">
+                                </div>
+
+
+
+                                <div class="col-md-2 form-group3"><button class="btn btn-default btn-purple"> Search <i
+                                            class="bi bi-search"></i></button></div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+            data-original-title="Click me">Search Panel</button>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <div class="col-lg-12">
+
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        
+                        
+                        <a *ngIf="pageLevel === 1" (click)="drillDown('','','','')" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+                        <a *ngIf="pageLevel === 2" (click)="drillDown(resultData[0]?.districtId,'','','')" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+                        <a *ngIf="pageLevel === 3" (click)="drillDown(resultData[0]?.districtId,resultData[0]?.blockId,'','')" title="Back" class="back"><i class="bi bi-skip-backward"></i></a>
+                        
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+                        
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="pageLevel === 0">
+                <div class="table-responsive">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col" rowspan="2">Sl.No</th>
+                                <th scope="col" rowspan="2">District Name</th>
+                                <!-- <th scope="col"  rowspan="2">Block Name</th> -->
+                                <th scope="col" rowspan="2">Number of schools</th>
+                                <th scope="col" rowspan="2">Number of visited schools</th>
+                                <th scope="col" rowspan="2">Number of visits</th>
+                                
+
+                            </tr>
+                            
+
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let element of resultData">
+                                <td>{{ element?.slNo }}</td>
+                                <td> <a href="javascript:void(0)"
+                                    (click)="drillDown(element?.districtId,'','','')"> {{ element?.districtName }} </a></td>
+                                <!-- <td>{{ element?.blockName }}</td> -->
+                                <td>{{ element?.totalSchool }}</td>
+                                <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                <td>{{ element?.totalNoOfVists }}</td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center"><b>Total</b></td>
+                                <td><b>{{totalSchoolSum}}</b></td>
+                                <td><b>{{totalNoOfVistsSchools}}</b></td>
+                                <td><b>{{totalNoOfVistsSum}}</b></td>
+                               
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div *ngIf="pageLevel === 1">
+                <div class="table-responsive">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col" rowspan="2">Sl.No</th>
+                                <th scope="col" rowspan="2">District Name</th>
+                                <th scope="col" rowspan="2">Block Name</th>
+                                <th scope="col" rowspan="2">Number of schools</th>
+                                <th scope="col" rowspan="2">Number of visited schools</th>
+                                <th scope="col" rowspan="2">Number of visits</th>
+                                
+
+                            </tr>
+                            
+
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let element of resultData">
+                                <td>{{ element?.slNo }}</td>
+                                <td>{{ element?.districtName }}</td>
+                                <td><a href="javascript:void(0)"
+                                    (click)="drillDown(element?.districtId,element?.blockId,'','')">{{ element?.blockName }}  </a></td>
+                                <td>{{ element?.totalSchool }}</td>
+                                <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                <td>{{ element?.totalNoOfVists }}</td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="3" class="text-center"><b>Total</b></td>
+                                <td><b>{{totalSchoolSum}}</b></td>
+                                <td><b>{{totalNoOfVistsSchools}}</b></td>
+                                <td><b>{{totalNoOfVistsSum}}</b></td>
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div *ngIf="pageLevel === 2">
+                <div class="table-responsive">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col" rowspan="2">Sl.No</th>
+                                <th scope="col" rowspan="2">District Name</th>
+                                <th scope="col" rowspan="2">Block Name</th>
+                                <th scope="col" rowspan="2">Cluster Name</th>
+                                <th scope="col" rowspan="2">Number of schools</th>
+                                <th scope="col" rowspan="2">Number of visited schools</th>
+                                <th scope="col" rowspan="2">Number of visits</th>
+                                
+                            </tr>
+                            
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let element of resultData">
+                                <td>{{ element?.slNo }}</td>
+                                <td>{{ element?.districtName }}</td>
+                                <td>{{ element?.blockName }}</td>
+                                <td><a href="javascript:void(0)"
+                                    (click)="drillDown(element?.districtId,element?.blockId,element?.clusterId,'')">{{ element?.clusterName }} 
+                                        </a></td>
+                                <td>{{ element?.totalSchool }}</td>
+                                <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                <td>{{ element?.totalNoOfVists }}</td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="4" class="text-center"><b>Total</b></td>
+                                <td><b>{{totalSchoolSum}}</b></td>
+                                <td><b>{{totalNoOfVistsSchools}}</b></td>
+                                <td><b>{{totalNoOfVistsSum}}</b></td>
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+            <div *ngIf="pageLevel === 3">
+                <div class="alert alert-info text-center text-uppercase fw-bold" role="alert">
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">District</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{districtName}}</b></span>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Block</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{blockName}}</b></span>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Cluster</label>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{clusterName}}</b></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col" rowspan="2">Sl.No</th>
+                                <th scope="col" rowspan="2">School Name</th>
+                                <th scope="col" rowspan="2">Number of visited schools</th>
+                                <th scope="col" rowspan="2">Number of visits</th>
+                              
+
+                            </tr>
+                           
+
+                        </thead>
+                        <tbody>
+
+                            <tr *ngFor="let element of resultData">
+                                <td>{{ element?.slNo }}</td>
+                                <td><a href="javascript:void(0)"
+                                    (click)="drillDown(element?.districtId,element?.blockId,element?.clusterId,element?.schoolId)">{{ element?.schoolName }} 
+                                        </a></td>
+
+                                <td>{{ element?.totalNoOfVistsSchools }}</td>
+                                <td>{{ element?.totalNoOfVists }}</td>
+                                
+                            </tr>
+                            <tr>
+                                <td colspan="2" class="text-center"><b>Total</b></td>
+                                <td><b>{{totalNoOfVistsSchools}}</b></td>
+                                <td><b>{{totalNoOfVistsSum}}</b></td>
+                                
+                            </tr>
+
+                        </tbody>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <div *ngIf="pageLevel === 4">
+                <div class="alert alert-info text-center text-uppercase fw-bold" role="alert">
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">District</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{districtName}}</b></span>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Block</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{blockName}}</b></span>
+                        </div>
+                       
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">Cluster</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{clusterName}}</b></span>
+                        </div>
+                        <div class="col-md-2 form-group">
+                            <label for="" class="form-label">School</label>
+                        </div>
+                        <div class="col-md-3 form-group">
+                            <span class="colon">:</span>
+                            <span for=""><b>{{schoolName}}</b></span>
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col">School Name</th>
+                                <th scope="col">Monitored By</th>
+                                <th scope="col">Inspector Designation</th>
+                                <th scope="col">Inspection Date</th>
+                                <th scope="col">School Open / Close Status</th>
+                                <th scope="col" class="text-center">Action</th>
+
+                            </tr>
+
+                        </thead>
+                        <tbody>
+                            <ng-container *ngFor="let element of resultData">
+                                <tr>
+                                    <td>{{ element?.slNo }}</td>
+                                    <td>{{ element?.schoolName }}</td>
+                                    <td>{{ element?.vchfullName }}</td>
+                                    <td>{{ element?.vchDesignationName }}</td>
+                                    <td>{{ element?.inspectionDate }}</td>
+                                    <td>{{ (element?.schoolOpenStatus == 1) ? "Open" : "Closed" }}</td>
+                                    <td><a style="background-color:#63409a;color:white;" class="btn btn-default btn-purple" (click)="TakeAction(element?.encId)" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="bi bi-eye"></i> Show Report</a></td>
+                                </tr>
+
+
+                            </ng-container>
+
+
+                        </tbody>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+
+                </div>
+            </div>
+
+            <ng-template #showEmptyAlert>
+            </ng-template>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin== false">
+        {{ "Please Search to find Inspection Details" }}
+    </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+		  <div class="modal-header">
+			<h5 class="modal-title" id="exampleModalLabel">School Monitoring Report Card</h5>
+			<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		  </div>
+		  <div class="modal-body">
+			<div class="formpatch">
+			  <div class="row">
+				  <div class="col-md-3 form-group3">
+					 <label for="" class="form-label">UDISE</label>
+				  </div>
+				  <div class="col-md-3 form-group"> 
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.schoolUdiseCode) ? datas?.schoolUdiseCode
+						:'--'}}</label>
+				  </div>
+				  <div class="col-md-3 form-group">
+					  <label for="" class="form-label">School Name</label>
+				   </div>
+				  <div class="col-md-3 form-group">
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.schoolName | titlecase) }}</label>
+				  </div>
+			  </div>
+			  <div class="row">
+				  <div class="col-md-3 form-group3">
+					 <label for="" class="form-label">District</label>
+				  </div>
+				  <div class="col-md-3 form-group"> 
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.districtName | titlecase) }}</label>
+				  </div>
+				  <div class="col-md-3 form-group">
+					  <label for="" class="form-label">Block</label>
+				   </div>
+				  <div class="col-md-3 form-group">
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.blockName | titlecase) }}</label>
+				  </div>
+			  </div>
+			  <div class="row">
+				  <div class="col-md-3 form-group3">
+					 <label for="" class="form-label">Cluster</label>
+				  </div>
+				  <div class="col-md-3 form-group"> 
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.clusterName | titlecase) }}</label>
+				  </div>
+				  <div class="col-md-3 form-group">
+					  <label for="" class="form-label">Monitored Date</label>
+				   </div>
+				  <div class="col-md-3 form-group">
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.date) ? datas?.date :'--'}}</label>
+				  </div>
+			  </div>
+			  <div class="row">
+				  <div class="col-md-3 form-group3">
+					 <label for="" class="form-label">Monitored Time</label>
+				  </div>
+				  <div class="col-md-3 form-group"> 
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.time) ? datas?.time :'--'}}</label>
+				  </div>
+				  <div class="col-md-3 form-group">
+					  <label for="" class="form-label">Monitored By</label>
+				   </div>
+				  <div class="col-md-3 form-group">
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.vchfullName | titlecase) }}</label>
+				  </div>
+			  </div>
+			  <div class="row">
+				  <div class="col-md-3 form-group3">
+					 <label for="" class="form-label">Designation</label>
+				  </div>
+				  <div class="col-md-3 form-group"> 
+					  <span class="colon">:</span>
+					  <label for="" class="form-label">{{(datas?.vchDesignationName) ? datas?.vchDesignationName
+						:'--'}}</label>
+				  </div>
+				  <div class="col-md-1"></div>
+			  </div>
+			</div>
+				<div *ngIf="datas?.schoolOpenStatus === 1">
+					<h5 class="mt-3">Teacher Attendance</h5>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<table class="table  table-bordered">
+									<thead class="bg-lightpurple">
+										<tr>
+											<th scope="col">Teacher Type</th>
+											<th scope="col">Posted</th>
+											<th scope="col">Present</th>
+											<th scope="col">On Office Work</th>
+											<th scope="col">Absent</th>
+											<th scope="col">Leave</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let tat of tatten">
+
+											<td *ngIf="tat?.teacherType == 1">Head Master</td>
+											<td *ngIf="tat?.teacherType == 2">Teacher</td>
+											<td *ngIf="tat?.teacherType == 3">Non-Teaching Staff</td>
+											<td *ngIf="tat?.teacherType == 2 || tat?.teacherType == 1 || tat?.teacherType == 3">{{tat?.totalPosted}}</td>
+											<td *ngIf="tat?.teacherType == 2 || tat?.teacherType == 1 || tat?.teacherType == 3">{{tat?.totalPresent}}</td>
+											<td *ngIf="tat?.teacherType == 2 || tat?.teacherType == 1 || tat?.teacherType == 3">{{tat?.outForOfficialWork}}</td>
+											<td *ngIf="tat?.teacherType == 2 || tat?.teacherType == 1 || tat?.teacherType == 3">{{tat?.absent}}</td>
+											<td *ngIf="tat?.teacherType == 2 || tat?.teacherType == 1 || tat?.teacherType == 3">{{tat?.authorizedLeave}}</td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+
+					<h5 class="mt-3">Absent Teacher List</h5>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<table class="table  table-bordered">
+									<thead class="bg-lightpurple">
+										<tr>
+											<th scope="col">Name of Teacher</th>
+											<th scope="col">Teacher Type</th>
+											<th scope="col">Gender</th>
+										</tr>
+									</thead>
+									<tbody *ngIf="absentTeacherList != '' ">
+										<tr *ngFor="let abteac of absentTeacherList" >
+											<td>{{abteac?.teacherName |titlecase}}</td>
+											<td *ngIf="abteac?.teacherType == 1">Head Master</td>
+											<td *ngIf="abteac?.teacherType == 2">Teacher</td>
+											<td *ngIf="abteac?.teacherType == 3">Non-Teaching Staff</td>
+											<td *ngIf="abteac?.teaherGender == 1">Male</td>
+											<td *ngIf="abteac?.teaherGender == 2">Female</td>
+										</tr>
+
+									</tbody>
+									<tbody>
+										<tr *ngIf="absentTeacherList == '' ">
+											<td class="text-center">--</td>
+											<td class="text-center">--</td>
+											<td class="text-center">--</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<h5 class="mt-3">Student Attendance</h5>
+					<div *ngFor="let stuAtten of studentAttendence">
+						
+						<h5 class="mt-3">{{stuAtten.classGroupId.split('Class').join('Class'+' ')}}</h5>
+						<div class="row">
+							<div class="col-lg-12">
+								<div class="table-responsive">
+									<table class="table  table-bordered">
+										<thead class="bg-lightpurple">
+											<tr>
+												<th scope="col" colspan="3" style="text-align: center;">Boys</th>
+												<th scope="col" colspan="3" style="text-align: center;">Girls</th>
+												<th scope="col" colspan="3" style="text-align: center;">Transgender</th>
+											</tr>
+											<tr>
+												<th rowspan="2" style="text-align: center;">Enrolled</th>
+												<th colspan="2" style="text-align: center;">Present</th>
+												<th rowspan="2" style="text-align: center;">Enrolled</th>
+												<th colspan="2" style="text-align: center;">Present</th>
+												<th rowspan="2" style="text-align: center;">Enrolled</th>
+												<th colspan="2" style="text-align: center;">Present</th>
+												
+											</tr>
+											<tr>
+												<th>On Register</th>
+												<th>Actual</th>
+												<th>On Register</th>
+												<th>Actual</th>
+												<th>On Register</th>
+												<th>Actual</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											<tr>
+												<td>{{stuAtten?.totalEnrolledBoys}}</td>
+												<td>{{stuAtten?.attendanceOnRegisterBoys}}</td>
+												<td>{{stuAtten?.actualPresentBoys}}</td>
+												<td>{{stuAtten?.totalEnrolledGirls}}</td>
+												<td>{{stuAtten?.attendanceOnRegisterGirls}}</td>
+												<td>{{stuAtten?.actualPresentGirls}}</td>
+												<td>{{stuAtten?.totalEnrolledTransGender}}</td>
+												<td>{{stuAtten?.attendanceOnRegisterTransGender}}</td>
+												<td>{{stuAtten?.actualPresentTransGender}}</td>
+											</tr>
+
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<h5 class="mt-3">Indicators</h5>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<table class="table  table-bordered">
+									<thead class="bg-lightpurple">
+										<tr>
+											<th scope="col">Indicators</th>
+											<th scope="col">Observation</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr *ngFor="let ans of answerList">
+											<td>{{ans?.inspQuestion}}</td>
+											<td>{{ans?.answer}}</td>
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+				</div>
+
+				<div *ngIf="datas?.schoolOpenStatus == 2">
+					<h5 class="mt-3">School Report</h5>
+					<div class="row">
+						<div class="col-lg-12">
+							<div class="table-responsive">
+								<table class="table  table-bordered">
+									<thead class="bg-lightpurple">
+										<tr>
+											<th scope="col">School Status</th>
+											<th scope="col">Reason</th>
+
+										</tr>
+									</thead>
+									<tbody>
+										<tr>
+											<td>Close</td>
+											<td>{{datas?.schoolCloseReason}}</td>
+
+										</tr>
+
+
+									</tbody>
+								</table>
+							</div>
+						</div>
+					</div>
+					<div>
+					</div>
+
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

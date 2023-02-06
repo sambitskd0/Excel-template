@@ -1,0 +1,477 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">View Other Information / अन्य विवरण देखें</h3>
+      <!-- <span class="indicator">( * ) Indicates Mandatory</span> -->
+    </div>
+    <div class="tabArea"></div>
+  </div>
+  <div class="formpatch top-space">
+    <div class="regi__info">
+      <a [routerLink]="['../../viewRegistrationInfo/',teacherId]" class="neuro addLink">Registration Info<br> पंजीकरण
+        का विवरण</a>
+      <a [routerLink]="['../../viewEducationalInfo/',teacherId]" class="neuro viewLink">Educational Info<br>
+        शैक्षिक विवरण</a>
+      <a [routerLink]="['../../viewProfessionalInfo/', teacherId]" class="neuro viewLink">Professional Info<br>
+        व्यावसायिक विवरण</a>
+      <a [routerLink]="['./']" class="neuro viewLink" routerLinkActive="active">Other Info<br> अन्य जानकारियाँ अद्यतन
+        करें</a>
+      <a [routerLink]="['../../viewTrainingAndLanguageInfo/',teacherId]" class="neuro viewLink">Training & Language
+        Info<br> प्रशिक्षण और भाषा का विवरण</a>
+    </div>
+    <h5>Other Info / अन्य जानकारियाँ अद्यतन  करें</h5>
+    <ng-container *ngIf="otherInfoDataEmpty">
+      <div class="row mt-4">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Computer Training</label><br>कंप्यूटर प्रशिक्षण
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(computerTraining && computerTraining === 1) ?
+            'Yes':(computerTraining && computerTraining === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">NSS Incharge</label><br>एनएसएस प्रभारी
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(nssIncharge && nssIncharge === 1) ? 'Yes' :(nssIncharge &&
+            nssIncharge === 2) ? 'No':'--'}}</label>
+        </div>
+        
+        <!-- <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Basic Pay
+            <button type="button" class="tooltip__btn" data-toggle="tooltip" data-placement="top"
+              title="Gross Monthly Income.">
+              <i class="bi bi-question-circle-fill"></i>
+            </button>
+          </label><br>मूल वेतन
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(basicPay) ? (basicPay | currency: 'INR') :'--'}}</label>
+        </div> -->
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">NCC Trained</label><br>एनसीसी प्रशिक्षित
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(nccTrained && nccTrained === 1) ? 'Yes' :(nccTrained && nccTrained
+            === 2) ? 'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Training Needed </label><br>प्रशिक्षण की जरूरत है
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingNeeded) ? training[trainingNeeded] :'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Training Received</label><br />प्रशिक्षण प्राप्त हुआ
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingRecieved) ? training[trainingRecieved] :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Classes Taught </label><br>किन कक्षाओं में पढ़ाया है
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label *ngFor="let class of classesTaught ; let last = last " for=""
+            class="form-label fw-bold">{{(classTaught[class]) ? classTaught[class] :'--'}} <span *ngIf="!last"> ,
+            </span> </label>
+        </div>
+      </div>
+      <div class="row">
+
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Languages in which the teacher is having working knowledge?</label><br>वे
+          भाषाएँ जिनमें शिक्षक को कार्यसाधक ज्ञान है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <!-- <label for="" class="form-label fw-bold">{{(langWorkingKnwldge) ? langWorkingKnwldge :'--'}}</label> -->
+          <label *ngFor="let lang of langWorkingKnwldge ; let last = last " for=""
+            class="form-label fw-bold">{{(languageW[lang]) ? languageW[lang] :'--'}} <span *ngIf="!last"> ,
+            </span> </label>
+        </div>
+        <div class="col-lg-1"></div>
+
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Studied Mathematics upto which class</label><br>किस वर्ग तक गणित की पढ़ाई की
+          है ?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <!-- <td>{{(assetTypeData[assetStock.assetType]) ? assetTypeData[assetStock.assetType] :'--'}}</td> -->
+          <label for="" class="form-label fw-bold">{{(stdMathClassUpto) ? studyUpto[stdMathClassUpto] :'--'}}</label>
+        </div>
+
+       
+        <!-- <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Teacher Associated as
+            <button type="button" class="tooltip__btn" data-toggle="tooltip" data-placement="top"
+              title="Teacher presently Associated as">
+              <i class="bi bi-question-circle-fill"></i>
+            </button>
+          </label><br>शिक्षक के तौर पर किन से सम्बंधित हैं
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label *ngFor="let associate of teacherAssociatedAs ; let last = last " for=""
+            class="form-label fw-bold">{{(associatedAs[associate]) ? associatedAs[associate] :'--'}} <span
+              *ngIf="!last"> , </span> </label>
+        
+        </div> -->
+      </div>
+
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Studied English upto which class</label><br>किस वर्ग तक अंग्रेजी की पढ़ाई की
+          है ?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(stdEnglishClassUpto) ? studyUpto[stdEnglishClassUpto] :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Studied Science upto which class</label><br>किस वर्ग तक विज्ञान की पढ़ाई की
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(stdScienceClassUpto) ? studyUpto[stdScienceClassUpto] :'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Social studies studied upto</label><br>किस वर्ग तक सामाजिक अध्ययन की पढ़ाई की
+          है ?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(socialStdUpto) ? studyUpto[socialStdUpto] :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            Language (as per Schedule VIII) Studied upto</label><br>भाषा (अनुसूची VIII के अनुसार) . तक अध्ययन किया
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(langStudiedUpto) ? studyUpto[langStudiedUpto] : '--'}}</label>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Main Subject Taught 1</label><br>मुख्य विषय पढ़ाया गया 1
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(mainSubTaught1) ? mainSub[mainSubTaught1] :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Main Subject Taught 2 </label><br>मुख्य विषय पढ़ाया गया 2
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(mainSubTaught2) ? mainSub[mainSubTaught2] :'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+          
+
+        <div class="col-lg-1"></div> 
+
+
+      
+      </div>
+
+      
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Are you a trained teacher?</label><br>क्या आप एक प्रशिक्षित शिक्षक हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainer && trainer === 1) ? 'Yes' :(trainer && trainer === 2) ?
+            'No' :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Trained in computer for use and teaching </label><br>उपयोग और शिक्षण हेतु कंप्यूटर में प्रशिक्षित हैं ?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainedComputer && trainedComputer === 1) ? 'Yes' :(trainedComputer === 2)?'No':'--'}}</label>
+        </div>
+      </div>
+      
+      <div class="row">       
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label"> Trained for teaching CWSN </label><br>CWSN पढ़ाने के लिए प्रशिक्षित
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainedCWSN && trainedCWSN === 1) ? 'Yes' : (trainedCWSN &&
+            trainedCWSN === 2) ? 'No' :'--'}}</label>
+        </div>
+        
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            No. of working days spent on non- teaching assignments</label><br>गैर-शैक्षणिक कार्यों पर खर्च किए गए कार्य
+          दिवसों की संख्या
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(daysNonTeachingAssignment) ? daysNonTeachingAssignment
+            :'--'}}</label>
+        </div>
+      </div>
+      
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether using special resources for education of Children with
+            special needs (CWSN)?</label><br>क्या विशेष आवश्यकता वाले बच्चों (CWSN) की शिक्षा के लिए विशेष संसाधनों का
+          उपयोग किया जा रहा है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(specialResourceCWSN && specialResourceCWSN === 1) ? 'Yes' :
+            (specialResourceCWSN && specialResourceCWSN === 2) ?'No' :'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            Whether trained in safety and security audit of school for ensuring
+            child safety?</label><br>क्या बच्चों की सुरक्षा सुनिश्चित करने के लिए स्कूल की सुरक्षा और सुरक्षा उपाय में
+          प्रशिक्षित हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainedSafetyandSecurity && trainedSafetyandSecurity === 1) ?
+            'Yes' :(trainedSafetyandSecurity && trainedSafetyandSecurity === 2)? 'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether received training on cyber safety and psychosocial
+            aspects?</label><br>क्या साइबर सुरक्षा और मनोसामाजिक पहलुओं पर प्रशिक्षण प्राप्त किया है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingCybSecAndPsycoligical && trainingCybSecAndPsycoligical
+            ===1) ? 'Yes': (trainingCybSecAndPsycoligical && trainingCybSecAndPsycoligical ===2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            Whether received training in early identification support and
+            classroom support of CWSN?</label><br>क्या CWSN के शुरुआती पहचान करने और कक्षा में सहायता करने हेतु
+          प्रशिक्षण प्राप्त हुआ है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingEarlyIdenAndClsSpt && trainingEarlyIdenAndClsSpt === 1) ?
+            'Yes' : (trainingEarlyIdenAndClsSpt && trainingEarlyIdenAndClsSpt === 2) ?'No' :'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether having ICT training/ knowledge to conduct remote learning
+            classes?</label><br>क्या दूरस्थ शिक्षा कक्षाएं संचालित करने के लिए आईसीटी प्रशिक्षण/ज्ञान है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(knwldToCondtRmtClass && knwldToCondtRmtClass === 1) ? 'Yes' :
+            (knwldToCondtRmtClass && knwldToCondtRmtClass === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether conducted remote learning classes in current academic
+            session?</label><br>क्या वर्तमान शैक्षणिक सत्र में दूरस्थ शिक्षा कक्षाएं संचालित की जाती हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(remoteClassCrntAcademic && remoteClassCrntAcademic ===1) ? 'Yes' :
+            (remoteClassCrntAcademic && remoteClassCrntAcademic ===2) ?'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Average number of hours of ICT (computer, laptop, Television, Radio,
+            other) used per week for teaching purposes?</label><br>शिक्षण उद्देश्यों के लिए प्रति सप्ताह उपयोग किए जाने
+          वाले आईसीटी (कंप्यूटर, लैपटॉप, टेलीविजन, रेडियो, अन्य) के घंटों की औसत संख्या?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(avgHrOfICT) ? avgHrOfICT : '--'}} </label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether trained in innovative pedagogy such as art art-integrated,
+            sport-integrated, story-telling, experiential or toy-based?</label><br />
+          क्या कला कला-एकीकृत, खेल-एकीकृत, कहानी-कहानी, अनुभवात्मक या खिलौना-आधारित जैसे नवीन शिक्षाशास्त्र में
+          प्रशिक्षित हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainedInInnovative && trainedInInnovative === 1) ? 'Yes' :
+            (trainedInInnovative && trainedInInnovative === 2) ?'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether using innovative pedagogy such as art-integrated,
+            sport-integrated, story-telling, experiential and toy-based
+            pedagogies, as evidenced from inspections by CRC/BRC?</label><br>क्या कला-एकीकृत, खेल-एकीकृत, कहानी-कहानी,
+          अनुभवात्मक और खिलौना-आधारित शिक्षाशास्त्र जैसे अभिनव शिक्षाशास्त्र का उपयोग कर रहे हैं, जैसा कि सीआरसी/बीआरसी
+          द्वारा निरीक्षण से प्रमाणित है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainedInInnovativeBRC && trainedInInnovativeBRC === 1) ? 'Yes' :
+            (trainedInInnovativeBRC && trainedInInnovativeBRC === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            Whether received training after conduct of NAS/ SAS /other third party
+            assessment at the school?</label><br>क्या विद्यालय में NAS/SAS/अन्य तीसरे पक्ष के मूल्यांकन के आयोजन के बाद
+          प्रशिक्षण प्राप्त किया है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingNas && trainingNas ===1) ? 'Yes' : (trainingNas &&
+            trainingNas ===2) ?'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">
+            Is the teacher engaged with teaching students registered with NIOS/
+            SIOS study centre of this school?</label><br>क्या शिक्षक इस विद्यालय के NIOS/SIOS अध्ययन केंद्र में पंजीकृत
+          छात्रों को पढ़ाने में लगे हुए हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(engStdWithNios && engStdWithNios === 1) ? 'Yes' : (engStdWithNios
+            && engStdWithNios === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+      </div>
+      <div class="formpatch border-bottom-0">
+        <h5>For teachers teaching PRIMARY classes / प्राथमिक कक्षाओं को पढ़ाने वाले शिक्षकों के लिए</h5>
+       
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether received training in FLN-NISHTHA?</label><br>क्या FLN-NISHTHA में
+          प्रशिक्षण प्राप्त किया है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(trainingFLN && trainingFLN === 1) ? 'Yes' : (trainingFLN &&
+            trainingFLN === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether received activity handbook/ material/ resources?
+          </label><br>क्या क्रियाकलाप पुस्तक/सामग्री/संसाधन प्राप्त हुए हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(recvActiHandbook && recvActiHandbook ===1) ? 'Yes' :
+            (recvActiHandbook && recvActiHandbook ===2)?'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether developed e-content and uploaded on DIKSHA?</label><br>क्या ई-कंटेंट
+          विकसित किया गया है और DIKSHA पर अपलोड किया गया है?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(uploadedDiksha && uploadedDiksha ===1) ? 'Yes' : (uploadedDiksha
+            && uploadedDiksha ===2)?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether involved in creating any other type of offline/online
+            resources for teachers at cluster level, block level,district level,
+            and State level?</label><br>क्या संकुल स्तर, ब्लॉक स्तर, जिला स्तर और राज्य स्तर पर शिक्षकों के लिए किसी
+          अन्य प्रकार के ऑफलाइन/ऑनलाइन संसाधन बनाने में शामिल हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(involvedOnlineResource && involvedOnlineResource ===1)
+            ?'Yes':(involvedOnlineResource && involvedOnlineResource ===2) ?'No':'--' }}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether received teachers manuals/handbooks/ resources for teaching
+            children with disabilities/gifted children?</label><br>क्या विकलांग बच्चों/प्रतिभाशाली बच्चों को पढ़ाने के
+          लिए शिक्षक नियमावली/हैंडबुक/संसाधन प्राप्त हुए हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(recvTchManual && recvTchManual === 1) ? 'Yes' : (recvTchManual &&
+            recvTchManual === 2) ?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Using resource materials for preparing their own lesson plans</label><br>अपनी
+          स्वयं की पाठ योजना तैयार करने के लिए संसाधन सामग्री का उपयोग करना
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(rescMaterialOwnLesson && rescMaterialOwnLesson ===1) ? 'Yes' :
+            (rescMaterialOwnLesson && rescMaterialOwnLesson ===2)?'No':'--'}}</label>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Developing own TLM for classroom transactions</label><br>कक्षा की कार्यवाही
+          हेतु स्वयं का TLM विकसित करना
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(devlopTLMfrClass && devlopTLMfrClass ===1) ? 'Yes'
+            :(devlopTLMfrClass && devlopTLMfrClass ===2)?'No':'--'}}</label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-3 col-xl-6 col-lg-6 col-md-12 col-sm-12 col-xs-12 form-group">
+          <label for="" class="form-label">Whether undertaking classroom transactions by using student’s mother
+            tongue as the link language?</label><br>क्या कक्षा की कार्यवाही हेतु छात्र की मातृभाषा को प्रयोग करते हैं?
+        </div>
+        <div class="col-xxl-2 col-xl-5 col-lg-5 col-md-12 col-sm-12 col-xs-12 form-group">
+          <span class="colon">:</span>
+          <label for="" class="form-label fw-bold">{{(undertakingStdMothertounge && undertakingStdMothertounge ===1) ?
+            'Yes' :(undertakingStdMothertounge && undertakingStdMothertounge ===2) ?'No':'--'}}</label>
+        </div>
+      </div>
+    </div>
+    </ng-container>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="!otherInfoDataEmpty">
+      {{ "No record found" }}
+    </div>
+  </div>
+  
+  <div>
+    
+  </div>
+  <div></div>
+  <a [routerLink]="['../../viewProfessionalInfo/',teacherId]" class="btn btn-success me-2 mb-2">Previous / पिछला</a>
+  <a [routerLink]="['../../viewTrainingAndLanguageInfo/',teacherId]" class="btn btn-purple me-2 mb-2">Next / अगला</a>
+</div>

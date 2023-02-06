@@ -1,0 +1,711 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+   <div class="modal-content">
+      <div class="modal-header">
+         <h5 class="modal-title" id="exampleModalLabel">Resource Center / Day Care Center Visit Details</h5>
+         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+         <div class="top-space">
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">1) Registered CWSN in the current financial year till the date of
+                        visit   </label>
+                    
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-3 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label class="form-label">VI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnVi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1  form-group">
+                        <div class="">
+                           <label class="form-label">HI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnHi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">OH </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnOh || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">SI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnSi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">ID </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnId || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">CP </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnCp || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Others </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfRegisteredCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Total </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                              resourceCenterTeacherData.noOfRegisteredCwsnVi + resourceCenterTeacherData.noOfRegisteredCwsnHi  + resourceCenterTeacherData.noOfRegisteredCwsnOh  + resourceCenterTeacherData.noOfRegisteredCwsnSi+ resourceCenterTeacherData.noOfRegisteredCwsnId+ resourceCenterTeacherData.noOfRegisteredCwsnCp + resourceCenterTeacherData.noOfRegisteredCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">2) Present CWSN at the time of visit
+                     </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-3 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label class="form-label">VI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnVi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1  form-group">
+                        <div class="">
+                           <label class="form-label">HI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnHi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">OH </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnOh || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">SI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnSi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">ID </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnId || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">CP </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnCp || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Others </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPresentCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Total </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                              resourceCenterTeacherData.noOfPresentCwsnVi + resourceCenterTeacherData.noOfPresentCwsnHi  + resourceCenterTeacherData.noOfPresentCwsnOh  + resourceCenterTeacherData.noOfPresentCwsnSi+ resourceCenterTeacherData.noOfPresentCwsnId+ resourceCenterTeacherData.noOfPresentCwsnCp + resourceCenterTeacherData.noOfPresentCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="row">
+               <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="noOfIEPOrITPPrepared" class="form-label">3) How many IEP / ITP of CWSN were prepared ? 
+                     </label>
+                  </div>
+               </div>
+               <div class="col-md-3 form-group">
+                  <div class=""> <span class="colon">:</span>
+                     <label for="" class="form-label fw-normal">{{
+                        resourceCenterTeacherData?.noOfIEPOrITPPrepared || "--"
+                        }}</label>
+                  </div>
+                  
+               </div>
+            </div>
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">4) How many CWSN were given assistive devices 
+                      </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-3 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label class="form-label">VI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesVi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1  form-group">
+                        <div class="">
+                           <label class="form-label">HI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesHi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">OH </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesOh || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">SI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesSi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">ID </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesId || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">CP </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesCp || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Others </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfAssistiveDevicesOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Total </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                              resourceCenterTeacherData.noOfAssistiveDevicesVi + resourceCenterTeacherData.noOfAssistiveDevicesHi  + resourceCenterTeacherData.noOfAssistiveDevicesOh  + resourceCenterTeacherData.noOfAssistiveDevicesSi+ resourceCenterTeacherData.noOfAssistiveDevicesId+ resourceCenterTeacherData.noOfAssistiveDevicesCp + resourceCenterTeacherData.noOfAssistiveDevicesOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">5) How many CWSN were given educational devices 
+                     </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-3 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label class="form-label">VI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnVi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1  form-group">
+                        <div class="">
+                           <label class="form-label">HI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnHi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">OH </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnOh || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">SI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnSi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">ID </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnId || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">CP </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnCp || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Others </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfEducationalCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Total </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                              resourceCenterTeacherData.noOfEducationalCwsnVi + resourceCenterTeacherData.noOfEducationalCwsnHi  + resourceCenterTeacherData.noOfEducationalCwsnOh  + resourceCenterTeacherData.noOfEducationalCwsnSi+ resourceCenterTeacherData.noOfEducationalCwsnId+ resourceCenterTeacherData.noOfEducationalCwsnCp + resourceCenterTeacherData.noOfEducationalCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">6) How many CWSN were given skill training
+                     </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-3 col-md-1 col-sm-1 form-group">
+                        <div class="">
+                           <label class="form-label">VI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2  col-sm-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnVi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1  form-group">
+                        <div class="">
+                           <label class="form-label">HI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnHi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">OH </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnOh || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">SI </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnSi || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">ID </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnId || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">CP </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnCp || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Others </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSkillCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-3 col-md-1 form-group">
+                        <div class="">
+                           <label class="form-label">Total </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-2 form-group">
+                        <div class=""> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                              resourceCenterTeacherData.noOfSkillCwsnVi + resourceCenterTeacherData.noOfSkillCwsnHi  + resourceCenterTeacherData.noOfSkillCwsnOh  + resourceCenterTeacherData.noOfSkillCwsnSi+ resourceCenterTeacherData.noOfSkillCwsnId+ resourceCenterTeacherData.noOfSkillCwsnCp + resourceCenterTeacherData.noOfSkillCwsnOthers || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="patch">
+              <div class="row patch-heading">
+                <div class="col-md-6 form-group">
+                  <div class="">
+                     <label for="exampleInputEmail1" class="form-label">7) How many CWSN were benefited with Therapy 
+                     </label>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+               <div class="col-md-12">
+                  <div class="row">
+                     <div class=" col-5 col-md-2 form-group">
+                        <div class="">
+                           <label class="form-label">Speech Therapy</label>
+                        </div>
+                     </div>
+                     <div class="col col-md-3 form-group">
+                        <div class="pb-1"> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfSpeechTherapy || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class="col-5 col-md-2  form-group">
+                        <div class="">
+                           <label class="form-label">Physiotherapy </label>
+                        </div>
+                     </div>
+                     <div class="col col-md-3 form-group">
+                        <div class="pb-1"> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfPhysiotherapy || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                     <div class="col-md-1"></div>
+                     <div class=" col-5 col-md-2 form-group">
+                        <div class="">
+                           <label class="form-label">Occupational Therapy</label>
+                        </div>
+                     </div>
+                     <div class="col col-md-3 form-group">
+                        <div class="pb-1"> <span class="colon">:</span>
+                           <label class="form-label fw-normal">{{
+                                 resourceCenterTeacherData?.noOfOccupationalTherapy || "--"
+                                 }}</label>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">8) How many Children were given individual TLM ?  </label>
+                </div>
+              </div>
+              <div class="col-md-3 form-group">
+                <div class=""> <span class="colon">:</span>
+                  <label class="form-label fw-normal">{{
+                     resourceCenterTeacherData?.noOfTLM || "--"
+                     }}</label>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-md-6 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">9) How many CWSN were assessed for Disability Certificate ?</label>
+                </div>
+              </div>
+              <div class="col-md-3 form-group">
+                <div class=""> <span class="colon">:</span>
+                  <label class="form-label fw-normal">{{
+                     resourceCenterTeacherData?.noOfDisabilityCertificate || "--"
+                     }}</label> 
+                </div>
+              </div>
+            </div>
+         </div>
+      </div>
+      <div class="modal-footer">
+         <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+            Close
+         </button>
+      </div>
+   </div>
+</div>

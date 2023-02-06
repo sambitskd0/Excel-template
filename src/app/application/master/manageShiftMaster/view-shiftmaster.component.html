@@ -1,0 +1,78 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">View Shift Master/शिफ्ट मास्टर जोड़ें</h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addShiftMaster" class="neuro addLink"
+        routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg
+          me-2"></i>Add/जोड़ें</a>
+      <a routerLink="./../viewShiftMaster" class="neuro viewLink"
+        routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/देखें</a>
+    </div>
+  </div>
+
+  <div class="searchPanel top-space">
+    <form [formGroup]="shiftMasterSearchform" (ngSubmit)="onSearch()"
+      autocomplete="off">
+      <div class="row">
+        <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label">Shift </label>
+        </div>
+        <div class="col-lg-3 form-group mb-0">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example"
+            formControlName="shift">
+            <option value="" selected>--Select Shift--</option>
+            <option value="1">Morning</option>
+            <option value="2">After Noon</option>
+            <option value="3">Day</option>
+          </select>
+        </div>
+        <div class="col-lg-2">
+          <button class="btn btn-default btn-purple"> Search <i class="bi
+              bi-search"></i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+        </div>
+      </div>
+      <div>
+        <div class="table-responsive">
+          <table class="table table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th scope="col" width="15px">SI#/क्र.सं.
+                </th>
+                <th scope="col">Shift/शिफ्ट
+                </th>
+                <th scope="col">Time/समय
+                </th>
+                <th scope="col" *ngIf="adminPrivilege">Action/क्रिया</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let post of shiftMasterData; let i= index">
+                <th scope="row">{{ i + 1 }}</th>
+                <td>{{ post.shift}}</td>
+                <td>{{ (post.shiftStartTime | timeFormat)+ ' - ' +(post.shiftEndTime | timeFormat) }}</td>
+                <td width="100px" *ngIf="adminPrivilege">
+                  <a routerLink="./../editShiftMaster/{{ post.encId }}"
+                    title="Edit" class="edit-btn me-2"><i
+                      class="bi bi-pencil-square"></i></a>
+                  <a title="Delete" class="delete-btn"
+                    (click)="deleteShiftMaster(post.encId)"
+                    [style.cursor]="'pointer'"><i class="bi bi-trash3"></i></a>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>

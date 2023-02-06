@@ -1,0 +1,70 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">View Appointment and Current Salary Statement / नियुक्ति और वर्तमान वेतन का विवरण देखें
+            </h3>
+
+        </div>
+        <div class="tabArea">
+            <a *ngIf="loginUserType == 1 && (this.verificationStatus === 0 || this.verificationStatus === 2 || this.changeReqStatus === 2)" [routerLink]="['../../addSalaryInfo/',this.teacherEncryptedId]" class="neuro addLink " routerLinkActive="active"><i
+                class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a>
+              <a [routerLink]="['../../viewSalaryInfo/',this.teacherEncryptedId]" class="neuro viewLink active" routerLinkActive="active"><i
+                class="bi bi-eye me-2"></i>View / देखें</a>
+
+        </div>
+    </div>
+    <div class="top-space">
+        <div class="row mt-4">
+            <div class="col-lg-12">
+                <div class="page__rightarea">
+                    <div class="page__util">
+                        <div class="util">
+                            <!-- <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                            <a title="Print" class="print"><i class="bi bi-printer"></i></a> -->
+                            <!-- <a title="Delete" class="delete"><i class="bi bi-trash"></i></a> -->
+                        </div>
+                    </div>
+                </div>
+                <div class="table-responsive" *ngIf="(viewSalaryData != null)">
+                    <table class="table  table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>                                
+                                <th scope="col">Sl# /<br> क्र॰सं॰</th>
+                                <th scope="col">Initial Salary (At the time of appointment) / प्रारंभिक वेतन (नियुक्ति
+                                    के समय)</th>
+                                <th scope="col">Present basic Salary / वर्तमान मूल वेतन</th>
+                                <th scope="col">Appointment Letter No./Date / नियुक्ति पत्र संख्या/दिनांक</th>
+                                <th scope="col">Date of Present posting/joining / वर्तमान पदस्थापन/कार्यभार ग्रहण करने
+                                    की तिथि</th>
+                                <th scope="col">PRAN / GPF / UAN / पीआरएएन / जीपीएफ / यूएएन</th>
+                                <th>Payment Process / भुगतान की प्रक्रिया</th>
+                                <th>Name of Bank & Branch / बैंक और शाखा का नाम</th>
+                                <th>Bank Account Number / बैंक खाता संख्या</th>
+                                <th>IFSC Code / आईएफएससी कोड </th>                                
+                            </tr>
+                        </thead>
+                        <tbody id="addmore-service">
+                            <tr class="service-data">                              
+                                <td>{{1}}</td> 
+                                <td>{{(viewSalaryData?.initialSalary) ? (viewSalaryData?.initialSalary | currency:'INR' ) :'--'}}</td>
+                                <td>{{(viewSalaryData?.presentBasicSalary) ? (viewSalaryData?.presentBasicSalary | currency:'INR' ) :'--'}}</td>
+                                <td>{{(viewSalaryData?.appointmentLetterNumber) ? viewSalaryData?.appointmentLetterNumber :'--'}}</td>
+                                <td>{{(viewSalaryData?.dateOfPresentPosting) ? (viewSalaryData?.dateOfPresentPosting | date: 'dd-MMM-yyyy') :'--'}}</td>
+                                <td>{{(viewSalaryData?.pranGpf) ? viewSalaryData?.pranGpf :'--'}}</td>
+                                <td>{{(viewSalaryData?.paymentProcessType) ? (viewSalaryData?.paymentProcessType === 1) ? 'Cheque':(viewSalaryData?.paymentProcessType === 2) ? 'Bank Transfer':'Treasury':'--'}}</td>
+                                <td>{{(viewSalaryData?.nameOfBank) ? (bankData[viewSalaryData?.nameOfBank] +','+viewSalaryData?.nameOfBranch) :'--'}}</td>
+                                <td>{{(viewSalaryData?.bankAccountNumber) ? viewSalaryData?.bankAccountNumber :'--'}}</td>
+                                <td>{{(viewSalaryData?.ifscCode) ? viewSalaryData?.ifscCode :'--'}}</td>                               
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="(viewSalaryData === null)">
+                    {{ "No record found." }}
+                  </div>
+            </div>
+        </div>
+
+    </div>
+   
+</div>

@@ -1,0 +1,306 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">
+                Teacher Training Assessment / शिक्षक प्रशिक्षण मूल्यांकन
+            </h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./" class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Self
+                Assessment / आत्म मूल्यांकन</a>
+            <a routerLink="./../result" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>Assessment Result / मूल्यांकन परिणाम</a>
+        </div>
+    </div>
+
+    <div class="top-space">
+        <ng-container *ngIf="show">
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block">
+                    <div class="searchPanel">
+                        <div class="row">
+                            <div class="col-md-2 form-group3">
+                                <label for="" class="form-label">Academic Year </label><br />शैक्षणिक वर्ष
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="userInput.academicYear">
+                                    <option value="{{ userInput.academicYear }}">
+                                        {{ userInput.academicYear }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">Training Subject</label><br />प्रशिक्षण विषय
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select aria-label="Default select example" class="form-select"
+                                    [(ngModel)]="userInput.trainingSubjectId" (change)="getTrainings()">
+                                    <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let subject of allDataObj.subjects" [value]="subject.subjectId">
+                                        {{ subject.subject }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">Training Name</label><br />प्रशिक्षण का नाम
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select aria-label="Default select example" class="form-select"
+                                    [(ngModel)]="userInput.trainingId">
+                                    <option value="" *ngIf="loadingObj?.trainingLoad == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="loadingObj?.trainingLoad == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let item of allDataObj.trainingData" [value]="item.trainingId">
+                                        {{ item.trainingName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group3">
+                                <label for="" class="form-label">District </label><br />जिला
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+
+                                <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="userInput.districtId" name="searchDistrictId" autocomplete="off"
+                                    #districtRef (change)="getBlock(+districtRef.value)">
+                                    <option value="" *ngIf="
+                      !+allDataObj.userProfile.district &&
+                      loadingObj.districtLoad == false
+                    ">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="loadingObj.districtLoad == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let item of allDataObj.districtData" [value]="item.districtId">
+                                        {{ item.districtCode }} -{{ item.districtName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-2 form-group">
+                                <label for="" class="form-label">Block </label><br />प्रखण्ड
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Block" #blockRef
+                                    [(ngModel)]="userInput.blockId">
+                                    <option value="" *ngIf="
+                      !+allDataObj.userProfile.block &&
+                      loadingObj.blockLoad == false
+                    ">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="loadingObj.blockLoad == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let item of allDataObj.blockData" [value]="item.blockId">
+                                        {{ item.blockCode }} - {{ item.blockName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                            <div class="col-md-1"></div>
+                            <div class="col-md-2 form-group">
+                                <label for="exampleInputEmail1" class="form-label">Training level </label><br />
+                            </div>
+                            <div class="col-md-3 form-group">
+                                <span class="colon">:</span>
+
+                                <select class="form-select" aria-label="Default select example"
+                                    [(ngModel)]="userInput.trainingLevel">
+                                    <option value="" *ngIf="loadingObj.annextureLoad == false">
+                                        --Select / चुनें--
+                                    </option>
+                                    <option value="" *ngIf="loadingObj.annextureLoad == true">
+                                        Loading...
+                                    </option>
+                                    <option *ngFor="let item of allDataObj.levelData" [value]="item.anxtValue">
+                                        {{ item.anxtName }}
+                                    </option>
+                                </select>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group">
+                                    <button class="btn btn-default btn-purple" (click)="onSearch()">
+                                        Search / खोजें <i class="bi bi-search"></i>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+        <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+            Search Panel / खोज पट्टिका
+        </button>
+    </div>
+
+    <div class="clearfix"></div>
+    <div class="row mt-4">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <a title="Excel" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+                        <a title="Delete" class="delete"><i class="bi bi-trash"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive" [hidden]="allDataObj.asssessmentData?.length === 0">
+                <table class="mat-elevation-z8" mat-table [dataSource]="matTableObj.dataSource" matSort>
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <ng-container matColumnDef="slNo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    #
+                                </th>
+                                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                            </ng-container>
+                            <ng-container matColumnDef="academicYear">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Academic Year / शैक्षणिक वर्ष
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.academicYear }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="subject">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Subject / प्रशिक्षण का विषय
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.subject || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="trainingName">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Name / प्रशिक्षण का नाम
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.trainingName || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="traininglvl">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Training Level / प्रशिक्षण स्तर
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.trainingLvl || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="preAssessmentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Pre assessment date
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.preAssessmentDate | date: "dd-MMM-yyyy" || "--" }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="preAssessmentStartTime">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Pre assessment start time
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.preAssessmentTime
+                                    ? (element?.preAssessmentTime | timeFormat)
+                                    : "--"
+                                    }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="postAssessmentDate">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Post assessment date
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.postAssessmentDate | date: "dd-MMM-yyyy" || "--"
+                                    }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="postAssessmentStartTime">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Post assessment start time
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{
+                                    element?.postAssessmentTime
+                                    ? (element?.postAssessmentTime | timeFormat)
+                                    : "--"
+                                    }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="duration">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                    Duration
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element?.duration || "--" }}
+                                </td>
+                            </ng-container>
+
+                            <!-- Action Column -->
+                            <ng-container matColumnDef="action">
+                                <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                                    Actions / कार्रवाई करें
+                                </th>
+                                <td mat-cell *matCellDef="let element" class="action-link">
+                                    <ng-container  *ngIf = "element?.preAssessmentDate == currentDate">
+                                        <a class="btn btn-success me-2" (click)="appearAssessment(element?.allEncId, 1)">Pre
+                                            Training Assessment / पूर्व प्रशिक्षण मूल्यांकन</a>
+                                    </ng-container>
+                                    <ng-container *ngIf = "element?.postAssessmentDate == currentDate">
+                                        <a class="btn btn-success" (click)="appearAssessment(element?.allEncId, 2)">Post
+                                            Training Assessment / प्रशिक्षण के बाद मूल्यांकन</a>
+                                    </ng-container>
+                                    
+                                </td>
+                            </ng-container>
+                        </tr>
+                    </thead>
+                    <tr mat-header-row *matHeaderRowDef="matTableObj.displayedColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: matTableObj.displayedColumns"></tr>
+                </table>
+                <mat-paginator #paginator [length]="matTableObj.totalRows" [pageIndex]="matTableObj.currentPage"
+                    [pageSize]="matTableObj.pageSize" [pageSizeOptions]="matTableObj.pageSizeOptions"
+                    (page)="onPageChange($event)" aria-label="Select page" showFirstLastButtons></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-container *ngIf="matTableObj.isNorecordFound || !matTableObj.isSearched">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+        <span *ngIf="matTableObj.isNorecordFound">
+            {{ "No record found." }}
+        </span>
+        <span *ngIf="!matTableObj.isSearched">
+            {{ "Please select drop-down lists to view the records." }}
+        </span>
+    </div>
+</ng-container>

@@ -1,0 +1,373 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Teacher Attendance Report / शिक्षक उपस्थिति रिपोर्ट
+            </h3>
+
+        </div>
+
+        <div class="tabArea">
+            <a routerLink="../appointmentTypeWise" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखे</a>
+            <a routerLink="../" class="neuro viewLink"><i class="bi bi-list me-2"></i>All Report / सभी रिपोर्ट </a>
+        </div>
+
+
+    </div>
+    <div class="top-space">
+        <ng-container>
+            <div class="search-container">
+                <div class="search-sec" id="searchPanel" style="display: block;">
+                    <div class="searchPanel">
+                        <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+                            autocomplete="off" novalidate>
+                            <div class="row">
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">District
+                                    </label><br>जिला
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off"
+                                        (change)="getBlock($any($event.target).value);" #district>
+                                        <option value="" *ngIf="scDisrtictSelect == false">
+                                            --Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="scDisrtictLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let districtItem of districtData"
+                                            [value]="districtItem.districtId">
+                                            {{ districtItem.districtCode }} -
+                                            {{ districtItem.districtName }}
+                                        </option>
+                                    </select>
+
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Block </label><br>प्रखण्ड
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scBlockId" name="scBlockId" autocomplete="off"
+                                        (change)="getCluster($any($event.target).value);" #block>
+                                        <option value="" *ngIf="scBlockSelect == false">
+                                            --Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="scBlockLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                                            {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">Cluster</label><br>संकुल
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scClusterId" name="scClusterId" autocomplete="off"
+                                        (change)="getSchool($any($event.target).value);">
+                                        <option value="" *ngIf="scClusterSelect == false">
+                                            --Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="scClusterLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                                            {{ clusterItem.clusterCode }} -
+                                            {{ clusterItem.clusterName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">School</label><br>विद्यालय
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="scSchoolId" name="scSchoolId" autocomplete="off">
+                                        <option value="" *ngIf="scSchoolSelect == false">
+                                            --Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="scSchoolLoading == true">
+                                            Loading...
+                                        </option>
+                                        <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+                                            {{ schoolItem.schoolUdiseCode }} -
+                                            {{ schoolItem.schoolName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+
+                            <div class="row">
+
+                                <div class="col-md-2 form-group">
+                                    <label for="" class="form-label">Nature of Appointment <br> नियुक्ति की
+                                        प्रकृति</label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="searchNatureOfAppointmt" name="searchNatureOfAppointmt">
+                                        <option value="" *ngIf="teacherAppointmentChanged==false">--Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                                        <option *ngFor="let app of teacherAppointment" [value]="app.anxtValue">
+                                            {{ app.anxtName }}
+                                        </option>
+                                    </select>
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">Appointment Type</label><br>नियुक्ति का प्रकार
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="appointmtType" name="appointmtType">
+                                        <option value="" *ngIf="teacherAppointmentTypeChanged==false">--Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="teacherAppointmentTypeChanged==true">Loading...</option>
+                                        <option *ngFor="let appType of teacherAppointmentType"
+                                            [value]="appType.anxtValue">
+                                            {{ appType.anxtName }}
+                                        </option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group3">
+                                    <label for="" class="form-label">Management</label>
+                                    <a data-toggle="tooltip" data-placement="bottom"
+                                        title="GO-Government, GA-Govt. Aided, PV-Private, CG-Central Govt./PSU, OT-Others"
+                                        class="tool text-dark">
+                                        <i class="bi bi-question-circle-fill ms-1"></i>
+                                    </a>
+                                    <br>प्रबंधन
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+
+                                    <select class="form-select" aria-label="Default select example"
+                                        [(ngModel)]="selManagement" name="selManagement">
+                                        <option value="" *ngIf="schoolManagementChanged==false">--Select / चुनें--
+                                        </option>
+                                        <option value="" *ngIf="schoolManagementChanged==true">Loading...</option>
+                                        <option *ngFor="let sclManage of schoolManagement"
+                                            [value]="sclManage.anxtValue">
+                                            {{ sclManage.anxtName }}
+                                        </option>
+                                    </select>
+                                    <!-- <span class="mandatory">*</span> -->
+                                    <span class="minimum-text text-primary">Code - Details of Management - Type</span>
+
+                                </div>
+                                <div class="col-md-1"></div>
+                                <div class="col-md-2 form-group3">
+                                    <label for="exampleInputEmail1" class="form-label">Attendance Date
+                                    </label>
+                                </div>
+                                <div class="col-md-3 form-group">
+                                    <span class="colon">:</span>
+                                    <input class="form-control" [(ngModel)]="attendanceDate" name="attendanceDate"
+                                        #datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+                                        placeholder="DD-MM-YYYY" bsDatepicker
+                                        [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                                    <span class="mandatory">*</span>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-2 form-group"><button class="btn btn-default btn-purple"> Search /
+                                        खोजें <i class="bi bi-search"></i></button></div>
+                            </div>
+
+                        </form>
+
+
+
+                    </div>
+                </div>
+
+            </div>
+        </ng-container>
+        <button class="searchopen" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज
+            पट्टिका</button>
+
+    </div>
+    <div class="clearfix"></div>
+    <div class="row mt-4" *ngIf="resultListDataLength != 0">
+        <div class="col-lg-12">
+            <div class="page__rightarea">
+                <div class="p-2">
+                    <button type="button" class="btn btn-success " (click)="exportTeacherReport()">
+                        <i class="bi bi-file-earmark-excel"></i> Export detailed Report
+                    </button>
+                </div>
+                <div class="page__util">
+                    <div class="util">
+
+
+                        <a title="Back" class="back" (click)="goBack(pageLevel)" *ngIf="sessionPageLvl != pageLevel"><i
+                                class="bi bi-skip-backward"></i></a>
+                        <a title="Excel" class="excel" (click)="execl()"><i class="bi bi-file-earmark-excel"></i></a>
+                        <a title="Print" class="print"><i class="bi bi-printer"></i></a>
+                        <!-- <a title="Delete" class="delete"><i class="bi bi-trash"></i></a> -->
+                    </div>
+                </div>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-bordered">
+                    <thead class="bg-lightpurple">
+                        <tr>
+                            <th width="50px"> Sl# / क्रम#</th>
+                            <ng-container *ngIf="pageLevel == 0">
+                                <th class="text-center">District / जिला</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 1">
+                                <th class="text-center">District / जिला</th>
+                                <th class="text-center">Block / प्रखण्ड</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 2">
+                                <th class="text-center">District / जिला</th>
+                                <th class="text-center">Block / प्रखण्ड</th>
+                                <th class="text-center">Cluster / संकुल</th>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 3 || pageLevel == 4">
+                                <th class="text-center">District / जिला</th>
+                                <th class="text-center">Block / प्रखण्ड</th>
+                                <th class="text-center">Cluster / संकुल</th>
+                                <th class="text-center">School / विद्यालय</th>
+                            </ng-container>
+
+                            <th class="text-center">Total No. of Teachers / शिक्षकों की कुल संख्या</th>
+                            <th class="text-center">Total Present Teachers / कुल उपस्थित शिक्षक</th>
+                            <th class="text-center">Total Absent / कुल अनुपस्थित</th>
+
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+                        <tr *ngFor="let item of resultListData;index as i">
+                            <td>{{i + 1}}</td>
+                            <ng-container *ngIf="pageLevel == 0">
+                                <td><a href="javascript:void(0)" class="text-primary"
+                                        (click)="drillDown(item?.districtId,'','','',getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate)">{{item?.district}}</a>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 1">
+                                <td>{{item?.district}}</td>
+                                <td><a href="javascript:void(0)" class="text-primary"
+                                        (click)="drillDown(item?.districtId,item?.blockId,'','',getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate)">{{item?.block}}</a>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 2">
+                                <td>{{item?.district}}</td>
+                                <td>{{item?.block}}</td>
+                                <td><a href="javascript:void(0)" class="text-primary"
+                                        (click)="drillDown(item?.districtId,item?.blockId,item?.clusterId,'',getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate)">{{item?.cluster}}</a>
+                                </td>
+                            </ng-container>
+                            <ng-container *ngIf="pageLevel == 3 || pageLevel == 4">
+                                <td>{{item?.district}}</td>
+                                <td>{{item?.block}}</td>
+                                <td>{{item?.cluster}}</td>
+                                <td *ngIf="pageLevel == 3"><a href="javascript:void(0)" class="text-primary"
+                                        (click)="drillDown(item?.districtId,item?.blockId,item?.clusterId,item?.schoolId,getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate)">{{item?.school}}</a>
+                                </td>
+                                <td *ngIf="pageLevel == 4">{{item?.school}}</td>
+                            </ng-container>
+                            <td>{{item?.totalTeacher}} <a title="click to see the list of total teacher"
+                                    *ngIf="item?.totalTeacher != 0" href="javascript:void(0)" 
+                                    (click)="teacherList(item?.districtId,item?.blockId,item?.clusterId,item?.schoolId,getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate,1)"
+                                    data-bs-toggle="modal" data-bs-target="#viewTeacherListDetails"><i
+                                        class="bi bi-info-circle-fill float-end" style="color:#9676c7"></i></a> </td>
+                            <td>{{item?.totalPresent}} <a title="click to see the list of total Present teacher"
+                                *ngIf="item?.totalPresent != 0" href="javascript:void(0)" 
+                                (click)="teacherList(item?.districtId,item?.blockId,item?.clusterId,item?.schoolId,getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate,2)"
+                                data-bs-toggle="modal" data-bs-target="#viewTeacherListDetails"><i
+                                    class="bi bi-info-circle-fill float-end" style="color:#9676c7"></i></a></td>
+                            <td>{{item?.totalAbsent}} <a title="click to see the list of total Absent teacher"
+                                *ngIf="item?.totalAbsent != 0" href="javascript:void(0)" 
+                                (click)="teacherList(item?.districtId,item?.blockId,item?.clusterId,item?.schoolId,getBackData?.searchNatureOfAppointmt,getBackData?.appointmtType,getBackData?.selManagement,getBackData?.attendanceDate,3)"
+                                data-bs-toggle="modal" data-bs-target="#viewTeacherListDetails"><i
+                                    class="bi bi-info-circle-fill float-end" style="color:#9676c7"></i></a></td>
+                            <!-- <ng-container *ngFor="let appItem of teacherSocialCategory;index as a">
+                                <td>{{item[appItem?.anxtName.replace(sps, '')]}}</td>
+                            </ng-container> -->
+                        </tr>
+                        <tr>
+                            <td class="text-center" [attr.colspan]="colSpanTotal" *ngIf="pageLevel != 4"><b>Total</b>
+                            </td>
+                            <td class="text-center" [attr.colspan]="5" *ngIf="pageLevel == 4"><b>Total</b></td>
+                            <td><b>{{sumTotalTeacher}}</b></td>
+                            <td><b>{{sumTotalPresent}}</b></td>
+                            <td><b>{{sumTotalAbsent}}</b></td>
+
+                        </tr>
+
+                    </tbody>
+
+                </table>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found..." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+        {{ "Please Search for Teacher Attendance Report" }}
+    </div>
+</div>
+
+<div class="modal fade" id="viewTeacherListDetails" tabindex="-1" aria-labelledby="viewTeacherListDetailsLabel"
+    aria-hidden="true">
+    <div class="modal-dialog modal-xl modal-dialog-scrollable">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="examplemodalLabel">{{modalHeading}}</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body p-4">
+                <div class="row">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th width="50px"> Sl# / क्रम#</th>
+                                    <th class="text-center">Teacher Id / शिक्षक आईडी</th>
+                                    <th class="text-center">Teacher Name / शिक्षक का नाम</th>
+                                    <th class="text-center">School Name / विद्यालय का नाम</th>
+                                    <th class="text-center">Gender / लिंग</th>
+                                    <th class="text-center">Mobile No / मोबाइल संख्या</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let el of teacherListModalResponse;index as e">
+                                    <td>{{e + 1}}</td>
+                                    <td>{{el?.teacherId}}</td>
+                                    <td>{{el?.teacherName}}</td>
+                                    <td>{{el?.school}}</td>
+                                    <td>{{el?.gender}}</td>
+                                    <td>{{el?.mobile}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

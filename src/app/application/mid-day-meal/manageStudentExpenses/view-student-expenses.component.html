@@ -1,0 +1,107 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Student Expenses / छात्र व्यय</h3>
+            <!-- <span class="indicator">( * ) Indicator Mandatory</span> -->
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addStudentExpenses" class="neuro addLink" routerLinkActive="active"
+                *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+            <a routerLink="./../viewStudentExpenses" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें </a>
+        </div>
+    </div>
+
+    <div class="row top-space" [hidden]="resultListData?.length === 0">
+        <div class="col-md-12">
+            <div class="page__rightarea">
+                <div class="page__util">
+                    <div class="util">
+                        <div class="util">
+                            <a title="Excel" class="excel" (click)="downloadStudentExpensesList()"><i
+                                    class="bi bi-file-earmark-excel"></i></a>
+                            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div>
+
+                <div class="table-responsive" id="viewTable">
+
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+                    <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                        #exporter="matTableExporter">
+                        <ng-container matColumnDef="slNo">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Sl.No / क्र.सं.
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                        </ng-container>
+                        <ng-container matColumnDef="student_type">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Student Type / छात्र प्रकार
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.studentTypeName) ?
+                                element?.studentTypeName :'--' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="rice_consuption">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Rice Consumption (Per Unit) / चावल की खपत (प्रति यूनिट)
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.riceConsumption) ?
+                                element?.riceConsumption :'--' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="fund_allocated">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Fund Allocated (Per Unit) / आवंटित फंड (प्रति यूनिट)
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.fundAllocated) ? (element?.fundAllocated
+                                | currency: 'INR') :'--' }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="calories">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                                Calorie (Per Unit) / कैलोरी (प्रति यूनिट)
+                            </th>
+                            <td mat-cell *matCellDef="let element">{{(element?.calories) ? element?.calories :'--' }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="action">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                                Action / क्रियाएँ
+                            </th>
+                            <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                                <a title="Edit" [routerLink]="['./../editStudentExpenses/', element?.encId]"
+                                    class="edit-btn me-2"><i class="bi bi-pencil-square text-primary"></i></a>
+                                <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                                    (click)="deleteStudentExpensesmDatas(element?.encId)"><i
+                                        class="bi bi-trash"></i></a>
+                            </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                    </table>
+                    <table>
+                        <tr *ngIf="!dataSource.data.length">
+                            <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length"
+                                class="mt-2 text-danger">
+                                No Records Found!
+                            </td>
+                        </tr>
+                    </table>
+                    <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                        class="noPrint" showFirstLastButtons>
+                    </mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+        {{ "No record found." }}
+      </div>
+</div>

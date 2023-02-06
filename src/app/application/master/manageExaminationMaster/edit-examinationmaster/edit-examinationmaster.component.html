@@ -1,0 +1,89 @@
+
+    
+    <div>
+        <div class="pageHeading">
+          <div class="heading__tab">
+            <h3 class="pageName">Edit Examination/परीक्षा संपादन करें</h3> 
+            <div class="tab__section">
+                <a routerLink="../../editExaminationMaster"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Examination Master')">Exam Master/परीक्षा का मास्टर</a>
+                <a routerLink="../../markConfiguration/addMarkConfiguration"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Mark Configuration')">Mark Configuration/कॉन्फ़िगरेशन चिह्नित करें</a>
+            </div>
+            </div>
+            <div class="tabArea">
+                <a   class="neuro addLink disabled active" routerLinkActive="active" 
+                *ngIf="adminPrivilege" ><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें</a>
+                <a routerLink="../../viewExaminationMaster" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/देखें
+                </a>  
+                <span class="indicator">( * ) Indicates Mandatory</span> 
+            </div>
+            </div>
+            <form [formGroup]="editExaminationMasterForm" (ngSubmit)="onSubmit()">
+        <div class="top-space">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                      <label for="exampleInputEmail1" class="form-label">Type of Examination<br>परीक्षा का प्रकार </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <label for="exampleInputEmail1" class="form-label">{{selectTypeLabel}}</label>
+                      <!-- <select class="form-select" aria-label="Default select example" formControlName="selectType">
+                        <option selected value="">---Select Type---</option>
+                        <option value="1">First Term</option>
+                        <option value="2">Second Term</option>
+                        <option value="3">Third Term</option>
+                      </select> -->
+                      <!-- <span class="mandatory">*</span> -->
+                </div>
+            </div>
+            <input appAutoFocus type="hidden" class="form-control" id="categoryName" aria-describedby="emailHelp" formControlName="selectType" >
+            <div class="row">
+            <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Class(s)<br>वर्ग (ओं) </label>
+            </div>
+            <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+                    <!-- <div class="checkbox mb-3 check__box pt-2">
+                      <div class="form-group">
+                        <label>
+                          <input type="checkbox" class="check" id="checkAll">Select All Class
+                          <span></span>
+                        </label>
+                      </div>
+                      </div> -->
+                      <div class="check__box class--checkbox">
+                        <div class="form-group checkbox" *ngFor="let item of examTaggingData;let i=index">
+                            <input type="checkbox" id="{{item.anxtName}}" class="check" (change)="onCheckboxChange($event)"[checked]="examTaggingArray.includes(item.anxtValue)" value="{{item.anxtValue}}">
+                            <label for="{{item.anxtName}}">{{item.anxtName}}</label>
+                          </div>
+                          
+                    </div>
+                    <span class="mandatory">*</span>
+            </div>
+        </div>
+       
+        <div class="row formpatch">
+            <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Description<br>विवरण </label>
+            </div>
+            <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+                     <textarea cols="4" rows="4" class="form-control" id="exampleInputEmail1" formControlName="description" maxlength="300" aria-describedby="emailHelp"></textarea>
+                     <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+            </div>
+        </div>
+        <div>
+            <button class="btn btn-success me-2">Update/अद्यतन</button>
+            <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+          
+        </div>
+    </div>  
+    </form>  
+</div>
+
+
+
+
+
+
+
+

@@ -1,0 +1,150 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Transfer Request</h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active"><i class="bi bi-plus-lg me-2"></i>Edit Transfer Request</a>
+            <a routerLink="../../viewTransferRequest"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>Check Status</a>
+        </div>
+    </div>  
+    <form [formGroup] ="transferRequestForm" (ngSubmit)="updateTransferRequest()">
+        <div class="row top-space">
+            <div class="col-lg-2 form-group">
+                <label class="form-label">Name</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span>
+                <label class="label-data">{{ userProfile.userName }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group ">
+                    <label class="form-label">Designation</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span>
+                <label class="label-data">{{ (userProfile.designation) ? userProfile.designation : "N/A" }}</label>
+            </div>
+            
+            <div class="col-lg-2 form-group">
+                <label class="form-label">Nature of Appointment</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span>
+                <label class="label-data">{{ (userProfile.natureOfAppointmt) ? userProfile.natureOfAppointmt : "N/A" }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+                <label class="form-label">Date of joining in current school</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span>
+                <label class="label-data">{{ (userProfile.joiningDt) ? (userProfile.joiningDt | date:'dd-MMM-yyyy') : "N/A" }}</label>
+            </div>   
+        </div>
+
+        <div class="formpatch">
+            <h5>Request Transfer to School</h5>
+            
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> District</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" autocomplete="off" formControlName="transferDistrict" (change)="getBlock($any($event.target).value)">
+                        <option value="" *ngIf="disrtictChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="disrtictChanged==true">Loading...</option>
+                        <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                            {{ districtItem.districtCode }} - {{ districtItem.districtName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Block</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" autocomplete="off" formControlName="transferBlock" (change)="getCluster($any($event.target).value)">
+                        <option value="" *ngIf="blockChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="blockChanged==true">Loading...</option>
+                        <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div> 
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> Cluster</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" autocomplete="off" formControlName="transferCluster" (change)="getSchool($any($event.target).value)">
+                        <option value="" *ngIf="clusterChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                        {{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label"> School</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" autocomplete="off" formControlName="transferSchool" (change)="getSchoolCategory($any($event.target).value)">
+                        <option value="" *ngIf="schoolChanged==false">--- Select ---</option>
+                        <option value="" *ngIf="schoolChanged==true">Loading...</option>
+                        <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+                        {{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>                         
+            </div>
+            <div class="row">                       
+                <div class="col-lg-2 form-group">
+                    <label for="" class="form-label">School Category</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <label for="" class="form-label">
+                        {{ (schoolCategory) ? schoolCategory : "N/A" }}
+                        <input type="hidden" formControlName="transferSchoolCategory">
+                    </label>                            
+                </div>                          
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label class="form-label">Remark</label>
+                </div>
+                <div class="col-lg-3 form-group ">
+                    <span class="colon">:</span>
+                    <textarea class="form-control" rows="3" autocomplete="off" formControlName="transferDescription" maxlength="300" (keypress)="customValidators.keyPressAlphabetSpaceDotDigit($event)"></textarea>
+                    <small >Maximum <span  class="text-danger">(<span >300</span>)</span> Characters</small>
+                </div>
+            </div> 
+        </div> 
+        
+        <div>                       
+            <div>
+                <input type="hidden" formControlName="encId" />
+                <button type="submit" class="btn btn-success me-2">Update</button>
+                <a routerLink="../../viewTransferRequest"  class="btn btn-danger">Cancel</a>
+            </div>        
+        </div>   
+    </form>  
+</div>
+ 
+
+  
+  
+
+
+

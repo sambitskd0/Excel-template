@@ -1,0 +1,17 @@
+<div class="main-container" [ngClass]="{ 'sidebar-content-toggle': menuShow }">
+  <div id="wrapper">
+    <app-header (toggleEvent)="toggleSideMenu()"></app-header>
+  </div>
+  <ng-container *ngIf="pageName != 'dashboard' && hideSideNav === false">
+    <app-sidenav *ngIf="pageName != 'dashboardlanding'"></app-sidenav>
+  </ng-container>
+  <div class="contentBox">
+    <!-- spinner component -->
+
+    <!-- router -->
+    <router-outlet></router-outlet>
+  </div>
+  <ng-container *ngIf="pageName != 'dashboard' && pageName != 'dashboardDetails'">
+    <app-footer *ngIf="pageName != 'dashboardlanding'"></app-footer>
+  </ng-container>
+</div>

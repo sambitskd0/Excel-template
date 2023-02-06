@@ -1,0 +1,92 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Add Incentive Master/प्रोत्साहन मास्टर जोड़ें
+            </h3><span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addIncentive" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+            <a routerLink="./../viewIncentive" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View/देखें</a>
+        </div>
+    </div>
+    <form [formGroup]="incentiveMasterForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Incentive Name<br>प्रोत्साहन का नाम</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input appAutoFocus type="text" class="form-control" autocomplete="off" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" maxlength="30" minlength="3" formControlName="incentiveName">
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-md-7"></div>
+
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Code<br>कोड
+                    </label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" autocomplete="off" formControlName="incentiveCode" maxlength="20" minlength="4" (keypress)="customValidators.keyPressNumbers($event)"> 
+                        
+                    <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-md-7"></div>
+
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Description<br>विवरण
+                    </label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea rows="3" class="form-control" formControlName="incentiveDescription" maxlength="300"></textarea>
+                    <small>Maximum <span class="text-danger">(<span>300</span>)</span> Characters</small>
+                </div>
+
+                <div class="col-md-7"></div>
+
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Unit<br>इकाई
+                    </label>
+                </div>
+
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="incentiveUnit">
+                        <option selected value="">--Select--</option>
+                        <option *ngFor="let incentiveUnitData of incentiveUnitData" value="{{incentiveUnitData.anxtValue}}">{{incentiveUnitData.anxtName}}.</option>
+                        
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                
+            
+
+                <div class="col-md-7"></div>
+
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Mode of Disbursal<br>संवितरण का तरीका
+                    </label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="disbursalMode">
+                        <option selected value="">--Select--</option>
+                        <option value="1">Cash</option>
+                        <option value="2">DBT</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+
+            </div>
+        </div>
+        <button type="submit" class="btn btn-success me-2">Submit/जमा करें </button>
+        <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित </button>
+    </form>
+</div>

@@ -1,0 +1,389 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Check Transfer Status</h3>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../raiseTransferRequest" class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Raise Transfer Request</a>
+      <a routerLink="./../viewTransferRequest" class="neuro addLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>Check Status</a>
+    </div>
+  </div>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <div class="search-container">
+        <div class="search-sec" id="searchPanel" style="display: block;">
+          <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+            <div class="searchPanel">
+              <div class="row">
+
+                <div class="col-lg-2 form-group">
+                  <label class="form-label">District </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-control" aria-label="Default select example" [(ngModel)]="searchDistrictId" name="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                    <option value="" *ngIf="scDisrtictSelect==true">--Select--</option>
+                    <option value="" *ngIf="scDisrtictLoading==true">Loading...</option>
+                    <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                      {{ districtItem.districtCode }} - {{ districtItem.districtName }}
+                    </option>
+                  </select>
+                </div>
+
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                  <label class="form-label">Block </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-control" aria-label="Default select example" [(ngModel)]="searchBlockId" name="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                    <option value="" *ngIf="scBlockSelect==true">--Select--</option>
+                    <option value="" *ngIf="scBlockLoading==true">Loading...</option>
+                    <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                      {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-lg-2 form-group">
+                  <label class="form-label"> Cluster </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-control" aria-label="Default select example" [(ngModel)]="searchClusterId" name="searchClusterId" autocomplete="off" (change)="getSchool()">
+                    <option value="" *ngIf="scClusterSelect==true">--Select--</option>
+                    <option value="" *ngIf="scClusterLoading==true">Loading...</option>
+                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                      {{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}
+                    </option>
+                  </select>
+                </div>
+             
+                <div class="col-lg-1"></div>
+
+                <div class="col-lg-2 form-group">
+                  <label class="form-label">School</label>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <select class="form-control" aria-label="Default select example" [(ngModel)]="searchSchoolId" name="searchSchoolId" autocomplete="off">
+                    <option value="" *ngIf="scSchoolSelect==true">--Select--</option>
+                    <option value="" *ngIf="scSchoolLoading==true">Loading...</option>
+                    <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                      {{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-lg-1"></div>
+
+
+                <div class="col-lg-2">
+                  <button class="btn btn-default btn-purple"> Search <i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+
+      </div>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search
+      Panel</button>
+
+  </div>
+
+  <div class="clearfix"></div>
+
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Excel" class="excel" (click)="downloadTransferRequestList()"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print"(click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <div  [hidden]="isLoading" id="viewTable">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <div class="table-responsive">
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+          #exporter="matTableExporter" [hiddenColumns]="[11]">
+          <thead class="bg-lightpurple">
+            <tr>
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> # </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="teacherName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Teacher Name </th>
+                <td mat-cell *matCellDef="let element">{{ element?.teacherCode }} - {{ element?.teacherName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="transferRequestDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Date of Transfer Request
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.createdOn | date:'dd-MMM-yyyy' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="school">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> School </th>
+                <td mat-cell *matCellDef="let element">{{ element?.schoolUdiseCode }} - {{ element?.schoolName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Remark">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Remark </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.remark.length > 60 ? (element?.remark | slice:0:60):element?.remark }}
+                  <small style="font-style: italic;" *ngIf="element?.remark.length > 60"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.remark)">View More</a></small>
+                </td>
+              </ng-container>    
+              <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Status </th>
+                <td mat-cell *matCellDef="let element">{{ element?.statusText }}</td>
+              </ng-container>                 
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" width="120px"> Actions
+                </th>
+                <td mat-cell *matCellDef="let element" class="noPrint">
+                  <a title="View" class="view-btn me-2" [style.cursor]="'pointer'" href="javasctip:void(0)" data-bs-toggle="modal" data-bs-target="#viewTransferDetailsModal" (click)="viewTransferDetails(element?.encId)"><i class="bi bi-eye-fill text-primary"></i></a>
+
+                  <span *ngIf="element?.transferStatus==1 && userProfile.userType!='admin'">
+                    <a routerLink="./../editTransferRequest/{{element?.encId}}" title="Edit" class="edit-btn me-2"><i class="bi bi-pencil-square"></i></a>
+                    <a title="Delete" class="delete-btn" (click)="deleteRequest(element?.encId)" [style.cursor]="'pointer'"><i class="bi bi-trash3"></i></a>
+                  </span>
+                </td>
+              </ng-container>
+            </tr>
+          </thead>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        </div>
+       
+
+        <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="transferRequestData.length" class="mt-2">No Records Found!</td>
+          </tr>
+        </table>
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" class="noPrint" (page)="onPageChange($event)"  aria-label="Select page" showFirstLastButtons></mat-paginator>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- View Description Modal -->
+<div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+        <div class="modal-content">
+              <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Remark</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+              </div>
+              <div class="modal-body p-4">
+                    <div class="row">
+                          <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+                    </div>
+              </div>
+        </div>
+  </div>
+</div>
+
+<!-- View status Modal -->
+<div class="modal fade" id="viewTransferDetailsModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-xl">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Transfer Status</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="popup-loader" *ngIf="showActionLoader"><img src="/assets/img/loading.gif" /> <br>Loading. Please wait...</div>
+			<div class="modal-body p-4" *ngIf="showActionDetails">
+        <ng-container *ngFor=" let statusDetails of transferStatusDetails;let j = index">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Teacher Name </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.teacherCode }} - {{ statusDetails.teacherName }} </label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Designation</label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.designation }} </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Nature of Appointment </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.appointmentType }} </label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Date of joining in current school</label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.dateOfJoiningCurrentSchool | date:'dd-MMM-yyyy' }} </label>
+            </div>
+          </div>
+          <div class="formpatch">
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">From School </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold">{{ statusDetails.currentSchoolUdiseCode }} - {{ statusDetails.currentSchoolName }} </label>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">District </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold">{{ statusDetails.currentDistrictCode }} - {{ statusDetails.currentDistrictName }}</label>
+              </div>
+            </div>
+            
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Block </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold">{{ statusDetails.currentBlockCode }} - {{ statusDetails.currentBlockName }}</label>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Cluster </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold">{{ statusDetails.currentClusterCode }} - {{ statusDetails.currentClusterName }}</label>
+              </div>
+            </div>
+          </div>
+          <div class="formpatch">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Date of Transfer Request </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold">  {{ statusDetails.TransferRequestDate | date:'dd-MMM-yyyy' }}  </label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">District </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.transferDistrictCode }} - {{ statusDetails.transferDistrictName }} </label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Block </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.transferBlockCode }} - {{ statusDetails.transferBlockName }} </label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Cluster </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.transferClusterCode }} - {{ statusDetails.transferClusterName }} </label>
+            </div>
+          </div>
+          
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">To School</label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.transferSchoolUdiseCode }} - {{ statusDetails.transferSchoolName }}</label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">School Category </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold">{{ statusDetails.schlCatName }}</label>
+            </div>
+          </div>
+
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Remark</label>
+            </div>
+            <div class="col-lg-9 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold">{{ statusDetails.remark }}</label>
+            </div>
+            
+          </div>
+
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">Status </label>
+            </div>
+            <div class="col-lg-3 form-group"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ statusDetails.statusText }} </label>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group" *ngIf="statusDetails.transferStatus == 3 || statusDetails.transferStatus == 5 || statusDetails.transferStatus == 6">
+              <label for="" class="form-label">Approved School </label>
+            </div>
+            <div class="col-lg-3 form-group" *ngIf=" statusDetails.transferStatus == 3 || statusDetails.transferStatus == 5 || statusDetails.transferStatus == 6"> <span class="colon">:</span>
+              <label for="" class="form-label fw-bold"> {{ transferLogDetails.schoolUdiseCode }} - {{ transferLogDetails.schoolName }}  </label>
+            </div>
+          </div>
+          <ng-container *ngIf=" statusDetails.transferStatus == 3 || statusDetails.transferStatus == 5 || statusDetails.transferStatus == 6">
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">District </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold"> {{ transferLogDetails.districtCode }} - {{ transferLogDetails.districtName }} </label>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Block </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold"> {{ transferLogDetails.blockCode }} - {{ transferLogDetails.blockName }} </label>
+              </div>
+            </div>
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Cluster </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold"> {{ transferLogDetails.clusterCode }} - {{ transferLogDetails.clusterName }} </label>
+              </div>
+              <div class="col-lg-1"></div>
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Date of Transfer Request </label>
+              </div>
+              <div class="col-lg-3 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold">  {{ transferLogDetails.relievingDate | date:'dd-MMM-yyyy' }}  </label>
+              </div>
+            </div>
+          </ng-container>
+
+          <ng-container *ngIf=" statusDetails.transferStatus == 4">
+            <div class="row">
+              <div class="col-lg-2 form-group">
+                <label for="" class="form-label">Remark </label>
+              </div>
+              <div class="col-lg-9 form-group"> <span class="colon">:</span>
+                <label for="" class="form-label fw-bold"> {{ transferLogDetails.remark }} </label>
+              </div>             
+            </div>
+          </ng-container>
+
+        </ng-container>
+			</div>
+			<div class="modal-footer">
+				<button type="button" data-bs-dismiss="modal" class="btn btn-danger">Close</button>
+			</div>
+		</div>
+	</div>
+</div>

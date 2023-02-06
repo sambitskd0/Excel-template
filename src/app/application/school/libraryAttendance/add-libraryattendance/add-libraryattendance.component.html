@@ -1,0 +1,146 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Add Library Attendance </h3>
+            <span class="indicator">( * ) Indicator Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addL:ibraryAttendance" class="neuro addLink
+                active" routerLinkActive="active"  *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add
+            </a>
+            <a routerLink="./../viewLibraryAttendance" class="neuro viewLink"
+                routerLinkActive="active"><i class="bi bi-eye me-2"></i>View
+            </a>
+        </div>
+    </div>
+    <form [formGroup]="libraryAttendanceForm" (ngSubmit)="onSubmit()" > 
+    <div class="formpatch">
+        <div class="row mt-3">
+            <div class="col-xxl-2 col-xl-3 col-lg-4 col-md-12 col-sm-12 form-group">
+                <label for="exampleInputEmail1" class="form-label">Is Library Open Today </label>
+            </div>
+            <div class="col-lg-3 form-group pt-2">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div class="rdio rdio-primary form-check-inline"> 
+                    <input  value="1" id="radio1" type="radio" formControlName="isLibraryOpen"  (click)="libraryRadioControl($any($event.target).value)"  [(ngModel)]="optionValue"  >
+                      <label for="radio1">Yes</label>
+                    </div>
+                    <div class="rdio rdio-primary form-check-inline">
+                      <input  value="2" id="radio2" type="radio" formControlName="isLibraryOpen"  (click)="libraryRadioControl($any($event.target).value)" [(ngModel)]="optionValue">
+                      <label for="radio2">No</label>
+                    </div>
+                    <span class="mandatory" style="right: auto;top: 34%;">*</span>
+                  </div>
+                  
+            </div>
+           
+        </div> 
+    <div *ngIf="optionValue == '1'">
+        <h5 class="mt-lg-0 mt-4">Teacher Information</h5>
+        <div class="row">
+            <div class="col-xxl-2  col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Teacher Who
+                        Visited The Library </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="teacherVisitedCount" #teacherVisitedCount  (keypress)="customValidators.keyPressNumbers($event)" class="form-control"  (blur)="teacherValidation('teacherVisitedCount','Number of teacher who visited the library can not be greater than total teacher')">
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"> </div>
+            <div class="col-xxl-2  col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Teacher Who
+                        Returned The Book </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="teacherReturnedCount" #teacherReturnedCount  (keypress)="customValidators.keyPressNumbers($event)" class="form-control"  (blur)="teacherValidation('teacherReturnedCount','Number of teacher who returned the book can not be greater than total teacher')">
+                <span class="mandatory">*</span>
+            </div>
+           
+
+            <div class="col-xxl-2 col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Teacher Who
+                        Issued The Book </label>
+                </div>
+            </div>
+         
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="teacherIssuedCount" #teacherIssuedCount (keypress)="customValidators.keyPressNumbers($event)" class="form-control" (blur)="teacherValidation('teacherIssuedCount','Number of teacher who issued the book can not be greater than total teacher')">
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+
+        <h5>Student Information</h5>
+        <div class="row">
+            <div class="col-xxl-2 col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Student Who
+                        Visited The Library </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="studentVisitedCount"  (keypress)="customValidators.keyPressNumbers($event)" class="form-control" (blur)="studentValidation('studentVisitedCount','Number of student who visited the library can not be greater than total student')">
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"> </div>
+            <div class="col-xxl-2 col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Student Who
+                        Returned The Book </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="studentReturnedCount"  (keypress)="customValidators.keyPressNumbers($event)" class="form-control" (blur)="studentValidation('studentReturnedCount','Number of student who returned the book can not be greater than total student')">
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-xxl-2 col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Number of Student Who
+                        Issued The Book </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-2 form-group">
+                <span class="colon">:</span>
+                <input type="text" id="exampleInputEmail1" formControlName="studentIssuedCount"  (keypress)="customValidators.keyPressNumbers($event)" class="form-control" (blur)="studentValidation('studentIssuedCount','Number of student who issued the book can not be greater than total student')">
+                <span class="mandatory">*</span>
+            </div>
+        </div>
+    </div>
+    <div *ngIf="optionValue == '2'">
+        <div class="row">
+            <div class="col-xxl-2 col-xl-3 col-md-12 col-sm-12
+                form-group">
+                <div class="">
+                    <label for="" class="form-label">Specify the reason why the library is closed </label>
+                </div>
+            </div>
+            <div class="col-xxl-3 col-xl-3 form-group">
+                <span class="colon">:</span>
+                <textarea cols="4" rows="4" class="form-control" formControlName="reason"  maxlength="300" aria-describedby="emailHelp"></textarea>
+                <span class="mandatory">*</span>
+                <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+            </div>
+        </div>
+    </div>
+    
+   </div>
+   <button type="submit" class="btn btn-success me-2">Submit</button>
+    <button type="reset" class="btn btn-danger">Reset</button>
+   </form>
+   

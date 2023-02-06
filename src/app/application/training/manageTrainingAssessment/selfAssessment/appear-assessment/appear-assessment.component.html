@@ -1,0 +1,159 @@
+<div>
+  <div class="top-space">
+    <div class="row">
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Trainee Name </label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          traineeInfo?.traineeName || "--"
+        }}</label>
+      </div>
+
+      <div class="col-md-2 form-group">
+        <label class="form-label"> Trainee Id</label>
+      </div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-normal">{{
+          traineeInfo?.traineeId || "--"
+        }}</label>
+      </div>
+    </div>
+  </div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Appear Assessment</h3>
+      </div>
+    </div>
+
+    <h5 class="text-end d-inline-block float-end">
+      <i class="bi bi-alarm"></i> Times Left :
+      <strong class="text-danger">{{
+        duration | date: "H:mm:ss":"UTC"
+      }}</strong>
+    </h5>
+    <div class="tabArea">
+      <a routerLink="./" class="neuro addLink" routerLinkActive="active"
+        ><i class="bi bi-plus-lg me-2"></i>Online exam</a
+      >
+    </div>
+  </div>
+
+  <div class="top-space">
+    <div class="row">
+      <div class="col-md-9">
+        <div class="two-section" *ngFor="let item of questions; let i = index">
+          <div class="row" *ngIf="item.slNo == questionSlNo">
+            <div class="col-md-12 form-group">
+              <label class="form-label" *ngIf="item.question"
+                >Q{{ item.slNo }}. {{ item.question }} 
+                <span class="badge bg-secondary"> Mark :{{ item.mark }}</span>
+              </label>
+            </div>
+            <div class="col-md-5 form-group">
+              <div class="radiobuttons radiobuttons--modify">
+                <div class="rdio rdio-primary">
+                  <input
+                    name="radio"
+                    [value]="1"
+                    id="radio1"
+                    type="radio"
+                    [(ngModel)]="item.answer"
+                  />
+                  <label for="radio1" *ngIf="item.optionA"
+                    >A : {{ item.optionA }}</label
+                  >
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="2"
+                    id="radio2"
+                    type="radio"
+                  />
+                  <label for="radio2" *ngIf="item.optionB"
+                    >B : {{ item.optionB }}</label
+                  >
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="3"
+                    id="radio3"
+                    type="radio"
+                  />
+                  <label for="radio3" *ngIf="item.optionC"
+                    >C : {{ item.optionC }}</label
+                  >
+                </div>
+                <div class="rdio rdio-primary">
+                  <input
+                    [(ngModel)]="item.answer"
+                    name="radio"
+                    [value]="4"
+                    id="radio4"
+                    type="radio"
+                  />
+                  <label for="radio4" *ngIf="item.optionD"
+                    >D : {{ item.optionD }}</label
+                  >
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div *ngIf="item.slNo == questionSlNo">
+            <a
+              class="btn btn-dark me-2 prv-two"
+              *ngIf="questionSlNo > 1"
+              (click)="onQuestionChange('previous')"
+              >Previous</a
+            >
+            <a
+              class="btn btn-primary me-2 next-two"
+              (click)="onQuestionChange('next')"
+              *ngIf="questions.length !== item.slNo"
+              >Next</a
+            >
+            <a
+              class="btn btn-success me-2"
+              *ngIf="questions && questions.length === item.slNo"
+              (click)="onSubmit()"
+              >Submit</a
+            >
+          </div>
+        </div>
+      </div>
+      <div class="col-md-3">
+        <div class="markedPatch">
+          <div class="legendPatch">
+            <ul>
+              <li><a class="legend-attended"></a>Attended</li>
+              <li><a class="legend-notattended"></a>Not Attended</li>
+              <li><a class="legend-curQuestion"></a>Current Question</li>
+            </ul>
+          </div>
+          <ul class="mb-0">
+            <li *ngFor="let item of questions; let i = index">
+              <a
+                (click)="showQuestionByNumber = +item?.slNo"
+                [ngClass]="{
+                  attended: +item?.answer,
+                  curQuestion: +item?.slNo === this.questionSlNo
+                }"
+                [style.cursor]="'pointer'"
+              >
+                {{ item?.slNo }}
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

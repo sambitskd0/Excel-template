@@ -1,0 +1,370 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">
+          Training Enrollment / प्रशिक्षण नामांकन
+        </h3>
+      </div>
+    </div>
+    <span class="indicator">( * ) Indicates Mandatory / अनिवार्य सूचना</span>
+    <div class="tabArea">
+      <a routerLink="./../add" class="neuro addLink" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Add /
+        जोड़ें</a>
+      <a routerLink="./../view" class="neuro addLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View /
+        देखें</a>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="search-sec" id="searchPanel">
+      <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+        novalidate>
+        <div class="searchPanel">
+          <div class="row">
+            <div class="col-md-2 form-group3">
+              <div>
+                <label for="" class="form-label">Academic Year</label>
+              </div>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="academicYear" name="academicYear" tabindex="1">
+                <option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                  {{ this.years }}
+                </option>
+              </select>
+            </div>
+            <div class="col-lg-1"></div>
+
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">District </label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                <option value="" *ngIf="loadingObj.districtLoad == false && sessionDistrictId == ''">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.districtLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of districtData" [value]="item.districtId">
+                  {{ item.districtCode }} - {{ item.districtName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+            </div>
+
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Block </label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId" aria-label="Default
+                                  select example" (change)="getCluster($any($event.target).value)" #block>
+                <option value="" *ngIf="loadingObj.blockLoad == false && sessionBlockId == ''">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.blockLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of blockData" [value]="item.blockId">
+                  {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj.blockLoad == true" alt="dsd" />
+            </div>
+
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Cluster</label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select scClusterId" [(ngModel)]="scClusterId" name="scClusterId"
+                (change)="getSchool($any($event.target).value)" >
+                <option value="" *ngIf="scClusterChanged == false && sessionClusterId == ''">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="scClusterChanged == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of clusterData" [value]="item.clusterId">
+                  {{ item.clusterCode }} - {{ item.clusterName }}
+                </option>
+              </select>
+            </div>
+
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="scClusterChanged == true" alt="dsd" />
+            </div>
+
+          </div>
+          <div class="row">
+
+            <div class="col-md-2 form-group">
+              <label class="form-label">School</label>
+            </div>
+            <div class="col-md-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="schoolId" name="schoolId"
+                autocomplete="off" >
+                <option value="" *ngIf="scSchoolChanged == false && sessionSchoolId == ''">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="scSchoolChanged == true">
+                  Loading...
+                </option>
+                <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                  {{ schoolItem.schoolUdiseCode }} -
+                  {{ schoolItem.schoolName }}
+                </option>
+              </select>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="scSchoolChanged == true" alt="dsd" />
+            </div>
+
+            
+            <div class="col-lg-2 form-group mb-0">
+              <div>
+                <label class="form-label">Training Subject</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group mb-0">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="subjectName" name="subjectName"
+                  (change)="getTraininingName($any($event.target).value)" aria-label="Default select example"
+                  class="form-select">
+                  <option value="" *ngIf="loadingObj?.subjectLoad == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj?.subjectLoad == true">
+                    Loading...
+                  </option>
+                  <option *ngFor="let subject of res" [value]="subject.subjectId">
+                    {{ subject.subject }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-lg-2 form-group mb-0">
+              <div>
+                <label class="form-label">Training Name</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group mb-0">
+              <div>
+                <span class="colon">:</span>
+                <select [(ngModel)]="trainingName" name="trainingName" aria-label="Default select example"
+                  class="form-select">
+                  <option value="" *ngIf="loadingObj?.traiingLoading == false">
+                    --Select / चुनें--
+                  </option>
+                  <option value="" *ngIf="loadingObj?.traiingLoading == true">
+                    Loading...
+                  </option>
+
+                  <option *ngFor="let train of training" [value]="train.trainingId">
+                    {{ train.trainingName }}
+                  </option>
+                </select>
+                <span class="mandatory">*</span>
+              </div>
+            </div>
+            <div class="col-md-1">
+              <img src="assets/img/loading.gif" *ngIf="loadingObj?.traiingLoading == true" alt="dsd" />
+            </div>
+
+            <div class="col-md-2 form-group3">
+              <button class="btn btn-default btn-purple">
+                Search <i class="bi bi-search"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="clearfix"></div>
+  <div class="row mt-4" [hidden]="resultListData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+            <a title="Excel" class="excel" (click)="downloadTeacherForTraining(searchForm.value)"><i class="bi bi-file-earmark-excel"></i></a>
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+      <form [formGroup]="viewTableForm">
+        <div class="table-responsive" id="viewTable">
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+          </mat-progress-bar>
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="TrainingSubject">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Training Subject
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.subject ? element?.subject : "--" }}</td>
+            </ng-container>
+            <ng-container matColumnDef="TrainingName">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Training Name
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.trainingName ? element?.trainingName : "--" }}</td>
+            </ng-container>
+            <ng-container matColumnDef="dist">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                District / जिला
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.districtCode }} - {{ element?.districtName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="block">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Block / प्रखण्ड
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.blockCode}} -
+                {{ element?.blockName}}
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Academic_Year">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Academic Year / शैक्षणिक वर्ष
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.academicYear ? element?.academicYear : "--" }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="cluster">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Cluster / संकुल
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{ element?.clusterCode }} - {{ element?.clusterName }}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="school">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                School / विद्यालय
+              </th>
+              <td mat-cell *matCellDef="let element">
+                {{element?.schoolUdiseCode}} - {{ element?.schoolName}}
+              </td>
+            </ng-container>
+            <ng-container matColumnDef="teacherList">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                <label>Trainee List</label>
+              </th>
+              <td mat-cell *matCellDef="let element" class="noPrint">
+                <button type="button" class="btn btn-purple" data-bs-toggle="modal" data-bs-target="#viewTeacherList"
+                  (click)="
+                    showTeacherList({
+                      encId: element?.encId,
+                      traineeType: element?.traineeType
+                    })
+                  ">
+                  View List
+                </button>
+              </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                Action
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                <a title="Edit" *ngIf="element?.permisiion == true && element?.batchStatus == 0" routerLink="./../edit/{{ element?.encId }}" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square"></i></a>
+                <a title="Delete" *ngIf="element?.permisiion == true && element?.batchStatus == 0" class="delete-btn" (click)="onDelete(element?.encId)"><i class="bi bi-trash3"></i></a>
+                <label *ngIf="element?.batchStatus != 0">--</label>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length">
+              <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                No Records Found!
+              </td>
+            </tr>
+          </table>
+          <mat-paginator #paginator [length]="totalRows" class="noPrint" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+            showFirstLastButtons>
+          </mat-paginator>
+        </div>
+      </form>
+
+      <ng-template #showEmptyAlert> </ng-template>
+    </div>
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found." }}
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-5" role="alert" *ngIf="isInitAdmin">
+    {{ "Please Search to find Training Enrollment" }}
+  </div>
+</div>
+
+<!-- View All Teacher List Modal -->
+<div class="modal fade" id="viewTeacherList" tabindex="-1" aria-labelledby="viewTeacherListLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel" >
+          Trainee List
+        </h5>
+        
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <!-- <div class="col-lg-12 form-group" id="descriptionText">{{ allTeacherName }}</div> -->
+          <table class="table table-striped table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th style="width: 100px">Sl no.</th>
+                <th>Trainee Name</th>
+                
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let teacherLis of trainerList; let i = index">
+                <td>{{ i + 1 }}</td>
+                <td>{{ teacherLis.name ? teacherLis?.name : "--" }}</td>
+              </tr>
+              <tr *ngIf="totalTrainerList == 0">
+                <td>--</td>
+                <td>--</td>
+              </tr>
+              
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+                

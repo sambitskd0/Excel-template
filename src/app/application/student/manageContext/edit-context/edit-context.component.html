@@ -1,0 +1,52 @@
+<div>
+    <div>
+        <div class="pageHeading">
+            <div class="heading__tab">
+                <div>
+                    <h3 class="pageName">Context</h3>
+                </div>
+                <!-- div class="tab__section">
+                    <a routerLink="../../view" class="tablink d-inline-block active "
+                        routerLinkActive="active">Context</a>
+                        <a routerLink="../../../contextTagging/view" class="tablink d-inline-block" routerLinkActive="active">Context Tagging</a>
+                     <a routerLink="./../viewTrainingAgency" class="tablink d-inline-block" routerLinkActive="active">Subject Tagging</a> 
+                </div> -->
+                <app-common-tab></app-common-tab>
+            </div>
+            <div class="tabArea">
+                <a class="neuro addLink active" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Edit /
+                    संपादन
+                </a>
+                <a routerLink="../../view" class="neuro addLink" routerLinkActive="active"><i
+                        class="bi bi-eye me-2"></i>View /
+                    देखे</a>
+                    <span class="indicator">( * ) Indicates Mandatory</span>     
+            </div>
+        </div>
+    </div>
+
+    <div class="top-space">
+        <form [formGroup]="contextForm" (ngSubmit)="onSubmit()">
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Context Name
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        formControlName="contextName" autocomplete="off" [value]="contextName"
+                        (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" minlength="2" maxlength="30"
+                        autocomplete="off">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div>
+                <button class="btn btn-success me-2">Update / अद्यतन करें
+                </button>
+                <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+            </div>
+        </form>
+    </div>
+</div>

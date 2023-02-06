@@ -1,0 +1,64 @@
+.check__box .form-group label.disable:before {
+    content: '';
+    border: 1px solid rgb(70 40 118 / 49%);
+    background: rgb(70 40 118 / 49%);
+}
+
+.indicators-pannel {
+    padding: 14px 10px 1px 10px;
+    background: #dcd5e6;
+    color: #63409a;
+    border-radius: 3px;
+    margin:1rem 0rem;
+}
+
+.indicators-pannelol, ul{
+    list-style-type: none;
+    padding-left: 0rem;
+    display: flex;
+}
+
+.indicators-pannel li {
+    display: flex;
+    align-items: center;
+    margin: 0 10px;
+}
+
+.timeline-color {
+    width: 20px;
+    height: 20px;
+    margin-right: 2px;
+    display: inline-block;
+}
+
+.badge {
+    display: inline-block;
+    min-width: 10px;
+    padding: 3px 7px;
+    font-size: 12px;
+    color: #fff;
+    vertical-align: middle;
+    background-color: #777;
+    border-radius: 10px;
+}
+.light-purple-bg {
+    background-color: #9e90b6;
+}
+.light-white-bg {
+    background-color: #fff;
+}
+
+
+
+
+
+@media only screen and (max-width: 768px)
+{
+    .fw-bold {
+        margin-bottom: 1rem!important;
+    }
+    .indicators-pannel li {
+        display: initial;
+       
+    }
+}

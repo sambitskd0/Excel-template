@@ -1,0 +1,243 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Stock In / स्टॉक में</h3>
+      </div>
+    </div>
+    <span class="indicator">( * ) Indicates Mandatory</span>
+    <div class="tabArea">
+      <a routerLink="../addStockIn" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="../viewStockIn" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+    </div>
+  </div>
+  <div class="top-space">
+    <ng-container *ngIf="show">
+      <div class="searchPanel top-space">
+        <form [formGroup]="stockInForm" (submit)="onSearch()">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Approval By<br>द्वारा अनुमोदन </label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="approvalBy">
+                  <option value="">-- Select Type --</option>
+                  <option value="1">School Management Committee(SMC)</option>
+                  <option value="2">School Management Development Committee(SMDC)</option>
+                </select>
+
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Invoice No.<br>चालान नं. </label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class=""><span class="colon">:</span>
+                <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                  formControlName="invoiceNo">
+
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Invoice From Date <br>दिनांक से चालान </label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class=""><span class="colon">:</span>
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                  bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" id="exampleInputEmail1"
+                  aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="invoiceFromDate" readonly>
+
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Invoice To Date <br>आज तक का चालान </label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class=""><span class="colon">:</span>
+                <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                  bsDatepicker [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' }" id="exampleInputEmail1"
+                  aria-describedby="emailHelp" [maxDate]="maxDate" formControlName="invoiceToDate" readonly>
+
+              </div>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-3">
+              <button class="btn btn-default btn-purple"> Search / खोज करें
+                <i class="bi bi-search"></i></button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search
+      Panel / खोज पैनल
+    </button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row  mt-4" [hidden]="resultListData?.length === 0">
+    <div class="page__rightarea">
+      <div class="page__util">
+        <div class="util">
+          <a title="Excel" class="excel" (click)="downloadStockInList()"><i class="bi bi-file-earmark-excel"></i></a>
+          <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+        </div>
+      </div>
+    </div>
+    <div class="table-responsive" id="viewTable">
+      <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+      </mat-progress-bar>
+
+      <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+        #exporter="matTableExporter">
+        <ng-container matColumnDef="slNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple" style="width: 100px">
+            Sl.No / क्र.सं</th>
+          <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+            Invoice Date / चालान दिनांक
+          </th>
+          <td mat-cell *matCellDef="let element">{{ (element?.invoiceDate) ? (element?.invoiceDate | date:
+            'dd-MMM-yyyy') :'--' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="invoiceNo">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+            Invoice No. / चालान नं.
+          </th>
+          <td mat-cell *matCellDef="let element">{{ (element?.invoiceNo) ? element?.invoiceNo :'--' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="invoiceAmount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+            Invoice Amount / चालान राशि
+          </th>
+          <td mat-cell *matCellDef="let element">{{ (element?.invoiceAmount) ? (element?.invoiceAmount | currency:'INR')
+            :'--' }}</td>
+        </ng-container>
+        <ng-container matColumnDef="approvalBy">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+            Approval By / द्वारा अनुमोदन
+          </th>
+          <td mat-cell *matCellDef="let element">{{ (element?.approvalBy === 1) ? 'School Management Committee' : (element?.approvalBy ===
+            2) ? 'School Management Development Committee' : '--' }}</td>
+        </ng-container>
+
+        <ng-container matColumnDef="details">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+            Details / विवरण
+          </th>
+          <!-- <td mat-cell *matCellDef="let element" class="noPrint"><button type="button" class="btn btn-purple"
+              data-bs-toggle="modal" data-bs-target="#viewAssetList"
+              (click)="showAssetList(element.encId,element.schoolId,element.invoiceAmount)">View List</button></td> -->
+          <td mat-cell *matCellDef="let element" class="noPrint">
+            <a title="Edit" [routerLink]="['./../viewStockList/', element?.encId]" class="btn btn-purple">View List</a>
+            <!-- <button type="button" class="btn btn-purple"
+              data-bs-toggle="modal" data-bs-target="#viewAssetList"
+              (click)="showAssetList(element.encId,element.schoolId,element.invoiceAmount)">View List</button></td> -->
+        </ng-container>
+        <ng-container matColumnDef="Action">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" style="width: 100px">
+            Action / क्रिया
+          </th>
+          <td mat-cell *matCellDef="let element" class="action-link noPrint">
+            <a title="Delete" class="delete-btn me-2" style="cursor: pointer" (click)="deleteStockIn(element?.encId)"><i
+                class="bi bi-trash"></i></a>
+          </td>
+        </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+      </table>
+      <table>
+        <tr *ngIf="!dataSource.data.length">
+          <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+            No Records Found!
+          </td>
+        </tr>
+      </table>
+
+      <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+        [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page" class="noPrint"
+        showFirstLastButtons>
+      </mat-paginator>
+    </div>
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found." }}
+  </div>
+  <!-- <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin">
+      {{ "Please Search to find Book Lists" }}
+    </div> -->
+</div>
+
+<!-- View Asset List Modal -->
+<div class="modal fade" id="viewAssetList" tabindex="-1" aria-labelledby="viewAssetListLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Asset List</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <table class="table  table-bordered">
+            <thead class="bg-lightpurple">
+              <tr>
+                <th scope="col" width="15px">SI#/क्र.सं</th>
+                <th scope="col">Asset Type / संपत्ति का प्रकार
+                </th>
+                <th scope="col">Asset Name / संपत्ति का नाम
+                </th>
+                <th scope="col">Asset Item Name / संपत्ति का नाम
+                </th>
+                <th scope="col">Quantity / मात्रा 
+                </th>
+                <th scope="col">Unit / इकाई
+                </th>
+                <th scope="col">Unit Price / यूनिट की कीमत
+                </th>
+                <th scope="col">Total Amount / कुल राशि</th>
+                <th scope="col">End Of Life(In Years) / जीवन का अंत (वर्षों में)</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let assetStock of assetList; let i = index">
+                <td scope="row">{{i+1}}</td>
+                <td>{{(assetTypeData[assetStock.assetType]) ? assetTypeData[assetStock.assetType] :'--'}}</td>
+                <td>{{(assetNameData[assetStock.assetName]) ? assetNameData[assetStock.assetName] :'--'}}</td>
+                <td>{{(assetStock.assetItemName) ?  assetStock.assetItemName +'-'+assetStock.assetItemCode :'--'}}</td>
+                <td>{{(assetStock.quantity) ? assetStock.quantity :'--'}}</td>
+                <td>{{(assetStock.unit) ? assetStock.unit :'--'}}</td>
+                <td>{{(assetStock.unitPrice) ? (assetStock.unitPrice | currency:'INR') :'--'}}</td>
+                <td>{{(assetStock.amount) ? (assetStock.amount | currency:'INR') :'--'}}</td>
+                <td>{{(assetStock.eol) ? assetStock.eol :'--'}}</td>
+              </tr>
+              <tr>
+                <td colspan="7" style="text-align: right;font-weight: 600;">Invoice Total Amount</td>
+                <td style="font-weight: 600;">{{(totalAmount) ? (totalAmount | currency:'INR') :'0'| currency:'INR'}}
+                </td>
+                <td colspan="2"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

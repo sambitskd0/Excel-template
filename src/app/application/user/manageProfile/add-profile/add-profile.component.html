@@ -1,0 +1,420 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Profile / प्रोफाइल प्रबंधित करें</h3>
+            <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addProfile" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Add Profile / प्रोफ़ाइल जोड़ें</a>
+            <a routerLink="./../viewProfile" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View Profile / प्रोफ़ाइल देखें</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="profileForm" (ngSubmit)="onSubmit()">
+
+            <div class="formpatch top-space">
+                <h5>Personal Information / व्यक्तिगत जानकारी</h5>
+
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> Name <br> नाम</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" formControlName="txtName" maxlength="64" autocomplete="off"
+                            class="form-control" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+                        <span class="mandatory">*</span>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> Gender<br> लिंग</label>
+                    </div>
+                    <div class="col-lg-4 form-group">
+                        <span class="colon">:</span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" value="1" formControlName="radioGender" id="radio16"
+                                type="radio" checked>
+                            <label class="form-check-label" for="radio16">Male <br>पुरुष</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" value="2" formControlName="radioGender" id="radio17"
+                                type="radio">
+                            <label class="form-check-label" for="radio17">Female <br>महिला</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" value="3" formControlName="radioGender" id="radio18"
+                                type="radio">
+                            <label class="form-check-label" for="radio18">Transgender <br>ट्रांसजेंडर </label>
+                        </div><span class="mandatory" style="margin-right: 200px;  margin-top: -5px;">*</span>
+                    </div>
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Moblie Number <br>मोबाइल नंबर</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control" maxlength="10" formControlName="txtMobile"
+                            (keypress)="customValidators.keyPressNumbers($event)">
+                        <span class="mandatory">*</span>
+
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Email Id <br>ईमेल आईडी</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input formControlName="txtEmail" maxlength="64" type="email" class="form-control"
+                            autocomplete="off">
+                        <span class="mandatory">*</span>
+
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> DOB <br>जन्म तिथि</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <!-- <input type="date" formControlName="dtDOB" class="form-control" (blur)="ageValidation()"> -->
+                        <input class="form-control" formControlName="dtDOB" #datepickerYMD="bsDatepicker"
+                            placeholder="DD-MMM-YYYY" bsDatepicker bsDatepicker #dateRef readonly
+                            [bsConfig]="{dateInputFormat: 'DD-MMM-YYYY' }" [maxDate]="date" />
+
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-6">
+                        <div class="row">
+                            <div class="col-lg-4 ">
+                                <label class="form-label"> Upload Photo <br>फोटो अपलोड करें </label>
+                            </div>
+                            <div class="col-lg-4 form-group">
+                                <span class="colon">:</span>
+                                <div class="box">
+                                    <div class="js--image-preview"><img [src]="imageUrlTeacher" *ngIf="imageUrlTeacher">
+                                    </div>
+                                    <div class="upload-options">
+                                        <label>
+                                            <input accept="image/*" class="image-upload"
+                                                title="Upload image (only jpeg, jpg, png , jfif file supported)"
+                                                type="file" formControlName="vchImage" name="teacherImage" #teacherImage
+                                                (change)="handleFileInputTeacher($event)">
+                                        </label>
+                                    </div>
+                                </div>
+                                <span class="minimum-text text-danger"> (Only jpeg, jpg, png file supported & Maximum
+                                    size is 300KB)</span>
+                            </div>
+                            <div class="col-lg-2">
+                                <div>
+                                    <i class="bi bi-x-square text-danger fs" *ngIf="isimageUrlTeacher"
+                                        (click)="removeTeacherImage()" style="cursor:pointer;"></i>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+
+
+            </div>
+            <div class="formpatch top-space">
+                <h5>Office Information / कार्यालय सूचना</h5>
+
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का स्तर</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="userLevelId" class="form-select"
+                            (change)="loadSubDesignation($any($event.target).value);">
+                            <option value="0">--Select--</option>
+                            <option value="5" *ngIf="stateUser == false">State</option>
+                            <option value="4" *ngIf="distUser == false">District</option>
+                            <option value="3" *ngIf="blkUser == false">Block</option>
+                            <option value="2">Cluster</option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="designationGroupId" class="form-label"> Designation <br>पद</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="designationGroupId" class="form-select"
+                            (change)="getSubDesignation($any($event.target).value);">
+                            <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+                            <option value="" *ngIf="desGrpLoading == false">Loading...</option>
+                            <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+                                {{ item.designationGroupName }}
+                            </option>
+                        </select><span class="mandatory">*</span>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label">Sub-Designation <br>उप-पदनाम</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" aria-label="Default select example"
+                            formControlName="intDesignationId">
+                            <option value="0" *ngIf="designationChanged==false">--Select--</option>
+                            <option value="" *ngIf="designationChanged==true">Loading...</option>
+                            <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                                {{ item.vchDesignationName }}
+                            </option>
+
+                        </select>
+                        <span class="mandatory">*</span>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-lg-2 form-group" *ngIf="distLvl == true">
+                        <label for="" class="form-label"> District <br>ज़िला</label>
+                    </div>
+                    <div class="col-md-3 form-group" *ngIf="distLvl == true">
+                        <select formControlName="offdistrictId" class="form-select"
+                            (change)="getOffBlock($any($event.target).value);">
+                            <option value="0" *ngIf="offdisrtictChanged==false">--Select--</option>
+                            <option value="" *ngIf="scDisrtictLoading==true">Loading...</option>
+                            <option *ngFor="let item of offdistrictData" [value]="item.districtId">
+                                {{ item.districtCode }} - {{ item.districtName }}
+                            </option>
+                        </select> <span class="mandatory">*</span>
+                    </div>
+                    <div class="col-lg-1" *ngIf="blkLvl == true"></div>
+                    <div class="col-lg-2 form-group" *ngIf="blkLvl == true">
+                        <label for="" class="form-label"> Block <br>प्रखण्ड</label>
+                    </div>
+                    <div class="col-md-3 form-group" *ngIf="blkLvl == true">
+                        <select formControlName="offblockId" class="form-select"
+                            (change)="getCluster($any($event.target).value);">
+                            <option value="0" *ngIf="offblockChanged==false">--Select--</option>
+                            <option value="" *ngIf="scBlockSelect==true">Loading...</option>
+                            <option *ngFor="let item of offblockData" [value]="item.blockId">
+                                {{ item.blockCode }} - {{ item.blockName }}
+                            </option>
+                        </select> <span class="mandatory">*</span>
+                    </div>
+
+                    <div class="col-lg-2 form-group" *ngIf="clusterLvl == true">
+                        <label for="" class="form-label"> Cluster <br>संकुल</label>
+                    </div>
+                    <div class="col-lg-3 form-group" *ngIf="clusterLvl == true">
+                        <span class="colon">:</span>
+                        <select formControlName="offclusterId" class="form-select" aria-label="Default select example">
+                            <option value="0" *ngIf="clusterChanged==false">--Select--</option>
+                            <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                            <option *ngFor="let item of clusterData" [value]="item.clusterId">
+                                {{ item.clusterCode }} - {{ item.clusterName }}
+                            </option>
+                        </select> <span class="mandatory">*</span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> Officer Extn /Phone No.<br> अधिकारी विस्तार / फोन नंबर</label>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                        <span class="colon">:</span>
+                        <input type="text" class="form-control" (keypress)="customValidators.keyPressNumbers($event)"
+                            formControlName="vchOfficePhoneNo" maxlength="15" autocomplete="off">
+
+                    </div>
+
+                </div>
+
+            </div>
+
+            <div class="formpatch top-space">
+                <h5>Contact Information / संपर्क जानकारी</h5>
+
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> District <br>ज़िला</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="districtId" class="form-select"
+                            (change)="getBlock($any($event.target).value);getMunicipality($any($event.target).value)"
+                            #district>
+                            <option value="0" *ngIf="disrtictChanged==false">--Select--</option>
+                            <option value="" *ngIf="disrtictChanged==true">Loading...</option>
+                            <option *ngFor="let item of districtData" [value]="item.districtId">
+                                {{ item.districtCode }} - {{ item.districtName }}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Located Type <br> स्थित प्रकार </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio1"
+                                checked value="1" (click)="locateRadioControl($any($event.target).value,district.value)"
+                                #locateIdUrban>
+                            <label class="form-check-label" for="inlineRadio1">Urban Area</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio2"
+                                value="2" (click)="locateRadioControl($any($event.target).value,district.value )"
+                                #locateIdRural>
+                            <label class="form-check-label" for="inlineRadio2">Rural Area</label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="row" *ngIf="muncipalityView == true">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">ULB <br>नगर पालिका </label>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="colon">:</span>
+                        <select formControlName="nagarnigamId" class="form-select"
+                            (change)="getVillage($any($event.target).value,locateIdUrban.value)">
+                            <option value="" *ngIf="municipalityChanged==false">--Select--</option>
+                            <option value="" *ngIf="municipalityChanged==true">Loading...</option>
+                            <option *ngFor="let item of municipalityData" [value]="item.nagarId">
+                                {{ item.panchayatCode }} - {{ item.panchayatName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <div class="row" *ngIf="panchayatView == true">
+                    <div class="col-lg-2 form-group">
+                        <label for="" class="form-label"> Block <br>प्रखण्ड</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="blockId" class="form-select"
+                            (change)="getPanchayat($any($event.target).value)" #block>
+                            <option value="0" *ngIf="blockChanged==false">--Select--</option>
+                            <option value="" *ngIf="blockChanged==true">Loading...</option>
+                            <option *ngFor="let item of blockData" [value]="item.blockId">
+                                {{ item.blockCode }} - {{ item.blockName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Panchayat <br>पंचायत </label>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="colon">:</span>
+                        <select formControlName="nagarnigamId" class="form-select"
+                            (change)="getVillage($any($event.target).value,locateIdRural.value)">
+                            <option value="" *ngIf="panchayatChanged==false">--Select--</option>
+                            <option value="" *ngIf="panchayatChanged==true">Loading...</option>
+                            <option *ngFor="let item of panchayatData" [value]="item.nagarId">
+                                {{ item.panchayatCode }} - {{ item.panchayatName }}
+                            </option>
+                        </select>
+                    </div>
+
+                </div>
+                <div class="row" *ngIf="vilaageView == true">
+                    <div class="col-md-2 form-group">
+                        <label *ngIf="locateIdWV == '' " class="form-label">Ward / Village <br>वार्ड / गाँव</label>
+                        <label *ngIf="locateIdWV == 1" class="form-label">Ward <br>वार्ड </label>
+                        <label *ngIf="locateIdWV == 2" class="form-label">Village<br>गाँव </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="villageId" class="form-select">
+                            <option value="" *ngIf="villageChanged==false">--Select--</option>
+                            <option value="" *ngIf="villageChanged==true">Loading...</option>
+                            <option *ngFor="let item of villageData" [value]="item.villageId">
+                                {{ item.villageCode }} - {{ item.villageName }}
+                            </option>
+                        </select>
+                    </div>
+                </div>
+                <!-- <div class="row">
+                    <div class="col-md-2 form-group">
+                        <label class="form-label">Is This Type Located In <br>क्या यह प्रकार स्थित है</label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio1"
+                                checked value="1" (click)="locateRadioControl($any($event.target).value,district.value ,block.value)">
+                            <label class="form-check-label" for="inlineRadio1">Rural Area</label>
+                        </div>
+                        <div class="form-check form-check-inline">
+                            <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio2"
+                                value="2" (click)="locateRadioControl($any($event.target).value,district.value ,block.value)">
+                            <label class="form-check-label" for="inlineRadio2">Urban Area</label>
+                        </div>
+                        <span class="mandatory">*</span>
+                    </div>
+
+
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2 form-group">
+                        <label *ngIf="locateId == '' " class="form-label">Panchayat / Municipality <br>पंचायत / नगर पालिका</label>
+                        <label *ngIf="locateId == 1" class="form-label">Panchayat <br>पंचायत</label>
+                        <label *ngIf="locateId == 2" class="form-label">Municipality <br>नगर पालिका </label>
+                    </div>
+                    <div class="col-md-3">
+                        <span class="colon">:</span>
+                        <select formControlName="nagarnigamId" class="form-select"
+                            (change)="getVillage($any($event.target).value)">
+                            <option value="" *ngIf="panchayatChanged==false">--Select--</option>
+                            <option value="" *ngIf="panchayatChanged==true">Loading...</option>
+                            <option *ngFor="let item of panchayatData" [value]="item.nagarId">
+                                {{ item.panchayatCode }} - {{ item.panchayatName }}
+                            </option>
+                        </select>
+                    </div>
+                    <div class="col-md-1"></div>
+                    <div class="col-md-2 form-group">
+                        <label *ngIf="locateId == '' " class="form-label">Panchayat / Municipality <br>पंचायत / नगर पालिका</label>
+                        <label *ngIf="locateId == 2" class="form-label">Village<br>गाँव </label>
+                        <label *ngIf="locateId == 1" class="form-label">Ward <br>वार्ड </label>
+                    </div>
+                    <div class="col-md-3 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="villageId" class="form-select">
+                            <option value="" *ngIf="villageChanged==false">--Select--</option>
+                            <option value="" *ngIf="villageChanged==true">Loading...</option>
+                            <option *ngFor="let item of villageData" [value]="item.villageId">
+                                {{ item.villageCode }} - {{ item.villageName }}
+                            </option>
+                        </select>
+                    </div>
+
+
+                </div> -->
+                <div class="row">
+
+
+                    <div class="col-lg-2 form-group">
+                        <label class="form-label"> Address<br>पत</label>
+                    </div>
+                    <div class="col-lg-3 form-group ">
+                        <span class="colon">:</span>
+                        <textarea formControlName="txtAddress" class="form-control" maxlength="300" rows="3"></textarea>
+                        <small>Maximum <span class="text-danger">(<span>300</span>)</span> Characters</small>
+                    </div>
+                </div>
+
+
+            </div>
+
+
+            <div>
+                <button class="btn btn-success me-2">Submit/ जमा करें</button>
+                <button type="reset" class="btn btn-danger">Reset / पुनर्स्थापित</button>
+            </div>
+        </form>
+    </div>
+</div>

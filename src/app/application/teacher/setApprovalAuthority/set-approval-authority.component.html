@@ -1,0 +1,192 @@
+<div>
+    <div class="pageHeading">
+      <div>
+        <h3 class="pageName">Manage Approval Authority/अनुमोदन प्राधिकरण प्रबंधित करें
+        </h3>
+        <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+        </span>
+      </div>
+      <div class="tabArea">
+        <a routerLink="./../setApprovalAuthority" class="neuro addLink" routerLinkActive="active"><i
+            class="bi bi-plus-lg me-2"></i>Set Approval Authority/स्वीकृति प्राधिकरण सेट करें
+        </a>   
+        <!-- <a
+          routerLink="./../setApprovalAuthority/viewApprovalAuthority"
+          class="neuro viewLink"
+          ><i class="bi bi-eye me-2"></i>View Approval Authority/अनुमोदन प्राधिकरण देखें</a
+        >      -->
+      </div>
+    </div>
+    <div class="top-space">
+      <form [formGroup]="approvalAuthForm" (ngSubmit)="onSubmit()">        
+        <div class="formpatch">
+          <h5>Approval Process/अनुमोदन की प्रक्रिया
+          </h5>
+  
+  
+          <div class="row">
+            <div class="col-lg-12 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label text-primary">1st Level Approval / प्रथम स्तर का अनुमोदन
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Office <br> कार्यालय
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="officeId" aria-label="Default select example"
+                  (change)="getDesignation($any($event.target).value);">
+                  <option value="">--Select--</option>
+                  <option value="3">Block</option>
+                  <option value="4">District</option>
+                  <option value="5">State</option>
+                </select>
+  
+              </div><span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1 form-group"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Approval Authority<br>अनुमोदन प्राधिकरण
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="ATADesignation">
+                  <option value="" *ngIf="designationChanged==false">--Select--</option>
+                  <option value="" *ngIf="designationChanged==true">Loading...</option>
+                  <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                    {{ item.vchDesignationName }}
+                  </option>
+  
+                </select>
+  
+              </div><span class="mandatory">*</span>
+            </div>
+  
+          </div>
+          <div class="row">
+            <div class="col-lg-12 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label text-primary">2nd Level Approval / द्वितीय स्तर का अनुमोदन
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label"> Office <br> कार्यालय
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="officeId2" aria-label="Default select example"
+                  (change)="getDesignation2($any($event.target).value);">
+                  <option value="">--Select--</option>
+                  <option value="3">Block</option>
+                  <option value="4">District</option>
+                  <option value="5">State</option>
+                </select>
+  
+              </div><span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1 form-group"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Approval Authority<br>अनुमोदन प्राधिकरण
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="ATADesignation2">
+                  <option value="" *ngIf="designationChanged2==false">--Select--</option>
+                  <option value="" *ngIf="designationChanged2==true">Loading...</option>
+                  <option *ngFor="let item of designationData2" [value]="item.intDesignationId">
+                    {{ item.vchDesignationName }}
+                  </option>
+  
+                </select>
+              </div><span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-12 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label text-primary">3rd Level Approval / तीसरे स्तर की स्वीकृति
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Office <br> कार्यालय
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" formControlName="officeId3" aria-label="Default select example"
+                  (change)="getDesignation3($any($event.target).value);">
+                  <option value="">--Select--</option>
+                  <option value="3">Block</option>
+                  <option value="4">District</option>
+                  <option value="5">State</option>
+                </select>
+  
+              </div>
+            </div>
+            <div class="col-lg-1 form-group"></div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Approval Authority<br>अनुमोदन प्राधिकरण
+                </label>
+              </div>
+            </div>
+  
+            <div class="col-lg-3 form-group">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <select class="form-select" aria-label="Default select example" formControlName="ATADesignation3">
+                  <option value="" *ngIf="designationChanged3==false">--Select--</option>
+                  <option value="" *ngIf="designationChanged3==true">Loading...</option>
+                  <option *ngFor="let item of designationData3" [value]="item.intDesignationId">
+                    {{ item.vchDesignationName }}
+                  </option>
+  
+                </select>
+  
+              </div>
+            </div>  
+          </div>
+        </div>        
+          <div class="row">
+          <div class="col-lg-12 form-group">
+            <button class="btn btn-success me-2" *ngIf="edit==false">Submit/जमा करें
+            </button>
+            <button class="btn btn-success me-2" *ngIf="edit==true">Update/अपडेट करें
+            </button>
+            <button type="reset" class="btn btn-danger" *ngIf="edit==false">Reset/पुनर्स्थापित
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>

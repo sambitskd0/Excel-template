@@ -1,0 +1,153 @@
+.website {
+    padding-top: 100px;
+}
+    
+.website .bg-light {
+    background-color: #fff!important;
+}
+
+.nav.nav-pills{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.nav.nav-pills li
+{
+    background-color: rgb(99 64 154 / 16%);
+    width: 49%;
+    border-radius: 10px;
+}
+
+.nav.nav-pills li svg
+{
+    fill: rgb(99 64 154 / 48%);
+    margin-bottom: 0.5rem;
+}
+
+.nav.nav-pills li .nav-link
+{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #63409a;
+    font-size: 1.3rem;
+    border-radius: 10px;
+}
+
+.nav.nav-pills li .nav-link:hover
+{
+    background-color: #63409a;
+    color: #fff;
+}
+
+.nav.nav-pills li .nav-link:hover svg
+{
+    fill: #fff;
+}
+
+.nav-pills .nav-link.active {
+    color: var(--bs-nav-pills-link-active-color)!important;
+    background-color: #63409a;
+}
+
+.nav-pills .nav-link.active svg 
+{
+    fill: #fff;
+}
+
+.tab-content .heading-style{
+    position: relative;
+    margin-top: 2rem;
+    margin-bottom: 2rem;
+}
+
+.tab-content .bottom-border {
+    position: absolute;
+    right: auto;
+    top: 35px;
+    left: 0px;
+    height: 4px;
+    width: 100px;
+    transform: skewX(-15deg);
+    background-color: rgb(168 140 211);
+}
+
+.border-dotted
+{
+    border-bottom: 2px dotted #ddd;
+}
+
+.search-pannel
+{
+    background-color: rgb(230 224 239 / 26%);
+    border: 1px solid rgb(99 64 154 / 7%);
+    border-radius: 5px;;
+}
+
+.colon {
+    left: -13px;
+}
+
+.fw-bold {
+    font-weight: 600!important;
+}
+
+.timeline{
+    margin: 0px auto;
+    padding-top: 40px;
+}
+
+.timeline ul li{
+    list-style: none;
+    margin-bottom: 2rem;
+}
+
+.timeline ul{
+    padding-left: 0rem;
+    margin-bottom: 0rem;
+}
+
+.time{
+    display: inline-block;
+    font-weight: 400;
+    padding: 5px 10px;
+    margin-bottom: 15px;
+    background-color: rgb(99 64 154 / 14%);
+    border-radius: 4px;
+}
+
+.text-pink{
+    color: #63409a
+}
+
+footer{
+    color: rgb(173 170 170);
+    text-align: center;
+    padding:1rem 0rem;
+}
+
+.web-body
+{
+    min-height: calc(100vh - 156px);
+}
+
+
+@media only screen and (max-width: 640px) 
+{
+    .nav.nav-pills li .nav-link {
+        font-size: 1rem;
+    } 
+}
+
+ 
+
+
+
+
+
+
+
+
+

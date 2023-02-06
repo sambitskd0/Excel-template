@@ -1,0 +1,129 @@
+<div>
+  <div class="pageHeading">
+    <div><h3 class="pageName">Set Authority/सेट प्राधिकारी 
+    </h3><span class="indicator">( * ) Indicates Mandatory/ ( * ) संकेतक अनिवार्य
+    </span></div>
+    <div class="tabArea">
+        <a routerLink="./../addSetAuthority"  class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+        <a routerLink="./../viewSetAuthority" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View/ देखें</a>   
+    </div>
+  </div>
+  <div class="top-space">
+    <form [formGroup] ="authorityForm" (ngSubmit)="validateSubmitAuthority()" >
+      <div class="row">
+          <div class="col-lg-2 form-group">
+              <label class="form-label">Category<br>श्रेणी  </label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="grvncCatId" autocomplete="off" (change)="getSubCategory($any($event.target).value)" >
+                <option value="" *ngIf="categoryChanged==false">--Select--</option>
+                <option value="" *ngIf="categoryChanged==true">Loading...</option>
+                <option *ngFor="let category of categoryData" [value]="category.grvncCatId">
+                    {{ category.grvncCatName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="catLoading==true" alt="dsd">
+          </div>
+    
+      </div>
+
+      <div class="row">
+          <div class="col-lg-2 form-group">
+              <label class="form-label">Sub Category<br>उप श्रेणी  </label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="grvncSubCatId" autocomplete="off" (change)="getSubject($any($event.target).value)">
+                <option value="" *ngIf="subCategoryChanged==false">--Select--</option>
+                <option value="" *ngIf="subCategoryChanged==true">Loading...</option>
+                <option *ngFor="let subCategory of subCategoryData" [value]="subCategory.grvncSubCatId">
+                    {{ subCategory.grvncSubCatName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="subCatLoading==true" alt="dsd">
+          </div>
+    
+      </div>
+
+      <div class="row">
+          <div class="col-lg-2 form-group">
+              <label class="form-label">Subject<br>विषय </label>
+          </div>
+          <div class="col-lg-3 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="subjectId" autocomplete="off" (change)="getAuthorityLevel($any($event.target).value)">
+                <option value="" *ngIf="subjectChanged==false">--Select--</option>
+                <option value="" *ngIf="subjectChanged==true">Loading...</option>
+                <option *ngFor="let subject of subjectData" [value]="subject.subjectId">
+                    {{ subject.subjectName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="subLoading==true" alt="dsd">
+          </div>
+    
+      </div>
+
+      <div class="row mt-4 formpatch" *ngIf="showLevel">
+          <div class="col-lg-12">
+            <div class="table-responsive">
+              <table class="table  table-bordered">
+                <thead class="bg-lightpurple">
+                  <tr>
+                    <th scope="col">#</th>
+                    <th scope="col">Level/स्तर</th>
+                    <th scope="col">Stage/चरण <span class="text-danger">*</span></th>
+                    <th scope="col">Approval Authority/अनुमोदन प्राधिकरण <span class="text-danger">*</span></th>
+                    <th scope="col" width="300px">Time SLA (days)/समय एसएलए (दिन) <span class="text-danger">*</span></th>
+                    <th scope="col" width="120px">Actions/क्रिया</th>
+                  </tr>
+                </thead>
+                <tbody formArrayName="authorityLevels">
+                  <tr *ngFor="let item of authorityLevelsArr().controls;index as i" [formGroupName]="i">
+                    <td>{{i + 1}}</td>
+                    <td>Level {{i + 1}}</td>
+                    <td>
+                      <select class="form-select" aria-label="Default select example" formControlName="stageId" autocomplete="off" (change)="filterAuthority($any($event.target).value, i)">
+                        <option value="" *ngIf="stageChanged==false">--Select--</option>
+                        <option value="" *ngIf="stageChanged==true">Loading...</option>
+                        <option *ngFor="let stage of stageData" [value]="stage.anxtValue">
+                          {{ stage.anxtName }}
+                        </option>
+                      </select>
+                    </td>
+                    <td>
+                      <select class="form-select" aria-label="Default select example" formControlName="authorityId" autocomplete="off">
+                        <option value="" selected>--Select--</option>
+                        <option *ngFor="let authority of authorityFilterData[i]" [value]="authority.intDesignationId">
+                          {{ authority.vchDesignationName }}
+                        </option>
+                      </select>
+                    </td>
+                    <td><input type="text" class="form-control" aria-describedby="emailHelp" formControlName="timesla" (keypress)="customValidators.keyPressNumbers($event)" maxlength="3" autocomplete="off"></td>
+                    <td width="120">
+                      <button type="button" class="btn btn-success btn-sm me-2" (click)="addRow(i)" ><i class="bi bi-plus-lg"></i></button>
+                      <button type="button" class="btn btn-danger btn-sm" (click)="removeRow(i)"><i class="bi bi-dash-lg"></i></button>
+                  </td>
+                  </tr>
+                  
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+        <div>
+          <button type="submit" class="btn btn-success me-2">Submit/ जमा करें</button>
+          <button type="reset" class="btn btn-danger" (click)="resetForm()">Reset/पुनर्स्थापित</button>
+        </div>
+    </form>
+  </div>
+</div>

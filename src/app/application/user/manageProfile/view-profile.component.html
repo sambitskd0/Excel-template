@@ -1,0 +1,489 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">Manage Profile / प्रोफाइल प्रबंधित करें</h3>
+      </div>
+      <div class="tabArea">
+         <a routerLink="./../addProfile" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+               class="bi bi-plus-lg me-2"></i>Add Profile / प्रोफ़ाइल जोड़ें</a>
+         <a routerLink="./../viewProfile" class="neuro viewLink" routerLinkActive="active"><i
+               class="bi bi-eye me-2"></i>View Profile / प्रोफ़ाइल देखें</a>
+      </div>
+   </div>
+   <div class="searchPanel top-space">
+      <!-- <form [formGroup]="profileSearchform" (ngSubmit)="filterRecord()"> -->
+      <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label for="userLevelId" class="form-label"> Level of User <br> उपयोगकर्ता का स्तर</label>
+            </div>
+            <div class="col-md-3 form-group">
+               <span class="colon">:</span>
+               <select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+                  (change)="loadSubDesignation($any($event.target).value);">
+                  <option value="0">--Select--</option>
+                  <option value="5" *ngIf="stateUser == false">State</option>
+                  <option value="4" *ngIf="distUser == false">District</option>
+                  <option value="3" *ngIf="blkUser == false">Block</option>
+                  <option value="2">Cluster</option>
+               </select>
+            </div>
+         </div>
+
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label for="designationGroupId" class="form-label"> Designation <br>पद</label>
+            </div>
+            <div class="col-md-3 form-group">
+               <span class="colon">:</span>
+               <select name="designationGroupId" [(ngModel)]="designationGroupId" class="form-select"
+                  (change)="getSubDesignation($any($event.target).value);">
+                  <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+                  <option value="" *ngIf="desGrpLoading == false">Loading...</option>
+                  <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+                     {{ item.designationGroupName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Sub-Designation <br>उप-पदनाम</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="intDesignationId"
+                  name="intDesignationId">
+                  <option value="0" *ngIf="designationSelect == true">--Select--</option>
+                  <option value="" *ngIf="designationLoading == true">Loading...</option>
+                  <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                     {{ item.vchDesignationName }}
+                  </option>
+               </select>
+            </div>
+
+
+
+            <div class="col-lg-2 form-group mb-0" *ngIf="distLvl == true">
+               <label for="exampleInputEmail1" class="form-label">District <br>ज़िला</label>
+            </div>
+            <div class="col-lg-3 form-group mb-0" *ngIf="distLvl == true">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="districtId"
+                  name="districtId" (change)="getBlock($any($event.target).value);">
+                  <option value="0" *ngIf="scDisrtictSelect == true">--Select--</option>
+                  <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                  <option *ngFor="let item of districtData" [value]="item.districtId">
+                     {{ item.districtCode }} - {{ item.districtName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1" *ngIf="distLvl2 == true"></div>
+            <div class="col-lg-1" *ngIf="blkLvl == true"></div>
+            <div class="col-lg-2 form-group" *ngIf="blkLvl == true">
+               <label class="form-label">Block <br>प्रखण्ड</label>
+            </div>
+            <div class="col-lg-3 form-group" *ngIf="blkLvl == true">
+               <span class="colon">:</span>
+               <select [(ngModel)]="blockId" name="blockId" class="form-select" aria-label="Default select example"
+                  (change)="getCluster($any($event.target).value);">
+                  <option value="0" *ngIf="scBlockSelect == true">--Select--</option>
+                  <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                  <option *ngFor="let item of blockData" [value]="item.blockId">
+                     {{ item.blockCode }} - {{ item.blockName }}
+                  </option>
+               </select>
+            </div>
+
+            <div class="col-lg-2 form-group" *ngIf="clusterLvl == true">
+               <label class="form-label">Cluster <br>संकुल</label>
+            </div>
+            <div class="col-lg-3 form-group" *ngIf="clusterLvl == true">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select example" [(ngModel)]="clusterId" name="clusterId">
+                  <option value="0" *ngIf="scClusterSelect == true">
+                     --Select--
+                  </option>
+                  <option value="" *ngIf="scClusterLoading == true">
+                     Loading...
+                  </option>
+                  <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                     {{ clusterItem.clusterCode }} -
+                     {{ clusterItem.clusterName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1" *ngIf="clusterLvl == true"></div>
+            <div class="col-lg-2 form-group mb-0">
+               <label for="mobileNo" class="form-label">Mobile No. <br>मोबाइल नंबर</label>
+            </div>
+            <div class="col-lg-3 form-group mb-0">
+               <span class="colon">:</span>
+               <input type="text" class="form-control" id="mobileNo" aria-describedby="emailHelp" [(ngModel)]="mobileNo"
+                  name="mobileNo" autocomplete="off" maxlength="10"
+                  (keypress)="customValidators.keyPressNumbers($event)" />
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-4">
+               <button class="btn btn-default btn-purple" type="submit"> Search / खोज करें <i
+                     class="bi bi-search"></i></button>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="row mt-4">
+      <div class="col-lg-12">
+         <div class="page__rightarea">
+            <div class="page__util">
+               <div class="util">
+                  <a title="Excel" class="excel" (click)="downloadProfileList()"><i
+                        class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+               </div>
+            </div>
+         </div>
+         <div class="table-responsive" [hidden]="isLoading" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+            <table class="mat-elevation-z8 " mat-table [dataSource]="dataSource" matSort matTableExporter
+               #exporter="matTableExporter">
+               <ng-container matColumnDef="slNo">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Sl.No / क्रमांक
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Name">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Name / नाम
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchfullName) ? element?.vchfullName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Gender">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Gender / लिंग
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchGender) ? element?.vchGender:'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Designation">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Designation / पद 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.vchDesignationName ) ? element?.vchDesignationName
+                     :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="District">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     District / जिला
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.districtName ) ? element?.districtName :'--' }}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="Block">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Block / प्रखण्ड
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.blockName ) ? element?.blockName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Cluster">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Cluster / संकुल
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.clusterName ) ? element?.clusterName :'--' }}</td>
+               </ng-container>
+               <ng-container matColumnDef="Employee Information">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple noPrint">
+                     Employee Information / कर्मचारी जानकारी
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint"><a class="btn btn-info me-2"
+                        data-bs-toggle="modal" data-bs-target="#exampleModal"
+                        (click)="showDetails(element?.vchfullName, element?.vchGender, element?.vchDesignationName, element?.districtName, element?.blockName, element?.clusterName, element?.dtmDOB, element?.hmdistrictName, element?.hmblockName, element?.panchayatName,element?.villageName,element?.vchMobileNo,element?.vchEmailId,element?.vchContactAddress, element?.vchOfficePhoneNo, element?.vchImage, element?.designationGroupName)"><i
+                           class="bi bi-info-circle"></i></a></td>
+               </ng-container>
+               <ng-container matColumnDef="Created On">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple">
+                     Created On / पर बनाया
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{(element?.stmCreatedOn ) ? element?.stmCreatedOn :'--' }}
+                  </td>
+               </ng-container>
+               <ng-container matColumnDef="action">
+                  <th mat-header-cell *matHeaderCellDef class="bg-lightpurple noPrint"> Action / क्रिया</th>
+                  <td mat-cell *matCellDef="let element" class="action-link noPrint">
+                     <a routerLink="./../editProfile/{{ element?.encId }}" title="Edit" class="edit-btn me-2">
+                        <i class="bi bi-pencil-square"></i></a>
+
+                     <a *ngIf="(this.userProfile.userLevel != element?.intLevelId && element?.intLevelId < 5) || (this.userProfile.userLevel == 5 || this.userProfile.userLevel == '')"
+                        title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                        (click)="deleteProfile(element?.encId)"><i class="bi bi-trash"></i></a>
+
+                     <a class="btn btn-success" title="Change Status" *ngIf="element?.activeStatus == 0"
+                        data-bs-toggle="modal" data-bs-target="#statusModal" data-original-title="Change Status"
+                        (click)="loadCurrentStatus(0, element?.encId);">Active</a>
+
+                     <a class="btn btn-danger" title="Change Status" *ngIf="element?.activeStatus == 1"
+                        data-bs-toggle="modal" data-bs-target="#statusModal" data-original-title="Change Status"
+                        (click)="loadCurrentStatus(1, element?.encId);">Inctive</a>
+                  </td>
+               </ng-container>
+               <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+               <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <table>
+               <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length"
+                     class="mt-2 alert text-center text-uppercase fw-bold border">
+                     No Records Found!
+                  </td>
+               </tr>
+            </table>
+            <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows"
+               [pageIndex]="currentPage" [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions"
+               (page)="onPageChange($event)" aria-label="Select page" class="noPrint" showFirstLastButtons>
+            </mat-paginator>
+         </div>
+      </div>
+   </div>
+</div>
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Employee Profile Infomation / कर्मचारी प्रोफ़ाइल जानकारी</h5>
+            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+         </div>
+         <div class="modal-body">
+            <div class="formpatch top-space">
+               <h5>Personal Information / व्यक्तिगत जानकारी</h5>
+               <div class="row">
+                  <div class="col-lg-2 form-group ">
+                     <label for="" class="form-label"> Name <br>नाम</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold ">{{(txtName!=null)?txtName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group ">
+                     <label for="" class="form-label"> Gender <br>लिंग</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(GenderName!=null)?GenderName:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group ">
+                     <label for="" class="form-label"> DOB <br>डीओबी</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold ">{{(dtDOB!=null)?dtDOB:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Photo <br>फोटो</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">
+                        <img *ngIf="imageUrlTeacher && isimageUrlTeacher" [src]="imageUrlTeacher"
+                           style="width: auto; height: 100px;">
+                     </label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label">Email Id <br>ईमेल आईड</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(vchEmailId!=null)?vchEmailId:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label">Moblie Number<br>मोबाइल नंबर</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(vchMobileNo!=null)?vchMobileNo:'--'}}</label>
+                  </div>
+               </div>
+            </div>
+            <div class="formpatch top-space">
+               <h5>Contact Information / संपर्क जानकार</h5>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> District<br>ज़िला</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(hmdistrictName!=null)?hmdistrictName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Block<br>प्रखण्ड</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(hmblockName!=null)?hmblockName:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Panchayat/ULB<br>पंचायत/नगर पालिका</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(panchayatName!=null)?panchayatName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Village/Ward<br>गाँव</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(villageName!=null)?villageName:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label class="form-label"> Address <br>पत</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(vchContactAddress!=null ||
+                        vchContactAddress!='')?vchContactAddress:'--'}}</label>
+                  </div>
+               </div>
+            </div>
+            <div class="formpatch top-space">
+               <h5>Office Information / कार्यालय की जानकार</h5>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> District <br>जिल</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(districtName !=null)?districtName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Block <br>प्रखण्</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(blockName!=null)?blockName:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Cluster <br>संकुल</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold ">{{(clusterName!=null)?clusterName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label"> Officer Extn /Phone No.<br>अधिकारी विस्तार / फोन नंबर</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(vchOfficePhoneNo!=null)?vchOfficePhoneNo:'--'}}</label>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label">Designation <br>पद</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label
+                        class="label-data fw-bold">{{(designationGroupName!=null)?designationGroupName:'--'}}</label>
+                  </div>
+                  <div class="col-lg-1"></div>
+                  <div class="col-lg-2 form-group">
+                     <label for="" class="form-label">Sub-Designation <br>उप-पदनाम</label>
+                  </div>
+                  <div class="col-lg-3 form-group colon-top">
+                     <span class="colon">:</span>
+                     <label class="label-data fw-bold">{{(DesignationName!=null)?DesignationName:'--'}}</label>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>
+
+
+<!-- Change User status Modal -->
+<div class="modal fade" id="statusModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+   <div class="modal-dialog modal-xl">
+      <form [formGroup]="takeActionForm">
+         <div class="modal-content">
+            <div class="modal-header">
+               <h5 class="modal-title" id="exampleModalLabel">Change User Status / उपयोगकर्ता स्थिति बदलें</h5>
+               <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+               <div class="row">
+                  <div class="col-md-2 form-group">
+                     <div class="">
+                        <label for="exampleInputEmail1" class="form-label">Current Status <br>वर्तमान स्थिति </label>
+                     </div>
+                  </div>
+
+                  <div class="col-md-3 form-group">
+                     <div class="">
+                        <span class="colon">:</span>
+                        <label for="exampleInputEmail1" class="form-label fw-normal"> {{this.activeStatus}}</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="row">
+                  <div class="col-md-2 form-group">
+                     <div _ngcontent-cot-c36="">
+                        <label for="exampleInputEmail1" class="form-label">Change Status <br>अवस्था बदलो </label>
+                     </div>
+                  </div>
+                  <div class="col-md-4 form-group">
+                     <span class="colon">:</span>
+                     <select class="form-select" aria-label="Default select example" formControlName="userStatus"
+                        name="userStatus">
+                        <option value="0">Active</option>
+                        <option value="1">Inactive</option>
+                     </select>
+                     <input type="hidden" name="hdnProfileId" formControlName="hdnProfileId">
+                  </div>
+               </div>
+
+               <div class="row">
+                  <div class="col-md-2 form-group">
+                     <div _ngcontent-cot-c36="">
+                        <label for="exampleInputEmail1" class="form-label">Remark <br>टिप्पणी </label>
+                     </div>
+                  </div>
+                  <div class="col-md-4 form-group">
+                     <div _ngcontent-cot-c36="">
+                        <span class="colon">:</span>
+                        <textarea id="actionTakenDescription" formControlName="actionTakenDescription" rows="3"
+                           autocomplete="off" class="form-control" maxlength="400"></textarea>
+                        <span class="minimum-text">Maximum <span class="text-danger">(400) </span> Characters / अधिकतम
+                           <span class="text-danger">(400) </span> वर्</span>
+                        <span class="mandatory">*</span>
+                     </div>
+                  </div>
+               </div>
+            </div>
+
+            <div class="modal-footer">
+               <button type="Submit" class="btn btn-success" (click)="submitTakeAction()">Submit / जमा करें</button>
+               <button type="button" class="btn btn-light" data-bs-dismiss="modal">Close / बंद </button>
+            </div>
+
+         </div>
+      </form>
+   </div>
+</div>

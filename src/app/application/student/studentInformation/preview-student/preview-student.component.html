@@ -1,0 +1,928 @@
+  <div class="pageHeading">
+    <div>
+        <h3 class="pageName">Student Information</h3>
+    </div>
+
+    
+    <!-- <div class="tabArea">
+        <a class="neuro addLink active" routerLinkActive="active"><i class="bi bi-plus-lg me-2"></i>Edit</a>
+        <a routerLink="./../../view" class="neuro viewLink"><i class="bi bi-eye me-2"></i>View</a>
+    </div> -->
+  </div>
+
+  <div class="formpatch">
+    <h5>Current School Information</h5>
+    <div class="row">
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <label class="form-label">Academic Year</label>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{academicYear}} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <label class="form-label"> District </label>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{schlInfo.districtCode}} - {{schlInfo.districtName}} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <label class="form-label">Block </label>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{schlInfo.blockCode}} - {{schlInfo.blockName}} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+    <div class="row">
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <label class="form-label">Cluster </label>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{schlInfo.clusterCode}} - {{schlInfo.clusterName}}  </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <label class="form-label">School </label>
+          </div>
+        </div>
+        <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{schlInfo.schoolUdiseCode}} - {{schlInfo.schoolName}}  </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      
+        <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+        <div class="">
+            <label class="form-label">Source of Admission </label>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+        <div class="">
+          <span class="colon">:</span>
+            <label class="fw-bold pt-1">New Admission</label>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-xxl-2 col-xl-2 col-lg-2 col-md-12 col-sm-12 form-group">
+        <div class="">
+          <label class="form-label">Current Class of enrollment </label>
+        </div>
+      </div>
+      <div class="col-xxl-3 col-xl-3 col-lg-3 col-md-12 col-sm-12 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.className || '--' }} </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-6 form-group">
+            <ng-container *ngIf="stdInfo?.class == 11 || stdInfo?.class == 12">
+              <div id="11" class="row">
+                  <div class="col-lg-4 form-group">
+                      <label class="form-label">Stream</label>
+                  </div>
+                  <div class="col-lg-6 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold"> {{stdInfo?.streamName || '--' }} </label>
+                  </div>
+                </div>
+            </ng-container>
+        </div>
+  
+      <div class="col-lg-6 form-group">
+        <ng-container *ngIf="stdInfo?.class > 10 && stdInfo?.stream == 3">
+          <div id="science" class="row">
+        
+              <div class="col-lg-4 form-group">
+                  <label class="form-label">Group</label>
+              </div>
+              <div class="col-lg-6 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold"> {{stdInfo?.groupName || '--' }} </label>
+              </div>
+            
+          </div>  
+        </ng-container>   
+      </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Section</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{stdInfo?.sectionName || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Admission Number </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.admissionNo || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label"> Medium of Instruction (Present School) </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.mediumName || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Date of Admission </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.admissionDate | date:'dd-MMM-yyyy' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+      <ng-container *ngIf="schlInfo?.management == 5">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Getting free education as per RTE Act. (for private unaided school)</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.freeEducation || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+      </ng-container>
+      <ng-container *ngIf="stdInfo?.class == 1">   
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label"> If Studying in Class 1, Status of Previous Year </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.class1PrevStatus || '--' }} </label>              
+          </div>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+
+  <div class="formpatch">
+    <h5>Personal Information</h5>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Student's AADHAAR Number</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.aadhaar || '--' }} </label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">                  
+              <label class="form-label">Student Name </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.studentName || '--' }} </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Father Name </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.fatherName || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Mother Name </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.motherName || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Date of Birth </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.dob | date:'dd-MMM-yyyy' }}</label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Gender </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.genderName || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Social Category </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.category || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Religion </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.religionName || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Mother Tongue </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.motherTongueName || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Habitation or Locality </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.habitation || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Whether belongs to minority ? </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.minority || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Whether belong to disadvantaged group </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.disadvantagedGroup || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+    
+    
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label"> Student's Photo</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <img height="100" width="100" *ngIf="studentPhotoIDPath"  src="{{this.studentPhotoIDPath}}">
+        </div>
+      </div>
+      <div class="col-lg-1"> 
+        <!-- <a *ngIf="studentPhotoIDPath" class="btn btn-success me-2" title="Download Document" target="_blank" href="{{this.studentPhotoIDPath}}"> <i class="bi bi-download"></i></a>      -->
+      </div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label">Type of Disability (if any)</label>
+        </div>
+    </div>
+    <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-bold"> {{ stdInfo?.disabilityName || '--' }} </label>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label"> Communication Address</label>
+        </div>
+    </div>
+    
+    <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.communicationAddress || '--' }} </label>
+        </div>
+    </div>
+    <div class="col-lg-1"></div>
+    <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label"> Permanent Address</label>
+        </div>
+    </div>
+    <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.permanentAddress || '--' }} </label>
+        </div>
+    </div>
+  </div>
+  </div>
+
+  <div class="formpatch">
+    <h5>Previous School  Information</h5>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label">District </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{stdInfo?.prevDistrictCode}} - {{stdInfo?.prevDistrictName || '-'}} </label>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label">Block </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{stdInfo?.prevBlockCode}} - {{ stdInfo?.prevBlockName || '-' }} </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label">Cluster </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{stdInfo?.prevClusterCode}} - {{ stdInfo?.prevClusterName || '-' }} </label>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label class="form-label"> Previous School </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.prevSchoolUdiseCode }} - {{ stdInfo?.prevSchoolName || '-' }} </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+          <div class="">
+            <label class="form-label">Last year student's attendance </label>
+          </div>
+      </div>
+      <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.lastYearAttendance || '--' }} </label>
+          </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Have you passed last year exam </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.passedLastExam || '--' }} </label>
+        </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="stdInfo?.passedLastExam == 'Yes'">
+      <div class="col-lg-2 form-group">
+          <div class="">
+            <label class="form-label"> Total Mark Secured  </label>
+          </div>
+      </div>
+      <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.markSecuredLastExam || '--' }} </label>
+          </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+          <div class="">
+            <label class="form-label"> % Mark Secured  </label>
+          </div>
+      </div>
+      <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.percentageLastExam || '--' }} </label>
+          </div>
+      </div>
+    </div>
+
+    <div class="row" *ngIf="stdInfo?.class>8">
+      <div class="col-lg-2 form-group">
+          <div class="">
+            <label class="form-label">If Class 9 to Class 12 then (In the 9th through 12th , what is the trade/Sector?)
+            </label>
+          </div>
+      </div>
+      <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.cls9To12Trade || '--' }} </label>
+          </div>
+      </div>
+    </div>   
+
+  </div>
+
+  <div class="formpatch">
+    <h5>Facilitation Information</h5>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Student received set of dresses</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.receivedDressSet || '--' }} </label>
+        </div>
+      </div>
+
+
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Facilities Recived by CWSN </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.facilityName || '--' }} </label>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Free Set Of Text Books </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.freeTextBook || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Free Transport </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.freeTransport || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Free Escort Facility </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.freeEscort || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Free Bicycle </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.freeBicycle || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Free Hostel Facility </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.freeHostelName || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Child Attended Special Training </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.specialTraining || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+            <div class="">
+              <label class="form-label">Whether the child is homeless </label>
+            </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.homelessName || '--' }} </label>
+            </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+            <div class="">
+              <label class="form-label">Did the student get any medicine in last three months? </label>
+            </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.gotMedicine || '--' }} </label>
+            </div>
+        </div>
+      </div>
+      <div class="row" *ngIf="stdInfo?.gotMedicine == 'Yes'">
+        <div class="col-lg-2 form-group">
+            <div class="">                  
+              <label class="form-label">What kind of medicine did the student get in the last three months ?</label>
+            </div>
+        </div>
+        <div class="col-lg-3 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <!-- <label class="form-label fw-bold"> {{ stdInfo?.medicine || '--' }} </label> -->
+              <table class="table table-bordered">
+                <tbody>
+                 <tr>
+                    <td>Iron and Folic acid tablets</td>
+                    <td>
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label class="form-label fw-bold"> {{ stdInfo?.ironTablets || '--' }} </label>
+                        </div>
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>Deworming tablets</td>
+                    <td>
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label class="form-label fw-bold"> {{ stdInfo?.dewormingTablets || '--' }} </label>
+                        </div>
+                    </td>
+                   </tr>
+                   <tr>
+                    <td>Vitamin A tablets</td>
+                    <td>
+                        <div class="">
+                          <span class="colon">:</span>
+                          <label class="form-label fw-bold"> {{ stdInfo?.vitaminATablets || '--' }} </label>
+                        </div>
+                    </td>
+                   </tr>
+                </tbody>                   
+              </table>
+            </div>
+        </div>
+    
+      </div>
+
+  </div>
+
+  <div class="formpatch">
+    <h5>Bank Details</h5>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Account No</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.bankAccNo || '--' }} </label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Account Holder Name </label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.accHolderName || '--' }} </label>
+        </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Account Holder</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.accHolderTypeName || '--' }} </label>
+        </div>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Bank Name</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.bankName || '--' }} </label>
+        </div>
+      </div>
+  </div>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">IFSC</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.IFSC || '--' }} </label>
+          </div>
+        </div>
+    </div>
+    <!-- <ng-container *ngIf="bankName==12">
+      <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Other Bank Name</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <div class="">
+              <span class="colon">:</span>
+              <label class="form-label fw-bold"> {{ stdInfo?.incomeLimit || '--' }} </label>
+          </div>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-5"></div>
+      </div>
+    </ng-container> -->
+  </div>
+
+  <div class="formpatch">
+    <h5>Parent Details</h5>
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Mobile Number (Student/ Parent)</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.mobile || '--' }} </label>
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Email Address (Student/ Parent)</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <label class="form-label fw-bold"> {{ stdInfo?.email || '--' }} </label>
+        </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Aadhaar No.</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-bold"> {{ stdInfo?.parentAadharNo || '--' }} </label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+          <div class="">
+            <label class="form-label">Whether income > 1.5 Lacs ? </label>
+          </div>
+      </div>
+      <div class="col-lg-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label class="form-label fw-bold"> {{ stdInfo?.incomeLimit || '--' }} </label>
+          </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Annual Income Certificate </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <a *ngIf="incomeCertificatePath" class="btn btn-success me-2" title="Download Document" target="_blank" href="{{this.incomeCertificatePath}}"> <i class="bi bi-download"></i></a> 
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Caste Certifiate </label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <a *ngIf="incomeCertificatePath" class="btn btn-success me-2" title="Download Document" target="_blank" href="{{this.casteCertificatePath}}"> <i class="bi bi-download"></i></a> 
+      </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Residential Certificate</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <a *ngIf="residentialCertificatePath" class="btn btn-success me-2" title="Download Document" target="_blank" href="{{this.residentialCertificatePath}}"> <i class="bi bi-download"></i></a> 
+        </div>
+        <div class="col-lg-1"></div>
+        <div class="col-lg-2 form-group">
+          <div class="">
+              <label class="form-label">Affidavit</label>
+          </div>
+        </div>
+        <div class="col-lg-3 form-group">
+          <span class="colon">:</span>
+          <a *ngIf="affidavitPath" class="btn btn-success me-2" title="Download Document" target="_blank" href="{{this.affidavitPath}}"> <i class="bi bi-download"></i></a> 
+        </div>
+        <div class="col-lg-1"></div>
+    </div>
+  </div>
+
+  <div class="formpatch">
+  <h5>Guardian Details</h5>
+  <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label"> Name of Guardian</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-bold"> {{ stdInfo?.guardianName || '--' }} </label>
+      </div>
+      <div class="col-lg-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Mobile Number of Guardian</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-bold"> {{ stdInfo?.guardianMobileNo || '--' }} </label>
+      </div>
+  </div>
+  <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+            <label class="form-label">Relationship with Student</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <label class="form-label fw-bold"> {{ stdInfo?.guardianRelationship || '--' }} </label>
+      </div>
+
+  </div>
+  </div>

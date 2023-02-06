@@ -1,0 +1,180 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Indicators</h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addQuestion" class="neuro addLink" routerLinkActive="active">
+                <i class="bi bi-plus-lg me-2"></i>Add Question</a>
+            <a routerLink="./../viewQuestion" class="neuro viewLink" routerLinkActive="active">
+                <i class="bi bi-eye me-2"></i>View Question</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form  [formGroup]="questionForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="questionCategory" class="form-label">Question Category </label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 form-group">
+                    <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="questionCategory" (change)="showHideMandtory();" >
+                        <option [value]="0">--Select--</option>
+                        <option [value]="1">School Monitoring / BEST APP</option> 
+                        <option [value]="2">Hostel Monitoring</option> 
+                        <option [value]="3">Day Care</option> 
+                    </select>
+                    <span class="mandatory">*</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="schoolCategory" class="form-label">School Category </label>
+                    </div>
+                </div>
+                
+                <div class="col-md-4 form-group">
+                    <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="schoolCategory"  >
+                        <option value="0" *ngIf="schoolCatagoryChanged==false">--Select--</option>
+                        <option value="" *ngIf="schoolCatagoryChanged==true">Loading...</option>
+                        <option *ngFor="let item of schoolCatData"  [value]="item.schlCatId">{{ item.schlCatName }}</option>
+                    </select><span class="mandatory" *ngIf="ifmandatory == true">*</span>
+                    </div>
+                </div>
+            </div>          
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <div class="">
+                        <label for="inspQuestion" class="form-label">Question </label>
+                    </div>
+                </div>
+                <div class="col-md-4 form-group">
+                    <div class="">
+                        <span class="colon">:</span>
+                        <textarea class="form-control" formControlName="inspQuestion" maxlength="400" rows="3"></textarea>
+                        <span class="minimum-text">Maximum <span class="text-danger">(400) </span> Characters</span>
+                        <span class="mandatory">*</span>
+                    </div><span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label   class="form-label">Is mandatory ?</label>
+                </div>
+                <div class="col-md-6 form-group">
+                    <span class="colon">:</span>
+                    <div  class="check__box mb-3 class--checkbox pt-2">
+                        <div  class="form-group checkbox ">
+                            <input type="checkbox" id="checkbox121" formControlName="isMandatory" class="check" [value]="1">
+                            <label for="checkbox121">  Check if yes </label>
+                        </div>            
+                    </div>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label class="form-label">Input Type</label>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-control" formControlName="inputType" (change)="showHide();">
+                        <option value="0">--Select--</option>
+                        <option value="1">Check Box</option>
+                        <option value="2">Radio Button</option>
+                        <option value="3">Text Multiline</option>
+                        <option value="4">Number</option>
+                    </select><span class="mandatory">*</span>
+                </div>
+            </div> 
+
+            <ng-container *ngIf="ifOptionInput == true">
+                <div class="row">
+                    <div class="col-lg-2 form-group">
+                        <label class="form-label"></label>
+                    </div>
+                  <div class="col-lg-4">
+                    <div class="table-responsive">
+                      <table class="table  table-bordered remove--minus">
+                        <thead class="bg-lightpurple">
+                          <tr>
+                            <th scope="col">#</th>
+                            <th scope="col">Option</th>
+                            <th scope="col">ID</th>
+                            <th scope="col" width="100px">Add</th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          <tr *ngFor="let item of sectionList2;index as i">
+                            <td>{{i + 1}}</td>
+                            <td><input type="text" class="form-control" placeholder="Enter your option"></td>
+                            <td><input  type="text" class="form-control" placeholder="Enter your id"></td>
+                           
+                            <td width="120">
+                              <button class="btn btn-success btn-sm me-2" (click)="addRow2()"><i class="bi bi-plus-lg"></i></button>
+                              <button class="btn btn-danger btn-sm minus-icon" (click)="removeRow2(i)"><i class="bi bi-dash-lg"></i></button>
+                          </td>
+                          </tr>
+                        
+                        </tbody>
+                      </table>
+                    </div>
+                  </div>
+                </div>
+              </ng-container>
+
+
+            <div class="row" *ngIf="ifNormalInput == true">
+                <div class="col-lg-2 form-group">
+                    <label class="form-label">Length limit</label>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="inputLength" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="3">
+                    <span class="mandatory">*</span> 
+                </div>     
+            </div>
+
+            <div class="row" *ngIf="ifNormalInput == true">
+                <div class="col-lg-2 form-group">
+                    <label   class="form-label">Unit (If Any)</label>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="inputUnit" [maxlength]="50" >
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label   class="form-label">Question Serial Number</label>
+                </div>
+                <div class="col-lg-4 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="serialNumber" (keypress)="customValidators.keyPressNumbers($event)" [maxlength]="3">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+
+
+            <div class="row">
+                <div class="col-lg-2 form-group"></div>
+                <div class="col-lg-5 form-group">
+                    <button class="btn btn-success me-2">Submit</button>
+                    <button type="reset" class="btn btn-danger" >Reset</button>
+                </div>
+            </div>  
+        </form>
+    </div>
+</div>

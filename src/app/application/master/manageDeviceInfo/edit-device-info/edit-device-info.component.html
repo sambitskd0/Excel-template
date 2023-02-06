@@ -1,0 +1,177 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit Device Information/उपकरण की जानकारी संपादन करें</h3>
+        </div>
+        <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य</span>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit/संपादन करें</a>
+            <a routerLink="../../viewDeviceInfo" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View/देखें</a>
+        </div>
+    </div>
+
+    <div class="top-space">
+        <form [formGroup]="updateDeviceForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <input type="hidden" formControlName="encId">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">District<br>जिला </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="districtId"
+                        (change)="getBlock($any($event.target).value)">
+                        <option selected value="">---Select District---</option>
+                        <option *ngFor="let item of allDistrict" [value]="item.districtId">
+                            {{ item.districtCode }} - {{ item.districtName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="districtLoading==true" alt="dsd">
+                </div>
+                <!-- <div class="col-lg-1"></div> -->
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Block<br>प्रखण्ड </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="blockId"
+                        (change)="getCluster($any($event.target).value)">
+                        <option selected value="" *ngIf="filterChanged === false">
+                            ---Select Block---
+                        </option>
+                        <option selected value="" *ngIf="filterChanged === true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                            {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="blockLoading==true" alt="dsd">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Cluster<br>संकुल </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="clusterId"
+                        (change)="clusterChange($any($event.target).value)">
+                        <option selected value="" *ngIf="filterChangedCluster === false">
+                            ---Select Cluster---
+                        </option>
+                        <option selected value="" *ngIf="filterChangedCluster === true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                            {{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="clusterLoading==true" alt="dsd">
+                </div>
+                <!-- <div class="col-lg-1"></div> -->
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">School<br>विद्यालय </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="schoolId"
+                        (change)="schoolChange($any($event.target).value)">
+                        <option selected value="" *ngIf="filterChangedSchool === false">
+                            ---Select School---
+                        </option>
+                        <option selected value="" *ngIf="filterChangedSchool === true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let schoolItem of schoolData" [value]="schoolItem.schoolId">
+                            {{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="schoolLoading==true" alt="dsd">
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Teacher<br>शिक्षक </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="teacherId">
+                        <option selected value="" *ngIf="filterChangedTeacher === false">
+                            ---Select Teacher---
+                        </option>
+                        <option selected value="" *ngIf="filterChangedTeacher === true">
+                            Loading...
+                        </option>
+                        <option *ngFor="let teacherItem of teacherData" [value]="teacherItem.tId">
+                            {{ teacherItem.teacherName }}
+                        </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label">Device Type<br>उपकरण का प्रकार </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="deviceType">
+                        <option selected value="">---Select Device Type---</option>
+                        <option value="1">Mobile</option>
+                        <option value="2">Tablet</option>
+                        <option value="3">Laptop</option>
+                        <option value="4">Desktop</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label" value="">Received Date<br>प्राप्त तिथि </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <!-- <input type="date" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        formControlName="receivedDate"> -->
+                        <input type="hidden" class="form-control" formControlName="receivedDateStr">
+                        <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY"
+                  bsDatepicker formControlName="receivedDate" [maxDate]="maxDate"
+                  [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY' ,showClearButton: true, clearPosition: 'right' }"
+                  autocomplete="off" readonly>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2 form-group">
+                    <label for="exampleInputEmail1" class="form-label" value="">UUID/IMEI<br>यूयूआईडी/आईएमईआई </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                        formControlName="uuid_imei" minlength="1" maxlength="30" autocomplete="off"
+                        (keypress)="customValidators.keyPressNumbers($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div>
+                <button class="btn btn-success me-2">Update/अद्यतन</button>
+                <button class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+
+
+            </div>
+        </form>
+    </div>

@@ -1,0 +1,138 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">View Asset Category/संपत्ति श्रेणी देखें</h3>
+
+      <div class="tab__section" *ngIf="tabs.length > 0">
+        <a routerLink="./../viewAssetCategory"  routerLinkActive="active"  class="tablink active" *ngIf="this.tabs.includes('Asset')">Asset/संपत्ति </a>
+        <a routerLink="./../items/viewAssetItem"  class="tablink "  *ngIf="this.tabs.includes('Item')">Item/वस्तु</a>
+      </div>
+      
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../addAssetCategory" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें</a>
+      <a routerLink="./../viewAssetCategory" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/देखें</a>
+    </div>
+
+
+  </div>
+  <div class="searchPanel top-space">
+    <form [formGroup]="assetSearchForm" (ngSubmit)="onSearch()">
+      <div class="row">
+        <div class="col-lg-2 form-group mb-0">
+          <label for="exampleInputEmail1" class="form-label">Asset Type<br>संपत्ति का प्रकार </label>
+        </div>
+        <div class="col-lg-3 form-group mb-0">
+          <span class="colon">:</span>
+          <select class="form-select" aria-label="Default select example" formControlName="assetType">
+            <option selected value="">--Select Type--</option>
+            <option *ngFor="let anextureType of anextureType;" value="{{anextureType.anxtValue}}">{{anextureType.anxtName}}</option>
+          </select>
+        </div>
+        <div class="col-lg-3">
+          <button class="btn btn-default btn-purple"> Search/खोज <i class="bi bi-search"></i></button>
+        </div>
+      </div>
+    </form>
+  </div>
+  <div class="row mt-4" >
+    <div class="col-lg-12" [hidden]="resultListData?.length === 0">
+      <div class="page__rightarea">
+        <div class="util">
+          <a title="Excel" class="excel" (click)="downloadAssetCatList()"><i class="bi bi-file-earmark-excel"></i></a>
+          <a title="Print" class="print"(click)="printPage()"><i class="bi bi-printer"></i></a>
+        </div>
+      </div>
+    
+        <div class="table-responsive" id="viewTable">
+
+          <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+            #exporter="matTableExporter">
+            <ng-container matColumnDef="slNo">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Sl.No/क्र.सं.
+              </th>
+              <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+            </ng-container>
+            <ng-container matColumnDef="asset_Type">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Type/संपत्ति का प्रकार
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.anexture['anxtName']) ? element?.anexture['anxtName'] :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="asset_Name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Name/संपत्ति का नाम
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.assetName) ? element?.assetName :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="asset_Code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                Asset Code/ एसेट कोड
+              </th>
+              <td mat-cell *matCellDef="let element">{{(element?.assetNameCode) ? element?.assetNameCode :'--' }}</td>
+            </ng-container>
+            <ng-container matColumnDef="asset_description">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+               Description/विवरण
+              </th>
+              <td mat-cell *matCellDef="let element"> <span>
+                {{element?.assetDescription.length > 40 ? (element?.assetDescription | slice:0:40):element?.assetDescription }}
+                <small style="font-style: italic;" *ngIf="element?.assetDescription.length > 40"> ... <a href="javascript:void(0)" data-bs-toggle="modal" data-bs-target="#viewDescription" (click)="showDescription(element?.assetDescription)" >View More</a></small>
+              </span>
+            </td>
+            </ng-container>
+            
+            <ng-container matColumnDef="action" *ngIf="plPrivilege=='admin'">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                Action/क्रिया
+              </th>
+              <td mat-cell *matCellDef="let element" class="action-link noPrint" >
+                <a title="Edit" [routerLink]="['./../editAssetCategory/', element?.encId]" class="edit-btn me-2"><i
+                    class="bi bi-pencil-square text-primary"></i></a>
+                <a title="Delete" class="delete-btn me-2" style="cursor: pointer"
+                  (click)="deleteAssetCategory(element?.encId)"><i class="bi bi-trash"></i></a>
+              </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+          </table>
+          <table>
+            <tr *ngIf="!dataSource.data.length" >
+              <td style="text-align: center;font-weight: bold;" [attr.colspan]="resultListData.length" class="mt-2 text-danger">
+                No Records Found! 
+              </td>
+            </tr>
+          </table>
+          <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+            [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+            class="noPrint" showFirstLastButtons>
+          </mat-paginator>
+
+        </div>
+    </div>
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found..." }}
+  </div>
+</div>
+<!-- View Description Modal -->
+<div class="modal fade" id="viewDescription" tabindex="-1" aria-labelledby="viewDescriptionLabel" aria-hidden="true">
+  <div class="modal-dialog modal-md">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Description/विवरण</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body p-4">
+        <div class="row">
+          <div class="col-lg-12 form-group" id="descriptionText">{{ descFullText }}</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+

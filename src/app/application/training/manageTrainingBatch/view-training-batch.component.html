@@ -1,0 +1,406 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <div>
+        <h3 class="pageName">Manage Training Batch / प्रशिक्षण बैच</h3>
+      </div>
+    </div>
+
+    <div class="tabArea">
+      <a routerLink="./../addTrainingBatch" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../viewTrainingBatch" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+      <a routerLink="./../viewTeacherListBatch" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>Trainee List / प्रशिक्षु की सूची</a>
+    </div>
+  </div>
+
+  <div class="search-container">
+    <div class="searchPanel">
+      <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+        novalidate>
+        <div class="row">
+          <div class="col-md-2 form-group3">
+            <div>
+              <label for="" class="form-label">Academic Year</label>
+            </div>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default select example" [(ngModel)]="academicYear" name="academicYear" tabindex="1">
+							<option *ngFor="let years of preAndPastYear" value="{{this.years ? this.years : '--'}}">
+                {{ this.years }}
+              </option>
+						</select>
+          </div>
+          <div class="col-lg-1"></div>
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">District</label>
+            </div>
+          </div>
+
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select [(ngModel)]="scDistrictId" name="scDistrictId" class="form-select scDistrictId"
+                aria-label="Default select example" (change)="getBlock($any($event.target).value)" #district>
+                <option value="" *ngIf="loadingObj.districtLoad == false && sessionDistrictId == ''">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.districtLoad == true">
+                  Loading...
+                </option>
+                <option *ngFor="let item of districtData" [value]="item.districtId">
+                  {{ item.districtCode }} - {{ item.districtName }}
+                </option>
+              </select>
+              
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="loadingObj.districtLoad == true" alt="dsd" />
+          </div>
+
+          <div class="col-lg-2 form-group">
+            <label class="form-label">Block</label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId" aria-label="Default
+                        select example" #block>
+              <option value="" *ngIf="loadingObj.blockLoad == false && sessionBlockId == ''">
+                --Select / चुनें--
+              </option>
+              <option value="" *ngIf="loadingObj.blockLoad == true">
+                Loading...
+              </option>
+              <option *ngFor="let item of blockData" [value]="item.blockId">
+                {{ item.blockCode }} - {{ item.blockName }}
+              </option>
+            </select>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="loadingObj.blockLoad == true" alt="dsd" />
+          </div>
+          <div class="col-lg-2">
+            <label class="form-label">Training Subject</label>
+          </div>
+          <div class="col-lg-3 form-group">
+            <select [(ngModel)]="trainingSubject" name="trainingSubject"
+              (change)="getTrainingName($any($event.target).value)" aria-label="Default select example"
+              class="form-select">
+              <option value="" *ngIf="loadingObj.subjectLoad == false">
+                --Select / चुनें--
+              </option>
+              <option value="" *ngIf="loadingObj.subjectLoad == true">
+                Loading...
+              </option>
+              <option *ngFor="let subject of res" [value]="subject.subjectId">
+                {{ subject.subject }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="loadingObj.subjectLoad == true" alt="dsd" />
+          </div>
+        </div>
+        <div class="row">
+          
+
+          <div class="col-lg-2 form-group">
+            <div>
+              <label class="form-label">Training Name</label>
+            </div>
+          </div>
+          <div class="col-lg-3 form-group">
+            <div>
+              <span class="colon">:</span>
+              <select [(ngModel)]="trainingName" name="trainingName" aria-label="Default select example"
+                class="form-select">
+                <option value="" *ngIf="loadingObj.traiingLoading == false">
+                  --Select / चुनें--
+                </option>
+                <option value="" *ngIf="loadingObj.traiingLoading == true">
+                  Loading...
+                </option>
+
+                <option *ngFor="let train of training" [value]="train.trainingId">
+                  {{ train.trainingName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="loadingObj.traiingLoading == true" alt="dsd" />
+          </div>
+
+          <div class="col-lg-2 form-group">
+            <button class="btn btn-default btn-purple">
+              Search / खोजें <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="mt-4">
+
+    <div class="clearfix"></div>
+    <div class="row mt-4" [hidden]="resultListData?.length === 0">
+      <div class="col-lg-12">
+        <div class="page__rightarea">
+          <div class="page__util">
+            <div class="util">
+              <a title="Excel" class="excel" (click)="downloadTrainingBatch(searchForm.value)"><i
+                  class="bi bi-file-earmark-excel"></i></a>
+              <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+            </div>
+          </div>
+        </div>
+        <form [formGroup]="viewTableForm">
+          <div class="table-responsive" id="viewTable">
+            <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+            </mat-progress-bar>
+            <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter">
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  SI# / क्रम#
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="subject">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Subject
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.subject}}
+                  
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="tName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Name
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.trainingName }} 
+                  
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="District">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  District / जिला
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.districtCode }} -
+                  {{ element?.districtName}}
+                  
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Block / प्रखण्ड
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.blockCode}} -
+                  {{ element?.blockName}}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="location">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Location / प्रशिक्षण का स्थान
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <label *ngFor="let location of trainingLocationType">
+                    <span *ngIf="element?.trainingLocation == location.anxtValue">{{location.anxtName}}</span>
+                  </label>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="academicYear">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Academic Year / शैक्षणिक वर्ष
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.academicYear ? element?.academicYear : "-" }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="noofTeachers">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Trainee Available for Training / प्रशिक्षण के लिए उपलब्ध
+                  प्रशिक्षु की कुल संख्या
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{ element?.noOfTeacher ? element?.noOfTeacher : "-" }}
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Batches">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Create Batches / बैचेस बनाएँ
+                </th>
+                <!-- <td mat-cell *matCellDef="let element">
+                  <span *ngFor="let b of batches;i">
+                    <p *ngFor="let ba of element?.batches.split(',')">
+                      <label *ngIf="b.id == ba">{{b.batchName}}</label>
+                    </p>
+                  </span>
+                </td> -->
+                <td mat-cell *matCellDef="let element">
+                  <span *ngFor="let b of batches;let i=index">
+                    <p *ngIf="b.id <= element?.batches">
+                      {{b.batchName}},
+                    </p>
+                  </span>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="Trainer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Trainer / प्रशिक्षक
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  <label *ngIf="element?.trainer === null">Not Selected</label>
+                  <label *ngIf="element?.trainer === 1">BRC</label>
+                  <label *ngIf="element?.trainer === 2">SRC</label>
+                  <label *ngIf="element?.trainer === 3">DRC</label>
+                  <label *ngIf="element?.trainer === 4">Master Trainer</label>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="startDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training Start Date / प्रशिक्षण प्रारंभ तिथि
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                    element?.start_date
+                    ? (element?.start_date | date: "dd-MMM-yyyy")
+                    : "--"
+                    }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="endDate">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Training End Date / प्रशिक्षण समाप्ति तिथि
+                </th>
+                <td mat-cell *matCellDef="let element">
+                  {{
+                    element?.end_date
+                    ? (element?.end_date | date: "dd-MMM-yyyy")
+                    : "--"
+                    }}
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="AssignTrainer">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                  Assign Trainer / प्रशिक्षक को निरुपित करे
+                </th>
+                <td mat-cell *matCellDef="let element" class="noPrint" >
+                  <button class="btn btn-default btn-purple" *ngIf="element?.actionPermisiion === true;else trainer" (click)="editBatch(element?.encId)" data-bs-toggle="modal"
+                    data-bs-target="#exampleModal">
+                    Assign / निरुपित करे 
+                  </button>
+                  <ng-template #trainer >
+                    <span style="color:rgb(2, 65, 18);"><b>Trainer Assigned.</b></span>
+                  </ng-template>
+                </td>
+              </ng-container>
+
+              <ng-container matColumnDef="Action" >
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                  Action
+                </th>
+                <td mat-cell *matCellDef="let element" class="action-link">
+                  <a title="Edit" *ngIf="element?.permisiion == true && element?.actionPermisiion === true;else elseblock" routerLink="./../editTrainingBatch/{{ element?.encId }}"
+                    class="edit-btn me-2 noPrint"><i class="bi bi-pencil-square"></i></a>
+                  <a title="Delete" *ngIf="element?.permisiion == true && element?.actionPermisiion === true" class="delete-btn" (click)="deleteTraining(element?.encId)"><i
+                      class="bi bi-trash3"></i></a>
+                      <ng-template #elseblock >
+                        <span style="color:red;" class="noPrint"><b>Training has been started.</b></span>
+                      </ng-template>
+                      
+                </td>
+              </ng-container>
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+            </table>
+            <table>
+              <tr *ngIf="!dataSource.data.length">
+                <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                  No Records Found!
+                </td>
+              </tr>
+            </table>
+            <mat-paginator #paginator [length]="totalRows" class="noPrint" [pageIndex]="currentPage"
+              [pageSize]="pageSize" [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)"
+              aria-label="Select page" showFirstLastButtons>
+            </mat-paginator>
+          </div>
+        </form>
+
+        <ng-template #showEmptyAlert> </ng-template>
+      </div>
+    </div>
+
+    <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+      {{ "No record found." }}
+    </div>
+    <div class="alert alert-info text-center text-uppercase fw-bold mt-5" role="alert" *ngIf="isInitAdmin">
+      {{ "Please Search to find Training Batch List" }}
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">
+          Assign Trainer / प्रशिक्षक को निरुपित करे
+        </h5>
+        <button type="button" class="btn-close" #closebutton data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form [formGroup]="EditSelfRequest" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div>
+                <label class="form-label">Trainer</label><br />प्रशिक्षक
+              </div>
+            </div>
+            <div class="col-lg-7 form-group">
+              <div>
+                <input formControlName="encId" type="hidden" />
+                <span class="colon">:</span>
+                <select formControlName="trainer" class="form-select" aria-label="Default select example">
+                  <option value="null">--Select / चुनें--</option>
+                  <option value="1">BRC</option>
+                  <option value="2">SRC</option>
+                  <option value="3">DRC</option>
+                  <option value="4">Master Trainer</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="col-lg-5 offset-lg-2">
+              <button class="btn btn-default btn-purple">
+                Submit / जमा करें
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger"  #closeModal data-bs-dismiss="modal">
+            Close / बंद करें
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

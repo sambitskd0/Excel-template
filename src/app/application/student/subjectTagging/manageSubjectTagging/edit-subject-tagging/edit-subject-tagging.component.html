@@ -1,0 +1,61 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+        <div>
+            <h3 class="pageName"> Subject Tagging 
+            </h3>
+        </div>
+        <app-common-tab></app-common-tab>
+        <!-- <div class="tab__section">
+            <a routerLink="../../../subject/view" class="tablink d-inline-block" >Subject / विषय</a>
+            <a class="tablink d-inline-block active" routerLinkActive="active">Subject Tagging</a>
+        </div> -->
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink active" routerLinkActive="active" ><i
+                    class="bi bi-plus-lg me-2"></i>Edit
+                </a>
+            <a routerLink="../../view" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View / देखें
+                </a>
+                <span class="indicator">( * ) Indicator
+                    Mandatory</span>     
+        </div>
+    </div>
+    <form [formGroup]="editSubjectTaggingForm" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space">
+            <div class="row">
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Subject Name<br>विषय नाम
+                    </label>
+                </div>
+                <div class="col-md-3 form-group">
+
+                    <span class="colon">:</span>
+                    <select appAutoFocus class="form-select" formControlName="subjectId" autocomplete="off">
+                        <option selected value="">--Select--</option>
+                        <option *ngFor="let subjectNameData of subjectNameDatas" [value]="subjectNameData.subjectId">{{subjectNameData.subject}}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Class<br>वर्ग 
+                    </label>
+                </div>
+                <div class="col-md-5 form-group">
+                    <span class="colon">:</span>
+                    <div class="check__box mb-3 class--checkbox" >
+                        <div class="form-group checkbox" *ngFor="let classData of classList ;let i=index;">
+                            <input  type="checkbox" #checkboxes  [checked]="classArr.includes(classData.anxtValue)" [id]="classData.anxtValue" class="check" value="{{classData.anxtValue}}" (change)="changeClass($event) ">
+                            <label [for]="classData.anxtValue"> {{classData.anxtName}}</label>
+                        </div>
+                    </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success me-2">Update / अद्यतन करें
+        </button>
+        <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+    </form>

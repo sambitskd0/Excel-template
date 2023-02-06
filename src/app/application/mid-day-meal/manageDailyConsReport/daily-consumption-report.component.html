@@ -1,0 +1,339 @@
+<div>
+    <div class="pageHeading">
+      <div>
+        <h3 class="pageName">View Daily Consumption / दैनिक खपत देखें
+        </h3>
+      </div>
+  
+      <div class="tabArea">
+        <a routerLink="./../viewdailyconsumptionreport" class="neuro viewLink active" routerLinkActive="active"><i
+            class="bi bi-eye me-2"></i>View / देखे</a>
+      </div>
+  
+    </div>
+  
+  <!-- Search pannel section -->
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <form [formGroup]="dailyConsForm" (ngSubmit)="onSearch()">
+          <div class="search-container">
+            <div class="search-sec" id="searchPanel" style="display: block;">
+              <div class="searchPanel">
+                <div class="row">
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">District <br>जिला
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" formControlName="districtId"
+                    autocomplete="off" (change)="getBlock($any($event.target).value)">
+                    <option value="" *ngIf="scDisrtictSelect == true">
+                      -- Select --
+                    </option>
+                    <option value="" *ngIf="scDisrtictLoading == true">
+                      Loading...
+                    </option>
+                    <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                      {{ districtItem.districtCode }} -
+                      {{ districtItem.districtName }}
+                    </option>
+                  </select>
+                  <span class="mandatory">*</span>
+                  </div>
+  
+                  <div class="col-lg-1">
+                    <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true" alt="dsd">
+                  </div>
+  
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">Block <br>प्रखण्ड
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                      <span class="colon">:</span>
+                      <select class="form-select" aria-label="Default select example"  formControlName="blockId"
+                      autocomplete="off" (change)="getCluster($any($event.target).value)">
+                      <option value="" *ngIf="scBlockSelect == true">
+                        -- Select --
+                      </option>
+                      <option value="" *ngIf="scBlockLoading == true">
+                        Loading...
+                      </option>
+                      <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                        {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                      </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                  <div class="col-lg-1">
+                    <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true" alt="dsd">
+                  </div>
+  
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">Cluster <br>संकुल
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    
+                    <select class="form-select" aria-label="Default select example" formControlName="clusterId"
+                    autocomplete="off" (change)="getSchool($any($event.target).value)">
+                    <option value="" *ngIf="scClusterSelect == true">
+                      -- Select --
+                    </option>
+                    <option value="" *ngIf="scClusterLoading == true">
+                      Loading...
+                    </option>
+                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                      {{ clusterItem.clusterCode }} -
+                      {{ clusterItem.clusterName }}
+                    </option>
+                  </select>
+                  <span class="mandatory">*</span>
+                  </div>
+                  <div class="col-lg-1"> 
+                    <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true" alt="dsd">
+                  </div>
+  
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">School <br>विद्यालय
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+  
+                    <span class="colon">:</span>
+                 
+                    <select class="form-select" aria-label="Default select example" formControlName="schoolId"
+                      autocomplete="off">
+                        <option value="" *ngIf="scSchoolSelect == true">
+                          -- Select --
+                        </option>
+                        <option value="" *ngIf="scSchoolLoading == true">
+                          Loading...
+                        </option>
+                        <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                          {{ schoolItem.schoolUdiseCode }} -
+                          {{ schoolItem.schoolName }}
+                        </option>
+                    </select>
+                  <span class="mandatory">*</span>
+                  </div>
+                  <div class="col-md-1">
+                    <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true" alt="dsd">
+                  </div>
+  
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">From Date <br>की तिथि से
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        formControlName="searchfromDate" [maxDate]="minDate"
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right' }"
+                        autocomplete="off" readonly>
+                        <span class="mandatory">*</span>
+                  </div>
+                  
+                  <div class="col-lg-1"></div>
+  
+                  <div class="col-lg-2 form-group">
+                    <label class="form-label">To Date <br>तारीख तक
+                    </label>
+                  </div>
+                  <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" bsDatepicker
+                        formControlName="searchtoDate" [maxDate]="minDate"
+                        [bsConfig]="{ dateInputFormat: 'DD-MMM-YYYY',showClearButton: true, clearPosition: 'right' }"
+                        autocomplete="off" readonly>
+                        <span class="mandatory">*</span>
+                  </div>
+                  
+                  <div class="col-lg-2 form-group">
+  
+                    <label class="form-label">Management <br>प्रबंधन
+                      <a data-toggle="tooltip" data-placement="bottom"
+                        title="GO-Government, GA-Govt. Aided, PV-Private, CG-Central Govt./PSU, OT-Others"
+                        class="tool text-dark">
+                        <i class="bi bi-question-circle-fill"></i>
+                      </a>
+                    </label>
+  
+                  </div>
+                  <div class="col-lg-3 form-group">
+  
+                    <span class="colon">:</span>
+                    <select class="form-select" placeholder="Text" formControlName="managementId"
+                      onchange="toggleSubMgmt();">
+                      <option value="" selected>--Select--</option>
+                      <option value="{{managements.anxtValue}}" *ngFor="let managements of managementList">{{managements.anxtValue}}-{{managements.anxtName}}</option>
+                    </select>
+                   
+                    <span class="minimum-text text-primary">Code - Details of Management - Type</span>
+                  </div>
+  
+  
+                  <div class="col-lg-1"></div>
+  
+                  <div class="col-lg-2">
+                    <button class="btn btn-default btn-purple"> Search <i class="bi bi-search"></i></button>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+          </div>
+        </form>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search
+        Panel</button>
+    </div>
+    <div class="clearfix"></div>
+    <!-- Material table start -->
+      <ng-container *ngIf="isSearch == true">
+        <div class="row mt-4" [hidden]="resultListData?.length === 0">
+        <!-- <div class="row mt-4" > -->
+          <div class="col-lg-12">
+            <div class="page__rightarea">
+              <div class="page__util">
+                <div class="util">
+                  <!-- <span class="publish"><i class="bi bi-square-fill me-1"></i>Publish</span>
+                          <span class="unpublish"><i class="bi bi-square-fill me-1"></i>Unpublish</span> -->
+    
+                  <a title="Excel" class="excel" (click)="downloadDailyConsuptionDetailList()"><i class="bi bi-file-earmark-excel"></i></a>
+                  <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                </div>
+              </div>
+            </div>
+            <div class="table-responsive" id="viewTable">
+              <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+              </mat-progress-bar>
+              <table  class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+              #exporter="matTableExporter" >
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Sl.No# / क्रमांक#
+                </th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="School_UDISE_Code">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  School UDISE Code <br>/ विद्यालय यूडीआईएसई कोड
+                </th>
+                <!-- <td mat-cell *matCellDef="let element">{{(element?.schoolUdiseCode) ? element?.schoolUdiseCode :'--' }}</td> -->
+                <td mat-cell *matCellDef="let element">
+                  <a class="text-primary" href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="getStudentMdmReceived(element?.schoolId,element?.attendanceDate,element?.schoolUdiseCode)">{{element.schoolUdiseCode}}</a>
+                </td>
+              </ng-container>
+              <ng-container matColumnDef="District">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  District / जिला 
+                </th>
+                <td mat-cell *matCellDef="let element">{{(element?.districtName) ? element?.districtName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Block / प्रखण्ड 
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.blockName) ? element?.blockName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Cluster">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Cluster / संकुल 
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.clusterName) ? element?.clusterName :'--' }}</td>
+              </ng-container> 
+              <ng-container matColumnDef="School">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  School / विद्यालय 
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.schoolName) ? element?.schoolName :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="Management">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  Management /  प्रबंधन
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.management) ? element?.management :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="MDM_date">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                 MDM Date / मध्याह्न भोजन तिथि
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.attendanceDate) ? (element?.attendanceDate|date:'dd-MMM-yyyy') :'--' }}</td>
+              </ng-container>
+              <ng-container matColumnDef="MDM_served_or_not">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                  MDM served or not ?  <br>/  मध्याह्न भोजन ने सेवा दी या नहीं?
+                </th>
+                <td mat-cell *matCellDef="let element" style="text-align:right;">{{(element?.studentType) ? element?.studentType :'--' }}</td>
+              </ng-container>
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr> 
+              </table>
+              <table>
+                <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2 alert text-center text-uppercase fw-bold border">
+                    No Records Found!
+                  </td>
+                </tr>
+              </table>
+              <mat-paginator [hidden]="resultListData?.length === 0" #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                      [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                      class="noPrint" showFirstLastButtons>
+                    </mat-paginator>
+            </div>
+          </div>
+        </div>
+        <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isNorecordFound">
+          {{ "No record found." }}
+        </div>
+      </ng-container>
+      <div class="alert alert-info text-center text-uppercase fw-bold mt-2" role="alert" *ngIf="isSearch == false">
+        {{ "Please Search For Daily Consumption Report Details" }}
+      </div>
+  </div>
+  
+  
+  <!-- Modal Start-->
+  <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">MDM Daily Consumption Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <h6>MDM Daily Consumption (UDISE Code: {{this.schoolUdiseCode}})</h6>
+          <div class="table-responsive">
+            <table class="table table-striped table-bordered">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th>#Sl.No</th>
+                  <th>Date</th>
+                  <th>Class</th>
+                  <th>Total No of Students</th>
+                  <th>Total Consumed by</th>
+  
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let item of dailyConsuptionData;let i=index">
+                  <td>{{i+1}}</td>
+                  <td>{{item?.attendanceDate|date:'dd-MMM-yyyy'}}</td>
+                  <td>{{item.Category}}</td>
+                  <td>{{item.studentCnt}}</td>
+                  <td>{{item.attendance}}</td>
+  
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+  </div>

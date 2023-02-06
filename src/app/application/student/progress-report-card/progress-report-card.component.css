@@ -1,0 +1,67 @@
+.progress__report{
+    height: 650px;
+overflow: auto;    
+padding: 0 20px;font-size: .9rem;
+font-weight: bold;
+margin-bottom: 3rem;}
+.table__data table th, .table__data table td{border: 1px solid #000;
+    background: #fef5ff;font-weight: bold;}
+.progressreport .modal-header{background: #3f51b5;
+color: #fff;    position: relative;
+justify-content: center;}
+.btn-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+.progressreport .label-data{
+    border-bottom: 2px dotted #545454;
+    display: block;
+    width: 99%;
+}
+.text-orange{    color: #ff5722;
+    font-weight: bold;}
+.sanketak span{margin-left: 30px;}
+
+/* eight class report */
+.eightreport .modal-dialog{max-width:1260px;}
+.bhagtwo-height{height: 35px;}
+.pramana__patra .form-label{border-bottom: 2px dotted #545454;padding: 0 30px;}
+.pramana__patra th{border-bottom: none;}
+.progressname{padding-right: 7.5rem;padding-top: 1rem;}
+/* eight class report */
+
+
+
+@media print {
+    .noprint{
+     display: none!important;
+    }
+    .modal-dialog{max-width: 100%!important;margin: 1.5rem auto;visibility: visible !important;
+        overflow: visible !important;margin-top: 0;}
+ .modal-content{border: none;}
+  .progress__report{height: 100%!important;overflow: inherit!important;page-break-after: always;break-inside: avoid;
+padding: 0;font-size: 1rem;}
+
+  /* html, body{height: 100%;
+    overflow: hidden;
+    margin: 0!important;
+    padding: 0!important;}
+
+table{max-height: 100%;overflow: hidden;page-break-after: auto;} */
+
+.modal {
+    position: absolute;
+    left: 0;
+    top: 0;
+    margin: 0;
+    padding: 0;
+    min-height: auto;
+    height: auto;
+    visibility: visible;
+    overflow: visible !important;
+  }
+  .bhagthree{margin-top: 70px!important;}
+  .ganit-mrgn{margin-top: 120px;}
+ 
+  }

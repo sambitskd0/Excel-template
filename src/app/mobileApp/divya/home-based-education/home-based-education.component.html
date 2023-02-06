@@ -1,0 +1,213 @@
+
+<div class="screen-space mobApp">
+    <div class="d-flex justify-content-between align-items-center">
+        <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+        <div class="indicator">( * ) Indicator Mandatory</div>
+    </div>
+	<div class="pageHeading">
+		<div class="d-flex justify-content-between">
+			<div><h3 class="pageName">Home based Education</h3></div> 
+            <!-- <div><span class="indicator mt-2">( * ) Indicator Mandatory</span></div> -->
+        </div>
+	</div>
+    <form [formGroup]="homeBasedEducationForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="CWSNname" class="form-label">1) Name of CWSN <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="" aria-describedby="" formControlName="cwsnName" (keypress)="customValidators.alphaNumericValidator(
+						$event,
+						'comma',
+						'space',
+						'dot',
+						'hyphen'
+					  )" maxlength="100"/>
+                 </div>
+                 
+                </div>
+            </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="gaon" class="form-label">2) Gaon / Tola / Muhalla <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="" aria-describedby="" formControlName="gaonTolaMuhalla"  (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" maxlength="100"/>
+                </div>
+                
+            </div>
+          
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="distName" class="form-label">3) Name of District <span class="mandatory">*</span> </label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <select
+                        class="form-select"
+                        aria-label="Default select example"
+                        formControlName="district"
+                        (change)="getBlock($any($event.target).value)"> 
+                        <option selected value="">---Select District---</option>
+                        <option *ngFor="let districtItem of districtData" [value]="districtItem.districtId">
+                        {{ districtItem.districtCode }} - {{ districtItem.districtName }}
+                        </option>
+                    </select>
+                 </div>
+                
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="blockName" class="form-label">4) Name of Block <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select"  id="" aria-describedby="" formControlName="block">
+                        <option selected value="" *ngIf="filterChangedBlock === false">
+                            ---Select Block---
+                         </option>
+                         <option selected value="" *ngIf="filterChangedBlock === true">
+                            Loading...
+                         </option>
+                         <option *ngFor="let blockItem of blockData" [value]="blockItem.blockId">
+                         {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                         </option>
+                    </select>
+                </div>
+              
+            </div>
+        </div>
+       
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="NoOfVisitsCurrentyear" class="form-label">5) Type of Disability <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <select aria-label="Default select example" class="form-select" formControlName="disabilityType" autocomplete="off">
+                        <option value="" *ngIf="disabilityTypeChanged==false">--Select--</option>
+                        <option value="" *ngIf="disabilityTypeChanged==true">Loading...</option>
+                        <option *ngFor="let disabilityType of allDisabilityType" [value]="disabilityType.anxtValue">
+                            {{ disabilityType.anxtName }}
+                        </option>
+                    </select>
+                    
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="AvailabilityRawMmaterials" class="form-label">6) Enrollment Status <span class="mandatory">*</span></label>
+                </div>
+            </div>
+               
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group mt-1">
+              <div class="colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons">
+                    <div  class="rdio rdio-primary form-check-inline">
+                        <input value="1" id="enroll1" type="radio" formControlName="enrollmentStatus" (change)="onEnrollmentStatusChange($any($event.target).value)">
+                        <label for="enroll1">Enrolled</label>
+                    </div>
+                   <div class="rdio rdio-primary form-check-inline">
+                       <input value="2" id="enroll2" type="radio" formControlName="enrollmentStatus" (change)="onEnrollmentStatusChange($any($event.target).value)">
+                       <label  for="enroll2">Out of school</label>
+                   </div>
+                  
+                </div>
+                   
+               </div>
+           </div>
+        </div>
+        <div class="row" *ngIf="showSchoolName == true">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="schoolName" class="form-label">7) If enrolled, Name of school </label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="" aria-describedby="" formControlName="schoolName"  (keypress)="customValidators.alphaNumericValidator(
+						$event,
+						'comma',
+						'space',
+						'dot',
+						'hyphen'
+					  )" maxlength="100"/>
+                 </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="teacherVisited" class="form-label">8) How many times visited by tagged Special Teacher ?<span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input type="number" class="form-control" id="" aria-describedby="" formControlName="teacherVisited" maxlength="3"
+                    (keyup)="keyUpInputNumber($event, 'teacherVisited', 3)"/>
+                 </div>
+                
+                </div>
+        </div>
+        <div class="row">
+            <div class="col-md-3 col-lg-3 col-xl-3 col-xxl-3 col-sm-12 col-12 form-group">
+                <div class="">
+                    <label for="teacherVisited" class="form-label">9) Date of last visit by Resource teacher / Rehabilitation Professionals ?  <span class="mandatory">*</span></label>
+                </div>
+            </div>
+            
+            <div class="col-md-4 col-lg-4 col-xl-4 col-xxl-4 col-sm-12 col-12 form-group">
+                <div class="">
+                    <span class="colon">:</span>
+                    <input class="form-control" #datepickerYMD="bsDatepicker" placeholder="DD-MM-YYYY" formControlName="lastVisitDate" bsDatepicker   [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" [maxDate] ="maxDate" readonly>
+                 </div>
+                 
+                </div>
+        </div>
+       
+    </div>
+    <div>
+        <button type="submit" class="btn btn-success me-2">Submit</button>
+        <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+    </div>
+   </form>
+    </div>
+ 
+  
+  
+  
+  
+  
+

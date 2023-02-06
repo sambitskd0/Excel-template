@@ -1,0 +1,349 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Leave Entitlement/अवकाश के लिए पात्रता
+      </h3>
+      <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+      </span>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addLeaveEntitlement" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add Leave Entitlement/अवकाश पात्रता जोड़ें
+      </a>
+      <a routerLink="./../viewLeaveEntitlement" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View Leave Entitlement/अवकाश पात्रता देखें
+      </a>
+    </div>
+  </div>
+  <div class="top-space">
+    <form [formGroup]="leaveEntForm" (ngSubmit)="onSubmit()">
+      <div class="formpatch ">
+        <h5>Leave Configuration</h5>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="leaveTypeId" class="form-label">Leave Type<br>अवकाश के प्रकार
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="leaveTypeId"
+                (change)="showhide($any($event.target).value);">
+                <option value="" *ngIf="leaveTypeChanged==false">--Select--</option>
+                <option value="" *ngIf="leaveTypeChanged==true">Loading...</option>
+                <option *ngFor="let item of lvtype" [value]="item.anxtValue">
+                  {{ item.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="leaveTypeLoading==true" alt="dsd">
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Teacher Type<br>शिक्षक के प्रकार
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="teacherType">
+                <option value="">--Select--</option>
+                <option value="1">HM / Principal</option>
+                <option value="2">Other Teachers</option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Nature of Appointment<br>नियुक्ति की प्रकृति
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="natureOfAppointmt">
+                <option value="" *ngIf="teacherAppointmentChanged==false">--Select--</option>
+                <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                <option *ngFor="let appointment of teacherAppointment" [value]="appointment.anxtValue">
+                  {{ appointment.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="appointmentLoading==true" alt="dsd">
+          </div>
+        </div>
+
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Appointing Authority<br>नियुक्ति प्राधिकारी
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="appointingAuth">
+                <option value="" *ngIf="appointingAuthority==false">--Select--</option>
+                <option value="" *ngIf="appointingAuthority==true">Loading...</option>
+                <option *ngFor="let appointmentAuth of appointingAuth" [value]="appointmentAuth.anxtValue">
+                  {{ appointmentAuth.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="appAuthLoading==true" alt="dsd">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Appointment Type<br>नियुक्ति का प्रकार
+              </label>
+            </div>
+          </div>
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="appointmentType">
+                <option value="" *ngIf="appointType==false">--Select--</option>
+                <option value="" *ngIf="appointType==true">Loading...</option>
+                <option *ngFor="let appointment of appointmentType" [value]="appointment.anxtValue">
+                  {{ appointment.anxtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="appTypeLoading==true" alt="dsd">
+          </div>
+        </div>
+
+        <div class="row" id="defaultDaysDV">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">No. of days<br>दिनों की संख्या
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <input type="text" formControlName="numberofDays" (keypress)="customValidators.keyPressNumbers($event)"
+                maxlength="3" aria-describedby="emailHelp" class="form-control">
+            </div><span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="row" id="defaultDaysDVSpecial" *ngIf="isMedicalLeave==true">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Maximun No. of days in a Year<br>अधिकतम दिनों की संख्या
+                एक साल में
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <input type="text" formControlName="maxNumberofDays" (keypress)="customValidators.keyPressNumbers($event)"
+                maxlength="2" aria-describedby="emailHelp" class="form-control">
+
+            </div><span class="mandatory">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Remarks<br>टिप्पणियां
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="">
+              <span class="colon">:</span>
+              <textarea class="form-control" maxlength="400" formControlName="entRemarks" rows="3"></textarea>
+              <span class="minimum-text">Maximum <span class="text-danger">(400) </span> Characters</span>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Document Required ?<br>आवश्यक दस्तावेज
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-4 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <div class="radiobuttons">
+                <div class="rdio rdio-primary form-check-inline">
+                  <input formControlName="docRequired" value="1" id="radio16" type="radio">
+                  <label for="radio16">Yes</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                  <input formControlName="docRequired" value="2" id="radio17" type="radio" checked="">
+                  <label for="radio17">No</label>
+                </div>
+
+              </div> <span class="mandatory">*</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+      <div class="formpatch">
+        <h5>Approval Process/अनुमोदन की प्रक्रिया
+        </h5>
+
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">1st Level Approval/प्रथम स्तर का अनुमोदन
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Office/कार्यालय
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="officeId" aria-label="Default select example"
+                (change)="getDesignation($any($event.target).value);">
+                <option value="">--Select--</option>
+                <option value="1">School</option>
+                <option value="2">Cluster</option>
+                <option value="3">Block</option>
+                <option value="4">District</option>
+                <option value="5">State</option>
+              </select>
+
+            </div><span class="mandatory">*</span>
+          </div>
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Approval Authority<br>अनुमोदन प्राधिकरण
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="ATADesignation">
+                <option value="" *ngIf="designationChanged==false">--Select--</option>
+                <option value="" *ngIf="designationChanged==true">Loading...</option>
+                <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                  {{ item.vchDesignationName }}
+                </option>
+
+              </select>
+
+            </div><span class="mandatory">*</span>
+          </div>
+
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">2nd Level Approval<br>द्वितीय स्तर का अनुमोदन
+              </label>
+            </div>
+          </div>
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label"> Office<br>कार्यालय
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="officeId2" aria-label="Default select example"
+                (change)="getDesignation2($any($event.target).value);">
+                <option value="">--Select--</option>
+                <option value="1">School</option>
+                <option value="2">Cluster</option>
+                <option value="3">Block</option>
+                <option value="4">District</option>
+                <option value="5">State</option>
+              </select>
+
+            </div><span class="mandatory">*</span>
+          </div>
+          <div class="col-md-2 form-group">
+            <div class="">
+              <label for="exampleInputEmail1" class="form-label">Approval Authority<br>अनुमोदन प्राधिकरण
+              </label>
+            </div>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <div class="colon-top">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" formControlName="ATADesignation2">
+                <option value="" *ngIf="designationChanged2==false">--Select--</option>
+                <option value="" *ngIf="designationChanged2==true">Loading...</option>
+                <option *ngFor="let item of designationData2" [value]="item.intDesignationId">
+                  {{ item.vchDesignationName }}
+                </option>
+
+              </select>
+            </div><span class="mandatory">*</span>
+          </div>
+        </div>
+      </div>
+
+
+      <div class="row">
+        <div class="col-lg-2 form-group"></div>
+        <div class="col-lg-5 form-group">
+          <button class="btn btn-success me-2">Submit/जमा करें
+          </button>
+          <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित
+          </button>
+        </div>
+      </div>
+
+
+    </form>
+  </div>
+</div>

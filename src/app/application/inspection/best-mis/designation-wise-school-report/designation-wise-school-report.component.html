@@ -1,0 +1,267 @@
+<div>
+  <div class="pageHeading noprint">
+    <div class="heading__tab">
+      <h3 class="pageName">Designation Wise Inspection Count Report</h3>
+    </div>
+
+    <div class="tabArea noprint">
+      <a routerLink="./../schoolInspection" class="neuro viewLink active" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>Report</a>
+      <a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+    </div>
+  </div>
+  <div class="top-space noprint">
+    <ng-container>
+      <div class="search-container">
+        <div class="search-sec" id="searchPanel" style="display: block">
+          <div class="searchPanel">
+            <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" autocomplete="off"
+              novalidate>
+              <div class="row">
+                
+                  <div class="col-lg-2 form-group">
+                     <label for="dwUserLevel" class="form-label"> Level of User <br>उपयोगकर्ता का स्तर</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                     <span class="colon">:</span>
+                     <select name="dwUserLevel" [(ngModel)]="dwUserLevel" class="form-select"
+                        (change)="loadSubDesignation($any($event.target).value);">
+                        <option  *ngFor="let user of levelOfUser" [value]="user.id">{{user.level}}</option>
+                     </select>
+                  </div>
+                  <div class="col-lg-1" *ngIf="designationHiseShow==true"></div>
+                  <div class="col-lg-2 form-group" *ngIf="designationHiseShow==true">
+                    <label for="designationGroupId" class="form-label"> Designation <br>पद</label>
+                 </div>
+                 <div class="col-md-3 form-group" *ngIf="designationHiseShow==true">
+                    <span class="colon">:</span>
+                    <select name="designationGroupId" [(ngModel)]="designationGroupId" class="form-select"
+                       (change)="getSubDesignation($any($event.target).value);">
+                       <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+                       <option value="0" *ngIf="desGrpLoading == false">Loading...</option>
+                       <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+                          {{ item.designationGroupName }}
+                       </option>
+                    </select>
+                 </div>
+                 <div class="col-lg-1" *ngIf="designationHiseShow==true"></div>
+                 <div class="col-lg-2 form-group" *ngIf="designationHiseShow==true">
+                    <label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+                 </div>
+                 <div class="col-lg-3 form-group" *ngIf="designationHiseShow==true">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="scDesignationId"
+                       name="scDesignationId">
+                       <option value="" *ngIf="designationSelect == true">--Select--</option>
+                       <option value="" *ngIf="designationLoading == true">Loading...</option>
+                       <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+                          {{ item.vchDesignationName }}
+                       </option>
+                    </select>
+                 </div>
+               
+
+                <div class="col-md-1" *ngIf="dis == true"></div>
+                <div class="col-md-2 form-group" *ngIf="dis == true">
+                  <label class="form-label">District <br />जिला </label>
+                </div>
+                <div class="col-md-3 form-group" *ngIf="dis == true">
+                  <span class="colon">:</span>
+                  <select class="form-select" aria-label="Default select example" [(ngModel)]="scDistrictId"
+                    name="scDistrictId" autocomplete="off" (change)="
+                      getBlock($any($event.target).value)
+                      
+                    " #district>
+                    <option value="" *ngIf="scDisrtictSelect == true">
+                      --Select--
+                    </option>
+                    <option value="" *ngIf="scDisrtictLoading == true">
+                      Loading...
+                    </option>
+                    <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">
+                      {{ districtItem.districtCode }} -
+                      {{ districtItem.districtName }}
+                    </option>
+                  </select>
+                  
+                </div>
+
+                <div class="col-md-1" *ngIf="bloc == true"></div>
+
+                <div class="col-md-2 form-group" *ngIf="bloc == true">
+                  <label class="form-label"> Block <br />प्रखण्ड</label>
+                </div>
+
+                <div class="col-md-3 form-group" *ngIf="bloc == true">
+                  <span class="colon">:</span>
+                  <select class="form-select" aria-label="Default select example" [(ngModel)]="scBlockId"
+                    name="scBlockId" autocomplete="off" (change)="
+                      getCluster($any($event.target).value)" #block>
+                    <option value="" *ngIf="scBlockSelect == true">
+                      --Select--
+                    </option>
+                    <option value="" *ngIf="scBlockLoading == true">
+                      Loading...
+                    </option>
+                    <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">
+                      {{ blockItem.blockCode }} - {{ blockItem.blockName }}
+                    </option>
+                  </select>
+                </div>
+                <div class="col-md-1" *ngIf="clus == true"></div>
+              
+                <div class="col-md-2 form-group" *ngIf="clus == true">
+                  <label class="form-label">Cluster <br />संकुल </label>
+                </div>
+                <div class="col-md-3 form-group" *ngIf="clus == true">
+                  <span class="colon">:</span>
+                  <select class="form-select" aria-label="Default select example" [(ngModel)]="scClusterId"
+                    name="scClusterId" autocomplete="off" >
+                    <option value="" *ngIf="scClusterSelect == true">
+                      --Select--
+                    </option>
+                    <option value="" *ngIf="scClusterLoading == true">
+                      Loading...
+                    </option>
+                    <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                      {{ clusterItem.clusterCode }} -
+                      {{ clusterItem.clusterName }}
+                    </option>
+                  </select>
+                </div>
+ 
+
+                <div class="col-md-1"></div>
+                  <div class="col-md-2 form-group">
+                    <label class="form-label">School Type</label>
+                  </div>
+                  <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" aria-label="Default select example" [(ngModel)]="schoolType" name="schoolType"
+                      autocomplete="off">
+                      <option value="">--All--</option>
+                      <option value="1">Elementry</option>
+                      <option value="2">Secondary</option>
+                      <option value="3">Composite</option>
+                    </select>
+                  </div>
+                
+              </div>
+
+              
+
+              <div class="row">
+                <div class="col-md-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">Start Date
+                  </label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <input class="form-control" [(ngModel)]="startDate" name="startDate" #datepickerYMD="bsDatepicker"
+                    [maxDate]="maxDate" readonly placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                  <span class="mandatory">*</span>
+                </div>
+
+                <div class="col-md-1"></div>
+                <div class="col-md-2 form-group">
+                  <label for="exampleInputEmail1" class="form-label">End Date
+                  </label>
+                </div>
+                <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <input class="form-control" [(ngModel)]="endDate" name="endDate" #datepickerYMD="bsDatepicker"
+                    [maxDate]="maxDate" readonly placeholder="DD-MM-YYYY" bsDatepicker
+                    [bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }" />
+                  <span class="mandatory">*</span>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-2 form-group">
+                  <button class="btn btn-default btn-purple">
+                    Search <i class="bi bi-search"></i>
+                  </button>
+                </div>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">
+      Search Panel
+    </button>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row mt-0" [hidden]="resultListData?.length === 0">
+    <div class="col-lg-12">
+        <div class="page__rightarea">
+          <div class="p-2">
+            <button type="button" class="btn btn-success " (click)="excelDeatils()">
+              <i class="bi bi-file-earmark-excel"></i
+                > Export Details Inspection Report
+            </button>
+          </div>
+            <div class="page__util">
+                <div class="util">
+                    <a title="Excel" (click)="excel()" class="excel"><i
+                            class="bi bi-file-earmark-excel"></i></a>
+                    <a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <div >
+                <div class="table-responsive" id="viewTable">
+                    <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+                    </mat-progress-bar>
+                    <table class="table table-bordered">
+                        <thead class="bg-lightpurple">
+                            <tr>
+                                <th scope="col">Sl.No</th>
+                                <th scope="col" *ngIf="distShow">District Name</th>
+                                <th scope="col" *ngIf="blockShow">Block Name</th>
+                                <th scope="col">Designation</th>
+                                <th scope="col" *ngIf="userIdShow">User Id</th>
+                                <th scope="col">Number of visited schools (unique)</th>
+                                <th scope="col">Number of visits</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr *ngFor="let element of resultListData; index as i">
+                                <td>{{ i + 1 }}</td>
+                                <td *ngIf="distShow">{{ element?.districtName }}</td>
+                                <td *ngIf="blockShow">{{ element?.blockName }}</td>
+                                <td>{{ element?.vchDesignationName ? element?.vchDesignationName : "--" }} </td>
+                                <td *ngIf="userIdShow"> {{ element?.userId ? element?.userId : "--" }} </td>
+                                <td>{{ element?.noOfVisetedSchool }}</td>
+                                <td>{{ element?.noOfVisit }}</td>
+                            </tr>
+
+                            <tr>
+                                <td colspan="2" class="text-center"><strong>Total</strong></td>
+                                <td><strong>{{numOfVisetedSchool}}</strong></td>
+                                <td><strong>{{numOfVisit}}</strong></td>
+                                
+                                
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            
+            
+            
+        </div>
+        <ng-template #showEmptyAlert> </ng-template>
+    </div>
+</div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+    {{ "No record found..." }}
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin == false">
+    {{ "Please Search to find Designation wise school visit report" }}
+  </div>
+</div>
+

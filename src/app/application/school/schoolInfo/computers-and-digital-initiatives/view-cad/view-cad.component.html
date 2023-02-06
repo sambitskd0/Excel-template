@@ -1,0 +1,499 @@
+
+<div class="tab-content" id="main_form">         
+  <div class="tab-pane active step5-content" role="tabpanel" id="step5">
+      <h5 class="text-center mb-4 top-space">Computers and Digital Initiatives / कंप्यूटर और डिजिटल पहल </h5>
+          <div class="formpatch">
+              <div class="row">
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Is CAL Lab available in the school ?  <br> क्या CAL लैब विद्यालय में उपलब्ध है?
+                      </label>
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isCALLab==1)?'Yes':'No'}}</label>
+                  </div>
+
+                
+
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Is ICT Lab available in the school ?  <br>क्या आईसीटी लैब विद्यालय में उपलब्ध है?</label>
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isICTLab==1)?'Yes':'No'}}</label>
+                  </div>
+
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Year of implementation  <br> कार्यान्वयन का वर्ष
+                      </label>
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{ICTLabYear}}</label>
+
+                  </div>
+                  
+
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Whether the ICT Lab is functional or not</label>
+                      <br> आईसीटी लैब क्रियाशील है या नहीं
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold">{{(isICTLabFunc==1)?'Yes':'No'}}</label>
+
+                  </div>
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Which model is implemented in the school</label>
+                      <br> विद्यालय में कौन सा मॉडल लागू है
+
+                  </div>
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>
+                      <label class="form-label fw-bold"> {{ model }} </label>
+                  </div>
+                 
+                  <div class="col-xxl-2 col-xl-4 col-lg-4 col-md-12 col-sm-12 form-group">
+                      <label class="form-label">Type of the ICT Instructor in the school</label>
+                      <br> विद्यालय में आईसीटी प्रशिक्षक का प्रकार
+                  </div>
+
+                  <div class="col-xxl-4 col-xl-2 col-lg-2 form-group">
+                      <span class="colon">:</span>                     
+                      <label class="form-label fw-bold"> {{ ICTInstructorType }} </label>
+                  </div>
+              </div>
+          </div>
+
+          <div class="formpatch">
+              <h5>Does the school have the following /   क्या विद्यालय में निम्नलिखित हैं</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th width="40%">Items /  सामान</th>
+                              <th width="20%">Available /  उपलब्ध</th>
+                              <th width="20%">Total No. of Units / <br>इकाइयों की कुल संख्या</th>
+                              <th width="20%">No. of Functional Units / <br>कार्यात्मक इकाइयों की संख्या</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Desktop/PCs / डेस्कटॉप / पीसी	{{totDesktop}}</td>
+                              <td>{{(isDesktop==1)?'Yes':'No'}}</td>
+                              <ng-container>
+                                  <td>
+                                      {{ totDesktop || '--' }}
+                                  </td>
+                                  <td>
+                                    {{ totFnDesktop || '--' }}                                      
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr> 
+                              <td> Laptop/Notebook / लैपटॉप / नोटबुक</td>
+                              <td>
+                                  {{(isLaptop==1)?'Yes':'No'}}                                  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                      {{ totLaptop || '--' }}
+                                  </td>
+                                  <td>
+                                      {{ totFnLaptop || '--' }}
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Tablets / टैबलेट</td>
+                              <td>
+                                  {{(isTablets==1)?'Yes':'No'}}                                  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totTablets || '--' }}
+                                  </td>
+                                  <td>
+                                    {{ totFnTablets || '--' }}                                      
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>PCs with Integrated Teaching Learning Devices / एकीकृत शिक्षण सीखने के उपकरणों के साथ पीसी</td>
+                              <td>
+                                  {{(isPCIntegrated==1)?'Yes':'No'}}       
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totPCIntegrated || '--' }}
+                                  </td>
+                                  <td>
+                                    {{ totFnPCIntegrated || '--' }}                                                
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Digital Boards with Content Management Systems and solutions (CMS)/ Learning Management System / Learning Management System / सामग्री प्रबंधन प्रणाली और समाधान (सीएमएस) / अधिगम प्रबंधन प्रणाली के साथ डिजिटल बोर्ड</td>
+                              <td>
+                                  {{(isDigBoard==1)?'Yes':'No'}} 
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totDigBoard || '--' }}  
+                                  </td>
+                                  <td>
+                                    {{ totFnDigBoard || '--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Projector / प्रक्षेपक</td>
+                              <td>
+                                  {{(isProjector==1)?'Yes':'No'}} 
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totProjector || '--' }}  
+                                  </td>
+                                  <td>
+                                    {{ totFnProjector || '--' }}  
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Printer / मुद्रक</td>
+                              <td>
+                                  {{(isPrinter==1)?'Yes':'No'}}                                   
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totPrinter || '--' }}  
+                                  </td>
+                                  <td>
+                                    {{ totFnPrinter || '--' }}  
+                                  </td>
+                              </ng-container>                                        
+                          </tr>
+                          <tr>
+                              <td>Scanner / चित्रान्वीक्षक</td>
+                              <td>
+                                {{(isScanner==1)?'Yes':'No'}}                                     
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totScanner || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnScanner || '--' }}  
+                                  </td>
+                              </ng-container>                                        
+                          </tr>
+                          <tr>
+                              <td>Server / सर्वर</td>
+                              <td>
+                                {{(isServer==1)?'Yes':'No'}}      
+                              </td>
+                              <ng-container>
+                                  <td> 
+                                    {{ totServer || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnServer || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Web Camera / वेब कैमरा</td>
+                              <td>
+                                  {{(isWebCamera==1)?'Yes':'No'}}      
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totWebCamera || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnWebCamera || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Smart TV / स्मार्ट टीवी </td>
+                              <td>
+                                {{(isSmartTV==1)?'Yes':'No'}}                                      
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totSmartTV || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnSmartTV || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Smart Class rooms used for teaching with digital boards/ smart
+                                  boards/ virtual classrooms/ smart TV  / डिजिटल बोर्ड/स्मार्ट बोर्ड/वर्चुअल क्लासरूम/स्मार्ट टीवी के साथ शिक्षण के लिए उपयोग किए जाने वाले स्मार्ट क्लास रूम</td>
+                              <td>
+                                  {{(isSmartClsRoom==1)?'Yes':'No'}}  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totSmartClsRoom || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnSmartClsRoom || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Mobile phone used for teaching / पढ़ाने के लिए इस्तेमाल किया जाने वाला मोबाइल फोन</td>
+                              <td>
+                                  {{(isMobileUsed==1)?'Yes':'No'}}  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totMobileUsed || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnMobileUsed || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Radio used for teaching / पढ़ाने के लिए इस्तेमाल किया जाने वाला रेडियो</td>
+                              <td>
+                                  {{(isRadioUsed==1)?'Yes':'No'}}  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totRadioUsed || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnRadioUsed || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Generator/Invertors/Power Backup/Big UPS / जेनरेटर/इनवर्टर/पावर बैकअप/बिग यूपीएस</td>
+                              <td>
+                                  {{(isGenerator==1)?'Yes':'No'}}  
+                              </td>
+                              <ng-container>
+                                  <td>
+                                    {{ totGenerator || '--' }} 
+                                  </td>
+                                  <td>
+                                    {{ totFnGenerator || '--' }} 
+                                  </td>
+                              </ng-container>
+                          </tr>
+                          <tr>
+                              <td>Internet facility / इंटरनेट सुविधा</td>
+                              <td>
+                                  {{(isInternetFacility==1)?'Yes':'No'}}  
+                              </td>
+                              <td>
+                                  {{
+                                    (internetConnectivty==1)?'1-Broadband/Leased Line': 
+                                    (internetConnectivty==2)?'2-USB Modem/dongle/Portable Hotspot':
+                                    (internetConnectivty==3)?'3-Telephone line with modem':
+                                    (internetConnectivty==4)?'4-Mobile phone Internet':
+                                    (internetConnectivty==5)?'5-Any Other type of connection':
+                                    (internetConnectivty==5)?'6-VSAT':'--'                                        
+                                  }} 
+                              </td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td>DTH-TV channels / डीटीएच-टीवी चैनल</td>
+                              <td>                                  
+                                  {{(isDTH==1)?'Yes':'No'}} 
+                              </td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td>E- Content and Digital Resources for I-XII / I-XII के लिए ई-सामग्री और डिजिटल संसाधन</td>
+                              <td>
+                                  {{(isEContent==1)?'Yes':'No'}} 
+                              </td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                          <tr>
+                              <td>Assistive tech-based solutions for CWSN / CWSN के लिए ई-सामग्री और डिजिटल संसाधन</td>
+                              <td>
+                                  {{(isCWSN==1)?'Yes':'No'}} 
+                              </td>
+                              <td></td>
+                              <td></td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+          </div>
+
+          <h5>Does the school have the following facilities? / क्या विद्यालय में निम्नलिखित सुविधाएं हैं?</h5>
+          <div class="row">
+              <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Computer Lab for Students <br>छात्रों के लिए कंप्यूटर लैब</label>
+              </div>
+
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{(isComLabForStd==1)?'Yes':'No'}} </label>
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Whether ICT based tools are used for teaching?  <br>क्या शिक्षण के लिए आईसीटी आधारित उपकरणों का उपयोग किया जाता है?</label>
+              </div>
+
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>                  
+                  <label class="form-label fw-bold">{{(isICTTools==1)?'Yes':'No'}} </label>
+              </div>
+          </div>
+
+          <div class="row" *ngIf="isICTTools==1">
+              <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If 1-YES, Number of hours spent/week  <br>यदि 1-हाँ, बिताए गए घंटों की संख्या/सप्ताह</label>
+              </div>
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ noOfHours }}</label>               
+              </div>
+          </div>
+
+          <div class="row">
+              <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">Does the School have Digital Library?</label>
+                  <br>क्या विद्यालय में डिजिटल पुस्तकालय है ?
+              </div>
+
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{(hvDigiLib==1)?'Yes':'No'}} </label>
+              </div>
+          </div>
+
+          <div class="row" *ngIf="hvDigiLib==1">
+              <div class="col-xxl-5 col-xl-5 col-lg-5 col-md-12 col-sm-12 form-group">
+                  <label class="form-label">If 1-YES, Number of e-Books/e-Contents available</label>
+                  <br>यदि 1-हाँ, उपलब्ध ई-पुस्तकों/ई-सामग्री की संख्या
+              </div>
+
+              <div class="col-md-3 form-group">
+                  <span class="colon">:</span>
+                  <label class="form-label fw-bold">{{ noOfEBooks }}</label>  
+              </div>
+          </div>
+
+          <div class="formpatch">
+              <h5>Teaching & Non-Teaching Staff / शिक्षण एवं गैर-शिक्षण कर्मचारी</h5>
+              <div class="table-responsive">
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th colspan="2" class="text-center">Number of Non-teaching / Administrative and Support staff in-Position / गैर-शिक्षण / प्रशासनिक और सहायक कर्मचारियों की स्थिति की संख्या</th>
+                          </tr>
+                          <tr>
+                              <th>Type of Staffs / कर्मचारियों का प्रकार</th>
+                              <th>Count / गिनती</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td> Accountant / लेखाकार</td>
+                              <td>
+                                {{ accountant || '--' }}
+                            </td>
+                          </tr>
+                          <tr>
+                              <td>Library Assistant / पुस्तकालय सहायक</td>
+                              <td>
+                                {{ libraryAsst || '--' }}
+                            </td>
+                          </tr>
+                          <tr>
+                              <td>Laboratory Assistant / प्रयोगशाला सहायक</td>
+                              <td>
+                                {{ labAsst || '--' }}
+                            </td>
+                          </tr>
+                          <tr>
+                              <td>UDC/Head Clerk / यूडीसी / हेड क्लर्क</td>
+                              <td>
+                                {{ UDC || '--' }}
+                            </td>
+                          </tr>
+                          <tr>
+                              <td>LDC / एलडीसी</td>
+                              <td>
+                                {{ LDC || '--' }}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>Peon/MTS / चपरासी / एमटीएस</td>
+                              <td>
+                                {{ peon || '--' }}
+                              </td>
+                          </tr>
+                          <tr>
+                              <td>Night Watchman / रात का पहरेदार</td>
+                              <td>
+                                {{ watchman || '--' }}
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div>
+              <div class="table-responsive">  
+                  <table class="table table-bordered">
+                      <thead class="bg-lightpurple">
+                          <tr>
+                              <th colspan="2" class="text-center">Number of Teaching Staff In-position / अध्यापन कर्मचारियों की संख्या पद पर</th>
+                          </tr>
+                          <tr>
+                              <th>Teaching Staff in-position / शिक्षण कर्मचारी पद पर</th>
+                              <th>Total Number of Teaching Staff / कुल शिक्षण कर्मचारियों की संख्या</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                          <tr>
+                              <td>Teaching Staff (Regular Teacher) / शिक्षण कर्मचारी (नियमित शिक्षक)</td>
+                              <td>{{permanentTecherCount}}</td>
+                          </tr>
+                          <tr>
+                              <td>Teaching Staff (Contract Teacher) / शिक्षण कर्मचारी (संविदा शिक्षक)</td>
+                              <td>{{contractTecherCount}}</td>
+                          </tr>
+                          <tr>
+                              <td>Part time instructors for Arts, Health and Physical Education positioned per RTE norms for upper primary section <br>उच्च प्राथमिक खण्ड हेतु आरटीई मानदंडों के अनुसार स्थित कला, स्वास्थ्य एवं शारीरिक शिक्षा हेतु अंशकालिक प्रशिक्षक</td>
+                              <td>{{partTimeTecherCount}}</td>
+                          </tr>
+                          <tr>
+                              <td>Total Teaching Staff in Position (a+b+c) / पद पर कुल शिक्षण कर्मचारी (क+ख+ग)</td>
+                              <td>{{permanentTecherCount+contractTecherCount+partTimeTecherCount}}</td>
+                          </tr>
+                          <tr>
+                              <td>Out of total teachers, how many teachers have Aadhar number / कुल शिक्षकों में से कितने शिक्षकों के आधार संख्या है</td>
+                              <td>{{addharaCount}}</td>
+                          </tr>
+                      </tbody>
+                  </table>
+              </div> 
+          </div>
+  </div>
+
+</div>
+
+<ng-template #emptyTD>
+  <td></td>
+  <td></td>
+</ng-template>

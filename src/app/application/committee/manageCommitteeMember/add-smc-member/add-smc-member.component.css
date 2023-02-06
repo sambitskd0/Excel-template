@@ -1,0 +1,13 @@
+.notAdded{
+    background-color:red;
+    color:black;
+}
+.alreadyAdded{
+    background-color:green;
+    color:black;
+}
+.check__box .form-group label.disable:before {
+    content: '';
+    border: 1px solid rgb(70 40 118 / 49%);
+    background: rgb(70 40 118 / 49%);
+}

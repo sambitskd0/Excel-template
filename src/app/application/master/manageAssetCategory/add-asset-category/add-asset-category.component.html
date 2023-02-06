@@ -1,0 +1,84 @@
+<div>
+    <div class="pageHeading">
+        <div class="heading__tab">
+            <h3 class="pageName">Add Asset Category/संपत्ति श्रेणी जोड़ें
+            </h3>
+
+            <div class="tab__section">
+                <a routerLink="./../viewAssetCategory"  routerLinkActive="active"  class="tablink active" *ngIf="this.tabs.includes('Asset')">Asset/संपत्ति 
+                </a>
+                <a routerLink="./../items/viewAssetItem"  class="tablink"  *ngIf="this.tabs.includes('Item')">Item/वस्तु
+                </a>
+            </div>
+            
+        </div>
+        <div class="tabArea">
+            <a routerLink="./../addAssetCategory" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add/जोड़ें
+            </a>
+            <a routerLink="./../viewAssetCategory" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/देखें
+            </a>
+            <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+            </span>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="addAsset" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="assetType" class="form-label">Asset Type<br>संपत्ति का प्रकार
+                    </label>
+                </div>
+                <div class="col-lg-4 form-group pt-2">
+                    <span class="colon">:</span>
+                    <div class="radiobuttons">
+                        <div class="rdio rdio-primary form-check-inline"> 
+                            <input name="assetType" value="1" id="radio1" type="radio" formControlName="assetType">
+                          <label for="radio1">MDM</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                          <input name="assetType" value="2" id="radio2" type="radio" formControlName="assetType">
+                          <label for="radio2">Inventory</label>
+                        </div>
+                        <div class="rdio rdio-primary form-check-inline">
+                            <input name="assetType" value="3" id="radio3" type="radio" formControlName="assetType">
+                            <label for="radio3">Sports</label>
+                          </div>
+                          <div class="rdio rdio-primary form-check-inline" >
+                            <input name="assetType" value="4" id="radio4" type="radio" formControlName="assetType">
+                            <label for="radio4">ICET/Smart Class</label>
+                          </div>
+                      </div>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="assetName" class="form-label">Asset Name<br>संपत्ति का नाम
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" formControlName="assetName" minlength="2" maxlength="25" autocomplete="off" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="description" class="form-label">Description<br>विवरण
+                    </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea cols="4" rows="4" class="form-control" id="exampleInputEmail1"
+                        aria-describedby="emailHelp" formControlName="assetDescription"></textarea>
+                    <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+                </div>
+            </div>
+            <div>
+                <button type="submit" class="btn btn-success me-2">Submit/जमा करें
+                </button>
+                <button type="reset" class="btn btn-danger">Reset/पुनर्स्थापित 
+                </button>
+            </div>
+        </form>
+    </div>

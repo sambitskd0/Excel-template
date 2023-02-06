@@ -1,0 +1,173 @@
+<div class="modal-dialog modal-xl modal-dialog-scrollable">
+    <div class="modal-content">
+       <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Home Based Education Visit Details</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+       </div>
+       <div class="modal-body">
+
+          <div class="top-space">
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="cwsnName" class="form-label"
+                         >1)Name of CWSN
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">
+                      {{
+                      surveyData?.cwsnName || "--"
+                      }}
+                      </label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="gaonTolaMuhalla" class="form-label"
+                         >2)Gaon / Tola / Muhalla
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.gaonTolaMuhalla || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="district" class="form-label"
+                         >3)Name of District
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.district || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="block" class="form-label"
+                         >4)Name of Block 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.block || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="disabilityType" class="form-label"
+                         >5)Type of Disability 
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.disabilityType || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="enrollmentStatus" class="form-label"
+                         >6)Enrollment Status
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.enrollmentStatus || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <!-- <div class="row" *ngIf="surveyData?.enrollmentStatus == 'Out of school'"> -->
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="schoolName" class="form-label"
+                         >7)If enrolled, Name of school
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.schoolName || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="teacherVisited" class="form-label"
+                         >8)How many times visited by tagged Special Teacher
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal">{{
+                      surveyData?.teacherVisited || "--"
+                      }}</label>
+                   </div>
+                </div>
+             </div>
+             <div class="row">
+                <div class="col-md-6 form-group">
+                   <div class="">
+                      <label for="sufficientEquipments" class="form-label"
+                         >9)Date of last visit by Resource teacher / Rehabilitation Professionals
+                      </label>
+                   </div>
+                </div>
+                <div class="col-md-3 form-group">
+                   <div>
+                     <span class="colon">:</span>
+                      <label class="form-label fw-normal"> {{ surveyData?.lastVisitDate | date: "dd-MMM-yyyy"  || "--" }} </label>
+                   </div>
+                </div>
+             </div>
+          </div>
+          <!-- form end -->
+       </div>
+       <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">
+          Close
+          </button>
+       </div>
+    </div>
+ </div>

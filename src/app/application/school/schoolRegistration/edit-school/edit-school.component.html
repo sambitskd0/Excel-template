@@ -1,0 +1,580 @@
+<div>
+   <div class="pageHeading">
+      <div>
+         <h3 class="pageName">School Registration </h3>
+         <span class="indicator">( * ) Indicates Mandatory</span>
+      </div>
+      <div class="tabArea">
+         <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg
+                 me-2"></i>Profile Updation / प्रोफ़ाइल</a>
+         <a routerLink="../../viewSchool" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye
+                 me-2"></i>View / देखें</a>
+      </div>
+   </div>
+   <form [formGroup]="schoolForm" (ngSubmit)="onSubmit()" autocomplete="off">
+      <input type="hidden" formControlName="crStatus" class="form-control">
+      <input type="hidden" formControlName="verificationStatus" class="form-control">
+      <div class="formpatch top-space">
+         <h5>School Profile</h5>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label class="form-label">
+                  School Name (In Capital Letters)
+                  <br>विद्यालय का नाम (बड़े अक्षरों में)
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <!-- <ng-container *ngIf="this.loginUserTypeId!=2"> -->
+               <input type="text" formControlName="schoolName" class="form-control" maxlength="100">
+               <span class="mandatory">*</span>
+               <!-- </ng-container> -->
+               <!-- <ng-container *ngIf="this.loginUserTypeId==2">
+                  <label class="form-label">{{this.schName}}
+                  </label>
+               </ng-container> -->
+            </div>
+            <div class="col-lg-1"></div>
+            <!-- <div class="col-lg-2 form-group">
+               <label class="form-label">Academic Year
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:&nbsp; {{
+                  academicYear }}</span>
+               <input type="hidden" formControlName="academicYear" class="form-control" value="{{academicYear}}">
+            </div> -->
+            <div class="col-lg-2 form-group">
+               <label class="form-label">School UDISE code<br>
+                  विद्यालय UDISE कोड</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-container *ngIf="this.loginUserTypeId!=2">
+               <input formControlName="schoolUdiseCode" type="text" class="form-control" maxlength="15"
+                  (keypress)="customValidators.keyPressNumbers($event)">
+               <span class="mandatory">*</span>
+               </ng-container>
+               <ng-container *ngIf="this.loginUserTypeId==2">
+                  <label class="form-label fw-bold">{{this.udCode}}
+                  </label>
+               </ng-container>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label class="form-label">School Code<br>
+                  विद्यालय कोड
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-container *ngIf="this.loginUserTypeId!=2">
+               <input formControlName="schoolUschcdCode" type="text" class="form-control" maxlength="15"
+                  (keypress)="customValidators.keyPressNumbers($event)">
+               <span class="mandatory">*</span>
+            </ng-container>
+            <ng-container *ngIf="this.loginUserTypeId==2">
+               <label class="form-label fw-bold">{{this.schoolCode}}
+               </label>
+            </ng-container>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">
+                  Latitude<br>
+                  अक्षांश
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="latitude" type="text" class="form-control" maxlength="15"
+                  (keypress)="customValidators.keyPressLatLong($event)">
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+         </div>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Longitude<br>
+                  देशान्तर
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="longitude" type="text" class="form-control" maxlength="15"
+                  (keypress)="customValidators.keyPressLatLong($event)">
+               <span class="mandatory">*</span>
+               <!-- <input type="date" class="form-control" > -->
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">District<br>
+                  जिला
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-container *ngIf="this.loginUserTypeId!=2">
+               <select formControlName="districtId" class="form-select" (change)="getBlock($any($event.target).value);">
+                  <option value="" *ngIf="disrtictChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="disrtictChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    districtData" [value]="item.districtId">
+                     {{ item.districtCode }}
+                     - {{ item.districtName
+                     }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+               </ng-container>
+               <ng-container *ngIf="this.loginUserTypeId==2">
+                  <label class="form-label fw-bold">{{this.distNameCode}}
+                  </label>
+               </ng-container>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label bg-green">Name of the UDISE+ Block <br>UDISE + प्रखण्ड का नाम
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-container *ngIf="this.loginUserTypeId!=2">
+                  <select formControlName="blockId" class="form-select" (change)="getCluster($any($event.target).value)">
+                     <option value="" *ngIf="blockChanged==false">---
+                        Select ---
+                     </option>
+                     <option value="" *ngIf="blockChanged==true">Loading...</option>
+                     <option *ngFor="let item of
+                       blockData" [value]="item.blockId">
+                        {{ item.blockCode }} -
+                        {{ item.blockName }}
+                     </option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </ng-container>
+               <ng-container *ngIf="this.loginUserTypeId==2">
+                  <label class="form-label fw-bold">{{this.blockNameCode}}
+                  </label>
+               </ng-container>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Cluster <br>संकुल
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-container *ngIf="this.loginUserTypeId!=2">
+               <select formControlName="clusterId" class="form-select">
+                  <option value="" *ngIf="clusterChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    clusterData" [value]="item.clusterId">
+                     {{ item.clusterCode }} -
+                     {{ item.clusterName }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+               </ng-container>
+               <ng-container *ngIf="this.loginUserTypeId==2">
+                  <label class="form-label fw-bold">{{this.clustNameCode}}
+                  </label>
+               </ng-container>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Is This School Located In <br>क्या यह विद्यालय में स्थित है</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <div class="form-check
+                    form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio1" checked
+                     value="1" (click)="locateRadioControl($any($event.target).value)">
+                  <label class="form-check-label" for="inlineRadio1">Rural Area / ग्रामीण क्षेत्र
+                  </label>
+               </div>
+               <div class="form-check
+                    form-check-inline">
+                  <input class="form-check-input" type="radio" formControlName="locateId" id="inlineRadio2" value="2"
+                     (click)="locateRadioControl($any($event.target).value)">
+                  <label class="form-check-label" for="inlineRadio2">Urban Area / शहरी क्षेत्र
+                  </label>
+               </div>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label *ngIf="locateId == 1" class="form-label">Panchayat <br>पंचायत
+               </label>
+               <label *ngIf="locateId == 2" class="form-label">ULB <br>नगर पालिका
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <!-- (change)="getVillageWard($any($event.target).value)" -->
+               <select formControlName="nagarnigamId" class="form-select">
+                  <option value="" *ngIf="panchayatChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="panchayatChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    panchayatData" [value]="item.nagarId">
+                     {{ item.panchayatCode }}
+                     - {{ item.panchayatName
+                     }}
+                  </option>
+               </select>
+
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label *ngIf="locateId == 1" class="form-label">Village Name (As Per LGD) <br>गांव का नाम (एलजीडी के
+                  अनुसार)
+               </label>
+               <label *ngIf="locateId == 2" class="form-label">Ward Name (As Per LGD) <br>वार्ड का नाम (एलजीडी के
+                  अनुसार) </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="villageId" class="form-select">
+                  <option value="" *ngIf="villageChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="villageChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    villageData" [value]="item.villageId">
+                     {{ item.villageCode }} -
+                     {{ item.villageName }}
+                  </option>
+               </select>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Habitation Name / Mohalla <br>बस्ती का नाम / मोहल्ला</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="habitation" type="text" class="form-control" maxlength="100">
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">PIN Code <br>पिन कोड
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="pincode" type="text" class="form-control" maxlength="6"
+                  (keypress)="customValidators.keyPressNumbers($event)">
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Revenue Block <br>शैक्षिक ब्लॉक</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="educationBlock" class="form-select">
+                  <option value="">--Select--</option>
+                  <option *ngFor="let item of
+                  blockData" [value]="item.blockId">
+                     {{ item.blockCode }} -
+                     {{ item.blockName }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Name of City (where applicable) <br>शहर का नाम (जहां लागू हो) </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="city" type="text" class="form-control" maxlength="40">
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Assembly Constituency <br>विधानसभा क्षेत्र </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="assConstituency" class="form-select">
+                  <option selected value="">--Select--</option>
+                  <option *ngFor="let assemblyItem of assemblyData;" [value]="assemblyItem.aid">
+                     {{assemblyItem.assesmblyCode}}-{{assemblyItem.assemblyName}}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Parliamentary Constituency <br>संसदीय क्षेत्र </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="parConstituency" class="form-select">
+                  <option selected value="">--Select--</option>
+                  <option *ngFor="let parliamentaryItem of parliamentaryData;" [value]="parliamentaryItem.pid">
+                     {{parliamentaryItem.parliamentaryCode? parliamentaryItem.parliamentaryCode+"-":''}}
+                     {{parliamentaryItem.parliamentaryName}}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">School Type <br>विद्यालय का प्रकार
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="schoolType" class="form-select" id="selTypeSchool">
+                  <option value="" *ngIf="schoolTypeChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="schoolTypeChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    schoolTypeData" [value]="item.anxtValue">
+                     {{ item.anxtName }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Management of the School (Code) <br>विद्यालय का प्रबंधन (कोड)
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="management" class="form-select" placeholder="Text" id="selManagement"
+                  (change)="managementChange($any($event.target).value)">
+                  <option value="" *ngIf="schoolMgmtChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="schoolMgmtChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    schoolMgmtData" [value]="item.anxtValue">
+                     {{ item.anxtValue }} - {{ item.anxtName }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <ng-container *ngIf="managementName == 101">
+               <div class="col-lg-2 form-group">
+
+                  <label class="form-label">For Management Code 101 mention Nodal Ministry/Dept. <br>प्रबंधन कोड 101 के
+                     लिए नोडल मंत्रालय/विभाग का उल्लेख करें।
+                  </label>
+
+               </div>
+               <div class="col-lg-3 form-group">
+                  <span class="colon">:</span>
+                  <input type="text" class="form-control" formControlName="otherManagement" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+                  <span class="mandatory">*</span>
+               </div>
+               <div class="col-lg-1"></div>
+            </ng-container>
+            
+            <!-- <div class="col-md-2 form-group">
+               <label class="form-label">Administration Type <br>व्यवस्थापन का प्रकार
+               </label>
+            </div> -->
+            <!-- <div class="col-md-3 form-group">
+               <span class="colon">:</span>
+               <select class="form-select" formControlName="admistrationType">
+                  <option value="">--Select--</option>
+                  <option value="1">Autonomus body under Ministry/Dept</option>
+                  <option value="2">PSU under Ministry/Dept.</option>
+                  <option value="3">Society under Ministry/Dept</option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1"></div> -->
+            <div class="col-md-2 form-group">
+               <label class="form-label">School Category <br>विद्यालय श्रेणी </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select formControlName="schoolCategory" class="form-select">
+                  <option value="" *ngIf="schoolCatagoryChanged==false">---
+                     Select ---
+                  </option>
+                  <option value="" *ngIf="schoolCatagoryChanged==true">Loading...</option>
+                  <option *ngFor="let item of
+                    schoolCatData" [value]="item.code">
+                    {{item.code}} - {{ item.schlCatName  }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Address <br>पता
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <textarea formControlName="address" class="form-control" rows="3" maxlength="300"></textarea>
+               <span class="mandatory">*</span>
+               <small>Maximum <span class="text-danger">(<span>300</span>)</span>
+                  Characters</small>
+            </div>
+            <div class="col-lg-1"></div>
+            
+                    <div class="col-lg-2 form-group">
+                            <label class="form-label">Medium of
+                                    instruction (s) in the school <br>विद्यालय
+                                    में शिक्षा का माध्यम</label>
+                    </div>
+                    <div class="col-lg-3 form-group ">
+                            <span class="colon">:</span>
+                            <ng-multiselect-dropdown [settings]="dropdownSettings"
+                                    [data]="mediumOfInstructionsData" [placeholder]="'--Select--'"
+                                    formControlName="mediumOfInstructions">
+                                    <!-- (onSelect)="meduimValueCheck($event)" (onDeSelect)="deSelectMeduimValueCheck($event)"-->
+                            </ng-multiselect-dropdown>
+                            <span class="mandatory">*</span>
+                    </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Language(s)
+                  taught as a subject (mention up to three languages) <br>भाषा (है) एक विषय के रूप में पढ़ाया जाता है (तीन भाषाओं तक उल्लिखित)</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <ng-multiselect-dropdown [settings]="dropdownSettings" [data]="languagesTaughtData"
+                  [placeholder]="'--Select--'" formControlName="languagesTaught">
+               </ng-multiselect-dropdown>
+               <span class="mandatory">*</span>
+            </div>
+           
+         </div>
+      </div>
+      <div class="formpatch">
+         <h5>Respondent and School Contact Details / उत्तरदाता और विद्यालय संपर्क विवरण</h5>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Respondent Type <br>उत्तरदाता का प्रकार
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select
+                    example" formControlName="respondentType">
+                  <option selected value="">---Select
+                     Type---
+                  </option>
+                  <option *ngFor="let anextureType
+                       of anextureType;" value="{{anextureType.anxtValue}}">{{anextureType.anxtName}}</option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Respondent Name (In Capital Letters) <br>उत्तरदाता का नाम (बड़े अक्षरों में)
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="respondentName" type="text" class="form-control" maxlength="100" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+               <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Landline Number (with STD Code) <br>लैंडलाइन नंबर (एसटीडी कोड के साथ)</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="schoolLandline" type="text" class="form-control" maxlength="15"
+                  (keypress)="customValidators.keyPressLandline($event)">
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Mobile Number <br>मोबाइल नंबर</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="respondentMobile" type="text" class="form-control" maxlength="10"
+                  (keypress)="customValidators.keyPressNumbers($event)">
+                  <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Website of
+                  School <br>विद्यालय की वेबसाइट</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="schoolWebsite" type="text" class="form-control" maxlength="50">
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Email of
+                  School<br>विद्यालय का ईमेल</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="schoolEmail" type="email" class="form-control" maxlength="50">
+            </div>
+         </div>
+      </div>
+      <div class="formpatch">
+         <h5>Head of School Contact Details / विद्यालय के प्रमुख का संपर्क विवरण</h5>
+         <div class="row">
+            <div class="col-lg-2 form-group">
+               <label class="form-label">HoS / In-Charge Type <br>एचओएस / प्रभारी का प्रकार
+               </label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <select class="form-select" aria-label="Default select
+                    example" formControlName="chargeType">
+                  <option selected value="">---Select
+                     Type---
+                  </option>
+                  <option *ngFor="let chargeType
+                       of chargeTypeData;" value="{{chargeType.anxtValue}}">{{chargeType.anxtName}}</option>
+               </select>
+               <!-- <span class="mandatory">*</span> -->
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+               <label class="form-label">HoS /In-Charge Name <br>विभागाध्यक्ष / प्रभारी का नाम</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="headOfSchool" type="text" class="form-control" maxlength="100"
+                  (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+               <!-- <span class="mandatory">*</span> -->
+            </div>
+            <div class="col-lg-1"></div>
+            <!-- <div class="col-lg-2 form-group">
+                 <label  class="form-label">Landline Number (with STD Code)</label>
+                 </div>
+                 
+                 <div class="col-lg-3 form-group"> 
+                 <span class="colon">:</span>
+                 <input formControlName="HMLandline" type="text" class="form-control" maxlength="15" (keypress)="customValidators.keyPressLandline($event)">
+                 </div> -->
+            <div class="col-lg-2 form-group">
+               <label class="form-label">Mobile Number <br>मोबाइल नंबर</label>
+            </div>
+            <div class="col-lg-3 form-group">
+               <span class="colon">:</span>
+               <input formControlName="HMMobile" type="text" class="form-control" maxlength="10"
+                  (keypress)="customValidators.keyPressNumbers($event)">
+            </div>
+         </div>
+      </div>
+      <button type="submit" class="btn btn-success me-2">Update / अपडेट करें</button>
+      <button type="button" class="btn btn-danger" (click)="cancelForm()">Cancel / रद्द करें</button>
+   </form>
+</div>

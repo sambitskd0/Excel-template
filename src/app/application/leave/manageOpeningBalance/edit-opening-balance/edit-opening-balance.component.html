@@ -1,0 +1,248 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Manage Opening Leave Balance</h3>
+            <span class="indicator">( * ) Indicates Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit Opening Leave Balance</a>
+            <a routerLink="../../viewOpeningBalance" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View Opening Leave Balance</a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup]="leaveOBForm" (ngSubmit)="onSubmit()">
+            <div class="row">
+                <div class="col-lg-9">
+
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="teacherId" class="form-label">Academic Year</label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <label class="form-label">{{academicYear}}</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="blkLogin==false">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="offclusterId" class="form-label">Cluster Name </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select formControlName="offclusterId" class="form-select"
+                                    aria-label="Default select example" (change)="getSchool($any($event.target).value)">
+                                    <option value="" *ngIf="clusterChanged==false">--Select--</option>
+                                    <option value="" *ngIf="clusterChanged==true">Loading...</option>
+                                    <option *ngFor="let item of clusterData" [value]="item.clusterId">
+                                        {{ item.clusterCode }} - {{ item.clusterName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="blkLogin==false">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="schoolId" class="form-label">School Name </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="schoolId" (change)="getTeachersList(0,$any($event.target).value);">
+                                    <option value="" *ngIf="scSchoolChanged==false">--Select--</option>
+                                    <option value="" *ngIf="scSchoolChanged==true">Loading...</option>
+                                    <option *ngFor="let school of getSchoolData" [value]="school.schoolId">
+                                        {{ school.schoolUdiseCode }} - {{ school.schoolName }}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="teacherId" class="form-label">Teacher Name </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="teacherId">
+                                    <option value="" *ngIf="leaveModeChanged == false" selected>--Select--</option>
+                                    <option value="" *ngIf="leaveModeChanged == true">Loading...</option>
+                                    <option *ngFor="let item of teacherList" [value]="item.tId">{{ item.teacherId}}-
+                                        {{ item.teacherName }}</option>
+
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="leaveTypeId" class="form-label">Leave Type </label>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <select class="form-select" aria-label="Default select example"
+                                    formControlName="leaveTypeId"
+                                    (change)="showhide($any($event.target).value);getLeaveBalance();">
+                                    <option value="" *ngIf="leaveTypeChanged==false">--Select--</option>
+                                    <option value="" *ngIf="leaveTypeChanged==true">Loading...</option>
+                                    <option *ngFor="let item of lvtype" [value]="item.anxtValue">
+                                        {{ item.anxtName }}
+                                    </option>
+                                </select>
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="row" *ngIf="isMedicalLeave==true">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="lifeTimeBalance" class="form-label">Life Time Balance <a
+                                        data-toggle="tooltip" class="tool text-dark" data-placement="bottom"
+                                        title="Total no. days remaining leaves can be availed in life time"><i
+                                            class="bi bi-question-circle-fill"></i> </a> </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="lifeTimeBalance" maxlength="6"
+                                    (keypress)="customValidators.onlyNumbersWithDecimal($event)">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row" *ngIf="isOccuranceLeave==true">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="noOfTimesLeaveBalance" class="form-label">Leave Occurrence Balance <a
+                                        data-toggle="tooltip" class="tool text-dark" data-placement="bottom"
+                                        title="Total no. of times remaining leave can be availed in life time"><i
+                                            class="bi bi-question-circle-fill"></i> </a></label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="noOfTimesLeaveBalance"
+                                    maxlength="1" (keypress)="customValidators.keyPressNumbers($event)">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <h5>For current Academic Year:</h5>
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="leaveEntitled" class="form-label">Leave Entitled </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="leaveEntitled"
+                                    (keypress)="customValidators.keyPressNumbers($event)" (keyup)="autoCal();"
+                                    [maxlength]="3">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="leaveGranted" class="form-label">Leave Granted </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="leaveGranted"
+                                    (keypress)="customValidators.onlyNumbersWithDecimal($event)" (keyup)="autoCal();"
+                                    [maxlength]="5">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-2 form-group">
+                            <div class="">
+                                <label for="leaveBalance" class="form-label">Leave Balance </label>
+                            </div>
+                        </div>
+                        <div class="col-md-4 form-group">
+                            <div class="">
+                                <span class="colon">:</span>
+                                <input type="text" class="form-control" formControlName="leaveBalance"
+                                    (keypress)="customValidators.onlyNumbersWithDecimal($event)" [maxlength]="5"
+                                    [(ngModel)]="leaveBalance">
+                                <span class="mandatory">*</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="row">
+                        <div class="col-lg-2 form-group"></div>
+                        <div class="col-lg-5 form-group">
+                            <button class="btn btn-success me-2">Update</button>
+                            <button class="btn btn-danger" (click)="onCancel()">Cancel</button>
+                        </div>
+                    </div>
+
+                </div>
+
+                <div class="col-lg-3">
+                    <div class="col-md-3">
+                        <table class="table  table-bordered">
+                            <thead class="bg-lightpurple">
+                                <tr>
+                                    <th scope="col">Yearly Entitlement</th>
+                                    <th scope="col">Life Time Entitlement</th>
+                                    <th scope="col">Life Time Occurance</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>{{yearlyEntitle}}</td>
+                                    <td>{{lvLifeEntitle}}</td>
+                                    <td>{{lvLifeOccurance}}</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+
+
+
+
+        </form>
+    </div>
+</div>

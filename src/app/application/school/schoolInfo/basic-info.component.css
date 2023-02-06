@@ -1,0 +1,27 @@
+.table-responsive .form-select {
+    width: 100%!important;
+}
+.formpatch {
+    border-bottom: none;
+    margin-bottom: 1rem;
+    background-color: rgb(131 104 173 / 10%);
+    padding: 1rem;
+    box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+}
+.label-data{
+    margin-bottom: 0.2rem!important;
+    /* padding-top: 5px!important; */
+}
+
+
+
+.form-label {
+    font-weight: 400!important;
+}
+
+@media only screen and (max-width: 768px)
+{
+    .fw-bold{
+        margin-bottom: 1rem!important;
+    }
+}

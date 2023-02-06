@@ -1,0 +1,169 @@
+<div>
+  <div class="pageHeading">
+    <div class="heading__tab">
+      <h3 class="pageName">Add Grant Info / अनुदान जानकारी जोड़ें</h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../addGrantInfo" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../viewGrantInfo" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें</a>
+      <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span>
+    </div>
+  </div>
+
+  <div class="top-space">
+    <div class="row">
+      <div class="col-md-2 form-group">
+        <div class=""><label   class="form-label">Academic Year<br>शैक्षणिक वर्ष </label></div>
+      </div>
+
+      <div class="col-md-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label   class="form-label fw-bold"> {{academicYear}}</label>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label    class="form-label">District<br> जिला</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label    class="form-label  fw-bold">
+            {{schlInfo.districtCode}} - {{schlInfo.districtName}}
+          </label>
+        </div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label    class="form-label">Block <br> प्रखण्</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label    class="form-label fw-bold">{{schlInfo.blockCode}} - {{schlInfo.blockName}}
+          </label>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label   class="form-label">Cluster <br> संकुल</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label    class="form-label fw-bold">
+            {{schlInfo.clusterCode}} - {{schlInfo.clusterName}}
+          </label>
+        </div>
+      </div>
+
+
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label   class="form-label">Village/Ward<br> गांव/वार्ड</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label    class="form-label fw-bold">
+            Araria
+          </label>
+        </div>
+      </div>
+      <div class="col-md-1"></div>
+      <div class="col-lg-2 form-group">
+        <div class="">
+          <label   class="form-label">School<br> स्कूल</label>
+        </div>
+      </div>
+      <div class="col-lg-3 form-group">
+        <div class="">
+          <span class="colon">:</span>
+          <label    class="form-label fw-bold"> {{schlInfo.schoolUdiseCode}} - {{schlInfo.schoolName}}</label>
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+  <form [formGroup]="addGrantInfoForm" (ngSubmit)="onSubmit()">
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label   class="form-label">Grant Type <br>अनुदान प्रकार </label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <select aria-label="Default select example" class="form-select" formControlName="grantType">
+          <option value="" selected>---Select---</option>
+          <option *ngFor="let item of EventNameData" value="{{item.grantTypeId}}">{{item.grantName}}</option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+      <div class="col-md-1">
+        <img src="assets/img/loading.gif" *ngIf="grantTypeLoading==true" alt="dsd">
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-md-2 form-group"><label   class="form-label">Bank Name <br>बैंक का नाम</label></div>
+      <div class="col-md-3 form-group">
+        <span class="colon">:</span>
+        <select class="form-select" aria-label="Default select example" formControlName="bankId"
+          (change)="bankChange($any($event.target).value)">
+          <option value="">--Select--</option>
+          <option *ngFor="let item of bankData" value="{{item.anxtValue}}">{{item.anxtName}}</option>
+        </select>
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <ng-container *ngIf="bankId == 12">
+      <div class="row hide" id="other">
+        <div class="col-md-2 form-group"><label   class="form-label">If Other Bank Name<br>यदि अन्य बैंक का नाम
+          </label></div>
+        <div class="col-md-3 form-group">
+          <span class="colon">:</span>
+          <input type="text" class="form-control" aria-describedby="Name" formControlName="otherBankName"
+            autocomplete="off" maxlength="40" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </ng-container>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label   class="form-label">Bank Account No.<br>बैंक खाता नम्बर </label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input type="text" class="form-control" formControlName="accountNo" maxlength="18" minlength="9"
+          (keypress)="customValidators.keyPressNumbers($event)">
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col-lg-2 form-group">
+        <label   class="form-label">IFSC Code<br>आईएफएससी कोड</label>
+      </div>
+      <div class="col-lg-3 form-group">
+        <span class="colon">:</span>
+        <input type="text" class="form-control" formControlName="ifscCode" maxLength="11"
+          (keypress)="customValidators.alphaNumericValidator($event)">
+        <span class="mandatory">*</span>
+      </div>
+    </div>
+    <div>
+      <button class="btn btn-success me-2">Submit / जमा करें</button>
+      <button type="reset" class="btn btn-danger">Reset / रीसेट</button>
+    </div>
+  </form>

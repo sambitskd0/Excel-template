@@ -1,0 +1,1193 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">View Student Information / छात्र की जानकारी देखें</h3><span class="indicator">( * ) Indicates Mandatory</span>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../add" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../view" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View / देखे</a>
+      <a *ngIf="userProfile.designationId == 46" routerLink="./../verifyreq" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View Verification Requests / सत्यापन अनुरोध देखें</a>
+      <a *ngIf="userProfile.designationId == 46" routerLink="./../cr" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View Modification Requests / परिवर्तन अनुरोध देखें</a>
+    </div>
+  </div>
+
+  <form [formGroup]="stdSearchForm" (ngSubmit)="onSearch()" autocomplete="off">
+  <!-- <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm" novalidate> -->
+    <div class="top-space">
+      <ng-container *ngIf="show">
+        <div class="search-container">
+          <div class="search-sec">
+            <div class="searchPanel">
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">District  <br>जिला  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchDistrictId" autocomplete="off" (change)="getBlock($any($event.target).value)">
+                      <option value="" *ngIf="scDisrtictSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                      <option *ngFor="let districtItem of searchDistrictData" [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{ districtItem.districtName }}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scDisrtictLoading==true">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Block <br>प्रखण्ड </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchBlockId" autocomplete="off" (change)="getCluster($any($event.target).value)">
+                      <option value="" *ngIf="scBlockSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                      <option *ngFor="let blockItem of searchBlockData" [value]="blockItem.blockId">{{ blockItem.blockCode }} - {{ blockItem.blockName }}  </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>                 
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scBlockLoading==true">
+                </div>
+              </div>              
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">Cluster <br>समूह  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchClusterId" autocomplete="off" (change)="getSchool($any($event.target).value)">
+                      <option value="" *ngIf="scClusterSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scClusterLoading == true">Loading...</option>
+                      <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">{{ clusterItem.clusterCode }} - {{ clusterItem.clusterName }} </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scClusterLoading==true">
+                </div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label for="exampleInputEmail1" class="form-label">School <br>विद्यालय  </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <select class="form-select" formControlName="searchSchoolId" autocomplete="off" (change)="getSchoolWiseClasses($any($event.target).value)">
+                      <option value="" *ngIf="scSchoolSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="scSchoolLoading == true">Loading...</option>
+                      <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">{{ schoolItem.schoolUdiseCode }} - {{ schoolItem.schoolName }}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                  
+                </div>
+                <div class="col-md-1">
+                  <img src="assets/img/loading.gif" *ngIf="scSchoolLoading==true">
+                </div>
+              </div>  
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Class  <br> वर्ग </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="classId" class="form-select" (click)="classControlChange($any($event.target).value)">
+                      <option value="" *ngIf="classChanged==false">--- Select ---</option>
+                      <option value="" *ngIf="classChanged==true">Loading...</option>
+                      <option *ngFor="let cls of classList" [value]="cls.classId">
+                        {{ cls.class }}
+                      </option>
+                    </select>
+                    <span class="mandatory">*</span>
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Section <br> भाग </label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="section" class="form-select">
+                      <option value="" *ngIf="sectionChanged==false">--- Select ---</option>
+                      <option value="" *ngIf="sectionChanged==true">Loading...</option>
+                      <option *ngFor="let item of sectionList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-md-6 form-group">
+                  <ng-container *ngIf="classId == 11 || classId == 12">
+                    <div id="11" class="row">
+
+                      <div class="col-lg-4 form-group">
+                        <label class="form-label">Stream  <br> संकाय</label>
+                      </div>
+                      <div class="col-lg-6 form-group">
+                        <span class="colon">:</span>
+                        <select class="form-select" formControlName="stream" (click)="streamControlChange($any($event.target).value)">
+                          <option value="" *ngIf="streamChanged==false">--- Select ---</option>
+                          <option value="" *ngIf="streamChanged==true">Loading...</option>
+                          <option *ngFor="let item of streamList" [value]="item.anxtValue"> {{ item.anxtName }}
+                          </option>
+                        </select>
+                      </div>
+                    </div>
+
+
+                  </ng-container>
+                </div>
+
+                <div class="col-md-6 form-group">
+                  <ng-container *ngIf="classId > 10 && stream == 3">
+                    <div id="science" class="row">
+
+                      <div class="col-lg-4 form-group">
+                        <label class="form-label">Group</label>
+                      </div>
+                      <div class="col-lg-6 form-group">
+                        <span class="colon">:</span>
+                        <select formControlName="group" class="form-select">
+                          <option value="" *ngIf="groupChanged==false">--- Select ---</option>
+                          <option value="" *ngIf="groupChanged==true">Loading...</option>
+                          <option *ngFor="let item of groupList" [value]="item.anxtValue"> {{ item.anxtName }} </option>
+                        </select>
+                      </div>
+
+                    </div>
+                  </ng-container>
+                </div>
+              </div>           
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Student Code <br> छात्र का कोड</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="studentCode" (keypress)="customValidators.keyPressNumbers($event)"
+                    [maxlength]="15">
+                  </div>
+                </div>
+                <div class="col-md-1"></div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">Admission Number <br> नामांकन संख्या</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" formControlName="admissionNo">
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="">
+                  <button class="btn btn-default btn-purple" type="submit"> Search / खोजें  <i class="bi bi-search"></i></button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </ng-container>
+      <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me">Search Panel / खोज पट्टिका</button>
+    </div>
+  </form>
+
+  <div class="clearfix"></div>
+
+  <div class="row mt-3" [hidden]="resultListData?.length === 0">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">
+
+                <button *ngIf="userProfile.designationId == 46 && approveCRListId.length > 0" class="btn btn-sm btn-default btn-purple me-2" (click)="bulkCRAprroval()">Bulk Modification Request Approve</button>
+
+                <button *ngIf="userProfile.designationId == 46 && approveListId.length > 0" class="btn btn-sm btn-default btn-purple me-2" (click)="bulkAprroval()">Bulk Verify</button>
+
+                <button *ngIf="verifyListId.length>0 && userProfile.school != 0" class="btn btn-sm btn-default btn-purple me-2" (click)="bulkVerifyReq()">Request To Verify</button>     
+                <button *ngIf="modifyListId.length>0 && userProfile.school != 0" class="btn btn-sm btn-default btn-purple me-2" (click)="bulkModifyReq()">Request To Modify</button>      
+
+                <a title="Excel" class="excel"(click)="downLoadStudentList()" ><i class="bi bi-file-earmark-excel"></i></a>
+                <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+                <a *ngIf="adminPrivilege && noDelListId.length>0" title="Delete" class="delete"><i class="bi bi-trash" (click)="deleteMultipleStudents();"></i></a>
+          </div>
+        </div>
+      </div>
+      <ng-container *ngIf="emptyResult === false">
+          <form [formGroup]="viewTableForm">
+            <div  id="viewTable">
+              <mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+              </mat-progress-bar>
+    <div class="table-responsive">
+              <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+                #exporter="matTableExporter">
+    
+                <ng-container matColumnDef="chkAll">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" width="40px">
+                    <div class="checkbox check__box">
+                      <div class="form-group me-0">
+                        <label>
+                          <input type="checkbox" class="check" formControlName="checkAll" (click)="checkUncheckAll()">
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <div class="checkbox check__box">
+                      <div class="form-group me-0">
+                        <label>
+                          <input type="checkbox" class="check" id="checkRecord" [checked]="element?.isChecked"
+                            [value]="element?.studentId" (change)="onCheckboxChange($event)">
+                          <span></span>
+                        </label>
+                      </div>
+                    </div>
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="slNo">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    #
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Student Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Student Name /  छात्र का नाम
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.studentName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Student Code">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Student Code / छात्र का कोड
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.studentCode }}</td>
+                </ng-container>
+    
+                <!-- <ng-container matColumnDef="Admission Number">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Admission Number
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.admissionNo }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Admission Date">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Admission Date
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.admissionDate | date:'dd-MMM-yyyy' }}</td>
+                </ng-container> -->
+    
+                <ng-container matColumnDef="Father Name">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Father Name / पिता का नाम 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.fatherName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="DOB">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    DOB / जन्म तिथि 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.dob | date:'dd-MMM-yyyy' }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Gender">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Gender / लिंग 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.genderName }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Class">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Class / वर्ग 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.className }}</td>
+                </ng-container>
+    
+                <ng-container matColumnDef="School">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    School  / विद्यालय 
+                  </th>
+                  <td mat-cell *matCellDef="let element">{{ element?.schoolName }}</td>
+                </ng-container>
+
+                <ng-container matColumnDef="tagSubject">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                    Tag Subject 
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <a *ngIf="userProfile.school" title="Tag Subject" (click)="subjectTag(element?.studentId,element?.academicYear,element?.class,element?.stream,element?.group,element?.schoolId,element?.tagStatus)" class="btn btn-success tranfer-btn" data-bs-toggle="modal" data-bs-target="#subjectModal">
+                      <i class="bi bi-tag text-primary"></i>
+                    </a>
+                    <span *ngIf="!userProfile.school" >--</span>
+                      <!-- <ng-template #taggedAlready> Already Tagged</ng-template> -->
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="studentFacility">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                    Student Facilitation
+                  </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <!-- <a *ngIf="userProfile.school" title="Update Student Facilitation"  class="btn btn-success tranfer-btn" data-bs-toggle="modal" data-bs-target="#facilityModal"  (click)="studFacility(element?.studentId,element?.academicYear,element?.schoolId,element?.class,element?.stream,element?.group,element?.section,element?.studentName)">
+                      <i class="bi bi-award text-primary"></i>
+                    </a> -->
+                    <a title="Update Student Facilitation" class="btn btn-success tranfer-btn" data-bs-toggle="modal" data-bs-target="#facilityModal" *ngIf="userProfile.school && adminPrivilege && !element?.freezStatus && element?.verificationStatus!=1 else noFacilationPermission" (click)="studFacility(element?.studentId,element?.academicYear,element?.schoolId,element?.class,element?.stream,element?.group,element?.section,element?.studentName)">
+                      <i class="bi bi-award text-primary"></i>
+                    </a>
+                   <ng-template #noFacilationPermission>
+                    <span *ngIf="!userProfile.school" >--</span>
+                   </ng-template>
+                    
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Transfer">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" > Transfer / स्थानांतरण </th>
+                  <td mat-cell *matCellDef="let element" class="noPrint">
+                    <ng-container *ngIf="userProfile.school && element?.freezStatus==1">
+                        <a *ngIf="element?.certificateNo" title="Transfer" class="btn btn-success tranfer-btn me-2" data-bs-toggle="modal" data-bs-target="#exampleModal" (click)="studentTransferHandle(element?.studentId,element?.studentCode,element?.studentName)">
+                          <i class="bi bi-arrow-left-right"></i>
+                        </a>
+                        <a *ngIf="element?.certificateNo" class="btn btn-primary me-2"  title="Print TC" data-bs-toggle="modal" data-bs-target="#PrintTCModal" (click)="TCInfo(element?.studentId)">
+                          <i  class="bi bi-printer"></i>
+                        </a>   
+                        <a *ngIf="!element?.certificateNo" title="View" class="btn btn-info me-2" data-bs-toggle="modal" data-bs-target="#TCModal" (click)="TCInfo(element?.studentId)">Generate TC</a>
+                    </ng-container>
+                    <span *ngIf="!userProfile.school || element?.freezStatus != 1" >--</span>
+                  </td>
+                </ng-container>
+
+                <ng-container matColumnDef="Pending">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple">
+                    Pending At/ लंबित अत
+                  </th>
+                  <td mat-cell *matCellDef="let element">
+                    <span *ngIf="(element?.verificationStatus == 1 || (element?.verificationStatus==3 && element?.crStatus==1));else blankBEO">Pending at BEO</span>
+                    <ng-template #blankBEO>--</ng-template>
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Status">
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint"> Action/ गतिविधि </th>
+                  <td mat-cell *matCellDef="let element" style="width: 150px;" class="noPrint">
+                    <a (click)='openLink(element?.studentId)' title="View Student Details" class="badge badge-secondary bg-secondary me-2" [style.cursor]="'pointer'">
+                      <i class="bi bi-eye-fill"></i> View 
+                    </a>
+
+                    <a title="Edit Student Profile" routerLink="./../edit/{{ element?.studentId }}" class="badge badge-success bg-success me-2" *ngIf="adminPrivilege && !element?.freezStatus && element?.verificationStatus!=1">
+                      <i class="bi bi-pencil-square"></i> Edit
+                    </a>
+
+                    <a title="Delete Student"  class="badge badge-danger bg-danger me-2" (click)="deleteStudent(element?.studentId)" [style.cursor]="'pointer'" *ngIf="adminPrivilege && element?.verificationStatus == 0 && !element?.freezStatus && element?.crStatus == 0">
+                      <i class="bi bi-trash3"></i> Delete
+                    </a>
+
+                    <a title="Send Request to Verify" class="badge badge-primary bg-primary me-2" *ngIf="adminPrivilege && element?.verificationStatus < 1" (click)="requestforVerification(element?.studentId)" [style.cursor]="'pointer'">
+                      Request to Verify
+                      <!-- <i class="bi bi-bootstrap-reboot"></i> -->
+                    </a>
+
+                    <a title="Verify" *ngIf="element?.verificationStatus==1 && userProfile.designationId == 46" class="badge badge-primary bg-primary me-2" data-bs-toggle="modal" data-bs-target="#nonverifiedModal" (click)="verifyStudent(element?.studentId,element?.crStatus)" [style.cursor]="'pointer'"> 
+                      <!-- <i class="bi bi-arrow-clockwise"></i>  -->
+                      Verify
+                    </a>
+
+
+                    <a title="Send Request to Modify" class="badge badge-info bg-info me-2" *ngIf="adminPrivilege && element?.freezStatus && element?.crStatus != 1" (click)="requestToModify(element?.studentId)" [style.cursor]="'pointer'">
+                      <!-- <i class="bi bi-arrow-clockwise"></i> -->
+                      Request To Modify
+                    </a>
+
+                    <a title="Approval of Profile Modification Request" class="badge badge-info bg-info me-2" *ngIf="element?.crStatus == 1 && userProfile?.designationId == 46" data-bs-toggle="modal" data-bs-target="#crApprovalModal" (click)="approvalForCR(element?.studentId)" [style.cursor]="'pointer'">
+                      <!-- <i class="bi bi-arrow-right-square-fill"></i> -->
+                       Take Action
+                    </a>
+
+                  
+                  </td>
+                </ng-container>
+    
+                <ng-container matColumnDef="Verification Status" >
+                  <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint">
+                    Verification Status / सत्यापन की स्थिति 
+                  </th>
+                  <td mat-cell *matCellDef="let element" style="width: 120px;" class="noPrint">
+
+                    <!-- <a *ngIf="element?.verificationStatus==2" class="btn btn-warning me-2" data-bs-toggle="modal" data-bs-target="#verificationReasonModal" (click)="showRevertReason(element?.verificationRemarks)"> Reverted</a> -->
+
+                    <a *ngIf="element?.verificationStatus < 1" class="badge badge-danger bg-danger me-2">Not Verified</a>
+                    
+                    <a *ngIf="element?.verificationStatus == 1" class="badge badge-primary bg-primary me-2">Requested for Verification</a>
+
+                    <a *ngIf="element?.verificationStatus==2" class="badge badge-warning bg-warning me-2" (click)="showRevertReason(element?.verificationRemarks)" data-bs-toggle="modal" data-bs-target="#verificationReasonModal" [style.cursor]="'pointer'">Reverted</a>
+
+                    <a *ngIf="element?.verificationStatus==3" class="badge badge-success bg-success me-2">Verified</a>
+
+                    <span *ngIf="element?.verificationStatus==3 && element?.crStatus==1" class="badge badge-warning bg-warning me-2">Requested For Modification</span>
+
+                    <span *ngIf="element?.verificationStatus!=3 && element?.crStatus==2" class="badge badge-success bg-success me-2">Change Request Approved</span>
+
+                    <span *ngIf="element?.verificationStatus==3 && element?.crStatus==3" class="badge badge-warning bg-warning me-2" (click)="showRevertReason(element?.crRemarks)" data-bs-toggle="modal" data-bs-target="#verificationReasonModal" [style.cursor]="'pointer'">Change Request Reverted</span>
+                    
+                  </td>
+                </ng-container>
+    
+                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+
+              </table>
+            </div>
+              <table>
+                <tr *ngIf="!dataSource.data.length">
+                  <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+                    No Records Found!
+                  </td>
+                </tr>
+              </table>
+    
+              <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize"
+                [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+                showFirstLastButtons class="noPrint">
+              </mat-paginator>
+    
+            </div>
+          </form>
+      </ng-container>
+    </div>
+  </div>
+
+  <ng-container *ngIf="noFilter === true">
+    <div class="alert alert-info text-center fw-bold" role="alert">
+      {{ "Please filter the search pannel, then the data will load......" }}
+    </div>
+  </ng-container>
+
+  <ng-container *ngIf="emptyResult===true">
+    <div class="alert alert-info text-center fw-bold" role="alert"  >
+      {{ "No record found" }}
+    </div>
+  </ng-container>
+
+</div>
+
+<!-- Student Transfer Modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <form [formGroup]="studentTransferForm" (ngSubmit)="submitTransfer()">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Student Transfer</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #stdTransferClose></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label class="form-label">Student Name : </label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class=" colon-top">
+                <span class="colon">:</span>
+                {{ trStdName }} ({{ trStdCode}})
+              </div>
+            </div>
+  
+            <div class="col-lg-1"></div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label class="form-label">Type</label>
+              </div>
+            </div>
+            <div class="col-lg-3 form-group">
+              <div class=" colon-top">
+                <span class="colon">:</span>
+                <div class="radiobuttons  text-center">
+                  <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="trActionId" value="1" id="rbtTransfer" type="radio" (click)="transferRdControl($any($event.target).value)">
+                    <label for="rbtTransfer">Transfer</label>
+                  </div>
+                  <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="trActionId" value="2" id="rbtDropout" type="radio" (click)="transferRdControl($any($event.target).value)">
+                    <label for="rbtDropout">Dropout</label>
+                  </div>
+                </div>
+              </div>
+            </div>
+  
+            <div class="col-lg-1"></div>
+          </div>
+          <ng-container *ngIf="trActionId == 1">
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">UDISE Code</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span> 
+                    <input type="text" class="form-control" formControlName="trUDISECode" placeholder="Search by UDISE code" (keypress)="customValidators.keyPressNumbers($event)"
+                    [maxlength]="15">
+                  </div>
+                </div>
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <button class="btn btn-default btn-purple" type="button" (click)="searchByUDISECode()"> Serach <i class="bi bi-search"></i></button>
+                  </div>
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2 form-group">
+                  <div class="">
+                    <label class="form-label">District</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="trDistrictId" autocomplete="off" (change)="loadtTrBlockData($any($event.target).value)">
+                      <option value="" *ngIf="trDistrictSelect == true">--- Select ---</option>
+                      <option value="" *ngIf="trDistrictSelect == false">Loading...</option>
+                      <option *ngFor="let districtItem of trDistrictData" [value]="districtItem.districtId">{{ districtItem.districtCode }} -{{ districtItem.districtName }}</option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2  form-group">
+                  <div class="">
+                    <label class="form-label">Block</label>
+                  </div>
+                </div>
+                <div class="col-lg-3  form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="trBlockId" class="form-select" aria-label="Block" (change)="loadtTrClusterData($any($event.target).value)">
+                        <option value="" *ngIf="trBlockSelect == true">--- Select ---</option>
+                        <option value="" *ngIf="trBlockSelect == false">Loading...</option>
+                        <option *ngFor="let item of trBlockData" [value]="item.blockId">
+                          {{ item.blockCode }} - {{ item.blockName }}
+                        </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+              </div>
+              <div class="row">
+                <div class="col-lg-2  form-group">
+                  <div class="">
+                    <label class="form-label">Cluster</label>
+                  </div>
+                </div>
+                <div class="col-lg-3  form-group">
+                  <span class="colon">:</span>
+                  <div class="">
+                    <select formControlName="trClusterId" class="form-select" (change)="loadtTrSchoolData($any($event.target).value)">
+                      <option value="" *ngIf="trClusterSelect == true"> --- Select ---  </option>
+                      <option value="" *ngIf="trClusterSelect == false">Loading...</option>
+                      <option *ngFor="let item of trClusterData" [value]="item.clusterId">{{ item.clusterCode }} - {{ item.clusterName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+                <div class="col-lg-1"></div>
+                <div class="col-lg-2">
+                  <div class="">
+                    <label class="form-label">School</label>
+                  </div>
+                </div>
+                <div class="col-lg-3 form-group">
+                  <div class="">
+                    <span class="colon">:</span>
+                    <select formControlName="trSchoolId" class="form-select">
+                      <option value="" *ngIf="trSchoolSelect == true"> --- Select ---  </option>
+                      <option value="" *ngIf="trSchoolSelect == false">Loading...</option>
+                      <option *ngFor="let item of trSchoolData" [value]="item.schoolId">{{ item.schoolUdiseCode }} - {{ item.schoolName }}
+                      </option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+          </ng-container>  
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-success">Submit</button>
+        </div>
+      </div>
+    </form>    
+  </div>
+</div>
+
+<!-- non-verified -->
+<div class="modal fade" id="nonverifiedModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form [formGroup]="stdVerifyForm" (ngSubmit)="onVerifySubmit()" autocomplete="off">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Verify Student</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #stdVerifyClose></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row" *ngIf="verifyType>0">
+              <!-- click <span href="">here</span> to check both the modified and existing student profile data. -->
+          </div>
+          <div class="row">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Action Type </label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <div class=" pt-2">                
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="verifyStatus" value="3" id="verifyStatusApprove" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                    <label for="verifyStatusApprove">Approve</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="verifyStatus" value="2" id="verifyStatusRevert" type="radio" (change)="rdverifyStatusControl($any($event.target).value)"/>
+                    <label for="verifyStatusRevert">Revert</label>
+                </div>
+              </div>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row formpatch">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Remarks </label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <textarea cols="4" rows="4" formControlName="remarks" class="form-control" aria-describedby="Remarks" maxlength="500"></textarea>
+              <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+              <span *ngIf="verifyStatus==2"  class="mandatory">*</span>
+            </div>
+          </div>
+          <input type="hidden" formControlName="studentId"> 
+          <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> 
+
+<!-- Verification Revert Reason Modal -->
+<div class="modal fade" id="verificationReasonModal" tabindex="-1" aria-labelledby="infoview" aria-hidden="true">
+  <div class="modal-dialog modal-l">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Revert Reason</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">        
+        <div class="row"> 
+          <div class="col-lg-9 form-group"> {{revertReason}} </div>  
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CR Approval Modal -->
+<div class="modal fade" id="crApprovalModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <form [formGroup]="crApprovalForm" (ngSubmit)="crApprovalSubmit()" autocomplete="off">
+    <div class="modal-dialog modal-md">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel"> Approval of student profile modification </h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" #stdCRClose></button>
+        </div>
+        <div class="modal-body p-4">
+          <div class="row">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Action Type</label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <div class=" pt-2">                
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="crStatus" value="2" id="crStatusApprove" type="radio" (change)="rdCRStatusControl($any($event.target).value)"/>
+                    <label for="crStatusApprove">Approve</label>
+                </div>
+                <div class="rdio rdio-primary form-check-inline">
+                    <input formControlName="crStatus" value="3" id="crStatusRevert" type="radio" (change)="rdCRStatusControl($any($event.target).value)"/>
+                    <label for="crStatusRevert">Reject</label>
+                </div>
+              </div>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row formpatch">
+            <div class="col-lg-3 form-group">
+              <label class="form-label">Remarks </label>
+            </div>
+            <div class="col-lg-9 form-group">
+              <span class="colon">:</span>
+              <textarea cols="4" rows="4" formControlName="crRemarks" class="form-control" aria-describedby="Remarks" maxlength="500"></textarea>
+              <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+              <span *ngIf="crStatus==3"  class="mandatory">*</span>
+            </div>
+          </div>
+          <input type="hidden" formControlName="studentId"> 
+          <div>
+            <button class="btn btn-success" type="submit">Submit</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </form>
+</div> 
+
+<!-- Subject Tagging-->
+<div class="modal fade" id="subjectModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Tag Subject</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #stdSubTagClose></button>
+      </div>
+      <div class="modal-body p-4">
+        <form [formGroup]="tagSubjectForm" (ngSubmit)="tagSubjectSumbit()">
+          <input type="hidden" formControlName="classNameModal">
+          <input type="hidden" formControlName="streamId">
+          <input type="hidden" formControlName="groupId">
+          <input type="hidden" formControlName="academicYearStudent">
+          <input type="hidden" formControlName="studentId">
+          <div class="row">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Class</label>
+              </div>
+            </div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <span class="colon">:</span>
+                <label for="" class="margin_label">{{(this.classNameModal) ? "Class " +this.classNameModal :'--'}}</label>
+              </div>
+            </div>
+            </div>
+            <div class="row">
+            <ng-container *ngIf="this.classNameModal === 12 || this.classNameModal === 11">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Stream</label>
+              </div>
+            </div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <span class="colon">:</span>
+
+                <label for="" class="margin_label">{{(this.streamListModal[this.streamId]) ? this.streamListModal[this.streamId]
+                  :'--'}}</label>
+
+              </div>
+            </div>
+          </ng-container>
+        </div>
+        <div class="row " >
+          <ng-container *ngIf="this.classNameModal === 12 || this.classNameModal === 11">
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <label for="exampleInputEmail1" class="form-label">Group</label>
+              </div>
+            </div>
+            <div class="col-lg-2 form-group">
+              <div class="">
+                <span class="colon">:</span>
+
+                <label for="" class="margin_label">{{(this.groupListModal[this.groupId]) ? this.groupListModal[this.groupId]
+                  :'--'}}</label>
+              </div>
+            </div>
+          </ng-container>
+          </div>
+          <div class="row">
+           
+              <div class="col-lg-2 form-group">
+                <div class="">
+                  <label for="exampleInputEmail1" class="form-label">Subject</label>
+                </div>
+              </div>
+             
+            
+            </div>
+            <div class="row">
+             
+              <div class="panel panel-default panel-border">
+                <div class="panel-body">
+                  <div class="check__box mb-3 tagging--check">Compulsory Subject :
+                                         
+                    <ul  *ngFor="let compsub of tagSubCompData; let i=index;">
+                      <li>{{compsub.subject}}</li>                     
+                     </ul>                    
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-2"></div>
+          
+            <div class="row">             
+              <div class="panel panel-default panel-border">
+                <div class="panel-body">
+                  <div class="check__box mb-3 tagging--check" style="margin-top: 0.5rem;">Optional Subject : 
+                    &nbsp;
+                    &nbsp;
+                    <div class="form-group checkbox" *ngFor="let optsub of tagSubOptData; let i=index;">                    
+                      <input type="checkbox"  [id]="tagStatusSubject == null  ? optsub.subject+i : ''"  class="check"
+                        [checked]="opsubjectTaggingArray.includes(optsub.subjectId)" [value]="optsub.subjectId"
+                        (click)="opSubCheckboxChange($event)">
+                      <label for="{{optsub.subject+i}}">{{optsub.subject}}</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="mb-2"></div>        
+          <div>
+            <button class="btn btn-success me-2" *ngIf="tagStatusSubject == null">Submit</button>
+            <!-- <button type="reset" class="btn btn-danger me-2">Reset</button> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Facilitation Information-->
+<div class="modal fade" id="facilityModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">Facilitation Information / सुविधा सम्बंधित विवरण   &nbsp; &nbsp;<span style="color: red;">({{studName}})</span></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"  #facilationClose></button>
+      </div>
+      <div class="modal-body p-4">
+        <form [formGroup]="facilitationForm" (ngSubmit)="facilitationSumbit()">
+          <input type="hidden" formControlName="academicYearStudent">
+          <input type="hidden" formControlName="studentId">
+          <div class="row">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Student received set of dresses <br>छात्र को कपड़ों का सेट मिला</label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="receivedDressSet" class="form-select"
+                     aria-label="Student received set of dresses">
+                     <option value="0">NA</option>
+                     <option value="1">1 set</option>
+                     <option value="2">2 set</option>
+                     <option value="3">3 set</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Facilities Recived by CWSN <br>सीडब्ल्यूएसएन द्वारा प्राप्त सुविधाएं
+                  </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <span class="colon">:</span>
+               <select formControlName="facilityId" class="form-select" aria-label="Facilities Recived by CWSN">
+                  <option value="0">NA</option>
+                  <option *ngFor="let facility of facilityList" [value]="facility.anxtValue">{{ facility.anxtName }}
+                  </option>
+               </select>
+               <span class="mandatory">*</span>
+            </div>
+         </div>
+         <div class="row">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Free Set Of Text Books <br>पाठ्य पुस्तकों का निःशुल्क सेट मिला </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="freeTextBook" class="form-select" aria-label="Free Set Of Text Books">
+                     <option value="0">NA</option>
+                     <option value="1">Yes</option>
+                     <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Free Transport <br>मुफ्त परिवहन </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="freeTransport" class="form-select" aria-label="Free Transport">
+                     <option value="0">NA</option>
+                     <option value="1">Yes</option>
+                     <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Free Escort Facility <br>नि:शुल्क अनुरक्षण सुविधा </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="freeEscort" class="form-select" aria-label="Free Escort Facility">
+                     <option value="0">NA</option>
+                     <option value="1">Yes</option>
+                     <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Free Bicycle <br>फ्री साइकिल </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="freeBicycle" class="form-select" aria-label="Free Bicycle">
+                    <option value="0">NA</option>
+                     <option value="1">Yes</option>
+                     <option value="2">No</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Free Hostel Facility <br>निशुल्क छात्रावास की सुविधा </label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="freeHostel" class="form-select" aria-label="Free Hostel Facility">
+                     <!-- <option value="" *ngIf="hostleFacilityChanged == true">Loading...</option> -->
+                     <option value="0">NA</option>
+                     <option *ngFor="let Hfacility of hostleFacilityList" [value]="Hfacility.anxtValue"> {{
+                        Hfacility.anxtName }} </option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Child Attended Special Training <br>बच्चे ने विशेष प्रशिक्षण में भाग
+                     लिया</label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="attendedSpecialTraining" class="form-select"
+                     aria-label="Child Attended Special Training">
+                     <!-- <option value="0" *ngIf="specialTrainingChanged == false">NA</option>
+                     <option value="" *ngIf="specialTrainingChanged == true">Loading...</option> -->
+                     <option value="0">NA</option>
+                     <option *ngFor="let stl of specialTrainingList" [value]="stl.anxtValue">{{ stl.anxtName }}</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+         <div class="row">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Whether the child is homeless <br> क्या बच्चा बेघर है</label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <select formControlName="homeless" class="form-select" aria-label="Whether the child is homeless">
+                     <!-- <option value="" *ngIf="homelessChanged == true">Loading...</option> -->
+                     <option value="0">NA</option>
+                     <option *ngFor="let hm of homelessList" [value]="hm.anxtValue">{{ hm.anxtName }}</option>
+                  </select>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+            <div class="col-md-1"></div>
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">Did the student get any medicine in last three months? <br> क्या आपको पिछले
+                     तीन महीनों में कोई दवा मिली?</label>
+               </div>
+            </div>
+             <div class="col-lg-2 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                  <div class="radiobuttons pt-2">
+                     <div class="rdio rdio-primary form-check-inline">
+                        <input formControlName="gotMedicine" value="1" id="gotMedicineYes" type="radio"
+                           (click)="medicineRdControl($any($event.target).value)" />
+                        <label for="gotMedicineYes">Yes</label>
+                     </div>
+                     <div class="rdio rdio-primary form-check-inline">
+                        <input formControlName="gotMedicine" value="0" id="gotMedicineNo" type="radio"
+                           (click)="medicineRdControl($any($event.target).value)" />
+                        <label for="gotMedicineNo">No</label>
+                     </div>
+                     <span class="mandatory" style="top: 13px;right: auto;">*</span>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="row" *ngIf="gotMedicine === '1'">
+              <div class="col-lg-3 form-group">
+               <div class="">
+                  <label class="form-label">What kind of medicine did the student get in the last three months? <br>
+                     पिछले तीन महीनों में आपको किस तरह की दवा मिली?</label>
+               </div>
+            </div>
+             <div class="col-lg-8 form-group">
+               <div class="">
+                  <span class="colon">:</span>
+                     <table class="table table-bordered">
+                        <tbody>
+                         <tr>
+                            <td>Iron and Folic acid tablets</td>
+                            <td>
+                               <div class="">
+                                  <span class="colon">:</span>
+                                   <div class="radiobuttons pt-2">
+                                      <div class="rdio rdio-primary form-check-inline">
+                                         <input formControlName="ironTablets" value="1" id="ironTabletsYes" type="radio">
+                                         <label for="ironTabletsYes">Yes</label>
+                                      </div>
+                                      <div class="rdio rdio-primary form-check-inline">
+                                         <input formControlName="ironTablets" value="2" id="ironTabletsNo" type="radio">
+                                         <label for="ironTabletsNo">No</label>
+                                      </div>
+                                      <div class="rdio rdio-primary form-check-inline">
+                                        <input formControlName="ironTablets" value="0" id="ironTabletsNA" type="radio">
+                                        <label for="ironTabletsNA">NA</label>
+                                     </div>
+                                </div>
+                                </div>
+                            </td>
+                           </tr>
+                           <tr>
+                            <td>Deworming tablets</td>
+                            <td>
+                               <div class="">
+                                  <span class="colon">:</span>
+                                   <div class="radiobuttons pt-2">
+                                      <div class="rdio rdio-primary form-check-inline">
+                                         <input formControlName="dewormingTablets" value="1" id="dewormingTabletsYes" type="radio">
+                                         <label for="dewormingTabletsYes">Yes</label>
+                                      </div>
+                                      <div class="rdio rdio-primary form-check-inline">
+                                         <input formControlName="dewormingTablets" value="2" id="dewormingTabletsNo" type="radio">
+                                         <label for="dewormingTabletsNo">No</label>
+                                      </div>
+                                      <div class="rdio rdio-primary form-check-inline">
+                                        <input formControlName="dewormingTablets" value="0" id="dewormingTabletsNA" type="radio">
+                                        <label for="dewormingTabletsNA">NA</label>
+                                     </div>
+                                </div>
+                                </div>
+                            </td>
+                           </tr>
+                           <tr>
+                            <td>Vitamin A tablets</td>
+                            <td>
+                               <div class="">
+                                  <span class="colon">:</span>
+                                   <div class="radiobuttons pt-2">
+                                      <div class="rdio rdio-primary form-check-inline">
+                                         <input formControlName="vitaminATablets" value="1" id="vitaminATabletsYes" type="radio">
+                                         <label for="vitaminATabletsYes">Yes</label>
+                                      </div>
+                                      <div  class="rdio rdio-primary form-check-inline">
+                                         <input  formControlName="vitaminATablets" value="2" id="vitaminATabletsNo" type="radio">
+                                         <label  for="vitaminATabletsNo">No</label>
+                                      </div>
+                                      <div  class="rdio rdio-primary form-check-inline">
+                                        <input  formControlName="vitaminATablets" value="0" id="vitaminATabletsNA" type="radio">
+                                        <label  for="vitaminATabletsNA">NA</label>
+                                     </div>
+                                </div>
+                                </div>
+                            </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  <span class="mandatory">*</span>
+               </div>
+            </div>
+         </div>
+     
+    
+            <!-- <div class="mb-2"></div>
+          
+            
+            <div class="mb-2"></div>         -->
+          <div>
+            <button class="btn btn-success me-2">Submit</button>
+            <!-- <button type="reset" class="btn btn-danger me-2">Reset</button> -->
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- for generate TC -->
+<app-tc [modalTCInfo]="modalTCData" (parentSrchFun)="onSearch()"></app-tc>
+<!-- for generate TC -->
+

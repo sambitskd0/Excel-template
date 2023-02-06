@@ -1,0 +1,45 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit Class Tagging/वर्ग चिन्हित करें</h3><span class="indicator">( * ) Indicates Mandatory/ ( * ) संकेतक अनिवार्य</span>
+        </div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" 	*ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/ संपादन करना</a>
+            
+            <a routerLink="../../viewClassTagging" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View/ देखे</a>
+        </div>
+    </div>
+    <div>
+    <form  [formGroup]="classTaggingForm" (ngSubmit)="onSubmit()">
+    <div class="formpatch top-space">
+        <div class="row">
+            <div class="col-md-2 form-group">
+                <label class="form-label">School Type </label><br>विद्यालय का प्रकार
+            </div>
+            <div class="col-md-3 form-group">
+                <span class="colon">: &nbsp;</span>
+                <label class="form-label fw-bold">{{schoolTypeName}}</label>
+            </div>
+            <div class="col-md-6"></div>
+            <div class="col-md-2 form-group">
+                <label class="form-label">Class Tagging</label>
+                <br>वर्ग टैगिंग
+            </div>
+            <div class="col-md-6 form-group">
+                <span class="colon">:</span>
+                <div class="check__box mb-3 class--checkbox">
+                    <div  class="form-group checkbox" *ngFor="let item of anextureClassTypedata; let i=index;" > 
+                        <input  type="checkbox" [id]="item.anxtName" class="check" [value]="item.anxtValue" (change)="onCheckboxChange($event)"  [checked]="classTaggingArray.includes(item.anxtValue)">
+                        <label  [for]="item.anxtName">{{item.anxtName}}</label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div>
+        <button class="btn btn-success me-2" type="submit">Update / नवीनीकरण करना</button> 
+        <button class="btn btn-danger me-2"  type="reset" (click)="formReset()">Cancel / रद्द करना</button> 
+    </div>
+    </form>
+    </div>

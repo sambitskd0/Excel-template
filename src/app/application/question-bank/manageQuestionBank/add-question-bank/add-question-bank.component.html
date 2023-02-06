@@ -1,0 +1,583 @@
+<form [formGroup]="questionBankForm" (ngSubmit)="onSubmit()">
+  <div>
+    <div class="pageHeading">
+      <div class="heading__tab">
+        <div>
+          <h3 class="pageName">Question Bank / प्रश्न बैंक</h3>
+        </div>
+      </div>
+      <span class="indicator"
+        >( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span
+      >
+      <div class="tabArea">
+        <a
+          routerLink="./"
+          class="neuro addLink"
+          routerLinkActive="active"
+          *ngIf="adminPrivilege"
+          ><i class="bi bi-plus-lg me-2"></i>Add / जोड़ें </a
+        >
+        <a
+          routerLink="./../view"
+          class="neuro addLink"
+          routerLinkActive="active"
+          ><i class="bi bi-eye me-2"></i>View / देखें </a
+        >
+      </div>
+    </div>
+    <div class="formpatch mt-3">
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <div class="">
+            <label for="" class="form-label"
+              >Academic Year <br />शैक्षणिक वर्ष
+            </label>
+          </div>
+        </div>
+        <div class="col-md-3 form-group">
+          <div class="">
+            <span class="colon">:</span>
+            <label for="" class="form-label fw-bold">
+              {{ currentAcademicYear || "--" }}</label
+            >
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"
+            >Assessment Type <br />मूल्यांकन का प्रकार
+          </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            aria-label="Default select example"
+            class="form-select"
+            formControlName="assessmentType"
+            tabindex="1"
+            autofocus
+          >
+            <option value="" *ngIf="annextureLoad === false">--Select--</option>
+            <option value="" *ngIf="annextureLoad === true">Loading...</option>
+            <option
+              [value]="item.anxtValue"
+              ng-reflect-value="1"
+              *ngFor="let item of assessmentAnnexture"
+            >
+              {{ item?.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label"> Class <br />वर्ग  </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            class="form-select"
+            aria-label="Default select example"
+            (change)="classChangeHandler(); getSubjects(); getStreamGroupType()"
+            formControlName="class"
+            tabindex="2"
+          >
+            <option value="" *ngIf="annextureLoad === false">--Select--</option>
+            <option value="" *ngIf="annextureLoad === true">Loading...</option>
+
+            <option
+              [value]="item.anxtValue"
+              ng-reflect-value="1"
+              *ngFor="let item of classAnnexture"
+            >
+              {{ item?.anxtName }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <ng-container *ngIf="isClassGreaterThanTen === true">
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="" class="form-label">
+              Stream <br />
+              धारा
+            </label>
+          </div>
+          <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              formControlName="stream"
+              (change)="getStreamGroupType(); getSubjects()"
+              tabindex="3"
+            >
+              <option value="" *ngIf="streamLoad === false">--Select--</option>
+              <option value="" *ngIf="streamLoad === true">Loading...</option>
+              <option
+                [value]="item.anxtValue"
+                ng-reflect-value="1"
+                *ngFor="let item of annextureData?.STREAM_TYPE"
+              >
+                {{ item?.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </ng-container>
+      <ng-container
+        *ngIf="
+          isClassGreaterThanTen === true && isScienceStreamSelected === true
+        "
+      >
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="" class="form-label"> Group <br />समूह</label>
+          </div>
+          <div class="col-md-4 form-group">
+            <span class="colon">:</span>
+            <select
+              class="form-select"
+              aria-label="Default select example"
+              formControlName="group"
+              (change)="getSubjects()"
+              tabindex="4"
+            >
+              <option value="" *ngIf="streamGroupTypeLoad === false">
+                --Select--
+              </option>
+              <option value="" *ngIf="streamGroupTypeLoad === true">
+                Loading...
+              </option>
+              <option
+                [value]="item.anxtValue"
+                ng-reflect-value="1"
+                *ngFor="let item of streamGroupAnnexture"
+              >
+                {{
+                  item.anxtValue == 1
+                    ? item?.anxtName + " (Non-Medical)"
+                    : item?.anxtName + " (Medical)"
+                }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+      </ng-container>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Subject <br />विषय </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            aria-label="Default select example"
+            class="form-select"
+            formControlName="subject"
+            tabindex="5"
+          >
+            <option selected value="" *ngIf="subjectLoad === false">
+              --Select--
+            </option>
+            <option selected value="" *ngIf="subjectLoad === true">
+              Loading...
+            </option>
+            <option
+              [value]="item?.subjectId"
+              ng-reflect-value="1"
+              *ngFor="let item of classWiseSubjects"
+            >
+              {{ item?.subject }}
+            </option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Set Name <br />सेट का नाम </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <select
+            aria-label="Default select example"
+            class="form-select"
+            formControlName="setName"
+            tabindex="6"
+          >
+            <option value="" *ngIf="annextureLoad === false">--Select--</option>
+            <option value="" *ngIf="annextureLoad === true">Loading...</option>
+            <option value="1" ng-reflect-value="1">Set A</option>
+            <option value="2" ng-reflect-value="2">Set B</option>
+            <option value="3" ng-reflect-value="3">Set C</option>
+          </select>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="questionText" class="form-label"
+            >Question <br />प्रश्न
+          </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <div>
+            <textarea
+              class="form-control"
+              cols="4"
+              rows="3"
+              formControlName="questionText"
+              maxlength="500"
+              tabindex="7"
+            ></textarea>
+            <span class="minimum-text"
+              >Maximum <span class="text-danger">(500) </span> Characters</span
+            >
+          </div>
+          <input
+            accept="image/*"
+            type="file"
+            class="form-control"
+            (change)="imageUploadHandler($event, 'question')"
+            #questionImgRef
+            tabindex="8"
+          />
+          <span class="minimum-text text-danger"
+            >Only png,jpg,jpeg (max size 300kb) type allowed.</span
+          >
+          <span class="mandatory">*</span>
+        </div>
+
+        <!-- preview question image -->
+        <div class="col-md-2 form-group">
+          <div class="box">
+            <div class="js--image-preview">
+              <img
+                *ngIf="questionImgUrl"
+                [src]="questionImgUrl"
+                class="img-thumbnail rounded mx-auto d-block questionBankImg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Mark <br />चिह्न </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="mark"
+            (keypress)="customValidators.keyPressNumbers($event)"
+            maxlength="3"
+            tabindex="9"
+          />
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="optionAText" class="form-label"
+            >Option A <br />विकल्प ए
+          </label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="optionAText"
+            maxlength="500"
+            *ngIf="isOptionAText === true"
+            tabindex="10"
+          />
+          <input
+            accept="image/*"
+            type="file"
+            (change)="imageUploadHandler($event, 'optionA')"
+            class="form-control"
+            *ngIf="isOptionAText === false"
+            tabindex="11"
+          />
+          <span *ngIf="isOptionAText === false" class="minimum-text text-danger"
+            >Only png,jpg,jpeg (max size 300kb) type allowed.</span
+          >
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-2 form-group">
+          <span class="switch switch-spacer">
+            <label class="p-2">Text</label>
+            <input
+              type="checkbox"
+              class="switch"
+              id="optionAType"
+              (click)="typeHandler('optionA')"
+              [checked]="!isOptionAText"
+            />
+            <label class="" for="optionAType">Image / छवि</label>
+          </span>
+        </div>
+        <!-- preview image -->
+        <div class="col-md-2 form-group">
+          <div class="box">
+            <div class="js--image-preview">
+              <img
+                *ngIf="optionAImgUrl"
+                [src]="optionAImgUrl"
+                class="img-thumbnail rounded mx-auto d-block questionBankImg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="optionBText" class="form-label"
+            >Option B <br />विकल्प बी</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="optionBText"
+            maxlength="500"
+            *ngIf="isOptionBText === true"
+            tabindex="12"
+          />
+          <input
+            accept="image/*"
+            type="file"
+            (change)="imageUploadHandler($event, 'optionB')"
+            class="form-control"
+            *ngIf="isOptionBText === false"
+            tabindex="13"
+          />
+          <span *ngIf="isOptionBText === false" class="minimum-text text-danger"
+            >Only png,jpg,jpeg (max size 300kb) type allowed.</span
+          >
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-2 form-group">
+          <span class="switch switch-spacer">
+            <label class="p-2">Text</label>
+            <input
+              type="checkbox"
+              class="switch"
+              id="optionB"
+              (click)="typeHandler('optionB')"
+              [checked]="!isOptionBText"
+            />
+            <label class="" for="optionB">Image / छवि</label>
+          </span>
+        </div>
+        <!-- preview image -->
+        <div class="col-md-2 form-group">
+          <div class="box">
+            <div class="js--image-preview">
+              <img
+                *ngIf="optionBImgUrl"
+                [src]="optionBImgUrl"
+                class="img-thumbnail rounded mx-auto d-block questionBankImg"
+                tabindex="14"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="optionCText" class="form-label"
+            >Option C <br />विकल्प सी</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="optionCText"
+            maxlength="500"
+            *ngIf="isOptionCText === true"
+            tabindex="15"
+          />
+          <input
+            accept="image/*"
+            type="file"
+            (change)="imageUploadHandler($event, 'optionC')"
+            class="form-control"
+            *ngIf="isOptionCText === false"
+            tabindex="16"
+          />
+          <span *ngIf="isOptionCText === false" class="minimum-text text-danger"
+            >Only png,jpg,jpeg (max size 300kb) type allowed.</span
+          >
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-2 form-group">
+          <span class="switch switch-spacer">
+            <label class="p-2">Text</label>
+            <input
+              type="checkbox"
+              class="switch"
+              id="optionC"
+              (click)="typeHandler('optionC')"
+              [checked]="!isOptionCText"
+            />
+            <label class="" for="optionC">Image / छवि</label>
+          </span>
+        </div>
+        <!-- preview image -->
+        <div class="col-md-2 form-group">
+          <div class="box">
+            <div class="js--image-preview">
+              <img
+                *ngIf="optionCImgUrl"
+                [src]="optionCImgUrl"
+                class="img-thumbnail rounded mx-auto d-block questionBankImg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="optionDText" class="form-label"
+            >Option D <br />विकल्प डी</label
+          >
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <input
+            type="text"
+            class="form-control"
+            id=""
+            aria-describedby="emailHelp"
+            formControlName="optionDText"
+            maxlength="500"
+            *ngIf="isOptionDText === true"
+            tabindex="17"
+          />
+          <input
+            accept="image/*"
+            type="file"
+            (change)="imageUploadHandler($event, 'optionD')"
+            class="form-control"
+            *ngIf="isOptionDText === false"
+            tabindex="18"
+          />
+          <span *ngIf="isOptionDText === false" class="minimum-text text-danger"
+            >Only png,jpg,jpeg (max size 300kb) type allowed.</span
+          >
+          <span class="mandatory">*</span>
+        </div>
+        <div class="col-md-2 form-group">
+          <span class="switch switch-spacer">
+            <label class="p-2">Text</label>
+            <input
+              type="checkbox"
+              class="switch"
+              id="optionD"
+              (click)="typeHandler('optionD')"
+              [checked]="!isOptionDText"
+            />
+            <label class="" for="optionD">Image / छवि</label>
+          </span>
+        </div>
+        <!-- preview image -->
+        <div class="col-md-2 form-group">
+          <div class="box">
+            <div class="js--image-preview">
+              <img
+                *ngIf="optionDImgUrl"
+                [src]="optionDImgUrl"
+                class="img-thumbnail rounded mx-auto d-block questionBankImg"
+              />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-md-2 form-group">
+          <label for="" class="form-label">Answer <br />उत्तर</label>
+        </div>
+        <div class="col-md-4 form-group">
+          <span class="colon">:</span>
+          <div class="radiobuttons pt-2">
+            <div class="rdio rdio-primary form-check-inline">
+              <input
+                value="1"
+                id="radio1"
+                type="radio"
+                formControlName="answer"
+              />
+              <label for="radio1">Option A <br />विकल्प ए</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input
+                value="2"
+                id="radio2"
+                type="radio"
+                formControlName="answer"
+              />
+              <label for="radio2">Option B <br />विकल्प बी</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input
+                value="3"
+                id="radio3"
+                type="radio"
+                formControlName="answer"
+              />
+              <label for="radio3">Option C <br />विकल्प सी</label>
+            </div>
+            <div class="rdio rdio-primary form-check-inline">
+              <input
+                value="4"
+                id="radio4"
+                type="radio"
+                formControlName="answer"
+              />
+              <label for="radio4">Option D <br />विकल्प डी</label>
+            </div>
+          </div>
+          <span class="mandatory">*</span>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div>
+    <button type="submit" class="btn btn-success me-2" tabindex="19">
+      Submit / जमा करें
+    </button>
+    <button
+      type="reset"
+      class="btn btn-danger"
+      (click)="onReset()"
+      tabindex="20"
+    >
+      Reset / पुनर्स्थापित
+    </button>
+  </div>
+</form>

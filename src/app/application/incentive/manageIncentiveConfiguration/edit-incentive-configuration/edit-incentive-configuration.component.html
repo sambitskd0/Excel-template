@@ -1,0 +1,120 @@
+<div>
+    <div class="pageHeading">
+        <div>
+            <h3 class="pageName">Edit Incentive Configuration//प्रोत्साहन कॉन्फ़िगरेशन संपादित करें
+            </h3><span class="indicator">( * ) Indicator
+                Mandatory</span>
+        </div>
+        <div class="tabArea">
+            <a  class="neuro addLink disabled active" routerLinkActive="active" *ngIf="adminPrivilege"><i
+                    class="bi bi-plus-lg me-2"></i>Edit/संपादित करें</a>
+            <a routerLink="../../viewIncentiveConfiguration" class="neuro viewLink" routerLinkActive="active"><i
+                    class="bi bi-eye me-2"></i>View/देखें</a>
+        </div>
+    </div>
+    <form [formGroup]="editIncentiveConfig" (ngSubmit)="onSubmit()">
+        <div class="formpatch top-space">
+            <div class="row">
+                <div class="col-md-2 form-group">
+
+                    <label class="form-label">Incentive Name<br>प्रोत्साहन का नाम </label>
+
+                </div>
+                <div class="col-md-3 form-group">
+
+                    <span class="colon">:</span>
+                    <select appAutoFocus class="form-select" formControlName="incentiveId" autocomplete="off">
+                        <option selected value="">--Select--</option>
+                        <option *ngFor="let incentiveNameData of incentiveNameData" value="{{incentiveNameData.incentiveId}}">{{incentiveNameData.incentiveName}}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+
+                </div>
+
+                <div class="col-md-7"></div>
+
+                <div class="col-md-2 form-group">
+
+                    <label class="form-label">Class<br>वर्ग </label>
+                </div>
+                <div class="col-md-5 form-group">
+                    <span class="colon">:</span>
+                    <div class="check__box mb-3 class--checkbox" >
+                        <div class="form-group checkbox" *ngFor="let classData of classData ;let i=index;">
+                            <input  type="checkbox" [id]="classData.anxtName" class="check" value="{{classData.anxtValue}}" (change)="OnChangeClass($event)" [checked]="classArr.includes(classData.anxtValue)">
+                            <label [for]="classData.anxtName"> {{classData.anxtName}}</label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-5"></div>
+                <div class="col-md-2 form-group">
+
+                    <label class="form-label">Gender<br>लिंग </label>
+
+                </div>
+                <div class="col-md-3 form-group">
+
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="gender" autocomplete="off">
+                        <option [selected]="isSelected" value="">--Select--</option>
+                        <option  *ngFor="let genderData of genderData" value="{{genderData.anxtValue}}">{{genderData.anxtName}}</option>
+                        
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Caste<br>जाति</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="caste" autocomplete="off">
+                        <option [selected]="isSelected" value="">--Select--</option>
+                        <option  *ngFor="let casteData of casteData" value="{{casteData.anxtValue}}">{{casteData.anxtName}}</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Age<br>उम्र</label>
+                </div>
+                <div class="col-md-2 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" placeholder="Max" formControlName="ageMax" maxlength="2" (keypress)="customValidators.keyPressNumbers($event)" #ageMax>
+                </div>
+                <div class="col-md-1 form-group">
+                    <input type="text" class="form-control" placeholder="Min" formControlName="ageMin" minlength="1" maxlength="2" (keypress)="customValidators.keyPressNumbers($event)" #ageMin (blur)="minToMaxValidation(ageMax,ageMin)">
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Belongs to BPL<br>बीपीएल से संबंधित है</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="belongsToBPL" autocomplete="off">
+                        <option selected value="">--Select--</option>
+                        <option value="1">Yes</option>
+                        <option value="2">No</option>
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+                <div class="col-md-7"></div>
+                <div class="col-md-2 form-group">
+                    <label class="form-label">Type of disability<br>विकलांगता का प्रकार</label>
+                </div>
+                <div class="col-md-3 form-group">
+                    <span class="colon">:</span>
+                    <select class="form-select" formControlName="disabilityType" autocomplete="off">
+                        <option [selected]="isSelected" value="">--Select--</option>
+                        <!-- <option value="0">NA</option> -->
+                        <option  *ngFor="let disabilityTypeData of disabilityTypeData" value="{{disabilityTypeData.anxtValue}}">{{disabilityTypeData.anxtName}}</option>
+                        
+                    </select>
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+        </div>
+        <button class="btn btn-success me-2">Update/अद्यतन</button>
+        <button  class="btn btn-danger" (click)="onCancel()">Cancel / रद्द करना</button>
+    </form>

@@ -1,0 +1,40 @@
+<div>
+    <div class="pageHeading">
+        <div><h3 class="pageName">Edit Category /श्रेणी संपादन करें</h3><span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्य</span></div>
+        <div class="tabArea">
+            <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit/संपादन करें</a>
+            <a routerLink="../../viewCategory" class="neuro viewLink" routerLinkActive="active"><i class="bi bi-eye me-2"></i>View/ देखें </a>
+        </div>
+    </div>
+    <div class="top-space">
+        <form [formGroup] ="categoryForm" (ngSubmit)="updateCategory()">
+            <input type="hidden" formControlName="encId" />
+            <div class="row">
+                <div class="col-lg-2 form-group">
+                    <label for="grvncCatName" class="form-label">Category <br>श्रेणी </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <input type="text" class="form-control" id="grvncCatName" aria-describedby="categoryHelp" autocomplete="off" formControlName="grvncCatName" maxlength="100">
+                    <span class="mandatory">*</span>
+                </div>
+            </div>
+
+            <div class="row formpatch">
+                <div class="col-lg-2 form-group">
+                    <label for="grvncCatDescription" class="form-label">Description <br> विवरण </label>
+                </div>
+                <div class="col-lg-3 form-group">
+                    <span class="colon">:</span>
+                    <textarea cols="4" rows="4" class="form-control" id="grvncCatDescription" aria-describedby="descriptionHelp" autocomplete="off" formControlName="grvncCatDescription" maxlength="500"></textarea>
+                    <small>Maximum <span class="text-danger">(500)</span> Characters</small>
+                </div>
+            </div>
+
+            <div>
+                <button class="btn btn-success me-2">Update/अपडेट करें</button>
+                <a routerLink="../../viewCategory" class="btn btn-danger" >Cancel/रद्द करें</a>
+            </div>
+        </form>
+    </div>
+</div>

@@ -1,0 +1,584 @@
+<div>
+	<div class="pageHeading">
+		<div class="heading__tab">
+			<h3 class="pageName"> HM/Teacher/Staff Absent Count Report 
+			</h3>
+
+		</div>
+
+		<div class="tabArea">
+			<a routerLink="./../teacherAbsentCountReport" class="neuro viewLink" routerLinkActive="active"><i
+					class="bi bi-eye me-2"></i>View</a>
+			<a routerLink="./../" class="neuro viewLink" routerLinkActive=""><i class="bi bi-eye me-2"></i>BEST MIS</a>
+		</div>
+
+
+	</div>
+	<div class="top-space">
+		<ng-container *ngIf="show">
+			<div class="search-container">
+				<div class="search-sec" id="searchPanel" style="display: block;">
+					<form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #searchForm="ngForm"
+						autocomplete="off" novalidate>
+						<div class="searchPanel">
+							<div class="row">
+								<div class="col-lg-2 form-group">
+									<label for="userLevelId" class="form-label"> Level of User <br>उपयोगकर्ता का स्तर</label>
+								 </div>
+								 <div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select name="userLevelId" [(ngModel)]="userLevelId" class="form-select"
+									   (change)="loadSubDesignation($any($event.target).value);">
+									   <option value="0">--Select--</option>
+									   <option value="5" *ngIf="stateUser == false">State</option>
+									   <option value="4" *ngIf="distUser == false">District</option>
+									   <option value="3" *ngIf="blkUser == false">Block</option>
+									   <option value="2">Cluster</option>
+									</select>
+								 </div>
+								 <div class="col-lg-1"></div>
+								 <div class="col-lg-2 form-group">
+									<label for="designationGroupId" class="form-label"> Designation <br>पद</label>
+								 </div>
+								 <div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select name="designationGroupId" [(ngModel)]="designationGroupId" class="form-select"
+									   (change)="getSubDesignation($any($event.target).value);">
+									   <option value="0" *ngIf="desGrpSelect == true">--Select--</option>
+									   <option value="0" *ngIf="desGrpLoading == false">Loading...</option>
+									   <option *ngFor="let item of DesignationGroupData" [value]="item.designationGroupId">
+										  {{ item.designationGroupName }}
+									   </option>
+									</select>
+								 </div>
+								 <div class="col-lg-1"></div>
+								 <div class="col-lg-2 form-group">
+									<label class="form-label">Sub-Designation <br> उप-पदनाम</label>
+								 </div>
+								 <div class="col-lg-3 form-group">
+									<span class="colon">:</span>
+									<select class="form-select" aria-label="Default select example" [(ngModel)]="scDesignationId"
+									   name="scDesignationId">
+									   <option value="" *ngIf="designationSelect == true">--Select--</option>
+									   <option value="0" *ngIf="designationLoading == true">Loading...</option>
+									   <option *ngFor="let item of designationData" [value]="item.intDesignationId">
+										  {{ item.vchDesignationName }}
+									   </option>
+									</select>
+								 </div>
+								 <div class="col-md-1"></div>
+								<div class="col-md-2 form-group3">
+									<label for="" class="form-label">District
+									</label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select class="form-select" aria-label="Default select example"
+										[(ngModel)]="scDistrictId" name="scDistrictId" autocomplete="off"
+										(change)="getBlock($any($event.target).value)" #district>
+										<option value="" *ngIf="scDisrtictSelect == false && sessionDistrictId === ''">
+											--Select--
+										</option>
+										<option value="" *ngIf="scDisrtictSelect == true">
+											Loading...
+										</option>
+										<option *ngFor="let districtItem of districtData"
+											[value]="districtItem.districtId">
+											{{ districtItem.districtCode }} -
+											{{ districtItem.districtName }}
+										</option>
+									</select>
+									
+								</div>
+
+								
+								<div class="col-md-2 form-group">
+									<label for="" class="form-label">Block </label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select [(ngModel)]="scBlockId" name="scBlockId" class="form-select scBlockId"
+										aria-label="Default
+                                                select example" (change)="getCluster($any($event.target).value)"
+										#block>
+										<option value="" *ngIf="scBlockChanged==false && sessionBlockId === ''">--Select--</option>
+										<option value="" *ngIf="scBlockChanged==true">Loading...</option>
+										<option *ngFor="let item of blockData" [value]="item.blockId">
+											{{ item.blockCode }} - {{ item.blockName }}
+										</option>
+									</select>
+
+								</div>
+								<div class="col-md-1"></div>
+								<div class="col-md-2 form-group3">
+									<label for="" class="form-label">Cluster</label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select class="form-select scClusterId" [(ngModel)]="scClusterId" name="scClusterId"
+										(change)="getSchool($any($event.target).value)" #cluster>
+										<option value="" *ngIf="scClusterChanged==false">--Select--</option>
+										<option value="" *ngIf="scClusterChanged==true">Loading...</option>
+										<option *ngFor="let item of clusterData" [value]="item.clusterId">
+											{{ item.clusterCode }} - {{ item.clusterName }}
+										</option>
+									</select>
+								</div>
+								
+								<div class="col-md-2 form-group">
+									<label class="form-label">School</label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select class="form-select" aria-label="Default select example"
+										[(ngModel)]="schoolId" name="schoolId" autocomplete="off"
+										[disabled]="(sessionSchoolId != '')? 'true':'false'">
+										<option value="" *ngIf="scSchoolChanged == false">
+											--Select--
+										</option>
+										<option value="" *ngIf="scSchoolChanged == true">
+											Loading...
+										</option>
+										<option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+											{{ schoolItem.schoolUdiseCode }} -
+											{{ schoolItem.schoolName }}
+										</option>
+									</select>
+								</div>
+
+								<div class="col-md-1"></div>
+								<div class="col-md-2 form-group">
+									<label class="form-label">School Type</label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<select class="form-select" aria-label="Default select example" [(ngModel)]="schoolType" name="schoolType"
+									autocomplete="off">
+									<option value="">--All--</option>
+									<option value="1">Elementry</option>
+									<option value="2">Secondary</option>
+									<option value="3">Composite</option>
+									</select>
+								</div>
+							</div>
+
+							<div class="row">
+								<div class="col-md-2 form-group">
+									<label for="exampleInputEmail1" class="form-label">Start Date </label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<input class="form-control" [(ngModel)]="startDate" name="startDate"
+										#datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+										placeholder="DD-MM-YYYY" bsDatepicker
+										[bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+									<span class="mandatory">*</span>
+								</div>
+
+								<div class="col-md-1"></div>
+								<div class="col-md-2 form-group">
+									<label for="exampleInputEmail1" class="form-label">End Date </label>
+								</div>
+								<div class="col-md-3 form-group">
+									<span class="colon">:</span>
+									<input class="form-control" [(ngModel)]="endDate" name="endDate"
+										#datepickerYMD="bsDatepicker" [maxDate]="maxDate" readonly
+										placeholder="DD-MM-YYYY" bsDatepicker
+										[bsConfig]="{ dateInputFormat: 'DD-MM-YYYY' }">
+									<span class="mandatory">*</span>
+								</div>
+								<div class="col-md-1 form-group3"><button class="btn btn-default btn-purple"> Search
+										<i class="bi bi-search"></i></button></div>
+							</div>
+						</div>
+					</form>
+				</div>
+
+			</div>
+		</ng-container>
+		<button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip"
+			data-original-title="Click me">Search
+			Panel</button>
+
+	</div>
+	<div class="clearfix"></div>
+	<div class="row mt-4" [hidden]="resultListData?.length === 0">
+		<div class="col-lg-12">
+			<div class="page__rightarea">
+				<div class="p-2">
+					<button type="button" class="btn btn-success " (click)="exportExcel()"
+					>
+					  <i class="bi bi-file-earmark-excel"></i> Export detailed Report
+					</button>
+					</div>
+				<div class="page__util">
+					<div class="util">
+						<a title="Back"
+							(click)="goBack(getDistrictBackId,getBlockBackId,getClusterBackId,getSchoolBackId,pageLevel,getStartDate,getEndDate)"
+							class="back"><i class="bi bi-skip-backward"></i></a>
+						<a title="Excel" (click)="excel(pageLevel)" class="excel"><i class="bi bi-file-earmark-excel"></i></a>
+						<a title="Print" (click)="printPage()" class="print"><i class="bi bi-printer"></i></a>
+					</div>
+				</div>
+			</div>
+			<div *ngIf="pageLevel === 0">
+				<div class="table-responsive" id="viewTable">
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+					</mat-progress-bar>
+					<table class="table  table-bordered">
+						<thead class="bg-lightpurple">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">District Name</th>
+								<th scope="col">Number of schools</th>
+								<th scope="col">Number of visited schools (unique)</th>
+								<th scope="col">Number of visits</th>
+								<th scope="col">Number of absentees</th>
+								<th scope="col">No Action Taken</th>
+								<th scope="col">Explanation Asked</th>
+								<th scope="col">Explanation Satisfactory</th>
+								<th scope="col">Salary Deducted</th>
+								<th scope="col">Explanation Not Received</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr *ngFor="let element of resultListData;index as i">
+								<td>{{i+1}}</td>
+								<td><a href="javascript:void(0)" class="text-primary"
+										(click)="getData(element?.districtId,'','','',getStartDate,getEndDate,scDesignationId , 1)">{{(element?.districtCode)
+										? element?.districtCode :'--' }}
+										-
+										{{(element?.districtName |titlecase) ? element?.districtName :'--' }}</a></td>
+
+								<td>{{(element?.noOfSchool) ? element?.noOfSchool :'--' }}</td>
+								<td>{{(element?.noOfVisetedSchool)}}</td>
+								<td>{{(element?.noOfVisit) }}</td>
+								<td><a>{{(element?.noOfAbsent) }}</a></td>
+								<td>{{(element?.noActionTaken) }}</td>
+								<td>{{(element?.expAsk) }}</td>
+								<td>{{(element?.espSatis) }}</td>
+								<td>{{(element?.salDed) }}</td>
+								<td>{{(element?.expNoRec) }}</td>
+							</tr>
+
+							<tr>
+
+								<td colspan="2"><strong>Total</strong></td>
+								<td><strong>{{resultListDatas}}</strong></td>
+								<td><strong>{{numOfVisetedSchool}}</strong></td>
+								<td><strong>{{numOfVisit}}</strong></td>
+								<td><strong>{{totalAbsentTeacher}}</strong></td>
+								<td><strong>{{noActionTaken}}</strong></td>
+								<td><strong>{{eskAsk}}</strong></td>
+								<td><strong>{{eskSatis}}</strong></td>
+								<td><strong>{{salaryDed}}</strong></td>
+								<td><strong>{{eskNoRec}}</strong></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div *ngIf="pageLevel === 1">
+				<div class="table-responsive" id="viewTable">
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+					</mat-progress-bar>
+					<table class="table  table-bordered">
+						<thead class="bg-lightpurple">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">District Name</th>
+								<th scope="col">Block Name</th>
+								<th scope="col">Number of schools</th>
+								<th scope="col">Number of visited schools (unique)</th>
+								<th scope="col">Number of visits</th>
+								<th scope="col">Number of absentees</th>
+								<th scope="col">No Action Taken</th>
+								<th scope="col">Explanation Asked</th>
+								<th scope="col">Explanation Satisfactory</th>
+								<th scope="col">Salary Deducted</th>
+								<th scope="col">Explanation Not Received</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr *ngFor="let element of resultListData;index as i">
+								<td>{{i+1}}</td>
+								<td>{{(element?.districtCode) ? element?.districtCode :'--' }} -
+									{{(element?.districtName |titlecase) ?
+									element?.districtName :'--' }}</td>
+								<td><a href="javascript:void(0)" class="text-primary"
+										(click)="getData(element?.districtId,element?.blockId,'','',getStartDate,getEndDate,scDesignationId , 2)">{{(element?.blockCode)
+										? element?.blockCode :'--' }} - {{(element?.blockName) ? element?.blockName
+										:'--' }}</a></td>
+
+								<td>{{(element?.noOfSchool) ? element?.noOfSchool :'--' }}</td>
+								<td>{{(element?.noOfVisetedSchool)}}</td>
+								<td>{{(element?.noOfVisit) }}</td>
+								<td><a>{{(element?.noOfAbsent) }}</a></td>
+								<td>{{(element?.noActionTaken) }}</td>
+								<td>{{(element?.expAsk) }}</td>
+								<td>{{(element?.espSatis) }}</td>
+								<td>{{(element?.salDed) }}</td>
+								<td>{{(element?.expNoRec) }}</td>
+							</tr>
+
+							<tr>
+
+								<td colspan="3"><strong>Total</strong></td>
+								<td><strong>{{resultListDatas}}</strong></td>
+								<td><strong>{{numOfVisetedSchool}}</strong></td>
+								<td><strong>{{numOfVisit}}</strong></td>
+								<td><strong>{{totalAbsentTeacher}}</strong></td>
+								<td><strong>{{noActionTaken}}</strong></td>
+								<td><strong>{{eskAsk}}</strong></td>
+								<td><strong>{{eskSatis}}</strong></td>
+								<td><strong>{{salaryDed}}</strong></td>
+								<td><strong>{{eskNoRec}}</strong></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div *ngIf="pageLevel === 2">
+				<div class="table-responsive" id="viewTable">
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+					</mat-progress-bar>
+					<table class="table  table-bordered">
+						<thead class="bg-lightpurple">
+							<tr>
+								<th scope="col">#</th>
+
+								<th scope="col">District Name</th>
+								<th scope="col">Block Name</th>
+								<th scope="col">Cluster Name</th>
+								<th scope="col">Number of schools</th>
+								<th scope="col">Number of visited schools (unique)</th>
+								<th scope="col">Number of visits</th>
+								<th scope="col">Number of absentees</th>
+								<th scope="col">No Action Taken</th>
+								<th scope="col">Explanation Asked</th>
+								<th scope="col">Explanation Satisfactory</th>
+								<th scope="col">Salary Deducted</th>
+								<th scope="col">Explanation Not Received</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr *ngFor="let element of resultListData;index as i">
+								<td>{{i+1}}</td>
+								<td>{{(element?.districtCode) ? element?.districtCode :'--' }} -
+									{{(element?.districtName |titlecase) ?
+									element?.districtName :'--' }}</td>
+								<td>{{(element?.blockCode) ? element?.blockCode :'--' }} - {{(element?.blockName) ?
+									element?.blockName
+									:'--' }}</td>
+								<td><a href="javascript:void(0)" class="text-primary"
+										(click)="getData(element?.districtId,element?.blockId,element?.clusterId,'',getStartDate,getEndDate,scDesignationId , 3)">{{(element?.clusterCode)
+										? element?.clusterCode :'--' }} - {{(element?.clusterName |titlecase) ?
+										element?.clusterName :'--'
+										}}</a></td>
+								<td>{{(element?.noOfSchool) ? element?.noOfSchool :'--' }}</td>
+								<td>{{(element?.noOfVisetedSchool)}}</td>
+								<td>{{(element?.noOfVisit) }}</td>
+								<td><a>{{(element?.noOfAbsent) }}</a></td>
+								<td>{{(element?.noActionTaken) }}</td>
+								<td>{{(element?.expAsk) }}</td>
+								<td>{{(element?.espSatis) }}</td>
+								<td>{{(element?.salDed) }}</td>
+								<td>{{(element?.expNoRec) }}</td>
+							</tr>
+
+							<tr>
+
+								<td colspan="4"><strong>Total</strong></td>
+								<td><strong>{{resultListDatas}}</strong></td>
+								<td><strong>{{numOfVisetedSchool}}</strong></td>
+								<td><strong>{{numOfVisit}}</strong></td>
+								<td><strong>{{totalAbsentTeacher}}</strong></td>
+								<td><strong>{{noActionTaken}}</strong></td>
+								<td><strong>{{eskAsk}}</strong></td>
+								<td><strong>{{eskSatis}}</strong></td>
+								<td><strong>{{salaryDed}}</strong></td>
+								<td><strong>{{eskNoRec}}</strong></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div *ngIf="pageLevel === 3">
+				<div class="table-responsive" id="viewTable">
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+					</mat-progress-bar>
+					<table class="table  table-bordered">
+						<thead class="bg-lightpurple">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">District Name</th>
+								<th scope="col">Block Name</th>
+								<th scope="col">Cluster Name</th>
+								<th scope="col">Name of school</th>
+								<th scope="col">Number of visits</th>
+								<th scope="col">Number of absentees</th>
+								<th scope="col">No Action Taken</th>
+								<th scope="col">Explanation Asked</th>
+								<th scope="col">Explanation Satisfactory</th>
+								<th scope="col">Salary Deducted</th>
+								<th scope="col">Explanation Not Received</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr *ngFor="let element of resultListData;index as i">
+								<td>{{i+1}}</td>
+								<td>{{(element?.districtCode) ? element?.districtCode :'--' }} -
+									{{(element?.districtName |titlecase) ?
+									element?.districtName :'--' }}</td>
+								<td>{{(element?.blockCode) ? element?.blockCode :'--' }} - {{(element?.blockName) ?
+									element?.blockName
+									:'--' }}</td>
+								<td>{{(element?.clusterCode) ? element?.clusterCode :'--' }} - {{(element?.clusterName
+									|titlecase) ?
+									element?.clusterName :'--' }}</td>
+								<td><a href="javascript:void(0)" class="text-primary"
+										(click)="getData(element?.districtId,element?.blockId,element?.clusterId,element?.schoolId,getStartDate,getEndDate, scDesignationId ,4)">{{(element?.schoolUdiseCode)
+										? element?.schoolUdiseCode :'--' }} - {{(element?.schoolName |titlecase) ?
+										element?.schoolName :'--'
+										}}</a></td>
+								<td>{{(element?.noOfVisit) }}</td>
+								<td><a>{{(element?.noOfAbsent) }}</a></td>
+								<td>{{(element?.noActionTaken) }}</td>
+								<td>{{(element?.expAsk) }}</td>
+								<td>{{(element?.espSatis) }}</td>
+								<td>{{(element?.salDed) }}</td>
+								<td>{{(element?.expNoRec) }}</td>
+							</tr>
+
+							<tr>
+
+								<td colspan="5"><strong>Total</strong></td>
+								<td><strong>{{numOfVisit}}</strong></td>
+								<td><strong>{{totalAbsentTeacher}}</strong></td>
+								<td><strong>{{noActionTaken}}</strong></td>
+								<td><strong>{{eskAsk}}</strong></td>
+								<td><strong>{{eskSatis}}</strong></td>
+								<td><strong>{{salaryDed}}</strong></td>
+								<td><strong>{{eskNoRec}}</strong></td>
+							</tr>
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+			<div *ngIf="pageLevel== 4">
+				<div class="table-responsive" id="viewTable">
+					<mat-progress-bar mode="indeterminate" *ngIf="isLoading">
+					</mat-progress-bar>
+					<table class="table  table-bordered">
+						<thead class="bg-lightpurple">
+							<tr>
+								<th scope="col">#</th>
+								<th scope="col">Name of school</th>
+								<th scope="col">Monitored By</th>
+								<th scope="col">Designation</th>
+								<th scope="col">Inspection Date</th>
+								<th scope="col">Number of absentees</th>
+								<th scope="col">No Action Taken</th>
+								<th scope="col">Explanation Asked</th>
+								<th scope="col">Explanation Satisfactory</th>
+								<th scope="col">Salary Deducted</th>
+								<th scope="col">Explanation Not Received</th>
+							</tr>
+
+						</thead>
+						<tbody>
+							<tr *ngFor="let element of resultListData;index as i">
+								<td>{{i+1}}</td>
+								<td>{{(element?.schoolUdiseCode) ? element?.schoolUdiseCode :'--' }} -
+									{{(element?.schoolName
+									|titlecase) ? element?.schoolName :'--' }}</td>
+								<td>{{(element?.vchfullName) }}</td>
+								<td>{{(element?.vchDesignationName) }}</td>
+								<td>{{(element?.date) }}</td>
+								<td *ngIf="element?.noOfAbsent > 0"><a href="javascript:void(0)" class="text-primary" data-bs-toggle="modal"
+										data-bs-target="#nonverified" (click)="noOfAbsente(element?.encId)">{{(element?.noOfAbsent) }}</a>
+								</td>
+								<td *ngIf="element?.noOfAbsent == 0">{{(element?.noOfAbsent) }}</td>
+								<td>{{(element?.noActionTaken) }}</td>
+								<td>{{(element?.expAsk) }}</td>
+								<td>{{(element?.espSatis) }}</td>
+								<td>{{(element?.salDed) }}</td>
+								<td>{{(element?.expNoRec) }}</td>
+							</tr>
+
+
+
+						</tbody>
+					</table>
+				</div>
+			</div>
+
+		</div>
+	</div>
+	<div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound">
+		{{ "No record found..." }}
+	</div>
+	<div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isInitAdmin== false">
+		{{ "Please Search to view Report " }}
+	</div>
+</div>
+
+
+
+<div class="modal fade" id="nonverified" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+	<div class="modal-dialog modal-md">
+		<div class="modal-content">
+			<div class="modal-header">
+				<h5 class="modal-title" id="exampleModalLabel">Staff Absent Report</h5>
+				<button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+			</div>
+			<div class="modal-body p-4">
+				<div class="row">
+					<div class="col-lg-12">
+						<div class="table-responsive">
+							<table class="table table-bordered">
+								<thead class="bg-lightpurple">
+									<tr>
+										<th scope="col">Sr.No</th>
+										<th scope="col">Staff Type</th>
+										<th scope="col">Name of Staff</th>
+										<th scope="col">Gender</th>
+									</tr>
+								</thead>
+								<tbody>
+									<tr *ngFor="let absentee of absentTeacherLists;index as i">
+										<td>{{i+1}}</td>
+										<td *ngIf="absentee?.teacherType == 1">Head Master</td>
+										<td *ngIf="absentee?.teacherType == 2">Teacher</td>
+										<td *ngIf="absentee?.teacherType == 3">Non Teaching Staff</td>
+										<td>{{(absentee?.teacherName) ? absentee?.teacherName :'--' }}</td>
+										<td *ngIf="absentee?.teaherGender == 1">Male</td>
+										<td *ngIf="absentee?.teaherGender == 2">Female</td>
+										<td *ngIf="absentee?.teaherGender == 3">Transgender</td>
+									</tr>
+
+								</tbody>
+							</table>
+						</div>
+					</div>
+				</div>
+				<div>
+					<button type="button" class="btn btn-danger text-end" data-bs-dismiss="modal"
+						aria-label="Close">Close</button>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

@@ -1,0 +1,338 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Teacher Transfer By Block Officer / शिक्षक स्थानांतरण प्रखंड पदाधिकारी द्वारा</h3>
+    </div>
+    <div class="tabArea">
+      <a routerLink="./../viewTransferRequestBlock" class="neuro addLink" routerLinkActive="active"><i
+          class="bi bi-plus-lg me-2"></i>Add / जोड़ें</a>
+      <a routerLink="./../../transferList/viewTransferList" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View / देखें </a>
+
+    </div>
+  </div>
+  <form name="form" class="form-horizontal" (ngSubmit)="onSearch()" #teacherSearchForm="ngForm" novalidate>
+    <div class="top-space" id="searchbox">
+      <div class="search-container">
+        <div class="searchPanel">
+          <div class="row">
+            <div class="col-md-2 form-group3">
+              <label for="" class="form-label">District <br>जिला</label>
+            </div>
+            <div class="col-lg-3 col-md-12 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" [(ngModel)]="districtId" name="districtId"
+                (change)="getBlock($any($event.target).value);">
+                <option value="0" *ngIf="scDisrtictSelect == true">--Select--</option>
+                <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                <option *ngFor="let item of districtData" data-value="{{ item.districtCode }}"
+                  [value]="item.districtId">
+                  {{ item.districtCode }} - {{ item.districtName }}
+                </option>
+              </select>
+
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Block <br>प्रखण्ड</label>
+            </div>
+            <div class="col-lg-3 col-md-12 form-group">
+              <span class="colon">:</span>
+              <select [(ngModel)]="blockId" name="blockId" class="form-select" 
+                (change)="getCluster($any($event.target).value);">
+                <option value="0" *ngIf="scBlockSelect == true">--Select--</option>
+                <option value="" *ngIf="scBlockLoading == true">Loading...</option>
+                <option *ngFor="let item of blockData" [value]="item.blockId">
+                  {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+              </select>
+
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-2 form-group">
+              <label for="" class="form-label">Cluster<br>संकुल</label>
+            </div>
+            <div class="col-lg-3 col-md-12 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example"
+                (change)="getSchool($any($event.target).value)" [(ngModel)]="clusterId" name="clusterId">
+                <option value="0" *ngIf="scClusterSelect == true">
+                  --Select--
+                </option>
+                <option value="" *ngIf="scClusterLoading == true">
+                  Loading...
+                </option>
+                <option *ngFor="let clusterItem of clusterData" [value]="clusterItem.clusterId">
+                  {{ clusterItem.clusterCode }} -
+                  {{ clusterItem.clusterName }}
+                </option>
+              </select>
+
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label for="" class="form-label">School Name<br>विद्यालय का नाम</label>
+            </div>
+            <div class="col-lg-3 col-md-12 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example" [(ngModel)]="searchSchoolId"
+                name="searchSchoolId" autocomplete="off">
+                <option value="" *ngIf="scSchoolSelect == true">
+                  -- Select --
+                </option>
+                <option value="" *ngIf="scSchoolLoading == true">
+                  Loading...
+                </option>
+                <option *ngFor="let schoolItem of getSchoolData" [value]="schoolItem.schoolId">
+                  {{ schoolItem.schoolUdiseCode }} -
+                  {{ schoolItem.schoolName }}
+                </option>
+              </select>
+
+            </div>
+            <div class="col-lg-1"></div>
+            <div class="col-lg-2 form-group">
+              <label class="form-label">Type of Teacher <br> शिक्षक का प्रकार</label>
+          </div>
+          <div class="col-lg-3 form-group colon-top">
+              <span class="colon">:</span>
+              <select class="form-select" aria-label="Default select example"
+            name="searchTeacherTitle" autocomplete="off" [(ngModel)]="searchTeacherTitle">
+            <option value="" *ngIf="teacherTitleChanged==false">-- Select --</option>
+            <option value="" *ngIf="teacherTitleChanged==true">Loading...</option>
+            <option *ngFor="let title of teacherTitles" [value]="title.anxtValue">
+              {{ title.anxtName }}
+            </option>
+          </select>
+                  
+          </div>
+          <div class="col-lg-1"></div>
+             <div class="col-lg-2 form-group">
+                <label for="" class="form-label"> Nature of Appointment <br>नियुक्ति की प्रकृति</label>
+            </div>
+            <div class="col-lg-3 form-group colon-top">
+                <span class="colon">:</span><select class="form-select" aria-label="Default select example"
+                  name="searchNatureOfAppointmt" autocomplete="off" [(ngModel)]="searchNatureOfAppointment">
+                  <option value="" *ngIf="teacherAppointmentChanged==false">-- Select --</option>
+                  <option value="" *ngIf="teacherAppointmentChanged==true">Loading...</option>
+                  <option *ngFor="let appointment of teacherAppointment" [value]="appointment.anxtValue">
+                    {{ appointment.anxtName }}
+                  </option>
+                </select>
+            </div>
+          </div>
+            <div class="col-lg-1"></div>
+
+
+            <div class="col-lg-2">
+              <button class="btn btn-default btn-purple"> Search <i class="bi bi-search"></i></button>
+            </div>
+          </div>
+      </div>
+    </div>
+  </form>
+  <button class="searchopen" (click)="toggle()" id="hide" data-toggle="tooltip" data-original-title="Click me"><i
+      class="bi bi-caret-down-fill"></i><i class="bi bi-caret-up-fill"></i>Search Panel</button>
+
+
+
+  <div class="clearfix"></div>
+  <div class="row mt-4">
+    <div class="col-lg-12">
+      <div class="page__rightarea">
+        <div class="page__util">
+          <div class="util">            
+            <a title="Print" class="print" (click)="printPage()"><i class="bi bi-printer"></i></a>
+          </div>
+        </div>
+      </div>
+
+      <div id="viewTable" [hidden]="this.resultListData?.length === 0">
+        <mat-progress-bar mode="indeterminate" *ngIf="isLoading"></mat-progress-bar>
+        <div class="table-responsive">
+          <table class="mat-elevation-z8" mat-table [dataSource]="dataSource" matSort matTableExporter
+          #exporter="matTableExporter" [hiddenColumns]="[11]">
+          <thead class="bg-lightpurple">
+            <tr>
+              <ng-container matColumnDef="slNo">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> # Sl No.</th>
+                <td mat-cell *matCellDef="let element">{{ element?.slNo }}</td>
+              </ng-container>
+              <ng-container matColumnDef="teacherName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Teacher Name </th>
+                <td mat-cell *matCellDef="let element">{{ element?.teacherCode ? element?.teacherCode : element?.teacherLoginCode }} - {{ element?.teacherName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="district">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> District </th>
+                <td mat-cell *matCellDef="let element">{{ element?.districtCode }} - {{ element?.districtName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="block">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Block </th>
+                <td mat-cell *matCellDef="let element">{{ element?.blockCode }} - {{ element?.blockName }}</td>
+              </ng-container>
+              <ng-container matColumnDef="school">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> School </th>
+                <td mat-cell *matCellDef="let element">{{ element?.schoolUdiseCode }} - {{ element?.schoolName }}</td>
+              </ng-container>
+              <!-- <ng-container matColumnDef="Status">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple"> Status </th>
+                <td mat-cell *matCellDef="let element">{{ element?.statusText }}</td>
+              </ng-container> -->
+              <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header class="bg-lightpurple noPrint" width="120px">
+                  Actions
+                </th>
+                <td mat-cell *matCellDef="let element" class="noPrint"><a class="btn btn-info me-2"
+                    data-bs-toggle="modal" data-bs-target="#infoview1" (click)="showDetails(element?.tId,element?.schoolId)">Action</a>
+                </td>
+              </ng-container>
+
+            </tr>
+          </thead>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+        </table>
+        </div>
+        
+        <!-- <table>
+          <tr *ngIf="!dataSource.data.length">
+            <td style="text-align: center" [attr.colspan]="resultListData.length" class="mt-2">
+              No Records Found!
+            </td>            
+          </tr>
+        </table> -->
+        
+        <mat-paginator #paginator [length]="totalRows" [pageIndex]="currentPage" [pageSize]="pageSize" class="noPrint"
+          [pageSizeOptions]="pageSizeOptions" (page)="onPageChange($event)" aria-label="Select page"
+          showFirstLastButtons>
+        </mat-paginator>
+      </div>
+
+    </div>
+  </div>
+</div>
+<div class="alert alert-info text-center  fw-bold" role="alert" *ngIf="isNorecordFound">
+  {{ "No record found." }}
+</div>
+<div class="alert alert-info text-center  fw-bold" role="alert" *ngIf="isInitAdmin">
+  {{ "Please Search to find list" }}
+</div>
+
+
+
+
+<!-- Modal -->
+<div class="modal fade" id="infoview1" tabindex="-1" aria-labelledby="infoview1" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <form [formGroup]="takeActionForm">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title" id="exampleModalLabel">Transfer Request</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row">
+            <div class="col-lg-2 col-md-4  form-group">
+              <label for="apdistrictId" class="form-label">District <br>जिला</label>
+            </div>
+            <div class="col-lg-3 col-md-7 form-group">
+              <span class="colon">:</span>
+              <select formControlName="apdistrictId" class="form-select"
+                (change)="getBlockap($any($event.target).value);">
+                <option value="" *ngIf="scDisrtictSelect == true">--Select--</option>
+                <option value="" *ngIf="scDisrtictLoading == true">Loading...</option>
+                <option *ngFor="let item of districtData" data-value="{{ item.districtCode }}"
+                  [value]="item.districtId">
+                  {{ item.districtCode }} - {{ item.districtName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-lg-2 col-md-4  form-group">
+              <label for="apblockId" class="form-label">Block <br> प्रखण्ड</label>
+            </div>
+            <div class="col-lg-3 col-md-7 form-group">
+              <span class="colon">:</span>
+              <select formControlName="apblockId" class="form-select" (change)="getClusterap($any($event.target).value);">
+                <option value="" *ngIf="apscBlockSelect == true">--Select--</option>
+                <option value="" *ngIf="apscBlockLoading == true">Loading...</option>
+                <option *ngFor="let item of apblockData" [value]="item.blockId">
+                  {{ item.blockCode }} - {{ item.blockName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-2 col-md-4  form-group3">
+              <label for="apclusterId" class="form-label">Cluster <br> संकुल</label>
+            </div>
+            <div class="col-lg-3 col-md-7 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" (change)="getSchoolap($any($event.target).value)" formControlName="apclusterId">
+                <option value="" *ngIf="apscClusterSelect == true">
+                  --Select--
+                </option>
+                <option value="" *ngIf="apscClusterLoading == true">
+                  Loading...
+                </option>
+                <option *ngFor="let clusterItem of apclusterData" [value]="clusterItem.clusterId">
+                  {{ clusterItem.clusterCode }} -
+                  {{ clusterItem.clusterName }}
+                </option>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+            <div class="col-md-1"></div>
+            <div class="col-lg-2 col-md-4  form-group">
+              <label for="apSchoolId" class="form-label">School Name <br>विद्यालय का नाम</label>
+            </div>
+            
+            <div class="col-lg-3 col-md-7 form-group">
+              <span class="colon">:</span>
+              <select class="form-select" formControlName="apSchoolId">
+                <option value="" *ngIf="apscSchoolSelect == true">
+                  --Select--
+                </option>
+                <option value="" *ngIf="apscSchoolLoading == true">
+                  Loading...
+                </option>
+                <ng-container  *ngFor="let schoolItem of apgetSchoolData">
+                <option  *ngIf="schoolItem.schoolId!=this.sclId" [value]="schoolItem.schoolId">
+                  {{ schoolItem.schoolUdiseCode }} -
+                  {{ schoolItem.schoolName }}
+                </option>
+              </ng-container>
+              </select>
+              <span class="mandatory">*</span>
+            </div>
+          </div>
+          <div class="row">
+
+            <div class="col-lg-2 col-md-4  form-group">
+              <div _ngcontent-cot-c36="">
+                <label for="actionTakenDescription" class="form-label">Remark
+                </label>
+              </div>
+            </div>
+            <div class="col-lg-3 col-md-7 form-group">
+                <span class="colon">:</span>
+                <textarea id="actionTakenDescription" formControlName="actionTakenDescription" rows="3"
+                  autocomplete="off" class="form-control" maxlength="400"></textarea>
+                <span class="minimum-text">Maximum <span class="text-danger">(400) </span> Characters</span>
+                <span class="mandatory">*</span>
+            </div>
+            <div class="col-lg-1"></div>
+              <input type="hidden" formControlName="tId" >
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-danger" data-bs-dismiss="modal">Close</button>
+          <button type="Submit" class="btn btn-success" (click)="submitTakeAction()" >Submit</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>

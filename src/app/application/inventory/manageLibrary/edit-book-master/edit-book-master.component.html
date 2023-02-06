@@ -1,0 +1,119 @@
+<div>
+   <div class="pageHeading">
+      <div class="heading__tab">
+         <div>
+            <h3 class="pageName">Add Book Master / बुक मास्टर जोड़ें</h3>
+         </div>
+         <div class="tab__section">
+           <a routerLink="./../viewBook"  class="tablink active" routerLinkActive="active">Book Master <br> बुक मास्टर</a>
+           <a routerLink="../../viewBookOpeningStock"  class="tablink" routerLinkActive="active">Opening Stock <br> ओपनिंग स्टॉक</a>
+           <a routerLink="../../viewBookReceipt"  class="tablink" routerLinkActive="active">Book Receipt <br> पुस्तक रसीद</a>
+           <a routerLink="../../viewDamageBook"  class="tablink" routerLinkActive="active">Damage Book <br> क्षति पुस्तिक</a>
+           <a routerLink="../../viewStockStatus"  class="tablink" routerLinkActive="active">Stock Status <br> स्टॉक की स्थित</a>
+         </div>
+      </div>
+      <span class="indicator">( * ) Indicates Mandatory / ( * ) संकेतक अनिवार्</span>
+      <div class="tabArea">
+       <a class="neuro addLink disabled active" *ngIf="adminPrivilege"><i class="bi bi-plus-lg me-2"></i>Edit</a>
+         <a routerLink="../../viewBook"  class="neuro addLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View</a>
+      </div>
+   </div>
+   <form [formGroup]="bookAddForm" (ngSubmit)="updateBookMaster()">
+   <div class="row top-space">
+       <div class="col-lg-2 form-group ">
+          <label class="form-label">District<br> जिला</label>
+       </div>
+       <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <label class="form-data">{{(districtName) ? districtName :'--'}}</label>
+       </div>
+       <div class="col-lg-1"></div>
+       <div class="col-lg-2 form-group">
+          <label class="form-label">Block/ULB <br> ब्लॉक/यूएलब</label>
+       </div>
+       <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <label class="form-data">{{(blockName) ? blockName :'--'}}</label>
+       </div>
+       <div class="col-lg-1"></div>
+       <div class="col-lg-2 form-group">
+          <label class="form-label">Village/Ward<br> गांव/वार्</label>
+       </div>
+       <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <label class="form-data">{{(clusterName) ? clusterName :'--'}}</label>
+       </div>
+       <div class="col-lg-1"></div>
+       <div class="col-lg-2 form-group">
+          <label class="form-label">School Name<br> विद्यालय का नाम</label>
+       </div>
+       <div class="col-lg-3 form-group colon-top">
+          <span class="colon">:</span>
+          <label class="form-data">{{(schoolName) ? schoolName :'--'}}</label>
+       </div>
+    </div>
+   <div class="mt-4">
+      <div class="table-responsive">
+         <table class="table  table-bordered">
+            <thead class="bg-lightpurple">
+               <tr>
+                  <th>Sl No. / क्रमांक</th>
+                  <th>Book Type / पुस्तक का प्रकार <span class="text-danger">*</span></th>
+                  <th>Book Name / पुस्तक का नाम<span class="text-danger">*</span></th>
+                  <th>Author's Name / लेखक का नाम <span class="text-danger">*</span></th>
+                  <th>Publisher / प्रकाशक <span class="text-danger">*</span></th>                  
+               </tr>
+            </thead>
+            <tbody  id="addmoreRow">
+               <tr>
+                  <td>1</td>
+                  <td>
+                     <select class="form-select" formControlName="bookType">
+                       <option value="" *ngIf="bkTypeChanged==false">-- Select --</option>
+                       <option value="" *ngIf="bkTypeChanged==true">Loading...</option>
+                       <option *ngFor="let item of bkType" value="{{item.anxtValue}}">
+                          {{item.anxtName}}
+                       </option> 
+                     </select>
+                  </td>
+                  <td>
+                     <input  type="text" class="form-control" formControlName="bookName"  autocomplete="off" maxlength="50" (keypress)="customValidators.alphaNumericValidator(
+                        $event,
+                        'comma',
+                        'space',
+                        'dot',
+                        'hyphen',
+                        'slash',
+                        'leftParaanthesis',
+                        'rightParaanthesis','plus'
+                      )">
+                  </td>
+                  <td>
+                     <input type="text" class="form-control" formControlName="authorName" autocomplete="off" maxlength="50" (keypress)="customValidators.keyPressAlphabetSpaceDot($event)">
+                  </td>
+                  <td>
+                     <input  type="text" class="form-control" formControlName="publisher" autocomplete="off" maxlength="50" 
+                     (keypress)="customValidators.alphaNumericValidator(
+                        $event,
+                        'comma',
+                        'space',
+                        'dot',
+                        'hyphen',
+                        'slash',
+                        'singleQuote',
+                        'leftParaanthesis',
+                        'rightParaanthesis'
+                      )">
+                  </td>
+                 
+               </tr>
+            </tbody>
+         </table>
+      </div>
+      <div>
+       <button class="btn btn-success me-2">Update / अद्यत</button>
+       <a routerLink="../../viewBook" class="btn btn-danger me-2">Cancel / रद्</a>     
+      </div>
+   </div>
+   </form>
+</div>

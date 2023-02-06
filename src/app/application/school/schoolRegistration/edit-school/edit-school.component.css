@@ -1,0 +1,21 @@
+.bg-green{
+    color: #fff;
+    padding: 5px;
+    background-color: rgb(45 90 45);
+}
+
+  .mandatory {
+    color: rgb(239 75 55);
+    text-decoration: none;
+    font-weight: bold;
+    position: absolute;
+    right: 0;
+    top: 14%;
+    font-size: 0.8em;
+}
+@media only screen and (max-width: 768px)
+{
+    .fw-bold {
+        margin-bottom: 1rem!important;
+    }
+}

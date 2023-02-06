@@ -1,0 +1,189 @@
+<div>
+  <div class="pageHeading">
+     <div class="heading__tab">
+        <h3 class="pageName">Doctor Details / डॉक्टर का विवरण</h3>
+        <div class="tab__section">
+           <a routerLink="./../addDocterDetails"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Doctor Details')">Doctor Details / डॉक्टर का विवरण</a>
+           <a routerLink="./../viewHealthCheckUp"  class="tablink" routerLinkActive="active" *ngIf="this.tabs.includes('Health Check Up')">Health Check up / स्वास्थ्य जांच</a>
+        </div>
+     </div>
+     <div class="tabArea">
+        <a class="neuro addLink active" *ngIf="adminPrivilege" ><i class="bi bi-eye me-2"></i>Add / जोड़ें</a>
+        <a routerLink="./../viewDocterDetails" class="neuro viewLink" routerLinkActive="active" ><i class="bi bi-eye me-2"></i>View / देखे</a> 
+        <span class="indicator">( * ) Indicates Mandatory</span> 
+     </div>
+  </div>
+  <div *ngIf="permissionForAdd== true else emptyTab">
+  <div class="top-space" >
+     <ng-container>
+        <div class="search-container">
+           <div class="search-sec" id="searchPanel" style="display: block;">
+              <div class="searchPanel">
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class=""><label for="exampleInputEmail1" class="form-label">Academic Yearr <br>शैक्षणिक वर्ष </label></div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="exampleInputEmail1" class="form-label fw-bold"
+                             > {{(academicYear) ? academicYear : '--'}}</label>
+                       </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="" class="form-label"
+                             >District <br>जिला</label>
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label  fw-bold">
+                          {{(districtName) ? districtName : '--'}}
+                          </label>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="" class="form-label"
+                             >Block <br>प्रखण्ड</label
+                             >
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold"
+                             >{{(blockName) ? blockName : '--'}}
+                          </label>
+                       </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="exampleInputEmail1" class="form-label"
+                             >Cluster <br>संकुल</label
+                             >
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">
+                          {{(clusterName) ? clusterName : '--'}}
+                          </label>
+                       </div>
+                    </div>
+                 </div>
+                 <div class="row">
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="exampleInputEmail1" class="form-label"
+                             >Village/Ward <br>गांव/कक्ष</label
+                             >
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold">
+                          {{(villageName) ? villageName : '--'}}
+                          </label>
+                       </div>
+                    </div>
+                    <div class="col-lg-1"></div>
+                    <div class="col-lg-2 form-group">
+                       <div class="">
+                          <label for="exampleInputEmail1" class="form-label"
+                             >School <br>विद्यालय</label
+                             >
+                       </div>
+                    </div>
+                    <div class="col-lg-3 form-group">
+                       <div class="">
+                          <span class="colon">:</span>
+                          <label for="" class="form-label fw-bold"
+                             > {{(schoolUdiseCode) ? schoolUdiseCode : '--'}} - {{(schoolName) ? schoolName : '--'}}</label
+                             >
+                       </div>
+                    </div>
+                 </div>
+              </div>
+           </div>
+        </div>
+     </ng-container>
+  </div>
+  <div class="clearfix"></div>
+  <div class="row mt-3">
+     <div class="col-lg-12">
+        <div class="page__rightarea">
+           <div class="page__util">
+              <div class="util">
+              </div>
+           </div>
+        </div>
+        <div class="table-responsive">
+           <form [formGroup]="doctorDetailsForm" (ngSubmit)="onSubmit()">
+           <table class="table  table-bordered">
+              <thead class="bg-lightpurple">
+                 <tr>
+                    <!-- <th scope="col">#</th> -->
+                    <th scope="col">Doctor Name  / डॉक्टर का नाम </th>
+                    <th scope="col">Contact Number / संपर्क संख्या  </th>
+                    <th scope="col">Purpose of Visit / आने का उद्देश्य</th>
+                    <th scope="col">Visit Details / विवरण देखें</th>
+                 </tr>
+              </thead>
+              <tbody>
+                 <tr>
+                    <td><input type="text" aria-describedby="emailHelp" class="form-control" formControlName="doctorName"  (keypress)="customValidators.keyPressAlphabetSpaceDot($event)" [maxlength]="30" autocomplete="off" ></td>
+                    <td><input type="text" aria-describedby="emailHelp" class="form-control" formControlName="doctorMob" (keypress)="customValidators.keyPressNumbers($event)"[maxlength]="10" autocomplete="off" ></td>
+                    <td>
+                        <table class="table table-bordered ">
+                           <tr>
+                              <th></th>
+                              <th>Sl# / क्रमांक#</th>
+                              <th>Purpose / उद्देश्य</th>
+                           </tr>
+                           <tr *ngFor="let item of checkupData; let i=index;">
+                              <td>
+                                   <div class="checkbox check__box" >
+                                    <div class="form-group me-0">
+                                    <label>
+                                    <input type="checkbox"[id]="item.anxtName" class="check"[value]="item.anxtValue"  (change)="onCheckboxChange($event)">
+                                    <span></span>
+                                    </label>
+                                    </div>
+                                 </div>
+                              </td>
+                              <td>{{i+1}}</td>
+                              <td>{{item.anxtName}}</td>
+                           </tr>
+                        </table> 
+                    </td>
+                    <td>
+                       <textarea id="exampleFormControlTextarea1" rows="3" class="form-control" formControlName="doctorDetailsDesc"  [maxLength]="500" autocomplete="off" ></textarea>
+                       <span class="minimum-text">Maximum <span  class="text-danger">(500) </span> Characters</span>
+                    </td>
+                 </tr>
+              </tbody>
+           </table>
+           <div>
+              <button class="btn btn-success mt-3">Submit / जमा करे</button>
+           </div>
+           </form>
+        </div>
+     </div>
+  </div>
+</div>
+  <div class="clearfix"></div>
+  <ng-template #emptyTab>
+     <div class="alert alert-info text-center text-uppercase fw-bold" role="alert">
+      {{ "You don't have permission to add kindly contact the administrator..." }}
+    </div>
+  </ng-template>
+</div>

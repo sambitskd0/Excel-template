@@ -1,0 +1,65 @@
+<div class="screen-space mobApp">
+	<form [formGroup]="campForm" (ngSubmit)="onSubmit()">
+    <!-- <div class="back-btn"><a class="btn btn-purple"><i class="bi bi-arrow-return-left"></i> Back </a></div> -->
+	<div class="pageHeading">
+		<div>
+			<h3 class="pageName">Camp</h3> <span class="indicator">( * ) Indicator Mandatory</span> 
+		</div>			
+	</div>
+	<div class="formpatch top-space">  
+		<div class="row">
+			<div class="col-md-2  col-12 form-group">
+				<div class="">
+					<label for="exampleInputEmail1" class="form-label">1) Choose Camp Type <span class="mandatory">*</span></label>
+				</div>
+			</div>
+			<div class="col-md-3 col-12 form-group">
+				<div class=""> <span class="colon">:</span>
+					<select aria-label="Default select example" class="form-select" formControlName="campType" autocomplete="off">
+						<option value="" *ngIf="campTypeChanged==false">--Select--</option>
+						<option value="" *ngIf="campTypeChanged==true">Loading...</option>
+						<option *ngFor="let campType of allCampType" [value]="campType.anxtValue">
+							{{ campType.anxtName }}
+						</option>
+					</select>
+				</div>
+			</div>
+		</div>
+		<div class="row">
+			<div class="col-md-2 form-group">
+				<div class="">
+					<label for="exampleInputEmail1" class="form-label">2) Place of Camp <span class="mandatory">*</span></label>
+				</div>
+			</div>
+			<div class="col-md-3 form-group">
+				<div class="colon-top"> <span class="colon">:</span>
+					<input type="text" class="form-control" formControlName="campPlace" maxlength="120" (keypress)="customValidators.alphaNumericValidator(
+						$event,
+						'comma',
+						'space',
+						'dot',
+						'hyphen'
+					  )"> </div>
+			</div>
+		</div>
+      
+		<div class="row">
+			<div class="col-md-2 form-group">
+				<div class="">
+					<label for="exampleInputEmail1" class="form-label">3) No of benefited CWSN <span class="mandatory">*</span></label>
+				</div>
+			</div>
+			<div class="col-md-3 form-group">
+				<div class="colon-top"> <span class="colon">:</span>
+					<input type="number" class="form-control" formControlName="benefitedCwsn" maxlength="3" (keyup)="keyUpInputNumber($event, 'benefitedCwsn', 3)">
+				</div>
+			</div>
+		</div>
+    
+</div>
+<div>
+	<button type="submit" class="btn btn-success me-2">Submit</button>
+    <button type="button" class="btn btn-danger" (click)="resetForm()">Reset</button>
+</div>
+</form>
+</div>

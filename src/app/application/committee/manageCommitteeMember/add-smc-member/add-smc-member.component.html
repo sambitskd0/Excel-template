@@ -1,0 +1,352 @@
+<div>
+  <div class="pageHeading">
+    <div>
+      <h3 class="pageName">Manage Committee Members/समिति के सदस्यों का प्रबंधन करें
+      </h3>
+      <span class="indicator">( * ) Indicates Mandatory/( * ) संकेतक अनिवार्य
+      </span>
+    </div>
+    <div class="tabArea mb-2">
+      <a routerLink="./../addSmcMember" class="neuro addLink" routerLinkActive="active" *ngIf="adminPrivilege"><i
+          class="bi bi-plus-lg me-2"></i>Add Committee Members/समिति के सदस्यों को जोड़ें
+        </a>
+      <a routerLink="./../viewSmcMember" class="neuro viewLink" routerLinkActive="active"><i
+          class="bi bi-eye me-2"></i>View Committee Members/समिति के सदस्यों को देखें
+        </a>
+    </div>
+  </div>
+
+  <ng-container *ngIf="permissionDiv == true">
+    <div class="formpatch mt-3">
+      <form [formGroup]="searchCommitteeMember" (ngSubmit)="searchMember()">
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="committeeType" class="form-label">Committee Type <br>समिति का प्रकार
+            </label>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="committeeType" #committeeType (change)="getMemberType($any($event.target).value)">
+              <option value="" selected>--Select--</option>
+              <option *ngFor="let item of schoolTypeCommitteArr" value="{{item.id}}">{{item.committeeType}}</option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+         
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="memberType" class="form-label">Member Type <br>सदस्य का प्रकार
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="memberType" #memberType
+              (change)="memberTypeChange(memberType, committeeType)">
+              <option value="" selected>--Select--</option>
+              <option *ngFor="let item of memberTypeArr" value="{{item.id}}">{{item.memberType}}</option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-1">
+            <img src="assets/img/loading.gif" *ngIf="showSpinnerMember==true" alt="MemeberType">
+        </div>
+        </div>
+        <!-- SECTION HIDE SHOW FOR PRI MEMBER AND OTHER MEMBER -->
+        <div class="row" *ngIf="priMemberDiv == true">
+          <div class="col-md-2 form-group">
+            <label for="memberData" class="form-label">{{ labelName }}
+              Name/Mobile <br>सदस्य का नाम/मोबाइल
+              <a data-toggle="tooltip" data-placement="bottom" title="Please
+                type first 3 letters or numbers" class="tool text-dark">
+                <i class="bi bi-question-circle-fill"></i>
+              </a>
+            </label>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="ParentNameMobile" aria-describedby="ParentNameMobile"
+              width="220px" formControlName="memberData" minlength="3" maxlength="20" autocomplete="off"/>
+            <span class="mandatory">*</span>
+          </div>
+          <div class="col-md-2 form-group">
+            <button class="btn btn-default btn-purple">
+              Search/खोजें 
+              <i class="bi bi-search"></i>
+            </button>
+          </div>
+        </div>
+        <!-- END SECTION HIDE SHOW FOR PRI MEMBER AND OTHER MEMBER -->
+      </form>
+    </div>
+  </ng-container>
+
+  <div class="clearfix"></div>
+
+  <!-- SECTION FOR PANCHAYAT RAJ MEMBER AND WELFARE OFFICER -->
+  <ng-container *ngIf="priMember == true">
+    <div class="mt-3">
+      <form [formGroup]="addPriMemberForm" (ngSubmit)="addPriMember()">
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="memberName" class="form-label">Name<br>नाम</label>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" id="memberName" aria-describedby="memberName" placeholder="Name" autocomplete="off" formControlName="memberName" (keypress)="customValidators.onlyAlphabets($event)" maxlength="50" />
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="mobileNumber" class="form-label">Mobile<br>मोबाइल नंबर
+            </label>
+          </div>
+
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control"  aria-describedby="mobileNumber" 
+              placeholder="Mobile" formControlName="mobileNumber" autocomplete="off" (keypress)="customValidators.onlyNumber($event)"
+              maxlength="10" />
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="emailId" class="form-label">Email<br>ईमेल
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <input type="text" class="form-control" aria-describedby="emailId" width="220px" autocomplete="off" placeholder="Email Id" formControlName="emailId" />
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="gender" class="form-label">Gender<br>लिंग
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="gender">
+              <option value="" selected="">--Select--</option>
+              <option *ngFor="let item of genderData" value="{{ item.anxtValue }}">
+                {{ item.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="socialCategory" class="form-label">Social Category<br>सामाजिक श्रेणी
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="socialCategory">
+              <option value="" selected="">--Select--</option>
+              <option *ngFor="let item of socialCatData" value="{{ item.anxtValue }}">
+                {{ item.anxtName }}
+              </option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-md-2 form-group">
+            <label for="belongsToBpl" class="form-label">Wheather Belongs To BPL<br>क्या बीपीएल से संबंधित हो
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="belongsToBpl">
+              <option value="" selected>--Select--</option>
+              <option value="0">No</option>
+              <option value="1">Yes</option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+
+        <div class="row formpatch">
+          <div class="col-md-2 form-group">
+            <label for="trainingStatus" class="form-label">Training Status
+            </label>
+          </div>
+          <div class="col-md-3 form-group">
+            <span class="colon">:</span>
+            <select class="form-select" aria-label="Default Member Type" formControlName="trainingStatus">
+              <option value="" selected>--Select--</option>
+              <option value="0">Training Not Received</option>
+              <option value="1">Training Received</option>
+            </select>
+            <span class="mandatory">*</span>
+          </div>
+        </div>
+            <button class="btn btn-success me-2">Submit/जमा करें</button>
+            <button class="btn btn-danger" type="reset" (click)="resetPriForm()">
+              Reset/पुनर्स्थापित
+            </button>
+      </form>
+    </div>
+  </ng-container>
+  <!-- END SECTION FOR PANCHAYAT RAJ MEMBER AND WELFARE OFFICER -->
+
+  <div class="clearfix"></div>
+
+  <!-- SECTION FOR PARENT, TEACHER, BAL SANSAD(STUDENT) MEMBERS -->
+  <!-- <ng-container *ngIf="otherMember==true"> -->
+  <ng-container *ngIf="isOtherMemberData === true">
+    <form [formGroup]="addOtherMemberForm">
+      <!-- <form> -->
+      <div class="row mt-3">
+        <div class="col-lg-12">
+          <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+              <thead class="bg-lightpurple">
+                <tr>
+                  <th scope="col">#</th>
+                  <th scope="col">Name/नाम
+                  </th>
+                  <th scope="col">Mobile Number/मोबाइल नंबर
+                  </th>
+                  <th scope="col">Email/ईमेल
+                  </th>
+                  <th scope="col">Social Category/सामाजिक श्रेणी
+                  </th>
+                  <th scope="col">Whether Belong to BPL/क्या बीपीएल से संबंधित हो
+                  </th>
+                  <th scope="col">Gender/लिंग
+                  </th>
+                  <!-- <th scope="col">Training</th> -->
+                  <ng-container *ngIf=" memberFormType !== '' && memberFormType == 1;  else parentOtherForm ">
+                    <th scope="col" [hidden]="memberShowColumn2">President</th>
+                    <th scope="col">Student Name</th>
+                  </ng-container>
+
+                  <ng-template #parentOtherForm>
+                    <ng-container *ngIf="  memberFormType !== '' && memberFormType == 4;  else parentForm ">
+                      <th scope="col">Student Name</th>
+                    </ng-container>
+                  </ng-template>
+                  <ng-template #parentForm>
+                    <th scope="col">Secretary/सचिव</th>
+                  </ng-template>
+                  <th scope="col">Action/क्रिया
+                  </th>
+                </tr>
+              </thead>
+              <tbody formArrayName="otherMemberData">
+                <tr *ngFor=" let item of committeeMemberInfo().controls; index as i " [formGroupName]="i">
+                  <td scope="row">{{ i + 1 }}</td>
+                  <td>
+                    <label>{{item?.get('memberName')?.value}}</label>
+                    <input type="hidden" class="form-control" aria-describedby="Name" width="220px"
+                      placeholder="Member Name" formControlName="memberName" />
+                    <input type="hidden" aria-describedby="memberId" class="form-control" formControlName="memberId" />
+                    <input type="hidden" aria-describedby="changeBtnData" class="form-control"
+                      formControlName="changeBtnData"  maxlength="50" #changeBtnData  (keypress)="customValidators.keyPressAlphabetSpaceDot($event)"/>
+                  </td>
+                  <td>
+                    <input type="text" class="form-control" id="mobileNumber" aria-describedby="Mobile" width="220px"
+                      formControlName="mobileNumber" placeholder="Mobile Number"  maxlength="10" (keypress)="customValidators.keyPressNumbers($event)"/>
+                  </td>
+                  <td>
+                    <input type="email" class="form-control" id="eMailID" aria-describedby="Email" width="220px"
+                      formControlName="emailId" placeholder="Email"  maxlength="100"/>
+                  </td>
+                  <td>
+                    <select class="form-select" aria-label="Default select
+                      example" width="220px" formControlName="socialCategory">
+                      <option value="" selected="">Select</option>
+                      <option *ngFor="let item of socialCatData" value="{{ item.anxtValue }}"> {{ item.anxtName }} </option>
+                    </select>
+                  </td>
+
+                  <td>
+                    <select class="form-select" aria-label="Default select example" width="220px" formControlName="belongsToBpl">
+                      <option value="" selected>Select</option>
+                      <option value="1">Yes</option>
+                      <option value="2">No</option>
+                    </select>
+                  </td>
+                  <td>
+                    <select class="form-select" aria-label="Default select
+                      example" width="220px" formControlName="gender">
+                      <option value="" selected="">Select</option>
+                      <option *ngFor="let item of genderData" value="{{ item.anxtValue }}">
+                        {{ item.anxtName }}
+                      </option>
+                    </select>
+                  </td>
+                  <ng-container *ngIf=" memberFormType !== '' && memberFormType == 1;else parentOthMemForm ">
+                    <td>
+                      <label ngClass="{{(this.memberIdArr?.length>0)?'disable':''}}">
+                      <input class="position" type="checkbox" formControlName="position"
+                        (change)="checkCheckBoxvalue($event)" [disabled]="(this.memberIdArr?.length)>0" />
+                           </label>
+                    </td>
+                    <td>
+                      <label>{{item?.get('studentName')?.value}}</label>
+                      <input type="hidden" class="form-control" id="studentName" aria-describedby="studentName"
+                        width="220px" placeholder="Student Name" formControlName="studentName" />
+                    </td>
+                  </ng-container>
+                  <ng-template #parentOthMemForm>
+                    <ng-container *ngIf="memberFormType !== '' && memberFormType == 4; else parentForm ">
+                      <td>
+                        <label>{{item?.get('studentName')?.value}}</label>
+                        <input type="hidden" class="form-control" id="studentName" aria-describedby="studentName"
+                          width="220px" placeholder="Student Name" formControlName="studentName" />
+                      </td>
+                    </ng-container>
+                  </ng-template>
+                  <ng-template #parentForm>
+                    <td>
+                      <input class="position" type="checkbox" id="position" formControlName="position"
+                        (change)="checkCheckBoxvalue($event)" />
+                      <input type="hidden" class="form-control" id="studentName" aria-describedby="studentName"
+                        width="220px" placeholder="Student Name" formControlName="studentName" />
+                    </td>
+                  </ng-template>
+
+                  <td>
+                    <ng-container *ngIf="changeBtnData.value === 'Yet To Add' || changeBtnData.value === null;else data ">
+                      <button class="btn btn-warning mt-3" id="{{ i }}" (click)="addOtherMember(i, $event)">
+                        Add Member
+                      </button>
+                    </ng-container>
+                    <ng-template #data>
+                      <ng-container *ngIf="changeBtnData.value ==='Already Added' ">
+                        <button class="btn btn-success mt-3" id="{{ i }}" disabled>
+                          Member Already Added
+                        </button>
+                      </ng-container>
+                    </ng-template>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </form>
+  </ng-container>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="isNorecordFound == true">
+    {{ "No record found." }}
+  </div>
+  <div class="alert alert-info text-center text-uppercase fw-bold" role="alert" *ngIf="permissionDiv == false">
+    {{ "You don't have the permission to access this page !!" }}
+  </div>
+  <!-- END SECTION FOR PARENT, TEACHER, BAL SANSAD(STUDENT) MEMBERS -->
+  <div class="clearfix"></div>
+
+</div>
