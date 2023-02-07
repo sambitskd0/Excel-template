@@ -5,10 +5,19 @@
 
 #### Excel template generation in Angular
 
-- Install my-project with npm
+- Install excel js and file saver package
 
 ```bash
- npm install --save file-saver -f
- npm i --save-dev @types/file-saver -f
+ npm i exceljs
+ npm i file-saver
 ```
-    
+- Set below code for excel js compiler option in tsconfig.json file
+
+```bash
+    "paths": {
+      "exceljs": [
+        "node_modules/exceljs/dist/exceljs.min"
+      ]
+    }
+
+```
