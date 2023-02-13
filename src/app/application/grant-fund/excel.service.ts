@@ -8,7 +8,7 @@ import { Workbook } from "exceljs";
 export class ExcelService {
   workbook = new Workbook();
   worksheet = this.workbook.addWorksheet("Template"); // sheet tab name
-  rowData!: any;
+  rowData: any=[];
   async generateExcel(params: any, header: any) {
     this.rowDataSetup(header); // header and row setup
     this.columnHeaderWidthHandler(); // column header width
@@ -23,6 +23,13 @@ export class ExcelService {
   async rowDataSetup(header: any) {
     const totalRow = 100;
     this.rowData = new Array(totalRow).fill(''); // 100 row of empty cells
+
+    // === set data to columns NOTE: comment array fill
+    // for (let i = 0; i < 100; i++) {
+    //   let arr = ["abc","ye","no"];
+    //   this.rowData.push(arr);
+    // }
+
     //Create workbook and worksheet
     let headerRow = this.worksheet.addRow(header); //Add Header Row
     this.rowData.forEach((d: any) => this.worksheet.addRow(d)); // add empty rows

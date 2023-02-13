@@ -1,0 +1,13 @@
+<button (click)="generateExcel()">Excel template</button>
+<hr />
+<input type="file" (change)="onFileUpload($event)" #fileRef multiple="false" />
+<table class="sjs-table">
+    <tbody>
+        <tr *ngFor="let row of excelData">
+            <td *ngFor="let val of row">
+                {{ val }}
+            </td>
+        </tr>
+    </tbody>
+</table>
+<hr />

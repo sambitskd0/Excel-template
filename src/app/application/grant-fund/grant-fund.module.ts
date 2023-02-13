@@ -27,6 +27,7 @@ import { AddExpenditureTypeComponent } from './manageExpenditureType/add-expendi
 import { EditExpenditureTypeComponent } from './manageExpenditureType/edit-expenditure-type/edit-expenditure-type.component';
 import { BsDatepickerModule } from 'ngx-bootstrap/datepicker';
 import { ExcelService } from './excel.service';
+import { TemplateComponent } from './template/template.component';
 
 
 
@@ -53,6 +54,7 @@ import { ExcelService } from './excel.service';
     ViewExpenditureTypeComponent,
     AddExpenditureTypeComponent,
     EditExpenditureTypeComponent,
+    TemplateComponent,
     // AutoFocusDirective
   ],
   imports: [
