@@ -1,9 +1,15 @@
 <button (click)="generateExcel()">Excel template</button>
 <br />
 <br />
-<input type="file" (change)="onFileUpload($event)" #fileRef multiple="false" />
+<input
+  accept=".xlsx,.xls,"
+  type="file"
+  (change)="onFileUpload($event)"
+  #fileRef
+  multiple="false"
+/>
 <hr />
-<table class="sjs-table">
+<!-- <table class="sjs-table">
   <tbody>
     <tr *ngFor="let row of excelData">
       <td *ngFor="let val of row">
@@ -11,7 +17,7 @@
       </td>
     </tr>
   </tbody>
-</table>
+</table> -->
 <!-- table -->
 <div class="mt-4" [hidden]="tableData?.length === 0">
   <div class="table-responsive">
@@ -27,28 +33,6 @@
       matTableExporter
       #exporter="matTableExporter"
     >
-      <!-- Checkbox Column -->
-      <ng-container matColumnDef="select">
-        <th mat-header-cell *matHeaderCellDef class="bg-lightpurple p-2">
-          <mat-checkbox
-            color="primary"
-            (change)="$event ? masterToggle() : null"
-            [checked]="matTable.selection.hasValue() && isAllSelected()"
-            [indeterminate]="matTable.selection.hasValue() && !isAllSelected()"
-          >
-          </mat-checkbox>
-        </th>
-        <td mat-cell *matCellDef="let row">
-          <mat-checkbox
-            color="primary"
-            (click)="$event.stopPropagation()"
-            (change)="$event ? matTable.selection.toggle(row) : null"
-            [checked]="this.matTable.selection.isSelected(row)"
-          >
-          </mat-checkbox>
-        </td>
-      </ng-container>
-
       <ng-container matColumnDef="slNo">
         <th
           mat-header-cell
@@ -58,35 +42,15 @@
         >
           Sl No. / क्रमांक
         </th>
-        <td mat-cell *matCellDef="let element; let i = index">{{ i + 1 }}</td>
-      </ng-container>
-      <ng-container matColumnDef="Disctrict">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="bg-lightpurple"
+        <td
+          mat-cell
+          *matCellDef="let element; let i = index"
+          [style.background-color]="getColorStatus(element)"
         >
-          District
-        </th>
-        <td mat-cell *matCellDef="let element" onblur="check(element)">
-          {{ element?.district || "--" }}
+          {{ i + 1 }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Block">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="bg-lightpurple"
-        >
-          Block
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.block || "--" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="School">
+      <ng-container matColumnDef="School Name">
         <th
           mat-header-cell
           *matHeaderCellDef
@@ -95,51 +59,66 @@
         >
           School
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.school || "--" }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.schoolName || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="School type">
+      <ng-container matColumnDef="Unique Agency Name">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          School Type
+          Unique Agency Code
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.schoolType || "--" }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.agencyName || "--" }}
         </td>
       </ng-container>
-
-      <ng-container matColumnDef="Grant type">
+      <ng-container matColumnDef="UDISE code">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          Grant type
+          UDISE code
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.grantType || "--" }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.udiseCode || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Expenditure type">
+      <ng-container matColumnDef="Bank Account Number">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          Expenditure type
+          Bank Account Number
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.expenditureType || "--" }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.bankAcc || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Bank name">
+      <ng-container matColumnDef="Bank Name">
         <th
           mat-header-cell
           *matHeaderCellDef
@@ -148,86 +127,80 @@
         >
           Bank name
         </th>
-        <td mat-cell *matCellDef="let element">
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
           {{ element?.bankName || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Othe Bank Name">
+      <ng-container matColumnDef="IFSC">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          Othe Bank Name
+          IFSC
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.otherBankName || "--" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="Bank acc">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="bg-lightpurple"
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
         >
-          Bank acc
-        </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.bankAcc || "--" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="Bank ifsc">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="bg-lightpurple"
-        >
-          Bank ifsc
-        </th>
-        <td mat-cell *matCellDef="let element">
           {{ element?.ifsc || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Grant receive from">
+      <ng-container matColumnDef="Grant Fund Name">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          Grant receive from
+          Grant Fund Name
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.grantReceiveFrom || "--" }}
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.grantFundName || "--" }}
         </td>
       </ng-container>
-      <ng-container matColumnDef="Receive date">
+      <ng-container matColumnDef="Amount">
         <th
           mat-header-cell
           *matHeaderCellDef
           mat-sort-header
           class="bg-lightpurple"
         >
-          Receive date
+          Amount
         </th>
-        <td mat-cell *matCellDef="let element">
-          {{ element?.receiveDate || "--" }}
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="Letter No / Ref. No	Amount">
-        <th
-          mat-header-cell
-          *matHeaderCellDef
-          mat-sort-header
-          class="bg-lightpurple"
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
         >
-          Letter No / Ref. No Amount
-        </th>
-        <td mat-cell *matCellDef="let element">
           {{ element?.amount || "--" }}
+        </td>
+      </ng-container>
+      <ng-container matColumnDef="Letter No / Ref. No">
+        <th
+          mat-header-cell
+          *matHeaderCellDef
+          mat-sort-header
+          class="bg-lightpurple"
+        >
+          Letter No / Ref. No
+        </th>
+        <td
+          mat-cell
+          *matCellDef="let element"
+          [style.background-color]="getColorStatus(element)"
+        >
+          {{ element?.letterNo || "--" }}
         </td>
       </ng-container>
 
@@ -247,4 +220,8 @@
       showFirstLastButtons
     ></mat-paginator>
   </div>
+</div>
+
+<div [hidden]="tableData?.length === 0">
+  <a class="btn btn-primary me-2" (click)="onSubmit()">Sync</a>
 </div>

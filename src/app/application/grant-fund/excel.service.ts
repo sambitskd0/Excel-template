@@ -1,28 +1,34 @@
 import { Injectable } from "@angular/core";
 import fileSaver from "file-saver";
 import { Workbook } from "exceljs";
-
+import { Observable } from "rxjs";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { environment } from "src/environments/environment";
 @Injectable({
   providedIn: "root",
 })
 export class ExcelService {
   workbook = new Workbook();
   worksheet = this.workbook.addWorksheet("Template"); // sheet tab name
-  rowData: any=[];
+  rowData: any = [];
+
+  constructor(private httpClient: HttpClient) {}
+
+  private grantAPI = environment.grantAPI;
+
   async generateExcel(params: any, header: any) {
     this.rowDataSetup(header); // header and row setup
     this.columnHeaderWidthHandler(); // column header width
     this.dataValidationHandler({
-      F: params.grantTypes?.toString(),
-      G: params.expenditureTypes?.toString(),
-      H: params.bankData?.toString(),
+      E: params.bankData?.toString(),
+      H: params.grantTypes?.toString(),
+      D: params.grantReceiveFrom?.toString(),
     }); // setup drop down
     this.generateExcelFile(); //Generate Excel File with given name
   }
-
   async rowDataSetup(header: any) {
     const totalRow = 100;
-    this.rowData = new Array(totalRow).fill(''); // 100 row of empty cells
+    this.rowData = new Array(totalRow).fill(""); // 100 row of empty cells
 
     // === set data to columns NOTE: comment array fill
     // for (let i = 0; i < 100; i++) {
@@ -67,7 +73,6 @@ export class ExcelService {
       column.width = maxLength < 10 ? 10 : maxLength;
     });
   }
-
   // data validation
   async dataValidationHandler(dataObject: any) {
     for (const prop in dataObject) {
@@ -84,7 +89,6 @@ export class ExcelService {
         });
     }
   }
-
   // Generate Excel File with given name
   async generateExcelFile() {
     this.workbook.xlsx.writeBuffer().then((data) => {
@@ -94,4 +98,22 @@ export class ExcelService {
       fileSaver.saveAs(blob, "Grant Fund Template.xlsx");
     });
   }
+
+  bulkUpload(formData: any): Observable<any> {
+    return this.httpClient.post(
+      this.grantAPI + "/bulkUpload",
+      formData,
+      this.formDataHttpOptions
+    );
+  }
+  /**
+   * Created By   : Sambit Kumar Dalai
+   * Created On   : 19-08-2022
+   * Description  : Http header for formData content type (hanlded in auth interceptor)
+   **/
+  formDataHttpOptions = {
+    headers: new HttpHeaders({
+      contentType: "formData",
+    }),
+  };
 }
