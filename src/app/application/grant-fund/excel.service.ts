@@ -20,9 +20,7 @@ export class ExcelService {
     this.rowDataSetup(header); // header and row setup
     this.columnHeaderWidthHandler(); // column header width
     this.dataValidationHandler({
-      E: params.bankData?.toString(),
-      H: params.grantTypes?.toString(),
-      D: params.grantReceiveFrom?.toString(),
+      C: params.grantTypes?.toString(),
     }); // setup drop down
     this.generateExcelFile(); //Generate Excel File with given name
   }

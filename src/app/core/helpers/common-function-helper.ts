@@ -65,6 +65,16 @@ export class CommonFunctionHelper {
       date.getFullYear() + "-" + (date.getMonth() + 1) + "-" + date.getDate()
     );
   }
+  /**
+   * Created By  : Sambit Kumar Dalai
+   * Created On  : 24-03-2023
+   * Description : format date object to "yyyy-m-d" and deal with one day before issue.
+   **/
+  formatDateHelperExcel(date: Date): string {
+    return (
+      date?.getFullYear() + "-" + (date.getMonth() + 1) + "-" + (date.getDate() + 1)
+    );
+  }
   // dateFormatHelper(date: NgbDateStruct | null): string | null {
   //   // return date ? date.day + this.DELIMITER + date.month + this.DELIMITER + date.year : null;
   //   return date

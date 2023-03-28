@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, Input, OnInit, ViewChild } from "@angular/core";
 import { forkJoin, map } from "rxjs";
 import { CommonserviceService } from "src/app/core/services/commonservice.service";
 import { ExcelService } from "../excel.service";
@@ -40,6 +40,7 @@ export class TemplateComponent implements OnInit {
   // mat table
   @Input() mode!: ProgressBarMode;
   @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild("fileRef") fileRef!: ElementRef;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatTableExporterDirective, { static: true })
   exporter!: MatTableExporterDirective;
@@ -73,6 +74,7 @@ export class TemplateComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    this.spinner.show();
     this.matTable.displayedColumns = this.header = this.getHeaders;
     this.initialSetup();
   }
@@ -82,39 +84,19 @@ export class TemplateComponent implements OnInit {
   }
   // ========== generate template
   initialSetup() {
-    forkJoin({
-      grantResponse: this.manageGrantInfoService?.getGrantName(3),
-      annextureResponse: this.commonService.getCommonAnnexture(
-        ["BANK", "Grant_Recieve_From_Type"],
-        true
-      ),
-    })
+    this.manageGrantInfoService
+      ?.getGrantName(3)
       .pipe(
         map((response: any) => {
           const grantArr: any[] = [];
-          const receiveFromArr: any[] = [];
-          const bankArr: any[] = [];
-          response.grantResponse?.data?.map((item: any) =>
-            grantArr.push(item?.grantName)
-          );
-          response.annextureResponse?.data?.BANK?.map((item: any) =>
-            bankArr.push(item?.anxtName)
-          );
-          response.annextureResponse?.data?.Grant_Recieve_From_Type?.map(
-            (item: any) => receiveFromArr.push(item?.anxtName)
-          );
-          return {
-            grantArr,
-            receiveFromArr,
-            bankArr,
-          };
+          response?.data?.map((item: any) => grantArr.push(item?.grantName));
+          return grantArr;
         })
       )
       .subscribe({
         next: (response: any) => {
-          this.grantTypes = response?.grantArr;
-          this.bankData = response?.bankArr;
-          this.grantReceiveFrom = response?.receiveFromArr;
+          this.grantTypes = response;
+          this.spinner.hide();
         },
       });
   }
@@ -122,39 +104,32 @@ export class TemplateComponent implements OnInit {
     return [
       "slNo",
       "UDISE code",
-      "School Name",
-      "Unique Agency Name",
-      "Bank Name",
-      "Bank Account Number",
-      "IFSC",
-      "Grant Fund Name",
-      "Amount",
+      "Grant fund name",
+      "Grant amount",
       "Letter No / Ref. No",
+      "Date of payment",
     ];
   }
   generateExcel() {
+    this.spinner.show();
     this.excelService.generateExcel(
       {
         grantTypes: this.grantTypes,
-        bankData: this.bankData,
-        grantReceiveFrom: this.grantReceiveFrom,
       },
       this.header
     );
+    setTimeout(() => {
+      this.spinner.hide();
+    }, 1200);
   }
   // end
-
   // read frome excel
   onFileUpload(event: any) {
+    
     if (event?.target?.files[0]) {
       this.formData.set("uploadedDoc", event.target.files[0]);
       // const uploadedImage = event.target.files[0];
       this.spinner.show();
-
-      // reset
-      this.tableData.length = 0;
-      this.excelData.length = 0;
-      this.loadData();
       // end
 
       /* wire up file reader */
@@ -177,49 +152,40 @@ export class TemplateComponent implements OnInit {
         const ws: XLSX.WorkSheet = wb.Sheets[wsname];
         /* save data */
         this.excelData = XLSX.utils.sheet_to_json(ws, { header: 1 });
-
         this.prepareData(); // load table after read complete
       };
       reader.readAsBinaryString(target.files[0]);
-    } else {
     }
   }
-
   prepareData() {
-    console.log(this.excelData);
-
-    //=== prepare data
-    const dataArr: any = [];
-    this.excelData.map((item: any, index: number) => {
-      // skip header row
-      if (index > 0) {
-        const dataObject = this.objectFormat;
-        dataObject.udiseCode = item[1];
-        dataObject.schoolName = item[2];
-        dataObject.agencyName = item[3];
-        dataObject.bankName = item[4];
-        dataObject.bankAcc = item[5];
-        dataObject.ifsc = item[6];
-        dataObject.grantFundName = item[7];
-        dataObject.amount = item[8];
-        dataObject.letterNo = item[9];
-        dataArr.push(dataObject);
-      }
-    });
-    this.tableData.push(...dataArr);
-    this.loadData();
+    if (this.validateData() === true) {
+      //=== prepare data
+      const dataArr: any = [];
+      // console.log(this.excelData, "this.excelData");
+      this.excelData.map((item: any, index: number) => {
+        // skip header row
+        if (index > 0 && item.length) {
+          const dataObject: any = this.objectFormat;
+          dataObject.udiseCode = item[1];
+          dataObject.grantFundName = item[2];
+          dataObject.grantAmount = item[3];
+          dataObject.letterNoRefNo = item[4];
+          dataObject.dateOfPayment =
+            this.commonFunctionHelper.formatDateHelperExcel(item[5]);
+          dataArr.push(dataObject);
+        }
+      });
+      this.tableData.push(...dataArr);
+      this.loadData();
+    }
   }
   get objectFormat() {
     return {
       udiseCode: "",
-      schoolName: "",
-      agencyName: "",
-      bankName: "",
-      bankAcc: "",
-      ifsc: "",
       grantFundName: "",
-      amount: "",
-      letterNo: "",
+      grantAmount: "",
+      letterNoRefNo: "",
+      dateOfPayment: "",
     };
   }
   onPageChange(event: any) {
@@ -255,7 +221,6 @@ export class TemplateComponent implements OnInit {
     this.spinner.hide();
     this.matTable.isNorecordFound = this.excelData.length ? false : true;
   }
-
   onSubmit() {
     this.formData.set(
       "userDetails",
@@ -286,5 +251,30 @@ export class TemplateComponent implements OnInit {
         ? "rgb(255 175 175)"
         : "rgb(167 255 167)"
       : "";
+  }
+  resetTable() {
+    this.fileRef.nativeElement.value = "";
+    // reset
+    this.tableData.length = 0;
+    this.excelData.length = 0;
+    this.loadData();
+  }
+  validateData() {
+    const isSame =
+      this.excelData[0].length == this.getHeaders.length &&
+      this.getHeaders.every((element: any, index: any) => {
+        return element === this.excelData[0][index];
+      });
+    if (isSame === false) {
+      this.spinner.hide();
+      this.alertHelper.viewAlert(
+        "error",
+        "",
+        "Please don't change the template structure."
+      );
+      return false;
+    }
+
+    return true;
   }
 }
